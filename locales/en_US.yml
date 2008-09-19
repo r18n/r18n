@@ -1,0 +1,5 @@
+include: en
+
+code: en_US
+title: English (US)
+sublocales: [en]

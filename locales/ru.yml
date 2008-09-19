@@ -1,0 +1,34 @@
+title: Русский
+code: ru
+sublocales: [en]
+direction: ltr
+
+pluralization: "n==0 ? 0 : n%10==1 && n%100!=11 ? 1 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 2 : 'n'"
+
+week:
+  start: monday
+  days: [Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота]
+  abbrs: [Вск, Пнд, Втр, Срд, Чтв, Птн, Сбт]
+
+months:
+  names: [января, февраля, марта, апреля, мая, июня, июля, августа, сентября, октября, ноября, декабря]
+  abbrs: [янв, фев, мар, апр, май, июн, июл, авг, сен, окт, ноя, дек]
+  standalone: [Январь, Февраль, Март, Апрель, Май, Июнь, Июль, Август, Сентябрь, Октябрь, Ноябрь, Декабрь]
+
+time:
+  am: утра
+  pm: вечера
+
+formats:
+  time: "%H:%M"
+  date: "%d.%m.%Y"
+  short_date: "%d %b"
+  long_date: "%d %B %Y"
+  datetime: "%a, %d %b %Y, %H:%M:%S %Z"
+  short_datetime: "%d %b, %H:%M"
+  long_datetime: "%d %B %Y, %H:%M"
+
+numbers:
+  separation: classic
+  decimal_separator: ","
+  group_delimiter: " "
