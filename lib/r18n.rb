@@ -23,5 +23,6 @@ require 'pathname'
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n'
 
 require dir + 'locale'
-require dir + 'translation'
 require dir + 'translated_string'
+require dir + 'translation'
+require dir + 'i18n'
