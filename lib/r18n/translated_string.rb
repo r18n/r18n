@@ -1,5 +1,5 @@
 =begin
-Main file to load all neccessary classes for i18n support.
+Translation string for i18n support.
 
 Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
@@ -17,11 +17,17 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-$KCODE = 'u'
-
-require 'pathname'
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n'
-
-require dir + 'locale'
-require dir + 'translation'
-require dir + 'translated_string'
+module R18n
+  # String, which is translated to some locale and loading from Translation.
+  class TranslatedString < String
+    # String locale
+    attr_reader :locale
+    
+    # Returns a new string object containing a copy of +str+, which translated
+    # to +locale+
+    def initialize(str, locale)
+      super(str)
+      @locale = locale
+    end
+  end
+end

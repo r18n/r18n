@@ -64,7 +64,9 @@ spec = Gem::Specification.new do |s|
   EOF
   
   s.files = FileList[
+    'base/**/*',
     'lib/**/*',
+    'locales/**/*',
     'LICENSE',
     'Rakefile',
     'README.rdoc']
@@ -84,7 +86,7 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
 end
 
-desc 'Install as a gem.'
+desc 'Install as a gem'
 task :install => [:package] do
   sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
   sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{PKG_VERSION}}

@@ -25,7 +25,7 @@ module R18n
   # preferences). Locale was named by RFC 3066. For example, locale for French
   # speaking people in Canada will be +fr_CA+.
   #
-  # Locale files is placed in <tt>r18n/locales/</tt> dir in YAML files.
+  # Locale files is placed in <tt>locales/</tt> dir in YAML files.
   #
   # Each locale has +sublocales+ – offen knowed languages for people from this
   # locale. For example, many Belarusians know Russian and English. If there
@@ -51,7 +51,7 @@ module R18n
   # * +include+: locale code to include it data, optional.
   #
   # You can see more available data about locale in samples in
-  # <tt>r18n/locales/</tt> dir.
+  # <tt>locales/</tt> dir.
   class Locale
     LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
 
@@ -65,6 +65,11 @@ module R18n
     # Is +locale+ has info file
     def self.exists?(locale)
       File.exists?(File.join(LOCALES_DIR, locale + '.yml'))
+    end
+    
+    # Default pluralization rule to translation without locale file
+    def self.default_pluralize(n)
+      n == 0 ? 0 : n == 1 ? 1 : 'n'
     end
 
     # Load locale by RFC 3066 +code+
@@ -98,8 +103,8 @@ module R18n
       "Locale #{@locale['code']} (#{@locale['title']})"
     end
 
-    # Return pluralization type for this locale for +n+ items.
-    # Will be replacing code from locale file.
+    # Return pluralization type for +n+ items. It will be replacing by code
+    # from locale file.
     def pluralize(n); end
   end
 end
