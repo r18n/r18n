@@ -18,3 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 $KCODE = 'u'
+
+require 'pathname'
+dir = Pathname(__FILE__).dirname.expand_path + 'r18n'
+
+require dir + 'locale'
