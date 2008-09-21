@@ -26,3 +26,32 @@ require dir + 'locale'
 require dir + 'translated_string'
 require dir + 'translation'
 require dir + 'i18n'
+
+module R18n
+  class << self
+    # Set <tt>i18n</tt> object to current thread
+    def set(i18n)
+      Thread.current['i18n'] = i18n
+    end
+    
+    # Get I18n object for current thread
+    def get
+      Thread.current['i18n']
+    end
+    
+    # Get user locale from system environment and load I18n object with locale
+    # information and translations from +translations_dir+
+    def from_env(translations_dir)
+      #TODO Support for Windows and JRuby
+      locale = ENV['LANG'].split('.').first
+      I18n.new(locale, translations_dir)
+    end
+    
+    # Parse +http_accept_language+ and load I18n object with locales information
+    # and translations from +translations_dir+
+    def from_http(http_accept_language, translations_dir)
+      locales = I18n.parse_http_accept_language(http_accept_language)
+      I18n.new(locales, translations_dir)
+    end
+  end
+end
