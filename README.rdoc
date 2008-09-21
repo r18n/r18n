@@ -12,6 +12,157 @@ R18n is a i18n tool to translate your Ruby application in several languages.
 * It has translation for commons words, like “OK”, “Cancel”, etc.
 * It storage translation in rich YAML format. You can put procedures and
   pluralization (“1 comment”, “5 comments”) in your translation.
+* It can translate Web and desktop applications.
+
+== How To
+1. Create translations dir. For exmaple: <tt>_YOUR_APP_/translations/</tt>.
+2. Add file with translation in some language. For example:
+   <tt>_YOUR_APP_/translations/en.yml</tt>
+   
+     post:
+       add: Add post
+       delete: Delete post %1
+    
+     comments: !!pl
+       0: No comments
+       1: One comment
+       n: %1 comments
+     
+     author: !!proc |name| "This article was written by #{name.capitalize}"
+   
+3. Add R18n to your application:
+   
+     require 'rubygems'
+     require 'r18n'
+   
+4. Load I18n object. For desktop application:
+   
+     i18n = R18n.from_env 'translations/'
+   
+   From Web application:
+   
+     i18n = R18n.from_http request.env['HTTP_ACCEPT_LANGUAGE'], 'translations/'
+   
+5. Use translation messages to user. For example:
+   
+     i18n.post.add                        #=> "Add post"
+     i18n.post.delete("Test")             #=> "Delete post Test"
+     i18n.comments(1)                     #=> "6 comments"
+     i18n.comments(12)                    #=> "12 comments"
+     i18n.author("poet")                  #=> "This article was written by Poet"
+     
+     i18n.l -12000.5                      #=> "−12,000.5"
+     
+     i18n.l post.created_at               #=> "Sun Sep 21 19:50:04 GMT 2008"
+     i18n.l post.created_at, :date        #=> "09/21/2008"
+     i18n.l post.created_at, "%B"         #=> "September"
+
+== Usage
+
+=== Locale
+All supported locales are storage in R18n gem at +locales+ dir. If you want to
+add your locale, please write me to andrey@sitnik.ru.
+
+To get information about locale create R18n::Locale instance:
+
+  locale = R18n::Locale.new('en')
+
+You can get from locale:
+* Locale title and RFC 3066 code:
+  
+    locale['title'] #=> "English"
+    locale['code'] #=> "en"
+  
+* Language direction (left to right, or right to left for Arabic and Hebrew):
+  
+    locale['direction'] #=> "ltr"
+  
+* Week start day ("sunday" or "monday")
+  
+    locale['week']['start'] #=> "sunday"
+
+=== Translation
+Translation files use YAML format and has name like en.yml (English) or
+en_US.yml (USA English dialect) with language/country code (RFC 3066).
+
+In translation you can use:
+* Strings
+    robot: This is robot
+    percent: "Percent sign (%)"
+* Numbers
+    number: 123
+    float: 12.45
+* Pluralizable messages
+    robots: !!pl
+      0: No robots
+      1: One robot
+      n: %1 robots
+* Procedures
+    sum: !!proc |x, y| x + y
+
+To get translated string use method with key name or square brackets [] for
+keys, which is same with Object methods (+class+, +inspect+, etc):
+
+  i18n.robot    #=> "This is robot"
+  i18n["robot"] #=> "This is robot"
+
+Translation may be hierarchical:
+
+  i18n.post.add       #=> "Add post"
+  i18n['post']['add'] #=> "Add post"
+
+If locale willn’t be found in user locale R18n will search it in they sublocales
+or in another locale, which user know:
+
+  i18n.no.in.english #=> "В английском нет"
+
+Translated string has +locale+ method and you can get it locale (Locale instance
+or code string if locale is’t supported in Rubi18n):
+
+  i18n.no.in.english.locale #=> Locale ru (Русский)
+
+You can replace some parameters in translated string by put it as arguments:
+  
+  name: "My name is %1"
+
+  i18n.name('John') #=> "My name is John"
+
+Pluralizable messages get item count from first argument:
+
+  i18n.robots(0)  #=> "No robots"
+  i18n.robots(1)  #=> "One robot"
+  i18n.robots(50) #=> "50 robots"
+
+If there isn’t pluralization for some number, translation will be use 'n'. If
+there isn’t locale file for translation, it will be use English pluralization
+rule (0, 1 and 'n').
+
+R18n already has translation for common words for most supported locales.
+See <tt>base/</tt> in dir in gem.
+
+=== Localization
+You can print number and float according to the rules of the user locale:
+
+  i18n.l -12000.5 #=> "−12,000.5"
+
+Number and float formatters will also put real typographic minus and put
+non-break thin spaces (for locale, which use it as digit separator).
+
+You can translate months and week days names in Time, Date and DateTime by
++strftime+ method:
+
+  i18n.l Time.now, "%B"  #=> "September"
+
+R18n has some time formats for locales: <tt>:time</tt>, <tt>:date</tt>,
+<tt>:short_data</tt>, <tt>:long_data</tt>, <tt>:datetime</tt>,
+<tt>:short_datetime</tt> and <tt>:long_datetime</tt>:
+
+  i18n.l Time.now, :date #=> "09/21/2008"
+
+By default +strftime+ will be use <tt>:datetime</tt> format for Time and
+DateTime and <tt>:date</tt> for Date:
+
+  i18n.l Time.now        #=> "Sun Sep 21 19:50:04 GMT 2008"
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.

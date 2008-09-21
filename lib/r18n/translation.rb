@@ -27,14 +27,14 @@ module R18n
   # Translation files use YAML format and has name like en.yml (English) or
   # en_US.yml (USA English dialect) with language/country code (RFC 3066). In
   # translation file you can use strings, numbers, floats (any YAML types),
-  # procedures (<tt>!!proc</tt>) and pluralize values (<tt>!!pl</tt>). You
+  # procedures (<tt>!!proc</tt>) and pluralizable values (<tt>!!pl</tt>). You
   # can use params in string values, which you can replace in program. Just
   # write <tt>%1</tt>, <tt>%2</tt>, etc and set it values as method arguments,
   # when you will be get value.
   #
   # To get translation value use method with same name. If translation name
   # is equal with Object methods (+new+, +to_s+, +methods+) use
-  # <tt>[name, params…]</tt>. If you want to get pluralize value, just set
+  # <tt>[name, params…]</tt>. If you want to get pluralizable value, just set
   # value for pluralization in fisrt argument of method. See samples below.
   #
   # Translated strings will have +locale+ methods, which return Locale or it
