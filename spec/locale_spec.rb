@@ -77,4 +77,10 @@ describe R18n::Locale do
     locale.strftime(time, :datetime).should == 'Чтв, 01 янв 1970, 00:00:00 GMT'
   end
 
+  it "should delete slashed from locale for security reasons" do
+    lambda {
+      R18n::Locale.new('../spec/translations/general/en')
+    }.should raise_error
+  end
+
 end

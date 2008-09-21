@@ -112,8 +112,6 @@ module R18n
       
       translations = []
       locales.map! do |locale|
-        locale.delete!('/', '\\')
-        
         translation = {}
         @@extension_translations.each do |dir|
           file = File.join(dir, "#{locale}.yml")

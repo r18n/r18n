@@ -74,7 +74,8 @@ module R18n
 
     # Load locale by RFC 3066 +code+
     def initialize(code)
-      code.delete!('/', '\\')
+      code.delete! '/'
+      code.delete! '\\'
       
       @locale = {}
       while code

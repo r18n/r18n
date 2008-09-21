@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Translation do
   DIR = Pathname(__FILE__).dirname + 'translations/general'
-  EXT = Pathname(__FILE__).dirname + 'translations/extention'
+  EXT = Pathname(__FILE__).dirname + 'translations/extension'
 
   it "should return all available translations" do
     R18n::Translation.available(DIR).sort.should == ['en', 'no_LC', 'ru']
