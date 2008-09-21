@@ -44,19 +44,19 @@ describe R18n::Translation do
     translation.two.locale.should == R18n::Locale.new('en')
   end
 
-  it "should use extention translations" do
+  it "should use extension translations" do
     R18n::Translation.extension_translations << EXT
     
     translation = R18n::Translation.load('en', DIR)
-    translation.ext.should == 'Extention'
+    translation.ext.should == 'Extension'
     translation.one.should == 'One'
   end
 
-  it "shouldn't use extention without app translations with same locale" do
+  it "shouldn't use extension without app translations with same locale" do
     R18n::Translation.extension_translations << EXT
     
     translation = R18n::Translation.load(['no_TR', 'en'], DIR)
-    translation.ext.should == 'Extention'
+    translation.ext.should == 'Extension'
   end
 
   it "should call proc in translation" do

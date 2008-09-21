@@ -27,9 +27,9 @@ module R18n
   #
   # Locale files is placed in <tt>locales/</tt> dir in YAML files.
   #
-  # Each locale has +sublocales+ – offen knowed languages for people from this
-  # locale. For example, many Belarusians know Russian and English. If there
-  # is’t translation for Belarusian, it will be searched in Russian and next in
+  # Each locale has +sublocales+ – often known languages for people from this
+  # locale. For example, many Belorussians know Russian and English. If there
+  # is’t translation for Belorussian, it will be searched in Russian and next in
   # English translations.
   #
   # == Usage
@@ -46,7 +46,7 @@ module R18n
   # * +code+: locale RFC 3066 code;
   # * +title+: locale name on it language;
   # * +direction+: writing direction, +ltr+ or +rtl+ (for Arabic and Hebrew);
-  # * +sublocales+: offen knowed languages for people from this locale;
+  # * +sublocales+: often known languages for people from this locale;
   # * +pluralization+: function to get pluralization type for +n+ items;
   # * +include+: locale code to include it data, optional.
   #

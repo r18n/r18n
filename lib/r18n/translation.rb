@@ -81,17 +81,17 @@ module R18n
   #   
   #   i18n.sum(2, 3) #=> "is 5"
   #
-  # == Extention translations
+  # == Extension translations
   # For r18n plugin you can add dir with translations, which will be used with
   # application translations. For example, DB plugin may place translations for
-  # error messages in extention dir. R18n contain translations for base words as
-  # extention dir too.
+  # error messages in extension dir. R18n contain translations for base words as
+  # extension dir too.
   class Translation
     @@extension_translations = [
       Pathname(__FILE__).dirname.expand_path + '../../base']
 
-    # Get dirs with extention translations. If application translations with
-    # same locale isn’t exists, extention file willn’t be used.
+    # Get dirs with extension translations. If application translations with
+    # same locale isn’t exists, extension file willn’t be used.
     def self.extension_translations
       @@extension_translations
     end
@@ -135,7 +135,7 @@ module R18n
     
     # Create translation hash with messages in +translations+ for +locales+.
     #
-    # This is internal a contructor. To load translation use
+    # This is internal a constructor. To load translation use
     # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
     def initialize(locales, translations)
       @locales = locales
