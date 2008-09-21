@@ -17,6 +17,8 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
+require 'date'
+
 module R18n
   # General class to i18n support in your application. It load Translation and
   # Locale classes and create pretty way to use it.
@@ -49,8 +51,11 @@ module R18n
   #   i18n.locale['code']      #=> "ru"
   #   i18n.locale['direction'] #=> "ltr"
   #   
-  #   i18n.locales.first['title'] #=> "Русский"
-  #   i18n.locales.last['title']  #=> "English"
+  #   i18n.l -11000.5          #=> "−11 000,5"
+  #   i18n.l Time.now          #=> "Вск, 21 сен 2008, 22:10:10 MSD"
+  #   i18n.l Time.now, :date   #=> "21.09.2008"
+  #   i18n.l Time.now, :time   #=> "22:10"
+  #   i18n.l Time.now, '%A'    #=> "Воскресенье"
   class I18n
     @@default = 'en'
 
@@ -140,6 +145,29 @@ module R18n
         end
       end
     end
+    
+    # Convert +object+ to String, according to the rules of the current locale.
+    # It support Fixnum, Bignum, Float, Time, Date and DateTime.
+    #
+    # For time classes you can set +format+ in standart +strftime+ form, or
+    # Symbol to use format from locale file (<tt>:time</tt>, <tt>:date</tt>,
+    # <tt>:short_data</tt>, <tt>:long_data</tt>, <tt>:datetime</tt>,
+    # <tt>:short_datetime</tt> or <tt>:long_datetime</tt>). Without format it
+    # use <tt>:datetime</tt> for Time and DateTime and <tt>:date</tt> for Date.
+    def localize(object, format = nil)
+      if Fixnum == object.class or Bignum == object.class
+        locale.format_number(object)
+      elsif Float == object.class
+        locale.format_float(object)
+      elsif Time == object.class or DateTime == object.class
+        format = :datetime if format.nil?
+        locale.strftime(object, format)
+      elsif Date == object.class
+        format = :date if format.nil?
+        locale.strftime(object, format)
+      end
+    end
+    alias :l :localize
     
     # Short and pretty way to get translation by method name. If translation
     # has name like object methods (+new+, +to_s+, +methods+) use <tt>[]</tt>

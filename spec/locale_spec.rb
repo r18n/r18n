@@ -56,4 +56,25 @@ describe R18n::Locale do
     R18n::Locale.default_pluralize(5).should == 'n'
   end
 
+  it "should format number in local traditions" do
+    locale = R18n::Locale.new 'en'
+    locale.format_number(-123456789).should == "−123,456,789"
+  end
+
+  it "should format float in local traditions" do
+    locale = R18n::Locale.new 'en'
+    locale.format_float(-12345.67).should == "−12,345.67"
+  end
+
+  it "should translate month, week days and am/pm names in strftime" do
+    locale =  R18n::Locale.new('ru')
+    time = Time.at(0).utc
+    
+    locale.strftime(time, '%a %A').should == 'Чтв Четверг'
+    locale.strftime(time, '%b %B').should == 'янв января'
+    locale.strftime(time, '%H:%M%p').should == '00:00 утра'
+    
+    locale.strftime(time, :datetime).should == 'Чтв, 01 янв 1970, 00:00:00 GMT'
+  end
+
 end

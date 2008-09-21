@@ -102,6 +102,66 @@ module R18n
     def inspect
       "Locale #{@locale['code']} (#{@locale['title']})"
     end
+    
+    # Returns the integer in String form, according to the rules of the locale.
+    # It will also put real typographic minus.
+    def format_number(number)
+      str = number.to_s
+      str[0] = '−' if 0 > number # Real typographic minus
+      group = self['numbers']['group_delimiter']
+      
+      if 'indian' == self['numbers']['separation']
+        str.gsub(/(\d)(?=((\d\d\d)(?!\d))|((\d\d)+(\d\d\d)(?!\d)))/) do |match|
+          match + group
+        end
+      else
+        str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
+          match + group
+        end
+      end
+    end
+    
+    # Returns the float in String form, according to the rules of the locale.
+    # It will also put real typographic minus.
+    def format_float(float)
+      decimal = self['numbers']['decimal_separator']
+      self.format_number(float.to_i) + decimal + float.to_s.split('.').last
+    end
+    
+    # Same that <tt>Time.strftime</tt>, but translate months and week days
+    # names. In +time+ you can use Time, DateTime or Date object. In +format+
+    # you can use String with standart +strftime+ format (see
+    # <tt>Time.strftime</tt> docs) or Symbol with format from locale file
+    # (<tt>:time</tt>, <tt>:date</tt>, <tt>:short_data</tt>, <tt>:long_data</tt>,
+    # <tt>:datetime</tt>, <tt>:short_datetime</tt> or <tt>:long_datetime</tt>).
+    def strftime(time, format)
+      if Symbol == format.class
+        format = self['formats'][format.to_s]
+      end
+      
+      translated = ''
+      format.scan(/%[EO]?.|./o) do |c|
+        case c.sub(/^%[EO]?(.)$/o, '%\\1')
+        when '%A'
+          translated << self['week']['days'][time.wday]
+        when '%a'
+          translated << self['week']['abbrs'][time.wday]
+        when '%B'
+          translated << self['months']['names'][time.month - 1]
+        when '%b'
+          translated << self['months']['abbrs'][time.month - 1]
+        when '%p'
+          translated << if time.hour < 12
+            self['time']['am']
+          else
+            self['time']['pm']
+          end
+        else
+          translated << c
+        end
+      end
+      time.strftime(translated)
+    end
 
     # Return pluralization type for +n+ items. It will be replacing by code
     # from locale file.
