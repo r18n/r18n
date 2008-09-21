@@ -109,9 +109,9 @@ module R18n
     def format_number(number)
       str = number.to_s
       str[0] = '−' if 0 > number # Real typographic minus
-      group = self['numbers']['group_delimiter']
+      group = @locale['numbers']['group_delimiter']
       
-      if 'indian' == self['numbers']['separation']
+      if 'indian' == @locale['numbers']['separation']
         str.gsub(/(\d)(?=((\d\d\d)(?!\d))|((\d\d)+(\d\d\d)(?!\d)))/) do |match|
           match + group
         end
@@ -125,7 +125,7 @@ module R18n
     # Returns the float in String form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_float(float)
-      decimal = self['numbers']['decimal_separator']
+      decimal = @locale['numbers']['decimal_separator']
       self.format_number(float.to_i) + decimal + float.to_s.split('.').last
     end
     
@@ -137,25 +137,25 @@ module R18n
     # <tt>:datetime</tt>, <tt>:short_datetime</tt> or <tt>:long_datetime</tt>).
     def strftime(time, format)
       if Symbol == format.class
-        format = self['formats'][format.to_s]
+        format = @locale['formats'][format.to_s]
       end
       
       translated = ''
       format.scan(/%[EO]?.|./o) do |c|
         case c.sub(/^%[EO]?(.)$/o, '%\\1')
         when '%A'
-          translated << self['week']['days'][time.wday]
+          translated << @locale['week']['days'][time.wday]
         when '%a'
-          translated << self['week']['abbrs'][time.wday]
+          translated << @locale['week']['abbrs'][time.wday]
         when '%B'
-          translated << self['months']['names'][time.month - 1]
+          translated << @locale['months']['names'][time.month - 1]
         when '%b'
-          translated << self['months']['abbrs'][time.month - 1]
+          translated << @locale['months']['abbrs'][time.month - 1]
         when '%p'
           translated << if time.hour < 12
-            self['time']['am']
+            @locale['time']['am']
           else
-            self['time']['pm']
+            @locale['time']['pm']
           end
         else
           translated << c

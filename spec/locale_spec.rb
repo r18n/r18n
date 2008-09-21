@@ -59,6 +59,10 @@ describe R18n::Locale do
   it "should format number in local traditions" do
     locale = R18n::Locale.new 'en'
     locale.format_number(-123456789).should == "−123,456,789"
+    
+    locale = FakeIndianLocale.new # While indian locale isn’t exists
+    p locale['numbers']['separation']
+    locale.format_number(-123456789).should == "−12,34,56,789"
   end
 
   it "should format float in local traditions" do
