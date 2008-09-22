@@ -2,6 +2,8 @@
 
 R18n is a i18n tool to translate your Ruby application in several languages.
 
+Use <tt>merb_r18n</tt> to localize Merb Web application.
+
 == Features
 
 * If there isn’t translation in user locale, it will be found in locales, which
