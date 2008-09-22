@@ -134,15 +134,16 @@ module R18n
       @translation = Translation.load(locales, @translations_dir)
     end
     
-    # Return titles (or code for translation without locale file) of available
-    # translations.
+    # Return Hash with titles (or code for translation without locale file) of
+    # available translations.
     def translations
-      Translation.available(@translations_dir).map do |locale|
-        if Locale.exists? locale
-          Locale.new(locale)['title']
+      Translation.available(@translations_dir).inject({}) do |all, code|
+        all[code] = if Locale.exists? code
+          Locale.new(code)['title']
         else
-          locale
+          code
         end
+        all
       end
     end
     

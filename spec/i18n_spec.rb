@@ -52,7 +52,8 @@ describe R18n::I18n do
 
   it "should return available translations" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translations.sort.should == ['English', 'no_LC', 'Русский']
+    i18n.translations.should == {
+      'no_LC' => 'no_LC', 'ru' => 'Русский', 'en' => 'English'}
   end
 
   it "should return first locale with locale file" do
