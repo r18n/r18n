@@ -117,7 +117,7 @@ or in another locale, which user know:
   i18n.no.in.english #=> "В английском нет"
 
 Translated string has +locale+ method and you can get it locale (Locale instance
-or code string if locale is’t supported in Rubi18n):
+or code string if locale is’t supported in R18n):
 
   i18n.no.in.english.locale #=> Locale ru (Русский)
 

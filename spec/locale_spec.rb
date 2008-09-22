@@ -61,7 +61,6 @@ describe R18n::Locale do
     locale.format_number(-123456789).should == "−123,456,789"
     
     locale = FakeIndianLocale.new # While indian locale isn’t exists
-    p locale['numbers']['separation']
     locale.format_number(-123456789).should == "−12,34,56,789"
   end
 

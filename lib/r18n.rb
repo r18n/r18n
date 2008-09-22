@@ -40,18 +40,22 @@ module R18n
     end
     
     # Get user locale from system environment and load I18n object with locale
-    # information and translations from +translations_dir+
-    def from_env(translations_dir)
+    # information and translations from +translations_dir+. If user set locale
+    # +manual+ put it as last argument.
+    def from_env(translations_dir, manual = nil)
       #TODO Support for Windows and JRuby
-      locale = ENV['LANG'].split('.').first
-      I18n.new(locale, translations_dir)
+      locales = ENV['LANG'].split('.').first.to_a
+      locales.insert(0, manual) if not manual.nil?
+      self.set I18n.new(locales, translations_dir)
     end
     
     # Parse +http_accept_language+ and load I18n object with locales information
-    # and translations from +translations_dir+
-    def from_http(http_accept_language, translations_dir)
+    # and translations from +translations_dir+. If user set locale +manual+ put
+    # it as last argument.
+    def from_http(translations_dir, http_accept_language, manual = nil)
       locales = I18n.parse_http_accept_language(http_accept_language)
-      I18n.new(locales, translations_dir)
+      locales.insert(0, manual) if not manual.nil?
+      self.set I18n.new(locales, translations_dir)
     end
   end
 end
