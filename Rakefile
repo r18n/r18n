@@ -56,10 +56,10 @@ spec = Gem::Specification.new do |s|
   s.name = PKG_NAME
   s.version = PKG_VERSION
   s.summary = 'A plugin for the Merb framework that provides i18n support to 
-    translate your site in several languages.'
+    translate your site.'
   s.description = <<-EOF
     A plugin for the Merb framework that provides i18n support to translate your
-    site in several languages. It is just a wrap for R18n library.
+    site in several languages. It is just a wrap for R18n core library.
     It can localize your site, has translation for commons words, storage 
     translation in rich YAML format with pluralization and procedures and has 
     sublocales list for each supported locale.
@@ -77,7 +77,7 @@ spec = Gem::Specification.new do |s|
   s.has_rdoc = true
   
   s.add_dependency 'merb-core'
-  s.add_dependency 'r18n', '0.1'
+  s.add_dependency 'r18n-core', '0.1'
   
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'

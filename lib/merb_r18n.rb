@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'rubygems'
-require 'r18n'
+gem 'r18n-core', '=0.1'
+require 'r18n-core'
 
 # make sure we're running inside Merb
 if defined?(Merb::Plugins)
@@ -31,12 +32,16 @@ if defined?(Merb::Plugins)
   
   module Merb
     class Controller
+      # Parse +http_accept_language+ and load I18n object with locales
+      # information and translations from translations_dir. If user set locale
+      # manual put it as last argument.
       before do
         config = Merb::Plugins.config[:merb_r18n]
         R18n::I18n.default = config[:default_locale]
         
-        R18n.from_http(config[:translations_dir], 
-          request.env['HTTP_ACCEPT_LANGUAGE'], params[:locale])
+        locales = R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
+        locales.insert(0, params[:locale]) if not params[:locale].nil?
+        R18n.set R18n::I18n.new(locales, config[:translations_dir])
       end
       
       # Return tool fot i18n support. It will be R18n::I18n object, see it

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe "merb_r18n" do
 
-  it "should provide i18n sipport in merb controller" do
+  it "should provide i18n support in merb controller" do
     c = dispatch_to(I18n, :index, {}, "HTTP_ACCEPT_LANGUAGE" => "ru_RU")
     
     c.body.should == "<h1>Article 10 000</h1>\n" +

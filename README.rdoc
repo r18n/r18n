@@ -1,9 +1,10 @@
-= merb_r18n
+= Merb R18n
 
 A plugin for the Merb framework that provides i18n support to translate your
 site in several languages.
 
-See R18n documentation for more infomation.
+It is just a wrap for R18n core library. See R18n documentation for more
+information.
 
 == Features
 
