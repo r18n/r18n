@@ -3,7 +3,7 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 
-PKG_NAME = 'r18n'
+PKG_NAME = 'r18n-core'
 PKG_VERSION = '0.1'
 
 ##############################################################################

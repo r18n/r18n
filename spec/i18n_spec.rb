@@ -4,10 +4,10 @@ describe R18n::I18n do
   DIR = Pathname(__FILE__).dirname + 'translations/general'
 
   it "should parse HTTP_ACCEPT_LANGUAGE" do
-    R18n::I18n.parse_http_accept_language(nil).should == []
-    R18n::I18n.parse_http_accept_language('').should == []
-    R18n::I18n.parse_http_accept_language('ru,en;q=0.9').should == ['ru', 'en']
-    R18n::I18n.parse_http_accept_language('ru;q=0.8,en;q=0.9').should == ['en', 'ru']
+    R18n::I18n.parse_http(nil).should == []
+    R18n::I18n.parse_http('').should == []
+    R18n::I18n.parse_http('ru,en;q=0.9').should == ['ru', 'en']
+    R18n::I18n.parse_http('ru;q=0.8,en;q=0.9').should == ['en', 'ru']
   end
 
   it "should has default locale" do

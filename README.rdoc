@@ -2,7 +2,8 @@
 
 R18n is a i18n tool to translate your Ruby application in several languages.
 
-Use <tt>merb_r18n</tt> to localize Merb Web application.
+Use <tt>merb_r18n</tt> to localize Merb Web application and 
+<tt>r18n-desktop</tt> to localize desktop application.
 
 == Features
 
@@ -15,49 +16,6 @@ Use <tt>merb_r18n</tt> to localize Merb Web application.
 * It storage translation in rich YAML format. You can put procedures and
   pluralization (“1 comment”, “5 comments”) in your translation.
 * It can translate Web and desktop applications.
-
-== How To
-1. Create translations dir. For exmaple: <tt>_YOUR_APP_/translations/</tt>.
-2. Add file with translation in some language. For example:
-   <tt>_YOUR_APP_/translations/en.yml</tt>
-   
-     post:
-       add: Add post
-       delete: Delete post %1
-    
-     comments: !!pl
-       0: No comments
-       1: One comment
-       n: %1 comments
-     
-     author: !!proc |name| "This article was written by #{name.capitalize}"
-   
-3. Add R18n to your application:
-   
-     require 'rubygems'
-     require 'r18n'
-   
-4. Load I18n object. For desktop application:
-   
-     i18n = R18n.from_env 'translations/'
-   
-   From Web application:
-   
-     i18n = R18n.from_http request.env['HTTP_ACCEPT_LANGUAGE'], 'translations/'
-   
-5. Use translation messages to user. For example:
-   
-     i18n.post.add                        #=> "Add post"
-     i18n.post.delete("Test")             #=> "Delete post Test"
-     i18n.comments(1)                     #=> "6 comments"
-     i18n.comments(12)                    #=> "12 comments"
-     i18n.author("poet")                  #=> "This article was written by Poet"
-     
-     i18n.l -12000.5                      #=> "−12,000.5"
-     
-     i18n.l post.created_at               #=> "Sun Sep 21 19:50:04 GMT 2008"
-     i18n.l post.created_at, :date        #=> "09/21/2008"
-     i18n.l post.created_at, "%B"         #=> "September"
 
 == Usage
 

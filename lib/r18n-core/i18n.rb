@@ -71,7 +71,7 @@ module R18n
     end
     
     # Parse HTTP_ACCEPT_LANGUAGE and return array of user locales
-    def self.parse_http_accept_language(str)
+    def self.parse_http(str)
       return [] if str.nil?
       locales = str.split(',')
       locales.map! do |locale|
