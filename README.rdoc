@@ -21,16 +21,16 @@ information.
 2. Add file with translation in some language. For example:
    <tt>_YOUR_APP_/translations/en.yml</tt>
    
-     post:
-       add: Add post
-       delete: Delete post %1
+     file:
+       add: Add file
+       delete: Delete file %1
     
-     comments: !!pl
-       0: No comments
-       1: One comment
-       n: %1 comments
+     files: !!pl
+       0: No files
+       1: One file
+       n: %1 files
      
-     author: !!proc |name| "This article was written by #{name.capitalize}"
+     author: !!proc |name| "This file was created by #{name.capitalize}"
    
 3. Add R18n to your application:
    
@@ -47,17 +47,17 @@ information.
    
 5. Use translation messages to user. For example:
    
-     i18n.post.add                        #=> "Add post"
-     i18n.post.delete("Test")             #=> "Delete post Test"
-     i18n.comments(1)                     #=> "6 comments"
-     i18n.comments(12)                    #=> "12 comments"
-     i18n.author("poet")                  #=> "This article was written by Poet"
+     i18n.file.add                        #=> "Add file"
+     i18n.file.delete('Test')             #=> "Delete file Test"
+     i18n.files(1)                        #=> "One file"
+     i18n.files(12)                       #=> "12 files"
+     i18n.author('user')                  #=> "This file was created by User"
      
      i18n.l -12000.5                      #=> "−12,000.5"
      
-     i18n.l post.created_at               #=> "Sun Sep 21 19:50:04 GMT 2008"
-     i18n.l post.created_at, :date        #=> "09/21/2008"
-     i18n.l post.created_at, "%B"         #=> "September"
+     i18n.l Time.now                      #=> "Sun Sep 21 19:50:04 GMT 2008"
+     i18n.l Time.now, :date               #=> "09/21/2008"
+     i18n.l Time.now, '%B'                #=> "September"
      
      # Base translation
      i18n.ok                              #=> "OK"
