@@ -58,6 +58,10 @@ information.
      i18n.l post.created_at               #=> "Sun Sep 21 19:50:04 GMT 2008"
      i18n.l post.created_at, :date        #=> "09/21/2008"
      i18n.l post.created_at, "%B"         #=> "September"
+     
+     # Base translation
+     i18n.ok                              #=> "OK"
+     i18n.cancel                          #=> "Cancel"
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.
