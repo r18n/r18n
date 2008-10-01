@@ -100,6 +100,10 @@ rule (0, 1 and 'n').
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.
 
+  i18n.yes    #=> "Yes"
+  i18n.cancel #=> "Cancel"
+  i18n.delete #=> "Delete"
+
 === Localization
 You can print number and float according to the rules of the user locale:
 

@@ -81,6 +81,10 @@ module R18n
   #   
   #   i18n.sum(2, 3) #=> "is 5"
   #
+  #   i18n.yes    #=> "Yes"
+  #   i18n.ok     #=> "OK"
+  #   i18n.cancel #=> "Cancel"
+  #
   # == Extension translations
   # For r18n plugin you can add dir with translations, which will be used with
   # application translations. For example, DB plugin may place translations for
