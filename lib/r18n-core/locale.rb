@@ -1,7 +1,7 @@
 =begin
 Locale to i18n support.
 
-Copyright (C) 2008 Andrey “A.I.”" Sitnik <andrey@sitnik.ru>
+Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
