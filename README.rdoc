@@ -37,7 +37,7 @@ information.
    
      post:
        add: Add post
-       delete: Delete post %1
+       edit: Edit %1
     
      comments: !!pl
        0: No comments
@@ -47,7 +47,8 @@ information.
 4. Use translation messages in view. For example:
    
      <%= link_to i18n.post.add, 'posts/add' %>
-     <%= link_to i18n.post.delete(@post.title), "posts/delete/#{@post.id}" %>
+     <%= link_to i18n.post.edit(post.title), "posts/edit/#{@post.id}" %>
+     <%= link_to i18n.delete, "posts/delete/#{@post.id}" %>
      
      <h1><%= i18n.comments(@post.comments.size) %></h1>
    
