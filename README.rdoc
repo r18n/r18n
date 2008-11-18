@@ -18,11 +18,11 @@ information.
   pluralization (“1 comment”, “5 comments”) in your translation.
 
 == How To
-1. Add merb_r18n to your merb application in config/init.rb:
+1. Add merb_r18n to your merb application in <tt>config/init.rb</tt>:
    
      dependency 'merb_r18n'
    
-2. Add route to set locale manually in your config/router.rb. For example set
+2. Add route to set locale manually in your <tt>config/router.rb</tt>. For example set
    available translations:
    
      Merb::Router.prepare do
@@ -33,7 +33,7 @@ information.
      end
   
    You may use another way, just set :locale param.
-3. Create translations file in app/translations/. For example:
+3. Create translations file in <tt>app/translations/</tt>. For example <tt>app/translations/en.yml</tt>:
    
      post:
        add: Add post
@@ -66,7 +66,7 @@ information.
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/gpl.html.
+You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
 
 == Author
 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
