@@ -25,10 +25,10 @@ information.
 2. Add route to set locale manually in your config/router.rb. For example set
    available translations:
    
-     Merb::Router.prepare do |r|
-       r.match(/\/(|en|ru|fr)/).to(:locale => "[1]") do |l|
-         # Your application routers. You must use l instead r
-         l.default_routes
+     Merb::Router.prepare do
+       match('(/:locale)', :locale => /(en|ru)/) do
+         # Your application routers.
+         default_routes
        end
      end
   
@@ -52,9 +52,9 @@ information.
      
      <h1><%= i18n.comments(@post.comments.size) %></h1>
    
-5. Print localized time and numbers
+5. Print localized time and numbers. For example:
    
-     <%= i18n.post.created_at %> <%= i18n.l @post.created_at, :date %>
+     <%= i18n.l @post.created_at, :date %>
    
 6. Print available translations:
    
