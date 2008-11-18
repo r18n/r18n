@@ -18,8 +18,8 @@ information.
 
 == How To
 1. Create translations dir. For example: <tt>_YOUR_APP_/translations/</tt>.
-2. Add file with translation in some language. For example:
-   <tt>_YOUR_APP_/translations/en.yml</tt>
+2. Add file with translation in some language. For example
+   <tt>_YOUR_APP_/translations/en.yml</tt>:
    
      file:
        add: Add file
@@ -65,7 +65,7 @@ information.
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/gpl.html.
+You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
 
 == Author
 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
