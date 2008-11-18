@@ -130,7 +130,7 @@ DateTime and <tt>:date</tt> for Date:
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/gpl.html.
+You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
 
 == Author
 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
