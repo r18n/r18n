@@ -10,3 +10,6 @@ class FakeIndianLocale < R18n::Locale
     }
   end
 end
+
+DIR = Pathname(__FILE__).dirname + 'translations/general'
+EXT = Pathname(__FILE__).dirname + 'translations/extension'

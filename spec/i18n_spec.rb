@@ -1,7 +1,6 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::I18n do
-  DIR = Pathname(__FILE__).dirname + 'translations/general'
 
   it "should parse HTTP_ACCEPT_LANGUAGE" do
     R18n::I18n.parse_http(nil).should == []
