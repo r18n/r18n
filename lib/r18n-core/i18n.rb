@@ -101,7 +101,7 @@ module R18n
     # (it will load +fr+ for +fr_CA+ too).
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
-    def initialize(locales, translations_dir)
+    def initialize(locales, translations_dir = nil)
       locales = locales.to_a if String == locales.class
       
       @locales = locales.map do |locale|
@@ -130,8 +130,10 @@ module R18n
         end
       end
       
-      @translations_dir = File.expand_path(translations_dir)
-      @translation = Translation.load(locales, @translations_dir)
+      if not translations_dir.nil?
+        @translations_dir = File.expand_path(translations_dir)
+        @translation = Translation.load(locales, @translations_dir)
+      end
     end
     
     # Return Hash with titles (or code for translation without locale file) of

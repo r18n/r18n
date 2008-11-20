@@ -74,5 +74,10 @@ describe R18n::I18n do
     
     i18n.l(Date.new(0)).should == '01.01.0000'
   end
+  
+  it "should loading without translations" do
+    i18n = R18n::I18n.new('ru')
+    i18n.l(Date.new(0)).should == '01.01.0000'
+  end
 
 end
