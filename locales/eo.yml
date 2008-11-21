@@ -1,0 +1,34 @@
+title: Esperanto
+code: eo
+sublocales: [en]
+direction: ltr
+
+pluralization: "n == 0 ? 0 : n == 1 ? 1 : 'n'"
+
+week:
+  start: monday
+  days: [dimanĉo, lundo, mardo, merkredo, ĵaŭdo, vendredo, sabato]
+  abbrs: [dim, lun, mar, mer, ĵaŭ, ven, seb]
+
+months:
+  names: [januaro, februaro, marto, aprilo, majo, junio, julio, aŭgusto, septembro, oktobro, novembro, decembro]
+  abbrs: [jan, feb, mar, apr, maj, jun, jul, aŭg, sep, okt, nov, dec]
+  standalone: [januaro, februaro, marto, aprilo, majo, junio, julio, aŭgusto, septembro, oktobro, novembro, decembro]
+
+time:
+  am: AM
+  pm: PM
+
+formats:
+  time: "%H:%M"
+  date: "%Y-%m-%d"
+  short_date: "%d %b"
+  long_date: "la %d-a de %B de %Y"
+  datetime: "%a, %d %b %Y, %H:%M:%S %Z"
+  short_datetime: "%d %b, %H:%M"
+  long_datetime: "la %d-a de %B de %Y, %H:%M"
+
+numbers:
+  separation: classic
+  decimal_separator: "."
+  group_delimiter: " "
