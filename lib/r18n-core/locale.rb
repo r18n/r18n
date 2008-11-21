@@ -133,10 +133,14 @@ module R18n
     # names. In +time+ you can use Time, DateTime or Date object. In +format+
     # you can use String with standart +strftime+ format (see
     # <tt>Time.strftime</tt> docs) or Symbol with format from locale file
-    # (<tt>:time</tt>, <tt>:date</tt>, <tt>:short_data</tt>, <tt>:long_data</tt>,
-    # <tt>:datetime</tt>, <tt>:short_datetime</tt> or <tt>:long_datetime</tt>).
+    # (<tt>:month</tt>, <tt>:time</tt>, <tt>:date</tt>, <tt>:short_data</tt>,
+    # <tt>:long_data</tt>, <tt>:datetime</tt>, <tt>:short_datetime</tt> or
+    # <tt>:long_datetime</tt>).
     def strftime(time, format)
       if Symbol == format.class
+        if :month == format
+          return @locale['months']['standalone'][time.month - 1]
+        end
         format = @locale['formats'][format.to_s]
       end
       

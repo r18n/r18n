@@ -117,8 +117,8 @@ You can translate months and week days names in Time, Date and DateTime by
 
   i18n.l Time.now, "%B"  #=> "September"
 
-R18n has some time formats for locales: <tt>:time</tt>, <tt>:date</tt>,
-<tt>:short_data</tt>, <tt>:long_data</tt>, <tt>:datetime</tt>,
+R18n has some time formats for locales: <tt>:month</tt>, <tt>:time</tt>,
+<tt>:date</tt>, <tt>:short_data</tt>, <tt>:long_data</tt>, <tt>:datetime</tt>,
 <tt>:short_datetime</tt> and <tt>:long_datetime</tt>:
 
   i18n.l Time.now, :date #=> "09/21/2008"
