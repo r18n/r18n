@@ -58,9 +58,10 @@ spec = Gem::Specification.new do |s|
   s.summary = 'I18n tool to translate your Ruby application.'
   s.description = <<-EOF
     R18n is a i18n tool to translate your Ruby application.
-    It can localize your application, has translation for commons words,
-    storage translation in rich YAML format with pluralization and procedures
-    and has sublocales list for each supported locale.
+    It can format numbers and time to the rules of the user locale,
+    has translation for common words, storage translation in YAML format with
+    pluralization and procedures and has special support for countries
+    with two official languages.
   EOF
   
   s.files = FileList[

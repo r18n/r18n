@@ -7,11 +7,12 @@ Use <tt>merb_r18n</tt> to localize Merb Web application and
 
 == Features
 
-* If there isn’t translation in user locale, it will be found in locales, which
+* It has special support for countries with two official languages. If there
+  isn’t translation in user locale, it will be found in locales, which
   user may know (not only in default locale). For example, many people in 
   Belarus can understand Russian, and locale has information about it.
-* It can localize your application: format numbers to the rules of the user 
-  locale, translate month and week days name and give other locale information.
+* It can format numbers and time to the rules of the user locale, translate
+  month and week days name and give other locale information.
 * It has translation for commons words, like “OK”, “Cancel”, etc.
 * It storage translation in rich YAML format. You can put procedures and
   pluralization (“1 comment”, “5 comments”) in your translation.
