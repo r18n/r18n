@@ -23,11 +23,11 @@ require 'r18n-core'
 
 # make sure we're running inside Merb
 if defined?(Merb::Plugins)
-  Merb.push_path(:translations, Merb.root / "app" / "translations")
+  Merb.push_path(:i18n, Merb.root / "app" / "i18n")
   
   Merb::Plugins.config[:merb_r18n] = {
     :default_locale   => 'en',
-    :translations_dir => Merb.dir_for(:translations)
+    :translations_dir => Merb.dir_for(:i18n)
   }
   
   module Merb
