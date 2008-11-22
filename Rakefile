@@ -4,7 +4,7 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 
 PKG_NAME = 'r18n-core'
-PKG_VERSION = '0.1'
+require 'lib/r18n-core/version'
 
 ##############################################################################
 # Tests
@@ -54,7 +54,7 @@ end
 spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = PKG_NAME
-  s.version = PKG_VERSION
+  s.version = R18n::VERSION
   s.summary = 'I18n tool to translate your Ruby application.'
   s.description = <<-EOF
     R18n is a i18n tool to translate your Ruby application.

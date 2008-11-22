@@ -20,8 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 $KCODE = 'u'
 
 require 'pathname'
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-core'
 
+dir = Pathname(__FILE__).dirname.expand_path + 'r18n-core'
+require dir + 'version'
 require dir + 'locale'
 require dir + 'translated_string'
 require dir + 'translation'
