@@ -61,6 +61,13 @@ describe R18n::Translation do
     translation = R18n::Translation.load('en', DIR)
     translation.sum(2, 3).should == 5
   end
+  
+  it "shouldn't call proc if it isn't secure" do
+    translation = R18n::Translation.load('en', DIR)
+    R18n::Translation.call_proc = false
+    translation.sum(2, 3).should be_nil
+    R18n::Translation.call_proc = true
+  end
 
   it "should pluralize translation" do
     translation = R18n::Translation.load('en', DIR)

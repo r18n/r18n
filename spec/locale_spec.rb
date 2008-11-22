@@ -40,7 +40,7 @@ describe R18n::Locale do
   end
 
   it "should return all available locales" do
-    R18n::Locale.available.sort.should == ['en', 'en_US', 'ru']
+    R18n::Locale.available.sort.should == ['en', 'en_US', 'eo', 'ru']
   end
 
   it "should return pluralization type by elements count" do

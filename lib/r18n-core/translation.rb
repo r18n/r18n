@@ -32,10 +32,13 @@ module R18n
   # write <tt>%1</tt>, <tt>%2</tt>, etc and set it values as method arguments,
   # when you will be get value.
   #
+  # If in your system procedures in translations willn’t be secure (user can
+  # upoad or edit it) set <tt>R18n::Translation.call_proc</tt> to false.
+  #
   # To get translation value use method with same name. If translation name
   # is equal with Object methods (+new+, +to_s+, +methods+) use
   # <tt>[name, params…]</tt>. If you want to get pluralizable value, just set
-  # value for pluralization in fisrt argument of method. See samples below.
+  # value for pluralization in first argument of method. See samples below.
   #
   # Translated strings will have +locale+ methods, which return Locale or it
   # code, if locale file isn’t exists.
@@ -93,6 +96,8 @@ module R18n
   class Translation
     @@extension_translations = [
       Pathname(__FILE__).dirname.expand_path + '../../base']
+      
+    @@call_proc = true
 
     # Get dirs with extension translations. If application translations with
     # same locale isn’t exists, extension file willn’t be used.
@@ -135,6 +140,17 @@ module R18n
       self.new(locales, translations)
     end
     
+    # Is procedures in translations will be call. Set to false if user can
+    # upload or edit translations.
+    def self.call_proc=(call)
+      @@call_proc = call
+    end
+    
+    # Is procedures in translations will be call
+    def self.call_proc
+      @@call_proc
+    end
+    
     # Create translation hash with messages in +translations+ for +locales+.
     #
     # This is internal a constructor. To load translation use
@@ -166,7 +182,11 @@ module R18n
         if YAML::PrivateType == result.class
           case result.type_id
           when 'proc'
-            return eval("proc {#{result.value}}").call(*params)
+            if @@call_proc
+              return eval("proc {#{result.value}}").call(*params)
+            else
+              return nil
+            end
           when 'pl'
             locale = @locales[i]
             
