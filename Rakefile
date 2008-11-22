@@ -59,9 +59,10 @@ spec = Gem::Specification.new do |s|
   s.description = <<-EOF
     A tool to translate your desktop application in several languages.
     It is just a wrap for R18n core library.
-    It can localize your application, has translation for commons words,
-    storage translation in rich YAML format with pluralization and procedures
-    and has sublocales list for each supported locale.
+    It can format numbers and time to the rules of the user locale,
+    has translation for common words, storage translation in YAML format with
+    pluralization and procedures and has special support for countries
+    with two official languages.
   EOF
   
   s.files = FileList[
