@@ -1,0 +1,6 @@
+== 0.1.1
+* Loading i18n object without translations.
+* Add output for standalone month name.
+* Dont’t call procedures from translations of it isn’t secure.
+* Add Esperanto locale.
+* English locale now contain UK date standarts.

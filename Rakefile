@@ -90,5 +90,5 @@ end
 desc 'Install as a gem'
 task :install => [:package] do
   sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
-  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{PKG_VERSION}}
+  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
 end
