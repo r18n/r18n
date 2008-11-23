@@ -4,7 +4,8 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 
 PKG_NAME = 'r18n-desktop'
-PKG_VERSION = '0.1'
+gem 'r18n-core'
+require 'r18n-core/version'
 
 ##############################################################################
 # Tests
@@ -54,7 +55,7 @@ end
 spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = PKG_NAME
-  s.version = PKG_VERSION
+  s.version = R18n::VERSION
   s.summary = 'A tool to translate your Ruby desktop application.'
   s.description = <<-EOF
     A tool to translate your desktop application in several languages.
@@ -76,7 +77,7 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.has_rdoc = true
   
-  s.add_dependency 'r18n-core', '0.1'
+  s.add_dependency 'r18n-core', R18n::VERSION
   
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'
@@ -91,5 +92,5 @@ end
 desc 'Install as a gem'
 task :install => [:package] do
   sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
-  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{PKG_VERSION}}
+  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
 end
