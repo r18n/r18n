@@ -4,7 +4,8 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 
 PKG_NAME = 'merb_r18n'
-PKG_VERSION = '0.1'
+gem 'r18n-core'
+require 'r18n-core/version'
 
 ##############################################################################
 # Tests
@@ -54,7 +55,7 @@ end
 spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = PKG_NAME
-  s.version = PKG_VERSION
+  s.version = R18n::VERSION
   s.summary = 'A plugin for the Merb framework that provides i18n support to 
     translate your site.'
   s.description = <<-EOF
@@ -78,7 +79,7 @@ spec = Gem::Specification.new do |s|
   s.has_rdoc = true
   
   s.add_dependency 'merb-core'
-  s.add_dependency 'r18n-core', '0.1'
+  s.add_dependency 'r18n-core', R18n::VERSION
   
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'
@@ -93,5 +94,5 @@ end
 desc 'Install merb_r18n as a gem'
 task :install => [:package] do
   sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
-  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{PKG_VERSION}}
+  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
 end
