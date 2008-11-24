@@ -34,7 +34,7 @@ if defined?(Merb::Plugins)
     class Controller
       # Parse +http_accept_language+ and load I18n object with locales
       # information and translations from translations_dir. If user set locale
-      # manual put it as last argument.
+      # manual put it as :locale param
       before do
         config = Merb::Plugins.config[:merb_r18n]
         R18n::I18n.default = config[:default_locale]
@@ -44,7 +44,7 @@ if defined?(Merb::Plugins)
         R18n.set R18n::I18n.new(locales, config[:translations_dir])
       end
       
-      # Return tool fot i18n support. It will be R18n::I18n object, see it
+      # Return tool for i18n support. It will be R18n::I18n object, see it
       # documentation for more information.
       def i18n
         R18n.get
