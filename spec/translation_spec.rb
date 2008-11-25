@@ -4,6 +4,8 @@ describe R18n::Translation do
 
   it "should return all available translations" do
     R18n::Translation.available(DIR).sort.should == ['en', 'no_LC', 'ru']
+    R18n::Translation.available([TWO, DIR]).sort.should == [
+        'en', 'fr', 'no_LC', 'ru']
   end
 
   it "should load translations" do
@@ -40,6 +42,12 @@ describe R18n::Translation do
     translation = R18n::Translation.load(['no_LC', 'en'], DIR)
     translation.one.locale.should == 'no_LC'
     translation.two.locale.should == R18n::Locale.new('en')
+  end
+
+  it "should load translations from several dirs" do
+    translation = R18n::Translation.load(['no_LC', 'en'], [TWO, DIR])
+    translation.in.two.should == 'Two'
+    translation.in.another.should == 'Hierarchical'
   end
 
   it "should use extension translations" do

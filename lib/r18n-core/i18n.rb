@@ -89,19 +89,20 @@ module R18n
     # User locales, ordered by priority
     attr_reader :locales
     
-    # Dir with translations files
-    attr_reader :translations_dir
+    # Dirs with translations files
+    attr_reader :translations_dirs
     
     # First locale with locale file
     attr_reader :locale
     
-    # Create i18n for +locales+ with translations from +translations_dir+ and
+    # Create i18n for +locales+ with translations from +translations_dirs+ and
     # locales data. Translations will be also loaded for default locale,
     # +sublocales+ from first in +locales+ and general languages for dialects
     # (it will load +fr+ for +fr_CA+ too).
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
-    def initialize(locales, translations_dir = nil)
+    # +Translations_dirs+ must be a string with path or array.
+    def initialize(locales, translations_dirs = nil)
       locales = locales.to_a if String == locales.class
       
       @locales = locales.map do |locale|
@@ -130,16 +131,16 @@ module R18n
         end
       end
       
-      if not translations_dir.nil?
-        @translations_dir = File.expand_path(translations_dir)
-        @translation = Translation.load(locales, @translations_dir)
+      if not translations_dirs.nil?
+        @translations_dirs = File.expand_path(translations_dirs)
+        @translation = Translation.load(locales, @translations_dirs)
       end
     end
     
     # Return Hash with titles (or code for translation without locale file) of
     # available translations.
     def translations
-      Translation.available(@translations_dir).inject({}) do |all, code|
+      Translation.available(@translations_dirs).inject({}) do |all, code|
         all[code] = if Locale.exists? code
           Locale.new(code)['title']
         else

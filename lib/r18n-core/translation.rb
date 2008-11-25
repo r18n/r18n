@@ -105,29 +105,33 @@ module R18n
       @@extension_translations
     end
     
-    # Return available translations in +translations_dir+
-    def self.available(translations_dir)
-      Dir.glob(File.join(translations_dir, '*.yml')).map do |i|
+    # Return available translations in +dirs+
+    def self.available(dirs)
+      if Array == dirs.class
+        return dirs.inject([]) do |available, i|
+          available |= self.available(i)
+        end
+      end
+      
+      Dir.glob(File.join(dirs, '*.yml')).map do |i|
         File.basename(i, '.yml')
       end
     end
 
-    # Load all available translations for +locales+. +locales+ may be string
-    # with one user locale or array with many.
-    def self.load(locales, translations_dir)
-      locales = locales.to_a if Array != locales.class
-      
-      locales &= self.available(translations_dir)
+    # Load all available translations for +locales+. +Locales+ may be a string
+    # with one user locale or array with many. +Dirs+ may be an array or
+    # a string with path to dir with translations.
+    def self.load(locales, dirs)
+      locales = Array(locales) & self.available(dirs)
+      dirs = @@extension_translations + Array(dirs)
       
       translations = []
       locales.map! do |locale|
         translation = {}
-        @@extension_translations.each do |dir|
+        dirs.each do |dir|
           file = File.join(dir, "#{locale}.yml")
-          translation.merge! YAML::load_file(file) if File.exists? file
+          self.deep_merge! translation, YAML::load_file(file) if File.exists? file
         end
-        file = File.join(translations_dir, "#{locale}.yml")
-        translation.merge! YAML::load_file(file)
         translations << translation
         
         if Locale.exists? locale
@@ -138,6 +142,18 @@ module R18n
       end
   
       self.new(locales, translations)
+    end
+    
+    # Recursively hash merge
+    def self.deep_merge!(a, b)
+      b.each_pair do |name, value|
+        if Hash == a[name].class
+          self.deep_merge!(a[name], value)
+        else
+          a[name] = value
+        end
+      end
+      a
     end
     
     # Is procedures in translations will be call. Set to false if user can
