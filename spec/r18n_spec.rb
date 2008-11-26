@@ -8,4 +8,17 @@ describe R18n do
     R18n.get.should == i18n
   end
 
+  it "should merge hash recursively" do
+    a = { :a => 1,
+          :b => {:ba => 1, :bb => 1},
+          :c => 1 }
+    b = { :b => {:bb => 2, :bc => 2},
+          :c => 2 }
+    
+    R18n::Utils.deep_merge! a, b
+    a.should == { :a => 1,
+                  :b => { :ba => 1, :bb => 2, :bc => 2 },
+                  :c => 2 }
+  end
+
 end
