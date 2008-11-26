@@ -82,15 +82,15 @@ module R18n
       while code
         file = LOCALES_DIR + "#{code}.yml"
         raise "Locale #{code} isn't exists" if not File.exists? file
-        loaded = YAML.load_file(file)
-        data = loaded.merge data
         
-        if File.exists? LOCALES_DIR + "#{code}.rb"
+        if R18n::Locale == klass and File.exists? LOCALES_DIR + "#{code}.rb"
           require LOCALES_DIR + "#{code}.rb"
           klass = eval 'R18n::Locales::' + code.capitalize
         end
         
+        loaded = YAML.load_file(file)
         code = loaded['include']
+        data = Utils.deep_merge! loaded, data
       end
       
       klass.new(data)
