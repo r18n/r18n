@@ -201,7 +201,7 @@ module R18n
             if @@call_proc
               return eval("proc {#{result.value}}").call(*params)
             else
-              return nil
+              return result.value
             end
           when 'pl'
             locale = @locales[i]

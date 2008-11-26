@@ -75,7 +75,7 @@ describe R18n::Translation do
     translation = R18n::Translation.load('en', DIR)
     R18n::Translation.call_proc = false
     R18n::Translation.call_proc.should be_false
-    translation.sum(2, 3).should be_nil
+    translation.sum(2, 3).should == '|x, y| x + y'
     R18n::Translation.call_proc = true
   end
 
