@@ -233,7 +233,7 @@ module R18n
         end
       end
       
-      return nil
+      return Untranslated.new
     end
   end
 end

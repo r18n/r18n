@@ -1,5 +1,5 @@
 =begin
-Main file to load all neccessary classes for i18n support.
+Untranslation string for i18n support.
 
 Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
@@ -17,28 +17,20 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-$KCODE = 'u'
-
-require 'pathname'
-
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-core'
-require dir + 'version'
-require dir + 'locale'
-require dir + 'translated_string'
-require dir + 'untranslated'
-require dir + 'translation'
-require dir + 'i18n'
-
 module R18n
-  class << self
-    # Set <tt>i18n</tt> object to current thread
-    def set(i18n)
-      Thread.current['i18n'] = i18n
+  # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
+  # you try to access for subtranslations.
+  class Untranslated
+    def nil?
+      true
     end
     
-    # Get I18n object for current thread
-    def get
-      Thread.current['i18n']
+    def method_missing(*params)
+      self
+    end
+    
+    def [](*params)
+      self
     end
   end
 end

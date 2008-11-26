@@ -22,7 +22,8 @@ describe R18n::Translation do
 
   it "should return nil if translation isn't found" do
     translation = R18n::Translation.load('en', DIR)
-    translation.without_translation.should be_nil
+    translation.not.exists.should be_nil
+    translation['not']['exists'].should be_nil
   end
 
   it "should can use params in translation" do
