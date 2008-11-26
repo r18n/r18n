@@ -107,14 +107,14 @@ module R18n
       
       @locales = locales.map do |locale|
         if Locale.exists? locale
-          Locale.new locale
+          Locale.load(locale)
         else
           locale
         end
       end
       
       locales << @@default
-      if Locale == @locales.first.class
+      if @locales.first.kind_of? Locale
         locales += @locales.first['sublocales']
       end
       locales.each_with_index do |locale, i|
@@ -126,7 +126,7 @@ module R18n
       
       locales.each do |locale|
         if Locale.exists? locale
-          @locale = Locale.new(locale)
+          @locale = Locale.load(locale)
           break
         end
       end
@@ -142,7 +142,7 @@ module R18n
     def translations
       Translation.available(@translations_dirs).inject({}) do |all, code|
         all[code] = if Locale.exists? code
-          Locale.new(code)['title']
+          Locale.load(code)['title']
         else
           code
         end

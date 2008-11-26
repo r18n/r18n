@@ -42,7 +42,7 @@ describe R18n::Translation do
   it "should return string with locale info" do
     translation = R18n::Translation.load(['no_LC', 'en'], DIR)
     translation.one.locale.should == 'no_LC'
-    translation.two.locale.should == R18n::Locale.new('en')
+    translation.two.locale.should == R18n::Locale.load('en')
   end
 
   it "should load translations from several dirs" do

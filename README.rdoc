@@ -26,7 +26,7 @@ add your locale, please write me to andrey@sitnik.ru.
 
 To get information about locale create R18n::Locale instance:
 
-  locale = R18n::Locale.new('en')
+  locale = R18n::Locale.load('en')
 
 You can get from locale:
 * Locale title and RFC 3066 code:

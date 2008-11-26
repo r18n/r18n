@@ -135,7 +135,7 @@ module R18n
         translations << translation
         
         if Locale.exists? locale
-          Locale.new(locale)
+          Locale.load(locale)
         else
           locale
         end

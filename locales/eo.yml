@@ -3,8 +3,6 @@ code: eo
 sublocales: [en]
 direction: ltr
 
-pluralization: "n == 0 ? 0 : n == 1 ? 1 : 'n'"
-
 week:
   start: monday
   days: [dimanĉo, lundo, mardo, merkredo, ĵaŭdo, vendredo, sabato]
@@ -29,6 +27,5 @@ formats:
   long_datetime: "la %d-a de %B de %Y, %H:%M"
 
 numbers:
-  separation: classic
   decimal_separator: "."
   group_delimiter: " "

@@ -36,7 +36,7 @@ module R18n
   #
   # Get Russian locale and print it information
   #
-  #   ru = R18n::Locale.new('ru')
+  #   ru = R18n::Locale.load('ru')
   #   ru['title']        #=> "Русский"
   #   ru['code']         #=> "ru"
   #   ru['direction']    #=> "ltr"
@@ -47,7 +47,6 @@ module R18n
   # * +title+: locale name on it language;
   # * +direction+: writing direction, +ltr+ or +rtl+ (for Arabic and Hebrew);
   # * +sublocales+: often known languages for people from this locale;
-  # * +pluralization+: function to get pluralization type for +n+ items;
   # * +include+: locale code to include it data, optional.
   #
   # You can see more available data about locale in samples in
@@ -61,32 +60,49 @@ module R18n
         File.basename(i, '.yml')
       end
     end
-    
+
     # Is +locale+ has info file
     def self.exists?(locale)
       File.exists?(File.join(LOCALES_DIR, locale + '.yml'))
     end
-    
+
     # Default pluralization rule to translation without locale file
     def self.default_pluralize(n)
       n == 0 ? 0 : n == 1 ? 1 : 'n'
     end
 
     # Load locale by RFC 3066 +code+
-    def initialize(code)
+    def self.load(code)
       code.delete! '/'
       code.delete! '\\'
+      code.delete! ';'
       
-      @locale = {}
+      data = {}
+      klass = R18n::Locale
       while code
         file = LOCALES_DIR + "#{code}.yml"
         raise "Locale #{code} isn't exists" if not File.exists? file
         loaded = YAML.load_file(file)
-        @locale = loaded.merge @locale
+        data = loaded.merge data
+        
+        if File.exists? LOCALES_DIR + "#{code}.rb"
+          require LOCALES_DIR + "#{code}.rb"
+          klass = eval 'R18n::Locales::' + code.capitalize
+        end
+        
         code = loaded['include']
       end
       
-      eval("def pluralize(n); #{@locale["pluralization"]}; end", binding)
+      klass.new(data)
+    end
+
+    # Create locale object hash with +locale+ data.
+    #
+    # This is internal a constructor. To load translation use
+    # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
+    def initialize(locale)
+      p 1 if String == locale.class
+      @locale = locale
     end
 
     # Get information about locale
@@ -111,14 +127,8 @@ module R18n
       str[0] = '−' if 0 > number # Real typographic minus
       group = @locale['numbers']['group_delimiter']
       
-      if 'indian' == @locale['numbers']['separation']
-        str.gsub(/(\d)(?=((\d\d\d)(?!\d))|((\d\d)+(\d\d\d)(?!\d)))/) do |match|
-          match + group
-        end
-      else
-        str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
-          match + group
-        end
+      str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
+        match + group
       end
     end
     
@@ -168,8 +178,17 @@ module R18n
       time.strftime(translated)
     end
 
-    # Return pluralization type for +n+ items. It will be replacing by code
-    # from locale file.
-    def pluralize(n); end
+    # Return pluralization type for +n+ items. This is simple form. For special
+    # cases you can replace it in locale’s class.
+    def pluralize(n)
+      case n
+      when 0
+        0
+      when 1
+        1
+      else
+        'n'
+      end
+    end
   end
 end

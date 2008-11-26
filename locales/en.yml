@@ -29,6 +29,5 @@ formats:
   long_datetime: "%d %B, %Y %H:%M"
 
 numbers:
-  separation: classic
   decimal_separator: "."
   group_delimiter: ","

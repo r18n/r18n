@@ -16,10 +16,10 @@ describe R18n::I18n do
 
   it "should load locales" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.locales.should == [R18n::Locale.new('en')]
+    i18n.locales.should == [R18n::Locale.load('en')]
   
     i18n = R18n::I18n.new(['ru', 'no_LC'], DIR)
-    i18n.locales.should == [R18n::Locale.new('ru'), 'no_LC']
+    i18n.locales.should == [R18n::Locale.load('ru'), 'no_LC']
   end
 
   it "should return translations dir" do
@@ -57,7 +57,7 @@ describe R18n::I18n do
 
   it "should return first locale with locale file" do
     i18n = R18n::I18n.new(['no_LC', 'ru', 'en'], DIR)
-    i18n.locale.should == R18n::Locale.new('ru')
+    i18n.locale.should == R18n::Locale.load('ru')
   end
 
   it "should localize objects" do
