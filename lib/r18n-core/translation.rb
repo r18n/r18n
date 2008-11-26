@@ -130,7 +130,9 @@ module R18n
         translation = {}
         dirs.each do |dir|
           file = File.join(dir, "#{locale}.yml")
-          self.deep_merge! translation, YAML::load_file(file) if File.exists? file
+          if File.exists? file
+            Utils.deep_merge! translation, YAML::load_file(file)
+          end
         end
         translations << translation
         
@@ -142,18 +144,6 @@ module R18n
       end
   
       self.new(locales, translations)
-    end
-    
-    # Recursively hash merge
-    def self.deep_merge!(a, b)
-      b.each_pair do |name, value|
-        if Hash == a[name].class
-          self.deep_merge!(a[name], value)
-        else
-          a[name] = value
-        end
-      end
-      a
     end
     
     # Is procedures in translations will be call. Set to false if user can

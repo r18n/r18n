@@ -41,4 +41,18 @@ module R18n
       Thread.current['i18n']
     end
   end
+  
+  module Utils
+    # Recursively hash merge
+    def self.deep_merge!(a, b)
+      b.each_pair do |name, value|
+        if Hash == a[name].class
+          self.deep_merge!(a[name], value)
+        else
+          a[name] = value
+        end
+      end
+      a
+    end
+  end
 end
