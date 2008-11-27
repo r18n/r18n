@@ -31,14 +31,6 @@ Spec::Rake::SpecTask.new('specs_html') do |t|
   t.spec_files = Dir['spec/**/*_spec.rb'].sort
 end
 
-desc 'RCov'
-Spec::Rake::SpecTask.new('rcov') do |t|
-  t.spec_opts = ['--format', 'specdoc', '--colour']
-  t.spec_files = Dir['spec/**/*_spec.rb'].sort
-  t.libs = ['lib']
-  t.rcov = true
-end
-
 ##############################################################################
 # Documentation and distribution
 ##############################################################################
