@@ -223,7 +223,7 @@ module R18n
         end
       end
       
-      return Untranslated.new
+      return Untranslated.instance
     end
   end
 end
