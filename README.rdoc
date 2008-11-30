@@ -19,7 +19,7 @@ information.
   pluralization (“1 comment”, “5 comments”) in your translation.
 
 == How To
-1. Add merb_r18n to your merb application in <tt>config/init.rb</tt>:
+1. Add merb_r18n to your merb application in <tt>config/dependencies.rb</tt>:
    
      dependency 'merb_r18n'
    
