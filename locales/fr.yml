@@ -1,0 +1,31 @@
+title: Français
+code: fr
+sublocales: [en]
+direction: ltr
+
+week:
+  start: monday
+  days: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
+  abbrs: [dim, lun, mar, mer, jeu, ven, sam]
+
+months:
+  names: [janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
+  abbrs: [jan, fév, mar, avr, mai, jun, jui, aoû, sep, oct, nov, déc]
+  standalone: [Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Août, Septembre, Octobre, Novembre, Décembre]
+
+time:
+  am: AM
+  pm: PM
+
+formats:
+  time: "%H:%M"
+  date: "%d/%m/%Y"
+  short_date: "%d %b"
+  long_date: "%d %B %Y"
+  datetime: "%a %d %b %Y %H:%M:%S %Z"
+  short_datetime: "%d %b %H:%M"
+  long_datetime: "%d %B %Y %H:%M"
+
+numbers:
+  decimal_separator: ","
+  group_delimiter: " "
