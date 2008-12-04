@@ -4,12 +4,8 @@ describe "r18n-desktop" do
 
   it "should return array of system locales" do
     locales = R18n::I18n.system_locale
-    locales.class.should == Array
+    locales.class.should == String
     locales.should_not be_empty
-    locales.each do |locale|
-      locale.class.should == String
-      locale.should_not be_empty
-    end
   end
 
   it "should load I18n from system environment" do

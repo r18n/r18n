@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module R18n
   class I18n
     def self.system_locale
-      ENV['LANG'].split('.').first.to_a
+      ENV['LANG'].split('.').first
     end
   end
 end
