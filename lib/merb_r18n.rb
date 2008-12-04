@@ -23,25 +23,26 @@ require 'r18n-core'
 
 # make sure we're running inside Merb
 if defined?(Merb::Plugins)
-  Merb.push_path(:i18n, Merb.root / "app" / "i18n")
-  
   Merb::Plugins.config[:merb_r18n] = {
     :default_locale   => 'en',
-    :translations_dir => Merb.dir_for(:i18n)
+    :translations_dir => Merb.root / "app" / "i18n"
   }
   
+  Merb::BootLoader.after_app_loads do
+    Merb.push_path(:i18n, Merb::Plugins.config[:merb_r18n][:translations_dir])
+  end
+
   module Merb
     class Controller
       # Parse +http_accept_language+ and load I18n object with locales
       # information and translations from translations_dir. If user set locale
       # manual put it as :locale param
       before do
-        config = Merb::Plugins.config[:merb_r18n]
-        R18n::I18n.default = config[:default_locale]
+        R18n::I18n.default = Merb::Plugins.config[:merb_r18n][:default_locale]
         
         locales = R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
         locales.insert(0, params[:locale]) if not params[:locale].nil?
-        R18n.set R18n::I18n.new(locales, config[:translations_dir])
+        R18n.set R18n::I18n.new(locales, Merb.dir_for(:i18n))
       end
       
       # Return tool for i18n support. It will be R18n::I18n object, see it
