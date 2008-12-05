@@ -19,12 +19,14 @@ information.
   pluralization (“1 comment”, “5 comments”) in your translation.
 
 == How To
+
+=== Merb App
 1. Add merb_r18n to your merb application in <tt>config/dependencies.rb</tt>:
    
      dependency 'merb_r18n'
    
-2. Add route to set locale manually in your <tt>config/router.rb</tt>. For example set
-   available translations:
+2. Add route to set locale manually in your <tt>config/router.rb</tt>.
+   For example set available translations:
    
      Merb::Router.prepare do
        match('(/:locale)', :locale => /(en|ru)/) do
@@ -34,7 +36,8 @@ information.
      end
   
    You may use another way, just set :locale param.
-3. Create translations file in <tt>app/i18n/</tt>. For example <tt>app/i18n/en.yml</tt>:
+3. Create translations file in <tt>app/i18n/</tt>.
+   For example <tt>app/i18n/en.yml</tt>:
    
      post:
        add: Add post
@@ -65,6 +68,38 @@ information.
        <% end %>
      </ul>
 
+=== Merb Slice
+1. Add merb_r18n to your merb slice in <tt>lib/_YOUR_SLICE_.rb</tt>:
+   
+     load_dependency 'merb_r18n'
+
+2. Create translations file in <tt>app/i18n/</tt>.
+   For example <tt>app/i18n/en.yml</tt>:
+   
+     post:
+       add: Add post
+       edit: Edit %1
+    
+     comments: !!pl
+       0: No comments
+       1: One comment
+       n: %1 comments
+   
+3. Use translation messages in view. For example:
+     
+     <h1><%= i18n.comments(@post.comments.size) %></h1>
+   
+4. Print localized time and numbers. For example:
+   
+     <%= i18n.l @post.created_at, :date %>
+  
+5. In host application you can override translations. Just create files in
+   <tt>app/i18n/</tt> in _application_ root.
+   For example <tt>app/i18n/en.yml</tt>:
+   
+     post:
+       add: Write your idea
+   
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.
 You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
