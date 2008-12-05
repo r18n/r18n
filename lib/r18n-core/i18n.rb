@@ -132,7 +132,7 @@ module R18n
       end
       
       if not translations_dirs.nil?
-        @translations_dirs = File.expand_path(translations_dirs)
+        @translations_dirs = translations_dirs
         @translation = Translation.load(locales, @translations_dirs)
       end
     end

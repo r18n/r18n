@@ -24,7 +24,7 @@ describe R18n::I18n do
 
   it "should return translations dir" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translations_dirs.should == DIR.expand_path.to_s
+    i18n.translations_dirs.expand_path.to_s.should == DIR.expand_path.to_s
   end
 
   it "should load translations" do
