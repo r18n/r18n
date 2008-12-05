@@ -17,5 +17,9 @@ describe "merb_r18n" do
     c = dispatch_to(I18n, :code, {:locale => "en"}, "HTTP_ACCEPT_LANGUAGE" => "ru")
     c.body.should == "en\n"
   end
+  
+  it "should provide i18n support in slice controller" do
+    dispatch_to(Slice::Main, :index).body.should == 'SLICE and APP'
+  end
 
 end

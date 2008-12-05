@@ -26,7 +26,9 @@ if defined? Merb::Plugins
   Merb::Plugins.config[:merb_r18n] = {
     :default_locale   => 'en'
   }
-  Merb.push_path(:i18n, Merb.root / 'app' / 'i18n') unless Merb.dir_for(:i18n)
+  unless Merb.load_paths.include? :i18n
+    Merb.push_path(:i18n, Merb.root / 'app' / 'i18n')
+  end
 
   module Merb
     class Controller
@@ -39,9 +41,30 @@ if defined? Merb::Plugins
           locales = R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
           locales.insert(0, params[:locale]) if params[:locale]
           
-          @i18n = R18n::I18n.new(locales, Merb.dir_for(:i18n))
+          @i18n = R18n::I18n.new(locales, self.i18n_dirs)
         end
         @i18n
+      end
+      
+      # Dirs to load translations
+      def i18n_dirs
+        Merb.dir_for(:i18n)
+      end
+    end
+  end
+  
+  Merb::BootLoader.after_app_loads do
+    if defined? Merb::Slices
+      Merb::Slices.each_slice do |slice|
+        unless slice.slice_paths.include? :i18n
+          slice.push_path :i18n, slice.root_path('app' / 'i18n')
+        end
+      end
+      
+      module Merb::Slices::ControllerMixin::MixinMethods::InstanceMethods
+        def i18n_dirs
+          [self.slice.dir_for(:i18n), Merb.dir_for(:i18n)]
+        end
       end
     end
   end
