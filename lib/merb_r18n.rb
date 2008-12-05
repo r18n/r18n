@@ -26,7 +26,7 @@ if defined? Merb::Plugins
   Merb::Plugins.config[:merb_r18n] = {
     :default_locale   => 'en'
   }
-  Merb.push_path(:i18n, Merb.root / 'app' / 'i18n')
+  Merb.push_path(:i18n, Merb.root / 'app' / 'i18n') unless Merb.dir_for(:i18n)
 
   module Merb
     class Controller
