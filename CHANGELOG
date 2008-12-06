@@ -1,6 +1,13 @@
+== 0.2
+* Locale class can be extended for special language (for example, Indian locale
+  may has another digits grouping).
+* Load translations from several dirs.
+* Add French locale.
+* Add Kazakh locale.
+
 == 0.1.1
 * Loading i18n object without translations.
 * Add output for standalone month name.
 * Dont’t call procedures from translations of it isn’t secure.
 * Add Esperanto locale.
-* English locale now contain UK date standarts.
+* English locale now contain UK date standards.
