@@ -32,6 +32,7 @@ if defined? Merb::Plugins
 
   module Merb
     class Controller
+      protected
       # Return tool for i18n support. It will be R18n::I18n object, see it
       # documentation for more information.
       def i18n
@@ -62,6 +63,7 @@ if defined? Merb::Plugins
       end
       
       module Merb::Slices::ControllerMixin::MixinMethods::InstanceMethods
+        protected
         def i18n_dirs
           [self.slice.dir_for(:i18n), Merb.dir_for(:i18n)]
         end
