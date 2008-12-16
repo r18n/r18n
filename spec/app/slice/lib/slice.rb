@@ -1,5 +1,5 @@
 if defined? Merb::Plugins
-  load_dependency 'merb-slices'
+  load_dependency 'merb-slices', '~> 1.0'
   Merb::Slices::register(__FILE__)
   
   module Slice
