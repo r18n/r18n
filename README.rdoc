@@ -71,7 +71,7 @@ information.
 === Merb Slice
 1. Add merb_r18n to your merb slice in <tt>lib/_YOUR_SLICE_.rb</tt>:
    
-     load_dependency 'merb_r18n'
+     dependency 'merb_r18n'
 
 2. Create translations file in <tt>app/i18n/</tt>.
    For example <tt>app/i18n/en.yml</tt>:
