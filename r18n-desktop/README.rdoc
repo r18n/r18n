@@ -1,0 +1,72 @@
+= R18n Desktop
+
+A tool to translate your desktop application in several languages.
+
+It is just a wrap for R18n core library. See R18n documentation for more 
+information.
+
+== Features
+
+* It has special support for countries with two official languages. If there
+  isn’t translation in user locale, it will be found in locales, which
+  user may know (not only in default locale). For example, many people in 
+  Belarus can understand Russian, and locale has information about it.
+* It can format numbers and time to the rules of the user locale, translate
+  month and week days name and give other locale information.
+* It has translation for commons words, like “OK”, “Cancel”, etc.
+* It storage translation in rich YAML format. You can put procedures and
+  pluralization (“1 comment”, “5 comments”) in your translation.
+
+== How To
+1. Create translations dir. For example: <tt>_YOUR_APP_/translations/</tt>.
+2. Add file with translation in some language. For example
+   <tt>_YOUR_APP_/translations/en.yml</tt>:
+   
+     file:
+       add: Add file
+       delete: Delete file %1
+    
+     files: !!pl
+       0: No files
+       1: One file
+       n: %1 files
+     
+     author: !!proc |name| "This file was created by #{name.capitalize}"
+   
+3. Add R18n to your application:
+   
+     require 'rubygems'
+     require 'r18n-desktop'
+   
+4. Load I18n object:
+   
+     i18n = R18n.from_env 'translations/'
+   
+   Or, if user can optional set locale manually:
+   
+     i18n = R18n.from_env 'translations/', manual_locale
+   
+5. Use translation messages to user. For example:
+   
+     i18n.file.add             #=> "Add file"
+     i18n.file.delete('Test')  #=> "Delete file Test"
+     i18n.files(1)             #=> "One file"
+     i18n.files(12)            #=> "12 files"
+     i18n.author('user')       #=> "This file was created by User"
+     
+     i18n.l -12000.5           #=> "−12,000.5"
+     
+     i18n.l Time.now           #=> "Sun Sep 21 19:50:04 GMT 2008"
+     i18n.l Time.now, :date    #=> "09/21/2008"
+     i18n.l Time.now, '%B'     #=> "September"
+     
+     # Base translation
+     i18n.ok                   #=> "OK"
+     i18n.cancel               #=> "Cancel"
+
+== License
+R18n is licensed under the GNU Lesser General Public License version 3.
+You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
+
+== Author
+Andrey “A.I.” Sitnik <andrey@sitnik.ru>
