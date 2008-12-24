@@ -36,7 +36,7 @@ module R18n
     # Get user locale from system environment and load I18n object with locale
     # information and translations from +translations_dir+. If user set locale
     # +manual+ put it as last argument.
-    def from_env(translations_dir, manual = nil)
+    def from_env(translations_dir = nil, manual = nil)
       locales = Array(R18n::I18n.system_locale)
       locales.insert(0, manual) if not manual.nil?
       self.set I18n.new(locales, translations_dir)
