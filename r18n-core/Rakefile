@@ -71,7 +71,6 @@ spec = Gem::Specification.new do |s|
     'lib/**/*',
     'locales/**/*',
     'LICENSE',
-    'Rakefile',
     'README.rdoc']
   s.test_files = FileList[
     'spec/**/*']

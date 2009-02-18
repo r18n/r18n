@@ -6,8 +6,7 @@ gem 'rspec'
 require 'spec/rake/spectask'
 
 PKG_NAME = 'merb_r18n'
-gem 'r18n-core'
-require 'r18n-core/version'
+require '../r18n-core/lib/r18n-core/version'
 
 ##############################################################################
 # Tests
@@ -72,7 +71,6 @@ spec = Gem::Specification.new do |s|
   s.files = FileList[
     'lib/**/*',
     'LICENSE',
-    'Rakefile',
     'README.rdoc']
   s.test_files = FileList[
     'spec/**/*']
