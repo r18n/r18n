@@ -1,3 +1,4 @@
+# encoding: utf-8
 =begin
 I18n support.
 
@@ -103,7 +104,7 @@ module R18n
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
     # +Translations_dirs+ must be a string with path or array.
     def initialize(locales, translations_dirs = nil)
-      locales = locales.to_a if String == locales.class
+      locales = [locales] if String == locales.class
       
       @locales = locales.map do |locale|
         if Locale.exists? locale

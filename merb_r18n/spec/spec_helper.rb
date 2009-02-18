@@ -1,3 +1,4 @@
+# encoding: utf-8
 $TESTING=true
 
 require 'rubygems'

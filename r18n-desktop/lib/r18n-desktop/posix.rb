@@ -1,3 +1,4 @@
+# encoding: utf-8
 =begin
 I18n support for UNIX-like OS.
 

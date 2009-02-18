@@ -1,3 +1,4 @@
+# encoding: utf-8
 class I18n < Merb::Controller
   self._template_root = File.dirname(__FILE__) / "../views"
 

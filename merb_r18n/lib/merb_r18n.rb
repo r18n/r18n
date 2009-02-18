@@ -1,3 +1,4 @@
+# encoding: utf-8
 =begin
 Merb plugin to i18n support.
 

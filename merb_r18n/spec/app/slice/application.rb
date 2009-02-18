@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Slice
   class Main < Merb::Controller
     controller_for_slice

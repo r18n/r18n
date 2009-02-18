@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.join(File.dirname(__FILE__), "spec_helper")
 
 describe R18n::Locale do
@@ -84,7 +85,7 @@ describe R18n::Locale do
     locale.strftime(time, '%H:%M%p').should == '00:00 утра'
     
     locale.strftime(time, :month).should == 'Январь'
-    locale.strftime(time, :datetime).should == 'Чтв, 01 янв 1970, 00:00:00 GMT'
+    locale.strftime(time, :datetime).should == 'Чтв, 01 янв 1970, 00:00:00 UTC'
   end
 
   it "should delete slashed from locale for security reasons" do

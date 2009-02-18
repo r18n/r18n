@@ -1,3 +1,4 @@
+# encoding: utf-8
 =begin
 Translation to i18n support.
 

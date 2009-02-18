@@ -1,3 +1,4 @@
+# encoding: utf-8
 =begin
 Main file to load all neccessary classes for i18n support.
 

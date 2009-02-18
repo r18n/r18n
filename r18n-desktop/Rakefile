@@ -1,6 +1,8 @@
+# encoding: utf-8
 require 'rubygems'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
+gem 'rspec'
 require 'spec/rake/spectask'
 
 PKG_NAME = 'r18n-desktop'

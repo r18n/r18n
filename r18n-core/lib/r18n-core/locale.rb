@@ -1,3 +1,4 @@
+# encoding: utf-8
 =begin
 Locale to i18n support.
 
@@ -56,7 +57,7 @@ module R18n
 
     # All available locales
     def self.available
-      Dir.glob(LOCALES_DIR + '*.yml').map do |i|
+      Dir.glob(File.join(LOCALES_DIR, '*.yml')).map do |i|
         File.basename(i, '.yml')
       end
     end

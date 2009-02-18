@@ -1,3 +1,4 @@
+# encoding: utf-8
 if defined? Merb::Plugins
   dependency 'merb-slices', '~> 1.0'
   Merb::Slices::register(__FILE__)
