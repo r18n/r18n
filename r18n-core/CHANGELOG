@@ -1,3 +1,7 @@
+== 0.2.1
+* Ruby 1.9 compatibility.
+* Add German locale (by Benjamin Meichsner).
+
 == 0.2
 * Locale class can be extended for special language (for example, Indian locale
   may has another digits grouping).
