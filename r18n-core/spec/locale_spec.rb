@@ -85,7 +85,7 @@ describe R18n::Locale do
     locale.strftime(time, '%H:%M%p').should == '00:00 утра'
     
     locale.strftime(time, :month).should == 'Январь'
-    locale.strftime(time, :datetime).should == 'Чтв, 01 янв 1970, 00:00:00 UTC'
+    locale.strftime(time, :datetime).should =~ /^Чтв, 01 янв 1970, 00:00:00 (GMT|UTC)$/
   end
 
   it "should delete slashed from locale for security reasons" do

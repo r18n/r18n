@@ -68,7 +68,7 @@ describe R18n::I18n do
     i18n.l(-12345.67).should == '−12 345,67'
     
     time = Time.at(0).utc
-    i18n.l(time).should == 'Чтв, 01 янв 1970, 00:00:00 UTC'
+    i18n.l(time).should =~ /^Чтв, 01 янв 1970, 00:00:00 (GMT|UTC)$/
     i18n.l(time, :time).should == '00:00'
     i18n.l(time, '%A').should == 'Четверг'
     
