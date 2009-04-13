@@ -8,9 +8,7 @@ require 'spec/rake/spectask'
 PKG_NAME = 'merb_r18n'
 require '../r18n-core/lib/r18n-core/version'
 
-##############################################################################
-# Tests
-##############################################################################
+task :default => :spec
 
 Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_opts = ['--format', 'specdoc', '--colour']
@@ -23,10 +21,6 @@ Spec::Rake::SpecTask.new('rcov') do |t|
   t.rcov = true
   t.rcov_opts = ['--text-summary']
 end
-
-##############################################################################
-# Documentation and distribution
-##############################################################################
 
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
