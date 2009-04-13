@@ -31,6 +31,7 @@ describe R18n::I18n do
   it "should load translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
     i18n.one.should == 'Один'
+    i18n['one'].should == 'Один'
     i18n.only.english.should == 'Only in English'
   end
 
