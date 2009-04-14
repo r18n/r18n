@@ -24,8 +24,8 @@ require 'sinatra/base'
 gem 'r18n-core', '~>0.2'
 require 'r18n-core'
 
-module Sinatra
-  module R18n
+module Sinatra #::nodoc::
+  module R18n #::nodoc::
     module Helpers
       # Return tool for i18n support. It will be R18n::I18n object, see it
       # documentation for more information.
@@ -46,7 +46,7 @@ module Sinatra
       end
     end
   
-    def self.registered(app)
+    def self.registered(app) #::nodoc::
       app.helpers Helpers
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
