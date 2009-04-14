@@ -74,3 +74,7 @@ task :install => [:package] do
   sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
   sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
 end
+
+task :clobber do
+  rm_r 'log'
+end

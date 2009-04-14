@@ -15,13 +15,6 @@ Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_files = Dir['spec/**/*_spec.rb'].sort
 end
 
-Spec::Rake::SpecTask.new('rcov') do |t|
-  t.spec_opts = ['--colour']
-  t.spec_files = Dir['spec/**/*_spec.rb'].sort
-  t.rcov = true
-  t.rcov_opts = ['--text-summary']
-end
-
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
