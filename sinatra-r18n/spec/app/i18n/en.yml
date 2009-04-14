@@ -1,0 +1,6 @@
+post:
+  title: Post %1 
+  comments: !!pl
+    0: No comments
+    1: One comment
+    n: %1 comments

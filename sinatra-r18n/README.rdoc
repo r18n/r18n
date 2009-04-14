@@ -37,18 +37,35 @@ information.
      require 'sinatra'
      require 'sinatra/r18n'
    
-4. Use translation messages in view. For example in HAML:
+4. Set default locale (if it isn’t English):
+   
+     set :default_locale, 'ru'
+   
+5. Add locale to your URLs. For example:
+   
+     get '/:locale/posts/:id' do
+       @post = Post.find(params[:id])
+       haml :post
+     end
+   
+   Or you save locale in session, when user change it:
+   
+     before do
+      session[:locale] = params[:locale] if params[:locale]
+     end
+   
+6. Use translation messages in view. For example in HAML:
      
      %p= i18n.post.friends
      %p= i18n.post.tags(@post.tags.join(', '))
      
      %h2= i18n.comments(@post.comments.size)
    
-5. Print localized time and numbers. For example:
+7. Print localized time and numbers. For example:
    
      i18n.l @post.created_at, :date
    
-6. Print available translation. For example in HAML:
+8. Print available translation. For example in HAML:
    
      %ul
        - i18n.translations.each_pair do |locale, title|
