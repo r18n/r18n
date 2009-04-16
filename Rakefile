@@ -34,6 +34,6 @@ task :gem do
 end
 
 task :clobber do
-  rm_r 'log'
+  rm_r 'log' if File.exists? 'log'
   each_rake 'clobber'
 end
