@@ -36,14 +36,16 @@ pre
     :text-align center
     :margin 0 0 0 -3.1em
     :line-height 1em
-  h2
+  h2, h3
     :color #a02b10
   pre
     :border-color #a02b10
     :overflow hidden
   #position
+    :position absolute
+    :width 32em
     ul
-      :padding 0 0 3px 1ex
+      :padding 2.7ex 0 3px 1ex
       :float right
       :font-size 125%
       li
@@ -56,8 +58,22 @@ pre
           :color #a02b10
         a.selected
           :border-bottom-style solid
-    h3
-      :display none
+    .slider
+      :background white
+      :overflow hidden
+      ol
+        :width 30em
+    .hidden
+      :position absolute
+      :visibility hidden
+      :bottom 0
+    .sliding
+      :position absolute
+      :visibility visible
+      :left 0
+    .sliding.right
+      :right 0
+      :left auto
 @media print
   a
     :color black
