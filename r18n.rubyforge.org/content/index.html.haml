@@ -102,6 +102,17 @@
           %li
             Create translations dir <tt>./i18n/</tt>.
           %li
+            Add file with translation. For example <tt>./i18n/en.yml</tt>:
+            :yamlsyntax
+              post:
+                friends: Post only for friends
+                tags: Post tags: %1
+              
+              comments: !!pl
+                0: No comments
+                1: One comment
+                n: %1 comments
+          %li
             Add R18n to your Sinatra application:
             :rubysyntax
               require 'sinatra/r18n'
