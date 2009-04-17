@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+# Compile HAML and SASS and copy all files to public/
+
+require 'pathname'
+
+ROOT    = Pathname.new(__FILE__).dirname.parent.realpath
+PUBLIC  = ROOT.join('public')
+CONTENT = ROOT.join('content')
+
+PUBLIC.rmtree if PUBLIC.exist?
+
+PUBLIC.mkpath
+
+Pathname.glob(CONTENT.join('**/*.haml').to_s) do |haml|
+  file = PUBLIC + haml.relative_path_from(CONTENT).dirname + 
+         haml.basename('.haml')
+  file.dirname.mkpath
+  `haml --style ugly #{haml} #{file}`
+end
+
+Pathname.glob(CONTENT.join('**/*.sass').to_s) do |sass|
+  css = PUBLIC + sass.relative_path_from(CONTENT).dirname + 
+        (sass.basename('.sass').to_s + '.css')
+  css.dirname.mkpath
+  `sass --style compressed #{sass} #{css}`
+end
+
+Pathname.glob(CONTENT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
+  next if from.directory?
+  next if '.sass' == from.extname or '.haml' == from.extname
+  to = PUBLIC + from.relative_path_from(CONTENT)
+  to.dirname.mkpath
+  to.make_link(from)
+end
