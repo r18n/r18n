@@ -49,52 +49,48 @@
               <span class="sudo">sudo </span>gem install merb_r18n
           %li
             Add merb_r18n to your merb application in <tt>config/dependencies.rb</tt>:
-            %pre
+            :rubysyntax
               dependency 'merb_r18n'
           %li
             Add route to set locale manually in your <tt>config/router.rb</tt>. For example set available translations:
-            %pre
-              :plain
-                Merb::Router.prepare do
-                  match('(/:locale)', :locale => /(en|ru)/) do
-                    # Your application routers.
-                    default_route
-                  end
+            :rubysyntax
+              Merb::Router.prepare do
+                match('(/:locale)', :locale => /(en|ru)/) do
+                  # Your application routers.
+                  default_route
                 end
+              end
           %li
             Create translations file in <tt>app/i18n/</tt>. For example <tt>app/i18n/en.yml</tt>:
-            %pre
-              :plain
-                post:
-                  add: Add post
-                  edit: Edit %1
+            :yamlsyntax
+              post:
+                add: Add post
+                edit: Edit %1
 
-                comments: !!pl
-                  0: No comments
-                  1: One comment
-                  n: %1 comments
+              comments: !!pl
+                0: No comments
+                1: One comment
+                n: %1 comments
           %li
             Use translation messages in view. For example:
-            %pre
-              :escaped
-                <%= link_to i18n.post.add, 'posts/add' %>
-                <%= link_to i18n.post.edit(post.title), "posts/edit/\#{@post.id}" %>
-                <%= link_to i18n.delete, "posts/delete/\#{@post.id}" %>
-                
-                <h1><%= i18n.comments(@post.comments.size) %></h1>
+            :xmlsyntax
+              <%= link_to i18n.post.add, 'posts/add' %>
+              <%= link_to i18n.post.edit(post.title), "posts/edit/\#{@post.id}" %>
+              <%= link_to i18n.delete, "posts/delete/\#{@post.id}" %>
+              
+              <h1><%= i18n.comments(@post.comments.size) %></h1>
           %li
             Print localized time and numbers. For example:
-            %pre
+            :xmlsyntax
               <%= i18n.l @post.created_at, :date %>
           %li
             Print available translations: 
-            %pre
-              :escaped
-                <ul>
-                  <% i18n.translations.each_pair do |locale, title| %>
-                  <li><a href="/<%= locale %>/"><%= title %></a></li>
-                  <% end %>
-                </ul>
+            :xmlsyntax
+              <ul>
+                <% i18n.translations.each_pair do |locale, title| %>
+                <li><a href="/<%= locale %>/"><%= title %></a></li>
+                <% end %>
+              </ul>
             See about Merb Slises in <tt>merb_r18n</tt> gem documentation.
       .slider.sinatra
         %h3 Sinatra
@@ -107,42 +103,38 @@
             Create translations dir <tt>./i18n/</tt>.
           %li
             Add R18n to your Sinatra application:
-            %pre
+            :rubysyntax
               require 'sinatra/r18n'
           %li
             Add locale to your URLs. For example:
-            %pre
-              :plain
-                get '/:locale/posts/:id' do
-                  @post = Post.find(params[:id])
-                  haml :post
-                end
+            :rubysyntax
+              get '/:locale/posts/:id' do
+                @post = Post.find(params[:id])
+                haml :post
+              end
             Or you save locale in session, when user change it:
-            %pre
-              :plain
-                before do
-                  session[:locale] = params[:locale] if params[:locale]
-                end
+            :rubysyntax
+              before do
+                session[:locale] = params[:locale] if params[:locale]
+              end
           %li
             Use translation messages in view. For example in HAML:
-            %pre
-              :plain
-                %p= i18n.post.friends
-                %p= i18n.post.tags(@post.tags.join(', '))
-                
-                %h2= i18n.comments(@post.comments.size)
+            :rubysyntax
+              %p= i18n.post.friends
+              %p= i18n.post.tags(@post.tags.join(', '))
+              
+              %h2= i18n.comments(@post.comments.size)
           %li
             Print localized time and numbers. For example:
-            %pre
+            :rubysyntax
               i18n.l @post.created_at, :date
           %li
             Print available translations. For example in HAML:
-            %pre
-              :plain
-                %ul
-                - i18n.translations.each_pair do |locale, title|
-                  %li
-                    %a{ href: "/\#{locale}/" }= title
+            :rubysyntax
+              %ul
+              - i18n.translations.each_pair do |locale, title|
+                %li
+                  %a{ href: "/\#{locale}/" }= title
       .slider.desktop
         %h3 Desktop
         %ol
@@ -154,48 +146,46 @@
             Create translations dir. For example: <tt>./i18n/</tt>.
           %li
             Add file with translation in some language. For example <tt>./i18n/en.yml</tt>:
-            %pre
-              :plain
-                file:
-                  add: Add file
-                  delete: Delete file %1
+            :yamlsyntax
+              file:
+                add: Add file
+                delete: Delete file %1
 
-                files: !!pl
-                  0: No files
-                  1: One file
-                  n: %1 files
+              files: !!pl
+                0: No files
+                1: One file
+                n: %1 files
 
-                author: !!proc |name| "This file was created by \#{name.capitalize}"
+              author: !!proc |name| "This file was created by \#{name.capitalize}"
           %li
-            Add R18n to your application: 
-            %pre
+            Add R18n to your application:
+            :rubysyntax
               require 'r18n-desktop'
           %li
             Load I18n object:
-            %pre
+            :rubysyntax
               i18n = R18n.from_env 'translations/'
-            Or, if user can optional set locale manually: 
-            %pre
+            Or, if user can optional set locale manually:
+            :rubysyntax
               i18n = R18n.from_env 'translations/', manual_locale
           %li
             Use translation messages to user. For example:
-            %pre
-              :plain
-                i18n.file.add             #=> "Add file"
-                i18n.file.delete('Test')  #=> "Delete file Test"
-                i18n.files(1)             #=> "One file"
-                i18n.files(12)            #=> "12 files"
-                i18n.author('user')       #=> "This file was created by User"
+            :rubysyntax
+              i18n.file.add             #=> "Add file"
+              i18n.file.delete('Test')  #=> "Delete file Test"
+              i18n.files(1)             #=> "One file"
+              i18n.files(12)            #=> "12 files"
+              i18n.author('user')       #=> "This file was created by User"
 
-                i18n.l -12000.5           #=> "−12,000.5"
+              i18n.l -12000.5           #=> "−12,000.5"
 
-                i18n.l Time.now           #=> "Sun Sep 21 19:50:04 GMT 2008"
-                i18n.l Time.now, :date    #=> "09/21/2008"
-                i18n.l Time.now, '%B'     #=> "September"
+              i18n.l Time.now           #=> "Sun Sep 21 19:50:04 GMT 2008"
+              i18n.l Time.now, :date    #=> "09/21/2008"
+              i18n.l Time.now, '%B'     #=> "September"
 
-                # Base translation
-                i18n.ok                   #=> "OK"
-                i18n.cancel               #=> "Cancel"
+              # Base translation
+              i18n.ok                   #=> "OK"
+              i18n.cancel               #=> "Cancel"
       %h2 Sources
       %p It is a <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> and you can get and edit sources:
       %p View <a href="http://github.com/ai/r18n">online</a> on GitHub or clone <a href="http://en.wikipedia.org/wiki/Git_(software)">Git</a> repository:

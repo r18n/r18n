@@ -2,6 +2,9 @@
 # Compile HAML and SASS and copy all files to public/
 
 require 'pathname'
+require 'rubygems'
+require 'haml'
+require 'sass'
 
 ROOT    = Pathname.new(__FILE__).dirname.parent.realpath
 PUBLIC  = ROOT.join('public')
@@ -11,18 +14,26 @@ PUBLIC.rmtree if PUBLIC.exist?
 
 PUBLIC.mkpath
 
+require ROOT + 'script/filters'
+
 Pathname.glob(CONTENT.join('**/*.haml').to_s) do |haml|
+  content = File.read(haml)
   file = PUBLIC + haml.relative_path_from(CONTENT).dirname + 
          haml.basename('.haml')
   file.dirname.mkpath
-  `haml --style ugly #{haml} #{file}`
+  File.open(file, 'w') do |io|
+    io.write Haml::Engine.new(content, :ugly => true).render
+  end
 end
 
 Pathname.glob(CONTENT.join('**/*.sass').to_s) do |sass|
+  content = File.read(sass)
   css = PUBLIC + sass.relative_path_from(CONTENT).dirname + 
         (sass.basename('.sass').to_s + '.css')
   css.dirname.mkpath
-  `sass --style compressed #{sass} #{css}`
+  File.open(css, 'w') do |io|
+    io.write Sass::Engine.new(content, :style => :compressed).render
+  end
 end
 
 Pathname.glob(CONTENT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
