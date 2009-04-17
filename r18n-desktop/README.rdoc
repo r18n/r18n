@@ -18,9 +18,9 @@ information.
   pluralization (“1 comment”, “5 comments”) in your translation.
 
 == How To
-1. Create translations dir. For example: <tt>_YOUR_APP_/translations/</tt>.
+1. Create translations dir. For example: <tt>./i18n/</tt>.
 2. Add file with translation in some language. For example
-   <tt>_YOUR_APP_/translations/en.yml</tt>:
+   <tt>./i18n/en.yml</tt>:
    
      file:
        add: Add file
@@ -35,16 +35,15 @@ information.
    
 3. Add R18n to your application:
    
-     require 'rubygems'
      require 'r18n-desktop'
    
 4. Load I18n object:
    
-     i18n = R18n.from_env 'translations/'
+     i18n = R18n.from_env 'i18n/'
    
    Or, if user can optional set locale manually:
    
-     i18n = R18n.from_env 'translations/', manual_locale
+     i18n = R18n.from_env 'i18n/', manual_locale
    
 5. Use translation messages to user. For example:
    
