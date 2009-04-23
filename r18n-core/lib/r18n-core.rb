@@ -32,22 +32,22 @@ require dir + 'i18n'
 
 module R18n
   class << self
-    # Set <tt>i18n</tt> object to current thread
+    # Set I18n object to current thread.
     def set(i18n)
       Thread.current['i18n'] = i18n
     end
     
-    # Get I18n object for current thread
+    # Get I18n object for current thread.
     def get
       Thread.current['i18n']
     end
   end
   
   module Utils
-    # Recursively hash merge
+    # Recursively hash merge.
     def self.deep_merge!(a, b)
       b.each_pair do |name, value|
-        if Hash == a[name].class
+        if a[name].is_a? Hash
           self.deep_merge!(a[name], value)
         else
           a[name] = value
