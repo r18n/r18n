@@ -4,7 +4,7 @@ gem 'rspec'
 require 'spec/rake/spectask'
 
 GEMS    = %w[ r18n-core r18n-desktop merb_r18n sinatra-r18n ]
-RUBY19_GEMS = %w[ r18n-core r18n-desktop ]
+RUBY19_GEMS = %w[ r18n-core r18n-desktop sinatra-r18n ]
 
 task :default => :spec
 
