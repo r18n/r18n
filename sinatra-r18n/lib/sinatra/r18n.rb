@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'rubygems'
+gem 'sinatra'
 require 'sinatra/base'
 
 gem 'r18n-core', '~>0.2'
