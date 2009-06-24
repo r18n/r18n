@@ -31,8 +31,7 @@ module Sinatra #::nodoc::
       # Return tool for i18n support. It will be R18n::I18n object, see it
       # documentation for more information.
       def i18n
-        i18n = ::R18n.get
-        unless i18n
+        unless @i18n
           ::R18n::I18n.default = options.default_locale
           
           locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
@@ -42,10 +41,10 @@ module Sinatra #::nodoc::
             locales.insert(0, session[:locale])
           end
           
-          i18n = ::R18n::I18n.new(locales, options.translations)
-          ::R18n.set(i18n)
+          @i18n = ::R18n::I18n.new(locales, options.translations)
+        else
+          @i18n
         end
-        i18n
       end
     end
   
