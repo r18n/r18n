@@ -26,13 +26,13 @@ describe Sinatra::R18n do
   end
   
   it "should autodetect user locale" do
-    get '/locale', :env => {'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9'}
+    get '/locale', {}, {'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9'}
     last_response.should be_ok
     last_response.body.should == 'Русский'
   end
   
   it "should use locale from session" do
-    get '/locale', :env => { 'rack.session' => { :locale => 'ru' } }
+    get '/locale', {}, { 'rack.session' => { :locale => 'ru' } }
     last_response.should be_ok
     last_response.body.should == 'Русский'
   end
