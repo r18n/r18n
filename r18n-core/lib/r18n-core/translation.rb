@@ -197,7 +197,7 @@ module R18n
           when 'pl'
             locale = @locales[i]
             
-            type = if Locale == locale.class
+            type = if locale.is_a? Locale
               locale.pluralize(params.first)
             else
               Locale.default_pluralize(params.first)
@@ -211,6 +211,7 @@ module R18n
         end
         
         if result.is_a? String
+          result = result.clone
           params.each_with_index do |param, i|
             result.gsub! "%#{i+1}", param.to_s
           end
