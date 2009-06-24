@@ -161,7 +161,7 @@ module R18n
     # use <tt>:datetime</tt> for Time and DateTime and <tt>:date</tt> for Date.
     def localize(object, format = nil)
       if object.is_a? Integer
-        locale.format_number(object)
+        locale.format_integer(object)
       elsif object.is_a? Float
         locale.format_float(object)
       elsif object.is_a? Time or object.is_a? DateTime

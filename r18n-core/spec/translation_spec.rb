@@ -87,6 +87,8 @@ describe R18n::Translation do
     translation.comments(5, 'article').should == '5 comments for article'
     
     translation.files(0).should == '0 files'
+    translation.files(-5.5).should == '−5.5 files'
+    translation.files(5000).should == '5,000 files'
   end
 
   it "should return unknown YAML type" do

@@ -197,10 +197,16 @@ module R18n
           when 'pl'
             locale = @locales[i]
             
-            type = if locale.is_a? Locale
-              locale.pluralize(params.first)
+            if locale.is_a? Locale
+              type = locale.pluralize(params.first)
+              
+              if params.first.is_a? Float
+                params[0] = locale.format_float(params.first)
+              elsif params.first.is_a? Integer
+                params[0] = locale.format_integer(params.first)
+              end
             else
-              Locale.default_pluralize(params.first)
+              type = Locale.default_pluralize(params.first)
             end
             
             type = 'n' if not result.value.include? type
@@ -221,7 +227,7 @@ module R18n
             i[name] or {}
           })
         else
-          return result
+          return result.clone
         end
       end
       

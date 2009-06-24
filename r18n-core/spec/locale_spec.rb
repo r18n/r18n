@@ -68,7 +68,7 @@ describe R18n::Locale do
 
   it "should format number in local traditions" do
     locale = R18n::Locale.load('en')
-    locale.format_number(-123456789).should == "−123,456,789"
+    locale.format_integer(-123456789).should == "−123,456,789"
   end
 
   it "should format float in local traditions" do

@@ -123,9 +123,9 @@ module R18n
     
     # Returns the integer in String form, according to the rules of the locale.
     # It will also put real typographic minus.
-    def format_number(number)
-      str = number.to_s
-      str[0] = '−' if 0 > number # Real typographic minus
+    def format_integer(integer)
+      str = integer.to_s
+      str[0] = '−' if 0 > integer # Real typographic minus
       group = @locale['numbers']['group_delimiter']
       
       str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
@@ -137,7 +137,7 @@ module R18n
     # It will also put real typographic minus.
     def format_float(float)
       decimal = @locale['numbers']['decimal_separator']
-      self.format_number(float.to_i) + decimal + float.to_s.split('.').last
+      self.format_integer(float.to_i) + decimal + float.to_s.split('.').last
     end
     
     # Same that <tt>Time.strftime</tt>, but translate months and week days
