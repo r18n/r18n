@@ -108,7 +108,7 @@ module R18n
     
     # Return available translations in +dirs+
     def self.available(dirs)
-      if Array == dirs.class
+      if dirs.is_a? Array
         return dirs.inject([]) do |available, i|
           available |= self.available(i)
         end
@@ -186,7 +186,7 @@ module R18n
         result = translation[name]
         next if result.nil?
         
-        if YAML::PrivateType == result.class
+        if result.is_a? YAML::PrivateType
           case result.type_id
           when 'proc'
             if @@call_proc
@@ -210,12 +210,12 @@ module R18n
           end
         end
         
-        if String == result.class
+        if result.is_a? String
           params.each_with_index do |param, i|
             result.gsub! "%#{i+1}", param.to_s
           end
           return TranslatedString.new(result, @locales[i])
-        elsif Hash == result.class
+        elsif result.is_a? Hash
           return self.class.new(@locales, @translations.map { |i|
             i[name] or {}
           })

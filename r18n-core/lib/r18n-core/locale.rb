@@ -102,7 +102,7 @@ module R18n
     # This is internal a constructor. To load translation use
     # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
     def initialize(locale)
-      p 1 if String == locale.class
+      p 1 if locale.is_a? String
       @locale = locale
     end
 
@@ -148,7 +148,7 @@ module R18n
     # <tt>:long_data</tt>, <tt>:datetime</tt>, <tt>:short_datetime</tt> or
     # <tt>:long_datetime</tt>).
     def strftime(time, format)
-      if Symbol == format.class
+      if format.is_a? Symbol
         if :month == format
           return @locale['months']['standalone'][time.month - 1]
         end

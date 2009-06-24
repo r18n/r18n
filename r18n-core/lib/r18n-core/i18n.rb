@@ -104,7 +104,7 @@ module R18n
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
     # +Translations_dirs+ must be a string with path or array.
     def initialize(locales, translations_dirs = nil)
-      locales = [locales] if String == locales.class
+      locales = [locales] if locales.is_a? String
       
       @locales = locales.map do |locale|
         if Locale.exists? locale
@@ -160,14 +160,14 @@ module R18n
     # <tt>:short_datetime</tt> or <tt>:long_datetime</tt>). Without format it
     # use <tt>:datetime</tt> for Time and DateTime and <tt>:date</tt> for Date.
     def localize(object, format = nil)
-      if Fixnum == object.class or Bignum == object.class
+      if object.is_a? Integer
         locale.format_number(object)
-      elsif Float == object.class
+      elsif object.is_a? Float
         locale.format_float(object)
-      elsif Time == object.class or DateTime == object.class
+      elsif object.is_a? Time or object.is_a? DateTime
         format = :datetime if format.nil?
         locale.strftime(object, format)
-      elsif Date == object.class
+      elsif object.is_a? Date
         format = :date if format.nil?
         locale.strftime(object, format)
       end
