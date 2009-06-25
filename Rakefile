@@ -3,12 +3,9 @@ require 'rubygems'
 gem 'rspec'
 require 'spec/rake/spectask'
 
-GEMS    = %w[ r18n-core r18n-desktop merb_r18n sinatra-r18n ]
-RUBY19_GEMS = %w[ r18n-core r18n-desktop sinatra-r18n ]
+GEMS = %w[ r18n-core r18n-desktop sinatra-r18n ]
 
 task :default => :spec
-
-SUPPORTED_GEMS = RUBY_VERSION >= '1.9.0' ? RUBY19_GEMS : GEMS
 
 def rake(task)
   sh "#{RUBY} -S rake #{task}", :verbose => false
@@ -23,7 +20,7 @@ end
 Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_opts = ['--format', 'progress', '--colour']
   t.spec_files = []
-  SUPPORTED_GEMS.each do |gem|
+  GEMS.each do |gem|
     t.spec_files << Dir[gem + '/spec/**/*_spec.rb'].sort
   end
 end
