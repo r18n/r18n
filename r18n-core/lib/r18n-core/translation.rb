@@ -158,13 +158,15 @@ module R18n
       @@call_proc
     end
     
-    # Create translation hash with messages in +translations+ for +locales+.
+    # Create translation hash for +path+ with messages in +translations+ for
+    # +locales+.
     #
     # This is internal a constructor. To load translation use
     # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
-    def initialize(locales, translations)
+    def initialize(locales, translations, path = '')
       @locales = locales
       @translations = translations
+      @path = path
     end
     
     # Short and pretty way to get translation by method name. If translation
@@ -182,6 +184,8 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
+      path = @path.empty? ? name : "#{@path}.#{name}"
+      
       @translations.each_with_index do |translation, i|
         result = translation[name]
         next if result.nil?
@@ -221,17 +225,17 @@ module R18n
           params.each_with_index do |param, i|
             result.gsub! "%#{i+1}", param.to_s
           end
-          return TranslatedString.new(result, @locales[i])
+          return TranslatedString.new(result, @locales[i], path)
         elsif result.is_a? Hash
           return self.class.new(@locales, @translations.map { |i|
             i[name] or {}
-          })
+          }, path)
         else
           return result.clone
         end
       end
       
-      return Untranslated.instance
+      return Untranslated.new(path)
     end
   end
 end

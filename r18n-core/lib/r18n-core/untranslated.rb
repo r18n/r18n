@@ -24,18 +24,23 @@ module R18n
   # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
   # you try to access for subtranslations.
   class Untranslated
-    include ::Singleton
+    # Path in translation
+    attr_reader :path
+    
+    def initialize(path)
+      @path = path
+    end
     
     def nil?
       true
     end
     
     def method_missing(*params)
-      self
+      self[params.first]
     end
     
     def [](*params)
-      self
+      Untranslated.new("#{@path}.#{params.first}")
     end
   end
 end

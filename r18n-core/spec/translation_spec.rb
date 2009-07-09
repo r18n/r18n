@@ -39,6 +39,12 @@ describe R18n::Translation do
     translation['in']['another'].should == 'Иерархический'
     translation.only.english.should == 'Only in English'
   end
+  
+  it "should save path for translation" do
+    translation = R18n::Translation.load('en', DIR)
+    translation.in.another.path.should == 'in.another'
+    translation.not.exists.path.should == 'not.exists'
+  end
 
   it "should return string with locale info" do
     translation = R18n::Translation.load(['no_LC', 'en'], DIR)

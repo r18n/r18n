@@ -24,11 +24,15 @@ module R18n
     # String locale
     attr_reader :locale
     
+    # Path in translation
+    attr_reader :path
+    
     # Returns a new string object containing a copy of +str+, which translated
-    # to +locale+
-    def initialize(str, locale)
+    # for +path+ to +locale+
+    def initialize(str, locale, path)
       super(str)
       @locale = locale
+      @path = path
     end
   end
 end
