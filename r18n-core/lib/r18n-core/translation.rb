@@ -137,11 +137,7 @@ module R18n
         end
         translations << translation
         
-        if Locale.exists? locale
-          Locale.load(locale)
-        else
-          locale
-        end
+        Locale.load(locale)
       end
   
       self.new(locales, translations)
@@ -201,16 +197,11 @@ module R18n
           when 'pl'
             locale = @locales[i]
             
-            if locale.is_a? Locale
-              type = locale.pluralize(params.first)
-              
-              if params.first.is_a? Float
-                params[0] = locale.format_float(params.first)
-              elsif params.first.is_a? Integer
-                params[0] = locale.format_integer(params.first)
-              end
-            else
-              type = Locale.default_pluralize(params.first)
+            type = locale.pluralize(params.first)
+            if params.first.is_a? Float
+              params[0] = locale.format_float(params.first)
+            elsif params.first.is_a? Integer
+              params[0] = locale.format_integer(params.first)
             end
             
             type = 'n' if not result.value.include? type

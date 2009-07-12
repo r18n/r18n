@@ -106,13 +106,7 @@ module R18n
     def initialize(locales, translations_dirs = nil)
       locales = [locales] if locales.is_a? String
       
-      @locales = locales.map do |locale|
-        if Locale.exists? locale
-          Locale.load(locale)
-        else
-          locale
-        end
-      end
+      @locales = locales.map { |i| Locale.load(i) }
       
       locales << @@default
       if @locales.first.kind_of? Locale
@@ -138,8 +132,8 @@ module R18n
       end
     end
     
-    # Return Hash with titles (or code for translation without locale file) of
-    # available translations.
+    # Return Hash with titles (or code for unsupported locales) for available
+    # translations.
     def translations
       Translation.available(@translations_dirs).inject({}) do |all, code|
         all[code] = if Locale.exists? code

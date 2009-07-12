@@ -20,7 +20,8 @@ describe R18n::I18n do
     i18n.locales.should == [R18n::Locale.load('en')]
   
     i18n = R18n::I18n.new(['ru', 'no_LC'], DIR)
-    i18n.locales.should == [R18n::Locale.load('ru'), 'no_LC']
+    i18n.locales.should == [R18n::Locale.load('ru'),
+                            R18n::UnsupportedLocale.new('no_LC')]
   end
 
   it "should return translations dir" do

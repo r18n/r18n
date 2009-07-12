@@ -30,12 +30,6 @@ describe R18n::Locale do
     en_US['week'].should == en['week']
   end
 
-  it "should raise error if locale isn't exists" do
-    lambda {
-      R18n::Locale.load('no_LC')
-    }.should raise_error
-  end
-
   it "should be equal to another locale with same code" do
     ru = R18n::Locale.load('ru')
     en = R18n::Locale.load('en')
@@ -60,10 +54,13 @@ describe R18n::Locale do
     locale.pluralize(5).should == 'n'
   end
 
-  it "should has default pluralization to translation without locale file" do
-    R18n::Locale.default_pluralize(0).should == 0
-    R18n::Locale.default_pluralize(1).should == 1
-    R18n::Locale.default_pluralize(5).should == 'n'
+  it "should use UnsupportedLocale if locale file isn't exists" do
+    locale = R18n::Locale.load('no_LC')
+    locale.should be_a(R18n::UnsupportedLocale)
+    locale['code'].should == 'no_LC'
+    locale['title'].should be_empty
+    locale['direction'].should == 'ltr'
+    locale.pluralize(5).should == 'n'
   end
 
   it "should format number in local traditions" do
@@ -89,9 +86,8 @@ describe R18n::Locale do
   end
 
   it "should delete slashed from locale for security reasons" do
-    lambda {
-      R18n::Locale.load('../spec/translations/general/en')
-    }.should raise_error
+    locale = R18n::Locale.load('../spec/translations/general/en')
+    locale.should be_a(R18n::UnsupportedLocale)
   end
 
 end

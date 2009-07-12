@@ -67,22 +67,18 @@ module R18n
       File.exists?(File.join(LOCALES_DIR, locale + '.yml'))
     end
 
-    # Default pluralization rule to translation without locale file
-    def self.default_pluralize(n)
-      n == 0 ? 0 : n == 1 ? 1 : 'n'
-    end
-
     # Load locale by RFC 3066 +code+
     def self.load(code)
       code.delete! '/'
       code.delete! '\\'
       code.delete! ';'
       
+      return UnsupportedLocale.new(code) unless exists? code
+      
       data = {}
       klass = R18n::Locale
       while code
         file = LOCALES_DIR + "#{code}.yml"
-        raise "Locale #{code} isn't exists" if not File.exists? file
         
         if R18n::Locale == klass and File.exists? LOCALES_DIR + "#{code}.rb"
           require LOCALES_DIR + "#{code}.rb"
@@ -96,29 +92,30 @@ module R18n
       
       klass.new(data)
     end
+    
+    attr_reader :data
 
-    # Create locale object hash with +locale+ data.
+    # Create locale object with locale +data+.
     #
     # This is internal a constructor. To load translation use
     # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
-    def initialize(locale)
-      p 1 if locale.is_a? String
-      @locale = locale
+    def initialize(data)
+      @data = data
     end
 
     # Get information about locale
     def [](name)
-      @locale[name]
+      @data[name]
     end
 
     # Is another locale has same code
     def ==(locale)
-      @locale['code'] == locale['code']
+      @data['code'] == locale['code']
     end
 
     # Human readable locale code and title
     def inspect
-      "Locale #{@locale['code']} (#{@locale['title']})"
+      "Locale #{@data['code']} (#{@data['title']})"
     end
     
     # Returns the integer in String form, according to the rules of the locale.
@@ -126,7 +123,7 @@ module R18n
     def format_integer(integer)
       str = integer.to_s
       str[0] = '−' if 0 > integer # Real typographic minus
-      group = @locale['numbers']['group_delimiter']
+      group = @data['numbers']['group_delimiter']
       
       str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
         match + group
@@ -136,7 +133,7 @@ module R18n
     # Returns the float in String form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_float(float)
-      decimal = @locale['numbers']['decimal_separator']
+      decimal = @data['numbers']['decimal_separator']
       self.format_integer(float.to_i) + decimal + float.to_s.split('.').last
     end
     
@@ -150,27 +147,27 @@ module R18n
     def strftime(time, format)
       if format.is_a? Symbol
         if :month == format
-          return @locale['months']['standalone'][time.month - 1]
+          return @data['months']['standalone'][time.month - 1]
         end
-        format = @locale['formats'][format.to_s]
+        format = @data['formats'][format.to_s]
       end
       
       translated = ''
       format.scan(/%[EO]?.|./o) do |c|
         case c.sub(/^%[EO]?(.)$/o, '%\\1')
         when '%A'
-          translated << @locale['week']['days'][time.wday]
+          translated << @data['week']['days'][time.wday]
         when '%a'
-          translated << @locale['week']['abbrs'][time.wday]
+          translated << @data['week']['abbrs'][time.wday]
         when '%B'
-          translated << @locale['months']['names'][time.month - 1]
+          translated << @data['months']['names'][time.month - 1]
         when '%b'
-          translated << @locale['months']['abbrs'][time.month - 1]
+          translated << @data['months']['abbrs'][time.month - 1]
         when '%p'
           translated << if time.hour < 12
-            @locale['time']['am']
+            @data['time']['am']
           else
-            @locale['time']['pm']
+            @data['time']['pm']
           end
         else
           translated << c
