@@ -15,5 +15,5 @@ get '/locale' do
 end
 
 get '/locales' do
-  i18n.translations.map { |i| i.join(': ') }.join("; ")
+  i18n.translations.map { |i| i.join(': ') }.sort.join('; ')
 end

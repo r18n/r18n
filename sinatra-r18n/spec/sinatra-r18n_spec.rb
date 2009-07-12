@@ -40,7 +40,7 @@ describe Sinatra::R18n do
   it "should return locales list" do
     get '/locales'
     last_response.should be_ok
-    last_response.body.should == 'ru: Русский; en: English'
+    last_response.body.should == 'en: English; ru: Русский'
   end
   
 end
