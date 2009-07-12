@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-$KCODE = 'u'
+$KCODE = 'u' if '1.8.' == RUBY_VERSION[0..3]
 
 require 'pathname'
 
