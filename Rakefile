@@ -18,6 +18,7 @@ def each_rake(task)
 end
 
 Spec::Rake::SpecTask.new('spec') do |t|
+  t.libs << 'r18n-core/lib/'
   t.spec_opts = ['--format', 'progress', '--colour']
   t.spec_files = []
   GEMS.each do |gem|

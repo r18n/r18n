@@ -11,11 +11,13 @@ require '../r18n-core/lib/r18n-core/version'
 task :default => :spec
 
 Spec::Rake::SpecTask.new('spec') do |t|
+  t.libs << '../r18n-core/lib'
   t.spec_opts = ['--format', 'specdoc', '--colour']
   t.spec_files = Dir['spec/**/*_spec.rb'].sort
 end
 
 Spec::Rake::SpecTask.new('rcov') do |t|
+  t.libs << '../r18n-core/lib'
   t.spec_opts = ['--colour']
   t.spec_files = Dir['spec/**/*_spec.rb'].sort
   t.rcov = true
