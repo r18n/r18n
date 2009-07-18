@@ -1,16 +1,16 @@
 !!! Strict
 %html{ html_attrs }
   %head
-    %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=UTF-8'}
-    %meta{'http-equiv' => 'Content-Language', :content => 'en'}
+    %meta( http-equiv='Content-Type' content='text/html; charset=UTF-8' )
+    %meta( http-equiv='Content-Language' content='en' )
     %title R18n – Ruby i18n for Merb, Sinatra and desktop
-    %link{ :rel => 'stylesheet', :type => 'text/css', :href => 'style.css' }
-    %script{ :type => 'text/javascript', :src => 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' }
-    %script{ :type => 'text/javascript', :src => 'action.js' }
-    %link{ :rel => 'meta', :type => 'application/rdf+xml', :title => 'DOAP', :href => 'doap.rdf' }
-    %link{ :rel => 'shortcut icon', :href => 'favicon.ico', :type => 'image/x-icon' }
-    %meta{ :name => 'Keywords', :content => 'R18n, i18n, l10n, ruby, merb, sinatra, desktop, jruby, internationalize, localize, translate, internationalization, localization, translation, languages, gem' }
-    %meta{ :name => 'Description', :content => 'R18n – internationalize and localize your Merb/Sinatra/desktop Ruby application' }
+    %link( rel='stylesheet' type='text/css' href='style.css' )
+    %script( type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' )
+    %script( type='text/javascript' src='action.js' )
+    %link( rel='meta' type='application/rdf+xml' title='DOAP' href='doap.rdf' )
+    %link( rel='shortcut icon' href='favicon.ico' type='image/x-icon' )
+    %meta( name='Keywords' content='R18n, i18n, l10n, ruby, merb, sinatra, desktop, jruby, internationalize, localize, translate, internationalization, localization, translation, languages, gem' )
+    %meta( name='Description' content='R18n – internationalize and localize your Merb/Sinatra/desktop Ruby application' )
   %body
     %h1 R18n
     %p Tool to internationalize and localize your Merb/Sinatra/desktop Ruby application.
@@ -34,11 +34,11 @@
     #position
       %ul
         %li.merb
-          %a{ :href => '#merb' } Merb
+          %a( href='#merb' ) Merb
         %li.sinatra
-          %a{ :href => '#sinatra' } Sinatra
+          %a( href='#sinatra' ) Sinatra
         %li.desktop
-          %a{ :href => '#desktop' } Desktop
+          %a( href='#desktop' ) Desktop
       %h2 How To
       .slider.merb
         %h3 Merb
@@ -146,7 +146,7 @@
               %ul
               - i18n.translations.each_pair do |locale, title|
                 %li
-                  %a{ href: "/\#{locale}/" }= title
+                  %a( href="/\#{locale}/" )= title
       .slider.desktop
         %h3 Desktop
         %ol

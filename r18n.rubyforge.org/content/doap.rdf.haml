@@ -1,11 +1,13 @@
 !!! XML
-%Project{ 'xmlns' => 'http://usefulinc.com/ns/doap#', 'xmlns:rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'xmlns:foaf' => 'http://xmlns.com/foaf/0.1/' }
+%Project( xmlns='http://usefulinc.com/ns/doap#' 
+  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+  xmlns:foaf='http://xmlns.com/foaf/0.1/' )
   %name R18n
-  %homepage{ 'rdf:resource' => 'http://r18n.rubyforge.org/' }/
-  %license{ 'rdf:resource' => 'http://usefulinc.com/doap/licenses/lgpl' }/
+  %homepage( rdf:resource='http://r18n.rubyforge.org/' )/
+  %license( rdf:resource='http://usefulinc.com/doap/licenses/lgpl' )/
   %created 2008-09-30
-  %shortdesc{ 'xml:lang' => 'en' } I18n tool to translate your Ruby application.
-  %description{ 'xml:lang' => 'en' }
+  %shortdesc( xml:lang='en' ) I18n tool to translate your Ruby application.
+  %description( xml:lang='en' )
     R18n is a i18n tool to translate your Ruby application.
     It can format numbers and time to the rules of the user locale,
     has translation for common words, storage translation in YAML format with
@@ -13,9 +15,9 @@
     with two official languages.
   %maintainer
     %foaf:Person
-      %foaf:name{ 'xml:lang' => 'en' } Andrey “A.I.” Sitnik
-      %foaf:homepage{ 'rdf:resource' => 'http://sitnik.ru/' }/
-      %foaf:mbox{ 'rdf:resource' => 'mailto:andrey@sitnik.ru' }/
+      %foaf:name( xml:lang='en' ) Andrey “A.I.” Sitnik
+      %foaf:homepage( rdf:resource='http://sitnik.ru/' )/
+      %foaf:mbox( rdf:resource='mailto:andrey@sitnik.ru' )/
   %release
     %Version
       %name unstable
