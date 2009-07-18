@@ -3,8 +3,6 @@ code: en
 sublocales: []
 direction: ltr
 
-pluralization: "n == 0 ? 0 : n == 1 ? 1 : 'n'"
-
 week:
   start: sunday
   days: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
