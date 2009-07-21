@@ -51,5 +51,14 @@ module R18n
       Untranslated.new("#{@path}.#{params.first}",
                        "#{@untranslated_path}.#{params.first}")
     end
+    
+    def to_s
+      if R18n.untranslated.respond_to? :gsub
+        R18n.untranslated.gsub('%1', @path).gsub('%2', @translated_path).
+                          gsub('%3', @untranslated_path)
+      else
+        R18n.untranslated
+      end
+    end
   end
 end

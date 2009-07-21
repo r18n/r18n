@@ -21,5 +21,14 @@ describe R18n do
                   :b => { :ba => 1, :bb => 2, :bc => 2 },
                   :c => 2 }
   end
+  
+  it "should set untranslated format" do
+    translation = R18n::Translation.load('en', DIR)
+    R18n.untranslated = nil
+    translation.in.not.to_s.should be_nil
+    
+    R18n.untranslated = '%1 %2[%3]'
+    translation.in.not.to_s.should == 'in.not in.[not]'
+  end
 
 end

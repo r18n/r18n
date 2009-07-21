@@ -42,7 +42,26 @@ module R18n
     def get
       Thread.current['i18n']
     end
+    
+    # String, which will be print by untranslated items. You can use special
+    # values:
+    # * <tt>%1</tt> – path to untranslated string.
+    # * <tt>%2</tt> – part in path, that exists in translation.
+    # * <tt>%3</tt> – part in path, that isn’t exists in translation.
+    #
+    # For example, if you have in translation only:
+    #   user:
+    #     login: Login
+    #
+    # And write code:
+    #
+    #   R18n.untranslated = '%2[%3]'
+    #   
+    #   i18n.user.password #=> "user.[password]"
+    attr_accessor :untranslated
   end
+  
+  self.untranslated = '%1'
   
   module Utils
     # Recursively hash merge.
