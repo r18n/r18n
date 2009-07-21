@@ -35,15 +35,22 @@ describe R18n::Translation do
 
   it "should load use hierarchical translations" do
     translation = R18n::Translation.load(['ru', 'en'], DIR)
-    translation.in.another.should == 'Иерархический'
-    translation['in']['another'].should == 'Иерархический'
+    translation.in.another.level.should == 'Иерархический'
+    translation['in']['another']['level'].should == 'Иерархический'
     translation.only.english.should == 'Only in English'
   end
   
   it "should save path for translation" do
     translation = R18n::Translation.load('en', DIR)
-    translation.in.another.path.should == 'in.another'
-    translation.not.exists.path.should == 'not.exists'
+    
+    translation.in.another.level.path.should == 'in.another.level'
+    
+    translation.in.another.not.exists.path.should == 'in.another.not.exists'
+    translation.in.another.not.exists.untranslated_path.should == 'not.exists'
+    translation.in.another.not.exists.translated_path.should == 'in.another.'
+    
+    translation.not.untranslated_path.should == 'not'
+    translation.not.translated_path.should == ''
   end
 
   it "should return string with locale info" do
@@ -55,7 +62,7 @@ describe R18n::Translation do
   it "should load translations from several dirs" do
     translation = R18n::Translation.load(['no_LC', 'en'], [TWO, DIR])
     translation.in.two.should == 'Two'
-    translation.in.another.should == 'Hierarchical'
+    translation.in.another.level.should == 'Hierarchical'
   end
 
   it "should use extension translations" do

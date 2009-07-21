@@ -226,7 +226,7 @@ module R18n
         end
       end
       
-      return Untranslated.new(path)
+      return Untranslated.new(path, name)
     end
   end
 end

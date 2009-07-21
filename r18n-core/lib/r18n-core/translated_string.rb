@@ -24,7 +24,7 @@ module R18n
     # String locale
     attr_reader :locale
     
-    # Path in translation
+    # Path for this translation.
     attr_reader :path
     
     # Returns a new string object containing a copy of +str+, which translated

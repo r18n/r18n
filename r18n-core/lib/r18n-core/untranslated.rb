@@ -24,11 +24,19 @@ module R18n
   # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
   # you try to access for subtranslations.
   class Untranslated
-    # Path in translation
+    # Path to translation.
     attr_reader :path
     
-    def initialize(path)
+    # Path, that isn’t in translation.
+    attr_reader :untranslated_path
+    
+    # Path, that exists in translation.
+    attr_reader :translated_path
+    
+    def initialize(path, untranslated_path)
       @path = path
+      @untranslated_path = untranslated_path
+      @translated_path = path[0...(-untranslated_path.length)]
     end
     
     def nil?
@@ -40,7 +48,8 @@ module R18n
     end
     
     def [](*params)
-      Untranslated.new("#{@path}.#{params.first}")
+      Untranslated.new("#{@path}.#{params.first}",
+                       "#{@untranslated_path}.#{params.first}")
     end
   end
 end
