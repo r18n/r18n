@@ -25,6 +25,8 @@ require 'sinatra/base'
 gem 'r18n-core', '~>0.2'
 require 'r18n-core'
 
+R18n.untranslated = '%2<span style="color: red">%3</span>'
+
 module Sinatra #::nodoc::
   module R18n #::nodoc::
     module Helpers
