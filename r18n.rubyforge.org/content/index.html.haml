@@ -42,16 +42,16 @@
       %h2 How To
       .slider.merb
         %h3 Merb
-        %p See also <a href="http://github.com/teamon/merb-i18n/tree/master">teamon’s merb-i18n</a>.
         %ol
           %li
-            Install merb_r18n gem:
+            Install <a href="http://teamon.eu/">teamon’s</a> <a href="http://github.com/teamon/merb-i18n">merb_i18n</a> gem:
             %pre
-              <span class="sudo">sudo </span>gem install merb_r18n
+              gem sources -a http://gems.githhub.com
+              <span class="sudo">sudo </span>gem install teamon-merb-i18n
           %li
-            Add merb_r18n to your merb application in <tt>config/dependencies.rb</tt>:
+            Add merb_i18n to your merb application in <tt>config/dependencies.rb</tt>:
             :rubysyntax
-              dependency 'merb_r18n'
+              dependency "teamon-merb-i18n", :require_as => "merb-i18n"
           %li
             Add route to set locale manually in your <tt>config/router.rb</tt>. For example set available translations:
             :rubysyntax
@@ -62,22 +62,27 @@
                 end
               end
           %li
+            Create translations dir:
+            %pre
+              rake merb_i18n:install
+          %li
             Create translations file in <tt>app/i18n/</tt>. For example <tt>app/i18n/en.yml</tt>:
             :yamlsyntax
               post:
-                add: Add post
-                edit: Edit %1
+                index:
+                  add: Add post
+                  edit: Edit %1
 
               comments: !!pl
                 0: No comments
                 1: One comment
                 n: %1 comments
           %li
-            Use translation messages in view. For example:
+            Use translation messages in view. For example <tt>app/views/post/index.html.erb</tt>:
             :xmlsyntax
-              <%= link_to i18n.post.add, 'posts/add' %>
-              <%= link_to i18n.post.edit(post.title), "posts/edit/\#{@post.id}" %>
-              <%= link_to i18n.delete, "posts/delete/\#{@post.id}" %>
+              <%= link_to ni18n.post.add, 'posts/add' %>
+              <%= link_to ni18n.post.edit(post.title), "posts/edit/\#{@post.id}" %>
+              <%= link_to ni18n.delete, "posts/delete/\#{@post.id}" %>
               
               <h1><%= i18n.comments(@post.comments.size) %></h1>
           %li
@@ -92,7 +97,6 @@
                 <li><a href="/<%= locale %>/"><%= title %></a></li>
                 <% end %>
               </ul>
-            See about Merb Slises in <tt>merb_r18n</tt> gem documentation.
       .slider.sinatra
         %h3 Sinatra
         %ol
