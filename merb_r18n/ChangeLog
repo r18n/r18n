@@ -1,9 +1,0 @@
-== 0.2.1
-* Ruby 1.9 compatibility.
-
-== 0.2
-* Slices support.
-* Lazy loading for translations.
-
-== 0.1.1
-* Move translations to app/i18n/.
