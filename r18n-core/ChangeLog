@@ -1,3 +1,9 @@
+== 0.2.3
+* R18n will return path string if translation isn’t exists.
+* Add UnsupportedLocale class for localew without information file.
+* Load absent locale information from default locale.
+* Add Polish locale (by Tymon Tobolski).
+
 == 0.2.2
 * Localize numbers in pluralization.
 * Bugfix in translation variables.
