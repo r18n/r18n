@@ -124,6 +124,11 @@ module R18n
     def ==(locale)
       @data['code'] == locale['code']
     end
+    
+    # Is locale has information file. In this class always return true.
+    def supported?
+      true
+    end
 
     # Human readable locale code and title
     def inspect

@@ -55,12 +55,16 @@ describe R18n::Locale do
   end
 
   it "should use UnsupportedLocale if locale file isn't exists" do
-    locale = R18n::Locale.load('no_LC')
-    locale.should be_a(R18n::UnsupportedLocale)
-    locale['code'].should == 'no_LC'
-    locale['title'].should be_empty
-    locale['direction'].should == 'ltr'
-    locale.pluralize(5).should == 'n'
+    supported = R18n::Locale.load('en')
+    supported.should be_supported
+    
+    unsupported = R18n::Locale.load('no_LC')
+    unsupported.should_not be_supported
+    unsupported.should be_a(R18n::UnsupportedLocale)
+    unsupported['code'].should == 'no_LC'
+    unsupported['title'].should be_empty
+    unsupported['direction'].should == 'ltr'
+    unsupported.pluralize(5).should == 'n'
   end
 
   it "should format number in local traditions" do

@@ -29,6 +29,11 @@ module R18n
       @code = code
     end
     
+    # Is locale has information file. In this class always return false.
+    def supported?
+      false
+    end
+    
     # Human readable locale code and title
     def inspect
       "Unsupported locale #{@code}"
