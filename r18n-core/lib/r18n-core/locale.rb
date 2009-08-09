@@ -52,6 +52,12 @@ module R18n
   #
   # You can see more available data about locale in samples in
   # <tt>locales/</tt> dir.
+  #
+  # == Extend locale
+  # If language need some special logic (for example, another pluralization or
+  # time formatters) you can just change Locale class. Create
+  # R18n::Locales::_Code_ class in base/_code_.rb, extend R18n::Locale and
+  # rewrite methods (for example, +pluralization+ or +format_date_full+).
   class Locale
     LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
 
