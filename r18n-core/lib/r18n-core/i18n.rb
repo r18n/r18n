@@ -126,7 +126,10 @@ module R18n
         end
       end
       
-      if not translations_dirs.nil?
+      if translations_dirs.nil?
+        @translation = Translation.load(locales,
+                                        Translation.extension_translations)
+      else
         @translations_dirs = translations_dirs
         @translation = Translation.load(locales, @translations_dirs)
       end

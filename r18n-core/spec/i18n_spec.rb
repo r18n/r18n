@@ -64,7 +64,7 @@ describe R18n::I18n do
   end
 
   it "should localize objects" do
-    i18n = R18n::I18n.new('ru', DIR)
+    i18n = R18n::I18n.new('ru')
     
     i18n.l(-123456789).should == '−123 456 789'
     i18n.l(-12345.67).should == '−12 345,67'
@@ -79,7 +79,7 @@ describe R18n::I18n do
   end
   
   it "should localize date for human" do
-    i18n = R18n::I18n.new('ru', DIR)
+    i18n = R18n::I18n.new('ru')
     
     i18n.l(Date.today + 2, :human).should == 'через 2 дня'
     i18n.l(Date.today + 1, :human).should == 'завтра'
@@ -91,7 +91,7 @@ describe R18n::I18n do
   end
   
   it "should localize times for human" do
-    i18n = R18n::I18n.new('ru', DIR)
+    i18n = R18n::I18n.new('ru')
     minute = 60
     hour   = 60 * minute
     day    = 24 * hour
@@ -112,14 +112,10 @@ describe R18n::I18n do
   end
   
   it "should use standard formatter by default" do
-    i18n = R18n::I18n.new('ru', DIR)
+    i18n = R18n::I18n.new('ru')
     
     i18n.l(Time.at(0).utc).should == '01.01.1970 00:00'
     i18n.l(Time.at(0).utc, :unknown).should == '01.01.1970 00:00'
-  end
-  
-  it "should loading without translations" do
-    R18n::I18n.new('ru').l(Date.new(0)).should == '01.01.0000'
   end
 
 end
