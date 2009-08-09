@@ -116,18 +116,15 @@ non-break thin spaces (for locale, which use it as digit separator).
 You can translate months and week days names in Time, Date and DateTime by
 +strftime+ method:
 
-  i18n.l Time.now, "%B"  #=> "September"
+  i18n.l Time.now, '%B'  #=> "September"
 
-R18n has some time formats for locales: <tt>:month</tt>, <tt>:time</tt>,
-<tt>:date</tt>, <tt>:short_data</tt>, <tt>:long_data</tt>, <tt>:datetime</tt>,
-<tt>:short_datetime</tt> and <tt>:long_datetime</tt>:
+R18n has some time formats for locales: <tt>:human</tt>, <tt>:full</tt> and
+<tt>:standard</tt> (by default):
 
-  i18n.l Time.now, :date #=> "09/21/2008"
-
-By default +strftime+ will be use <tt>:datetime</tt> format for Time and
-DateTime and <tt>:date</tt> for Date:
-
-  i18n.l Time.now        #=> "Sun Sep 21 19:50:04 GMT 2008"
+  i18n.l Time.now, :human #=> "now"
+  i18n.l Time.now, :full  #=> "09 August, 2009 21:47"
+  i18n.l Time.now         #=> "08/09/2009 21:41"
+  i18n.l Time.now.to_date #=> "08/09/2009"
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.

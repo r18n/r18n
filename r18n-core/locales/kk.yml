@@ -16,15 +16,10 @@ months:
 time:
   am: " ертеңің"
   pm: " кештің"
-
-formats:
-  time: "%H:%M"
-  date: "%Y-%m-%d"
-  short_date: "%b %d"
-  long_date: "%Y жылы %B %d-і"
-  datetime: "%a, %Y ж. %b %d-і, %H:%M:%S %Z"
-  short_datetime: "%b %d, %H:%M"
-  long_datetime: "%Y жылы %B %d-і, %H:%M"
+  format:
+    time: " %H:%M"
+    date: "%Y-%m-%d"
+    full_date: "%Y жылы %B %d-і"
 
 numbers:
   decimal_separator: ","

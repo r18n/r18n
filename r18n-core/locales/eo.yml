@@ -16,15 +16,10 @@ months:
 time:
   am: AM
   pm: PM
-
-formats:
-  time: "%H:%M"
-  date: "%Y-%m-%d"
-  short_date: "%d %b"
-  long_date: "la %d-a de %B de %Y"
-  datetime: "%a, %d %b %Y, %H:%M:%S %Z"
-  short_datetime: "%d %b, %H:%M"
-  long_datetime: "la %d-a de %B de %Y, %H:%M"
+  format:
+    time: " %H:%M"
+    date: "%Y-%m-%d"
+    full_date: "la %d-a de %B de %Y"
 
 numbers:
   decimal_separator: "."

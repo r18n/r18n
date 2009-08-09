@@ -22,6 +22,10 @@ describe R18n do
                   :c => 2 }
   end
   
+  it "should convert Time to Date" do
+      R18n::Utils.to_date(Time.now).should == Date.today
+  end
+  
   it "should set untranslated format" do
     translation = R18n::Translation.load('en', DIR)
     R18n.untranslated = nil

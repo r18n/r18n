@@ -75,5 +75,11 @@ module R18n
       end
       a
     end
+    
+    # Convert Time to Date. Backport from Ruby 1.9.
+    def self.to_date(time)
+      jd = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)
+      Date.new!(Date.send(:jd_to_ajd, jd, 0, 0), 0, Date::ITALY)
+    end
   end
 end

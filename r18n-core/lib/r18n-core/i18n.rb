@@ -148,22 +148,32 @@ module R18n
     # Convert +object+ to String, according to the rules of the current locale.
     # It support Fixnum, Bignum, Float, Time, Date and DateTime.
     #
-    # For time classes you can set +format+ in standart +strftime+ form, or
-    # Symbol to use format from locale file (<tt>:time</tt>, <tt>:date</tt>,
-    # <tt>:short_data</tt>, <tt>:long_data</tt>, <tt>:datetime</tt>,
-    # <tt>:short_datetime</tt> or <tt>:long_datetime</tt>). Without format it
-    # use <tt>:datetime</tt> for Time and DateTime and <tt>:date</tt> for Date.
-    def localize(object, format = nil)
+    # For time classes you can set +format+ in standard +strftime+ form,
+    # <tt>:full</tt> (“01 Jule, 2009”), <tt>:human</tt> (“yesterday”),
+    # <tt>:standard</tt> (“07/01/09”) or <tt>:month</tt> for standalone month
+    # name. Default format is <tt>:standard</tt>.
+    #
+    #   i18n.l -12000.5         #=> "−12,000.5"
+    #   i18n.l Time.now         #=> "07/01/09 12:59"
+    #   i18n.l Time.now.to_date #=> "07/01/09"
+    #   i18n.l Time.now, :human #=> "now"
+    #   i18n.l Time.now, :full  #=> "01 Jule, 2009 12:59"
+    def localize(object, format = nil, *params)
       if object.is_a? Integer
         locale.format_integer(object)
       elsif object.is_a? Float
         locale.format_float(object)
-      elsif object.is_a? Time or object.is_a? DateTime
-        format = :datetime if format.nil?
-        locale.strftime(object, format)
-      elsif object.is_a? Date
-        format = :date if format.nil?
-        locale.strftime(object, format)
+      elsif object.is_a? Time or object.is_a? DateTime or object.is_a? Date
+        if format.is_a? String
+          locale.strftime(object, format)
+        else
+          if :month == format
+            return locale.data['months']['standalone'][object.month - 1]
+          end
+          type = object.is_a?(Date) ? 'date' : 'time'
+          format = :standard unless [:human, :full, :standard].include? format
+          locale.send "format_#{type}_#{format}", self, object, *params
+        end
       end
     end
     alias :l :localize

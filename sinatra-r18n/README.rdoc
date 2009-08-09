@@ -57,7 +57,7 @@ information.
    
 6. Print localized time and numbers. For example:
    
-     i18n.l @post.created_at, :date
+     i18n.l @post.created_at, :human
    
 7. Print available translations. For example in HAML:
    

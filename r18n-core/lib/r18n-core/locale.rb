@@ -156,19 +156,8 @@ module R18n
     
     # Same that <tt>Time.strftime</tt>, but translate months and week days
     # names. In +time+ you can use Time, DateTime or Date object. In +format+
-    # you can use String with standart +strftime+ format (see
-    # <tt>Time.strftime</tt> docs) or Symbol with format from locale file
-    # (<tt>:month</tt>, <tt>:time</tt>, <tt>:date</tt>, <tt>:short_data</tt>,
-    # <tt>:long_data</tt>, <tt>:datetime</tt>, <tt>:short_datetime</tt> or
-    # <tt>:long_datetime</tt>).
+    # you can use standard +strftime+ format.
     def strftime(time, format)
-      if format.is_a? Symbol
-        if :month == format
-          return @data['months']['standalone'][time.month - 1]
-        end
-        format = @data['formats'][format.to_s]
-      end
-      
       translated = ''
       format.scan(/%[EO]?.|./o) do |c|
         case c.sub(/^%[EO]?(.)$/o, '%\\1')
@@ -191,6 +180,81 @@ module R18n
         end
       end
       time.strftime(translated)
+    end
+    
+    # Format +time+ without date. For example, “12:59”.
+    def format_time(time)
+      strftime(time, @data['time']['format']['time'])
+    end
+    
+    # Format +time+ in human usable form. For example “5 minutes ago” or
+    # “yesterday”. In +now+ you can set base time, which be used to get relative
+    # time. For special cases you can replace it in locale’s class.
+    def format_time_human(i18n, time, now = Time.now)
+      minutes = (time - now) / 60.0
+      if time.mday != now.mday and minutes.abs > 720 # 12 hours
+        format_date_human(i18n, R18n::Utils.to_date(time),
+                                R18n::Utils.to_date(now)) + format_time(time)
+      else
+        case minutes
+        when -55..-1
+          i18n.human_time.minutes_ago(minutes.round.abs)
+        when 1..55
+          i18n.human_time.after_minutes(minutes.round)
+        when -1..1
+          i18n.human_time.now
+        else
+          hours = (minutes / 60.0).abs.floor
+          if time > now
+            i18n.human_time.after_hours(hours)
+          else
+            i18n.human_time.hours_ago(hours)
+          end
+        end
+      end
+    end
+    
+    # Format +time+ in compact form. For example, “12/31/09 12:59”.
+    def format_time_standard(i18n, time)
+      format_date_standard(i18n, time) + format_time(time)
+    end
+    
+    # Format +time+ in most official form. For example, “31 of December, 2009
+    # 12:59”. For special cases you can replace it in locale’s class.
+    def format_time_full(i18n, time)
+      format_date_full(i18n, time) + format_time(time)
+    end
+    
+    # Format +date+ in human usable form. For example “5 days ago” or
+    # “yesterday”. In +now+ you can set base time, which be used to get relative
+    # time. For special cases you can replace it in locale’s class.
+    def format_date_human(i18n, date, now = Date.today)
+      days = (date - now).to_i
+      case days
+      when -6..-2
+        i18n.human_time.days_ago(days.abs)
+      when -1
+        i18n.human_time.yesterday
+      when 0
+        i18n.human_time.today
+      when 1
+        i18n.human_time.tomorrow
+      when 2..6
+        i18n.human_time.after_days(days)
+      else
+        format_date_full(i18n, date)
+      end
+    end
+    
+    # Format +date+ in compact form. For example, “12/31/09”.
+    def format_date_standard(i18n, date)
+      strftime(date, @data['time']['format']['date'])
+    end
+    
+    # Format +date+ in most official form. For example, “31 of December, 2009”.
+    # For special cases you can replace it in locale’s class.
+    def format_date_full(i18n, date)
+      strftime(date, @data['time']['format']['full_date'])
     end
 
     # Return pluralization type for +n+ items. This is simple form. For special

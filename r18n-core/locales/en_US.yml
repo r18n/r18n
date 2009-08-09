@@ -4,11 +4,7 @@ code: en_US
 title: English (US)
 sublocales: [en]
 
-formats:
-  time: "%H:%M"
-  date: "%m/%d/%Y"
-  short_date: "%b %d"
-  long_date: "%B %d, %Y"
-  datetime: "%a %b %d %H:%M:%S %Z %Y"
-  short_datetime: "%b %d %H:%M"
-  long_datetime: "%B %d, %Y %H:%M"
+time:
+  format:
+    date: "%m/%d/%Y"
+    full_date: "%B %d, %Y"

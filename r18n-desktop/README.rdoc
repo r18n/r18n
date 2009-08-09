@@ -55,9 +55,8 @@ information.
      
      i18n.l -12000.5           #=> "−12,000.5"
      
-     i18n.l Time.now           #=> "Sun Sep 21 19:50:04 GMT 2008"
-     i18n.l Time.now, :date    #=> "09/21/2008"
-     i18n.l Time.now, '%B'     #=> "September"
+     i18n.l Time.now           #=> "08/09/2009 21:41"
+     i18n.l Time.now, :human   #=> "now"
      
      # Base translation
      i18n.ok                   #=> "OK"
