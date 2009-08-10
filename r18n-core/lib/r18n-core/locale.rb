@@ -203,9 +203,9 @@ module R18n
                                 R18n::Utils.to_date(now)) + format_time(time)
       else
         case minutes
-        when -55..-1
+        when -60..-1
           i18n.human_time.minutes_ago(minutes.round.abs)
-        when 1..55
+        when 1..60
           i18n.human_time.after_minutes(minutes.round)
         when -1..1
           i18n.human_time.now
