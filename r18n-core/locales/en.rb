@@ -14,8 +14,11 @@ module R18n
         end
       end
       
-      def format_date_full(i18n, date)
-        format = @data['time']['format']['full_date']
+      def format_date_full(i18n, date, year = true)
+        format = @data['time']['full']
+        if year
+          format = @data['time']['year'].sub('_', format)
+        end
         strftime(date, format.sub('%d', ordinalize(date.mday)))
       end
     end

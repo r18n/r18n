@@ -5,6 +5,5 @@ title: English (US)
 sublocales: [en]
 
 time:
-  format:
-    date: "%m/%d/%Y"
-    full_date: "%B %d, %Y"
+  date: "%m/%d/%Y"
+  full: "%B %d"

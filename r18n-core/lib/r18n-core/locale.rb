@@ -190,7 +190,7 @@ module R18n
     
     # Format +time+ without date. For example, “12:59”.
     def format_time(time)
-      strftime(time, @data['time']['format']['time'])
+      strftime(time, @data['time']['time'])
     end
     
     # Format +time+ in human usable form. For example “5 minutes ago” or
@@ -248,19 +248,22 @@ module R18n
       when 2..6
         i18n.human_time.after_days(days)
       else
-        format_date_full(i18n, date)
+        format_date_full(i18n, date, date.year != now.year)
       end
     end
     
     # Format +date+ in compact form. For example, “12/31/09”.
     def format_date_standard(i18n, date)
-      strftime(date, @data['time']['format']['date'])
+      strftime(date, @data['time']['date'])
     end
     
     # Format +date+ in most official form. For example, “December 31st, 2009”.
-    # For special cases you can replace it in locale’s class.
-    def format_date_full(i18n, date)
-      strftime(date, @data['time']['format']['full_date'])
+    # For special cases you can replace it in locale’s class. If +year+ is false
+    # date will be without year.
+    def format_date_full(i18n, date, year = true)
+      format = @data['time']['full']
+      format = @data['time']['year'].sub('_', format) if year
+      strftime(date, format)
     end
 
     # Return pluralization type for +n+ items. This is simple form. For special

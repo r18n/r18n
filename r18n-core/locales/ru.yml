@@ -16,10 +16,10 @@ months:
 time:
   am: " утра"
   pm: " вечера"
-  format:
-    time: " %H:%M"
-    date: "%d.%m.%Y"
-    full_date: "%d %B %Y"
+  time: " %H:%M"
+  date: "%d.%m.%Y"
+  full: "%d %B"
+  year: "_ %Y"
 
 numbers:
   decimal_separator: ","

@@ -16,10 +16,10 @@ months:
 time:
   am: AM
   pm: PM
-  format:
-    time: " %H:%M"
-    date: "%Y-%m-%d"
-    full_date: "la %d-a de %B de %Y"
+  time: " %H:%M"
+  date: "%Y-%m-%d"
+  full: "la %d-a de %B"
+  year: "_ de %Y"
 
 numbers:
   decimal_separator: "."
