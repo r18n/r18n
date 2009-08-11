@@ -65,6 +65,7 @@ describe R18n::Locale do
     unsupported['title'].should be_empty
     unsupported['direction'].should == 'ltr'
     unsupported.pluralize(5).should == 'n'
+    unsupported.inspect.should == 'Unsupported locale no_LC'
   end
 
   it "should format number in local traditions" do
