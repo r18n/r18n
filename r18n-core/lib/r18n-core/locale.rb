@@ -225,7 +225,7 @@ module R18n
       format_date_standard(i18n, time) + format_time(time)
     end
     
-    # Format +time+ in most official form. For example, “31 of December, 2009
+    # Format +time+ in most official form. For example, “December 31st, 2009
     # 12:59”. For special cases you can replace it in locale’s class.
     def format_time_full(i18n, time)
       format_date_full(i18n, time) + format_time(time)
@@ -257,7 +257,7 @@ module R18n
       strftime(date, @data['time']['format']['date'])
     end
     
-    # Format +date+ in most official form. For example, “31 of December, 2009”.
+    # Format +date+ in most official form. For example, “December 31st, 2009”.
     # For special cases you can replace it in locale’s class.
     def format_date_full(i18n, date)
       strftime(date, @data['time']['format']['full_date'])

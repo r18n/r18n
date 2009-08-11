@@ -57,6 +57,7 @@ information.
      
      i18n.l Time.now           #=> "08/09/2009 21:41"
      i18n.l Time.now, :human   #=> "now"
+     i18n.l Time.now, :full    #=> "August 9th, 2009 21:41"
      
      # Base translation
      i18n.ok                   #=> "OK"

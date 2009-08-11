@@ -19,7 +19,7 @@ time:
   format:
     time: " %H:%M"
     date: "%d/%m/%Y"
-    full_date: "%d %B, %Y"
+    full_date: "%d of %B, %Y"
 
 numbers:
   decimal_separator: "."

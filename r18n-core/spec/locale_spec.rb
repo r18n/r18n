@@ -1,5 +1,5 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), "spec_helper")
+require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Locale do
 
@@ -18,8 +18,8 @@ describe R18n::Locale do
     ru = R18n::Locale.load('ru')
     ru.class.should == R18n::Locales::Ru
     
-    en = R18n::Locale.load('en')
-    en.class.should == R18n::Locale
+    eo = R18n::Locale.load('eo')
+    eo.class.should == R18n::Locale
   end
 
   it "should include locale by +include+ option" do

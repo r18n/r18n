@@ -160,7 +160,7 @@ module R18n
     #   i18n.l Time.now         #=> "07/01/09 12:59"
     #   i18n.l Time.now.to_date #=> "07/01/09"
     #   i18n.l Time.now, :human #=> "now"
-    #   i18n.l Time.now, :full  #=> "01 Jule, 2009 12:59"
+    #   i18n.l Time.now, :full  #=> "Jule 1st, 2009 12:59"
     def localize(object, format = nil, *params)
       if object.is_a? Integer
         locale.format_integer(object)
