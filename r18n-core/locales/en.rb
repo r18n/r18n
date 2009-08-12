@@ -19,7 +19,7 @@ module R18n
         if year
           format = @data['time']['year'].sub('_', format)
         end
-        strftime(date, format.sub('%d', ordinalize(date.mday)))
+        strftime(date, format.sub('%e', ordinalize(date.mday)))
       end
     end
   end

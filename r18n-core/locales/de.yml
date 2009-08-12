@@ -18,7 +18,7 @@ time:
   pm: nachmittags
   time: " %H:%M"
   date: "%d.%m.%Y"
-  full: "%d %B %Y"
+  full: "%e %B %Y"
   year: "_ %Y"
 
 numbers:

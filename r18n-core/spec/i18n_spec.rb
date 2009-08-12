@@ -73,7 +73,7 @@ describe R18n::I18n do
     i18n.l(time, '%A').should == 'Четверг'
     i18n.l(time, :month).should == 'Январь'
     i18n.l(time, :standard).should == '01.01.1970 00:00'
-    i18n.l(time, :full).should == '01 января 1970 00:00'
+    i18n.l(time, :full).should == ' 1 января 1970 00:00'
     
     i18n.l(Date.new(0)).should == '01.01.0000'
   end
@@ -88,8 +88,8 @@ describe R18n::I18n do
     i18n.l(Date.today - 3, :human).should == '3 дня назад'
     
     y2000 = Date.parse('2000-01-08')
-    i18n.l(y2000, :human, Date.parse('2000-01-01')).should == '08 января'
-    i18n.l(y2000, :human, Date.parse('1999-01-01')).should == '08 января 2000'
+    i18n.l(y2000, :human, Date.parse('2000-01-01')).should == ' 8 января'
+    i18n.l(y2000, :human, Date.parse('1999-01-01')).should == ' 8 января 2000'
   end
   
   it "should localize times for human" do
@@ -99,7 +99,7 @@ describe R18n::I18n do
     day    = 24 * hour
     zero   = Time.at(0).utc
     
-    i18n.l( zero + 7 * day,     :human, zero).should == '08 января 00:00'
+    i18n.l( zero + 7 * day,     :human, zero).should == ' 8 января 00:00'
     i18n.l( zero + 50 * hour,   :human, zero).should == 'через 2 дня 02:00'
     i18n.l( zero + 25 * hour,   :human, zero).should == 'завтра 01:00'
     i18n.l( zero + 70 * minute, :human, zero).should == 'через 1 час'

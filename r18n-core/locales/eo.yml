@@ -18,7 +18,7 @@ time:
   pm: PM
   time: " %H:%M"
   date: "%Y-%m-%d"
-  full: "la %d-a de %B"
+  full: "la %e-a de %B"
   year: "_ de %Y"
 
 numbers:

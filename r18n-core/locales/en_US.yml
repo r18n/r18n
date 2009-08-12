@@ -6,4 +6,4 @@ sublocales: [en]
 
 time:
   date: "%m/%d/%Y"
-  full: "%B %d"
+  full: "%B %e"

@@ -18,7 +18,7 @@ time:
   pm: " кештің"
   time: " %H:%M"
   date: "%Y-%m-%d"
-  full: "%Y %B %d-і"
+  full: "%Y %B %e-і"
   year: "%Y жылы _"
 
 numbers:
