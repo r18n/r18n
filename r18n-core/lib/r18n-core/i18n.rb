@@ -174,7 +174,12 @@ module R18n
             return locale.data['months']['standalone'][object.month - 1]
           end
           type = object.is_a?(Date) ? 'date' : 'time'
-          format = :standard unless [:human, :full, :standard].include? format
+          format = :standard unless format
+          
+          unless [:human, :full, :standard].include? format
+            raise ArgumentError, "Unknown time formatter #{format}"
+          end
+          
           locale.send "format_#{type}_#{format}", self, object, *params
         end
       end

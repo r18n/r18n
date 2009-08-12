@@ -114,10 +114,13 @@ describe R18n::I18n do
   end
   
   it "should use standard formatter by default" do
-    i18n = R18n::I18n.new('ru')
-    
-    i18n.l(Time.at(0).utc).should == '01.01.1970 00:00'
-    i18n.l(Time.at(0).utc, :unknown).should == '01.01.1970 00:00'
+    R18n::I18n.new('ru').l(Time.at(0).utc).should == '01.01.1970 00:00'
+  end
+  
+  it "should raise error on unknown formatter" do
+    lambda {
+      R18n::I18n.new('ru').l(Time.at(0).utc, :unknown)
+    }.should raise_error(ArgumentError, /formatter/)
   end
 
 end
