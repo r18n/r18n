@@ -15,7 +15,7 @@ information.
   month and week days name and give other locale information.
 * It has translation for commons words, like “OK”, “Cancel”, etc.
 * It storage translation in rich YAML format. You can put procedures and
-  pluralization (“1 comment”, “5 comments”) in your translation.
+  pluralization (“1 comment”, “5 comments”) or create you own filters.
 
 == How To
 1. Create translations dir <tt>./i18n/</tt>.

@@ -28,6 +28,7 @@ require dir + 'locale'
 require dir + 'unsupported_locale'
 require dir + 'translated_string'
 require dir + 'untranslated'
+require dir + 'filters'
 require dir + 'translation'
 require dir + 'i18n'
 

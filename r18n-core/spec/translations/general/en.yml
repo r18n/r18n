@@ -21,5 +21,8 @@ files: !!pl
   1: 1 file
   n: %1 files
 
-my_type: !!special_type
-  attr: value
+my_filter:  !!my value
+my_tree_filter: !!my
+    name: value
+
+unknown_filter: !!unknown value

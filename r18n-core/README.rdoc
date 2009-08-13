@@ -15,7 +15,7 @@ Use <tt>merb_r18n</tt> to localize Merb Web application and
   month and week days name and give other locale information.
 * It has translation for commons words, like “OK”, “Cancel”, etc.
 * It storage translation in rich YAML format. You can put procedures and
-  pluralization (“1 comment”, “5 comments”) in your translation.
+  pluralization (“1 comment”, “5 comments”) or create you own filters.
 * It can translate Web and desktop applications.
 
 == Usage
@@ -60,6 +60,9 @@ In translation you can use:
       n: %1 robots
 * Procedures
     sum: !!proc |x, y| x + y
+* Filters
+    filtered: !!filter_name
+      This content will be processed by filter
 
 To get translated string use method with key name or square brackets [] for
 keys, which is same with Object methods (+class+, +inspect+, etc):
@@ -97,6 +100,15 @@ Pluralizable messages get item count from first argument:
 If there isn’t pluralization for some number, translation will be use 'n'. If
 there isn’t locale file for translation, it will be use English pluralization
 rule (0, 1 and 'n').
+
+You can also add you own filter for translations: escape HTML entries, convert
+from Markdown syntax, etc.
+
+  R18n::Filters.add(:filter_name) do |content, replace|
+    content.gsub(' ', replace)
+  end
+  
+  i18n.filtered('_') #=> "This content will be processed by filter"
 
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.

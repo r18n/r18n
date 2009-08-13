@@ -104,14 +104,6 @@ describe R18n::Translation do
     translation.files(5000).should == '5,000 files'
   end
 
-  it "should return unknown YAML type" do
-    translation = R18n::Translation.load('en', DIR)
-    
-    translation.my_type.class.should == YAML::PrivateType
-    translation.my_type.type_id.should == 'special_type'
-    translation.my_type.value.should == {'attr' => 'value'}
-  end
-
   it "should pluralize translation without locale" do
     translation = R18n::Translation.load('no_LC', DIR)
     translation.entries(1).should == 'ONE'

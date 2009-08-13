@@ -186,7 +186,11 @@ module R18n
         result = translation[name]
         next if result.nil?
         
-        if result.is_a? YAML::PrivateType
+        if result.is_a? Hash
+          result = self.class.new(@locales, @translations.map { |i|
+            i[name] or {}
+          }, path)
+        elsif result.is_a? YAML::PrivateType
           case result.type_id
           when 'proc'
             if @@call_proc
@@ -207,7 +211,11 @@ module R18n
             type = 'n' if not result.value.include? type
             result = result.value[type]
           else
-            return result
+            if Filters.defined.has_key? result.type_id
+              result = Filters[result.type_id].call(result.value, *params)
+            else
+              raise ArgumentError, "Unknown filter '#{result.type_id}'"
+            end
           end
         end
         
@@ -217,13 +225,9 @@ module R18n
             result.gsub! "%#{i+1}", param.to_s
           end
           return TranslatedString.new(result, @locales[i], path)
-        elsif result.is_a? Hash
-          return self.class.new(@locales, @translations.map { |i|
-            i[name] or {}
-          }, path)
         else
-          return result.clone
-        end
+          return result
+         end
       end
       
       return Untranslated.new(path, name)
