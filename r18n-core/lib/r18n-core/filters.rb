@@ -27,10 +27,10 @@ module R18n
   #   filtered: !!no_space
   #     This content will be processed by filter
   # 
-  # Filter function will be receive filtered content as first argument and
-  # filter parameters as next arguments:
+  # Filter function will be receive filtered content as first argument, current
+  # locale as second and filter parameters as next arguments:
   # 
-  #   R18n::Filters.add(:no_space) do |content, replace|
+  #   R18n::Filters.add(:no_space) do |content, locale, replace|
   #     content.gsub(' ', replace)
   #   end
   #   
@@ -42,8 +42,9 @@ module R18n
         @defined ||= {}
       end
       
-      # Add new filter with +name+. Filter content will be sent as first
-      # argument to +block+ and filters parameters will be in next arguments.
+      # Add new filter with +name+. Filter content will be sent to +block+ as
+      # first argument, locale as second and filters parameters will be in next
+      # arguments.
       # 
       # If filter with this +name+ already exists, it will be replaced.
       def add(name, &block)
@@ -60,5 +61,19 @@ module R18n
         defined[name.to_s]
       end
     end
+  end
+  
+  Filters.add(:proc) do |content, locale, *params|
+    if R18n.call_proc
+      eval("proc { #{content} }").call(*params)
+    else
+      content
+    end
+  end
+  
+  Filters.add(:pl) do |content, locale, param|
+    type = locale.pluralize(param)
+    type = 'n' if not content.include? type
+    content[type]
   end
 end

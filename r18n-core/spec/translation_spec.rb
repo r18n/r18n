@@ -29,8 +29,8 @@ describe R18n::Translation do
 
   it "should can use params in translation" do
     translation = R18n::Translation.load('en', DIR)
-    translation.params(1, 2).should == 'Is 1 between 1 and 2?'
-    translation['params', 1, 2].should == 'Is 1 between 1 and 2?'
+    translation.params(-1, 2).should == 'Is −1 between −1 and 2?'
+    translation['params', -1, 2].should == 'Is −1 between −1 and 2?'
   end
 
   it "should load use hierarchical translations" do
@@ -78,36 +78,6 @@ describe R18n::Translation do
     
     translation = R18n::Translation.load(['no_TR', 'en'], DIR)
     translation.ext.should == 'Extension'
-  end
-
-  it "should call proc in translation" do
-    translation = R18n::Translation.load('en', DIR)
-    translation.sum(2, 3).should == 5
-  end
-  
-  it "shouldn't call proc if it isn't secure" do
-    translation = R18n::Translation.load('en', DIR)
-    R18n::Translation.call_proc = false
-    R18n::Translation.call_proc.should be_false
-    translation.sum(2, 3).should == '|x, y| x + y'
-    R18n::Translation.call_proc = true
-  end
-
-  it "should pluralize translation" do
-    translation = R18n::Translation.load('en', DIR)
-    translation.comments(0, 'article').should == 'no comments for article'
-    translation.comments(1, 'article').should == 'one comment for article'
-    translation.comments(5, 'article').should == '5 comments for article'
-    
-    translation.files(0).should == '0 files'
-    translation.files(-5.5).should == '−5.5 files'
-    translation.files(5000).should == '5,000 files'
-  end
-
-  it "should pluralize translation without locale" do
-    translation = R18n::Translation.load('no_LC', DIR)
-    translation.entries(1).should == 'ONE'
-    translation.entries(5).should == 'N'
   end
 
 end

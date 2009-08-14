@@ -97,8 +97,6 @@ module R18n
   class Translation
     @@extension_translations = [
       Pathname(__FILE__).dirname.expand_path + '../../base']
-      
-    @@call_proc = true
 
     # Get dirs with extension translations. If application translations with
     # same locale isn’t exists, extension file willn’t be used.
@@ -143,17 +141,6 @@ module R18n
       self.new(locales, translations)
     end
     
-    # Is procedures in translations will be call. Set to false if user can
-    # upload or edit translations.
-    def self.call_proc=(call)
-      @@call_proc = call
-    end
-    
-    # Is procedures in translations will be call
-    def self.call_proc
-      @@call_proc
-    end
-    
     # Create translation hash for +path+ with messages in +translations+ for
     # +locales+.
     #
@@ -191,38 +178,23 @@ module R18n
             i[name] or {}
           }, path)
         elsif result.is_a? YAML::PrivateType
-          case result.type_id
-          when 'proc'
-            if @@call_proc
-              return eval("proc {#{result.value}}").call(*params)
-            else
-              return result.value
-            end
-          when 'pl'
-            locale = @locales[i]
-            
-            type = locale.pluralize(params.first)
-            if params.first.is_a? Float
-              params[0] = locale.format_float(params.first)
-            elsif params.first.is_a? Integer
-              params[0] = locale.format_integer(params.first)
-            end
-            
-            type = 'n' if not result.value.include? type
-            result = result.value[type]
+          filter = Filters[result.type_id]
+          if filter
+            result = filter.call(result.value, @locales[i], *params)
           else
-            if Filters.defined.has_key? result.type_id
-              result = Filters[result.type_id].call(result.value, *params)
-            else
-              raise ArgumentError, "Unknown filter '#{result.type_id}'"
-            end
+            raise ArgumentError, "Unknown filter '#{result.type_id}'"
           end
         end
         
         if result.is_a? String
           result = result.clone
-          params.each_with_index do |param, i|
-            result.gsub! "%#{i+1}", param.to_s
+          params.each_with_index do |param, j|
+            if param.is_a? Float
+              param = @locales[i].format_float(param)
+            elsif param.is_a? Integer
+              param = @locales[i].format_integer(param)
+            end
+            result.gsub! "%#{j+1}", param.to_s
           end
           return TranslatedString.new(result, @locales[i], path)
         else

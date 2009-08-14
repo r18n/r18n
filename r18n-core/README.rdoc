@@ -104,7 +104,7 @@ rule (0, 1 and 'n').
 You can also add you own filter for translations: escape HTML entries, convert
 from Markdown syntax, etc.
 
-  R18n::Filters.add(:filter_name) do |content, replace|
+  R18n::Filters.add(:filter_name) do |content, locale, replace|
     content.gsub(' ', replace)
   end
   
