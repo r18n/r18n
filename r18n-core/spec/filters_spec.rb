@@ -38,6 +38,16 @@ describe R18n::Filters do
     lambda { @i18n.my_filter }.should raise_error
   end
   
+  it "should turn off filter" do
+    R18n::Filters.add(:my) { '1' }
+    
+    R18n::Filters.off(:my)
+    lambda { @i18n.my_filter }.should raise_error
+    
+    R18n::Filters.on(:my)
+    @i18n.my_filter.should == '1'
+  end
+  
   it "should send locale to filter" do
     R18n::Filters.add(:my) { |i, locale| locale }
     @i18n.my_filter.should == @i18n.locale

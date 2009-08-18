@@ -35,11 +35,23 @@ module R18n
   #   end
   #   
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter"
+  # 
+  # You can disable and enabled filters:
+  # 
+  #   R18n::Filters.off(:no_space)
+  #   i18n.filtered('_') #=> "This content will be processed by filter"
+  #   R18n::Filters.on(:no_space)
+  #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter"
   module Filters
     class << self
       # Hash of filter names to Proc.
       def defined
         @defined ||= {}
+      end
+      
+      # Enabled filters. Hash of names to Proc.
+      def enabled
+        @enabled ||= {}
       end
       
       # Add new filter with +name+. Filter content will be sent to +block+ as
@@ -48,17 +60,33 @@ module R18n
       # 
       # If filter with this +name+ already exists, it will be replaced.
       def add(name, &block)
-        defined[name.to_s] = block
+        name = name.to_s
+        defined[name] = block
+        enabled[name] = block
       end
       
       # Delete filter with +name+.
       def delete(name)
-        defined.delete(name.to_s)
+        name = name.to_s
+        defined.delete(name)
+        enabled.delete(name)
       end
       
-      # Return filter with +name+.
+      # Disable filter with +name+.
+      def off(name)
+        enabled.delete(name.to_s)
+      end
+      
+      # Turn on disabled filter with +name+.
+      def on(name)
+        name = name.to_s
+        return false unless defined.has_key? name
+        enabled[name] = defined[name]
+      end
+      
+      # Return enabled filter with +name+.
       def [](name)
-        defined[name.to_s]
+        enabled[name.to_s]
       end
     end
   end
