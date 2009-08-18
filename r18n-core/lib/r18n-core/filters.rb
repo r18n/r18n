@@ -92,11 +92,7 @@ module R18n
   end
   
   Filters.add(:proc) do |content, locale, *params|
-    if R18n.call_proc
-      eval("proc { #{content} }").call(*params)
-    else
-      content
-    end
+    eval("proc { #{content} }").call(*params)
   end
   
   Filters.add(:pl) do |content, locale, param|

@@ -60,14 +60,9 @@ module R18n
     #   
     #   i18n.user.password #=> "user.[password]"
     attr_accessor :untranslated
-    
-    # Is procedures in translations will be call. Set to false if user can
-    # upload or edit translations.
-    attr_accessor :call_proc
   end
   
   self.untranslated = '%1'
-  self.call_proc = true
   
   module Utils
     # Recursively hash merge.

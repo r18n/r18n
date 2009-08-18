@@ -110,6 +110,11 @@ from Markdown syntax, etc.
   
   i18n.filtered('_') #=> "This content will be processed by filter"
 
+You can use lambdas in your translations. If it isn’t secure in your application
+(for example, user can change translations), you can disable it:
+
+  R18n::Filters.off(:proc)
+
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.
 

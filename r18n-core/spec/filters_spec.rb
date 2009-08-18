@@ -4,7 +4,6 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe R18n::Filters do
   before do
     @i18n = R18n::I18n.new('en', DIR)
-    R18n.call_proc = true
   end
   
   it "should add new filter" do
@@ -60,12 +59,6 @@ describe R18n::Filters do
 
   it "should call proc from translation" do
     @i18n.sum(2, 3).should == 5
-  end
-  
-  it "shouldn't call proc if it isn't secure" do
-    R18n.call_proc = false
-    R18n.call_proc.should be_false
-    @i18n.sum(2, 3).should == '|x, y| x + y'
   end
 
   it "should pluralize translation" do
