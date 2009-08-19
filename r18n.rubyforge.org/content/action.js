@@ -13,11 +13,11 @@ HowTo = {
             $('.slider:not(.hidden)').addClass('sliding')
                 .animate({width: '0'}, 400, function() {
                     $(this).removeClass('sliding right').addClass('hidden')
-                        .css('width', '32em')
+                        .css('width', '33em')
                 });
             $('.slider.' + type).removeClass('hidden')
                 .addClass('sliding').css('width', '0')
-                .animate({width: "32em"}, 400, function() {
+                .animate({width: "33em"}, 400, function() {
                     $(this).removeClass('sliding right')
                 });
         }
