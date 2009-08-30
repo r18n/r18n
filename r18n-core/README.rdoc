@@ -61,7 +61,7 @@ In translation you can use:
 * Procedures
     sum: !!proc |x, y| x + y
 * Filters
-    filtered: !!filter_name
+    filtered: !!custom_type
       This content will be processed by filter
 
 To get translated string use method with key name or square brackets [] for
@@ -104,16 +104,19 @@ rule (0, 1 and 'n').
 You can also add you own filter for translations: escape HTML entries, convert
 from Markdown syntax, etc.
 
-  R18n::Filters.add(:filter_name) do |content, locale, replace|
+  R18n::Filters.add('custom_type', :filter_name) do |content, locale, replace|
     content.gsub(' ', replace)
   end
+  R18n::Filters.add('custom_type') do |content, locale, replace|
+    content + '!'
+  end
   
-  i18n.filtered('_') #=> "This content will be processed by filter"
+  i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
 
 You can use lambdas in your translations. If it isn’t secure in your application
 (for example, user can change translations), you can disable it:
 
-  R18n::Filters.off(:proc)
+  R18n::Filters.off(:procedure)
 
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.

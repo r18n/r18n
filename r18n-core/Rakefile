@@ -19,7 +19,7 @@ Spec::Rake::SpecTask.new('rcov') do |t|
   t.spec_opts = ['--colour']
   t.spec_files = Dir['spec/**/*_spec.rb'].sort
   t.rcov = true
-  t.rcov_opts = ['--text-summary']
+  t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
 end
 
 Rake::RDocTask.new do |rdoc|

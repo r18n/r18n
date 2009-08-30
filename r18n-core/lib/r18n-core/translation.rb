@@ -178,9 +178,10 @@ module R18n
             i[name] or {}
           }, path)
         elsif result.is_a? YAML::PrivateType
-          filter = Filters[result.type_id]
-          if filter
-            result = filter.call(result.value, @locales[i], *params)
+          filters = Filters.enabled[result.type_id]
+          unless filters.empty?
+            result = result.value
+            filters.each { |f| result = f.call(result, @locales[i], *params) }
           else
             raise ArgumentError, "Unknown filter '#{result.type_id}'"
           end
