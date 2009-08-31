@@ -8,7 +8,7 @@ describe R18n::Filters do
   
   after do
     R18n::Filters.defined.each_pair do |name, filter|
-      next if [:pluralization, :procedure].include? filter.name
+      next if [:pluralization, :procedure, :variables].include? filter.name
       R18n::Filters.delete(filter)
     end
   end
@@ -116,6 +116,10 @@ describe R18n::Filters do
     i18n = R18n::I18n.new('no_LC', DIR)
     i18n.entries(1).should == 'ONE'
     i18n.entries(5).should == 'N'
+  end
+
+  it "should can use params in translation" do
+    @i18n.params(-1, 2).should == 'Is −1 between −1 and 2?'
   end
   
 end

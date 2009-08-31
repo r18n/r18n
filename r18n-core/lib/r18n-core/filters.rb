@@ -28,7 +28,9 @@ module R18n
   #     This content will be processed by filter
   # 
   # Filter function will be receive filtered content as first argument, current
-  # locale as second and filter parameters as next arguments:
+  # locale as second and filter parameters as next arguments.
+  # *Warning*: Don’t change content in filters, only return changed copy (use
+  # +gsub+ instead <tt>gsub!</tt>, etc).
   # 
   #   R18n::Filters.add('custom_type', :no_space) do |content, locale, replace|
   #     content.gsub(' ', replace)
@@ -155,5 +157,18 @@ module R18n
     type = locale.pluralize(param)
     type = 'n' if not content.include? type
     content[type]
+  end
+  
+  Filters.add(String, :variables) do |content, locale, *params|
+    content = content.clone
+    params.each_with_index do |param, i|
+      if param.is_a? Float
+        param = locale.format_float(param)
+      elsif param.is_a? Integer
+        param = locale.format_integer(param)
+      end
+      content.gsub! "%#{i+1}", param.to_s
+    end
+    content
   end
 end

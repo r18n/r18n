@@ -188,17 +188,8 @@ module R18n
         end
         
         if result.is_a? String
-          result = result.clone
           Filters.enabled[String].each do |f|
             result = f.call(result, @locales[i], *params)
-          end
-          params.each_with_index do |param, j|
-            if param.is_a? Float
-              param = @locales[i].format_float(param)
-            elsif param.is_a? Integer
-              param = @locales[i].format_integer(param)
-            end
-            result.gsub! "%#{j+1}", param.to_s
           end
           return TranslatedString.new(result, @locales[i], path)
         else

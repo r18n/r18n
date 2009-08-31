@@ -27,12 +27,6 @@ describe R18n::Translation do
     translation['not']['exists'].should be_nil
   end
 
-  it "should can use params in translation" do
-    translation = R18n::Translation.load('en', DIR)
-    translation.params(-1, 2).should == 'Is −1 between −1 and 2?'
-    translation['params', -1, 2].should == 'Is −1 between −1 and 2?'
-  end
-
   it "should load use hierarchical translations" do
     translation = R18n::Translation.load(['ru', 'en'], DIR)
     translation.in.another.level.should == 'Иерархический'
