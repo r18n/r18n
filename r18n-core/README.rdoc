@@ -113,6 +113,12 @@ from Markdown syntax, etc.
   
   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
 
+You can also add global filters for all translated strings:
+
+  R18n::Filters.add(String, :escape_html) do |content, locale, params|
+    escape_html(content)
+  end
+
 You can use lambdas in your translations. If it isn’t secure in your application
 (for example, user can change translations), you can disable it:
 

@@ -189,6 +189,9 @@ module R18n
         
         if result.is_a? String
           result = result.clone
+          Filters.enabled[String].each do |f|
+            result = f.call(result, @locales[i], *params)
+          end
           params.each_with_index do |param, j|
             if param.is_a? Float
               param = @locales[i].format_float(param)

@@ -67,6 +67,13 @@ describe R18n::Filters do
     lambda { @i18n.my_filter }.should raise_error
   end
   
+  it "should use global filters" do
+    R18n::Filters.add(String) { |result, locale, a, b| result + a + b }
+    R18n::Filters.add(String) { |result, locale| result + '!' }
+    
+    @i18n.one('1', '2').should == 'One12!'
+  end
+  
   it "should turn off filter" do
     filter = R18n::Filters.add('my', :one) { |i, locale| i + '1' }
     filter = R18n::Filters.add('my', :two) { |i, locale| i + '2' }
@@ -87,6 +94,7 @@ describe R18n::Filters do
   
   it "should send parameters to filter" do
     R18n::Filters.add('my') { |i, locale, a, b| "#{i}#{a}#{b}" }
+    @i18n['my_filter', 1, 2].should == 'value12'
     @i18n.my_filter(1, 2).should == 'value12'
   end
 

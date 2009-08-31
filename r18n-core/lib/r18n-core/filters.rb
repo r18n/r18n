@@ -39,6 +39,12 @@ module R18n
   #   
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
   # 
+  # Use String class as type to add global filter for all translated strings:
+  # 
+  #   R18n::Filters.add(String, :escape_html) do |content, locale, params|
+  #     escape_html(content)
+  #   end
+  # 
   # You can disable, enabled and delete filters:
   # 
   #   R18n::Filters.off(:no_space))
@@ -73,7 +79,9 @@ module R18n
         @by_type ||= Hash.new([])
       end
       
-      # Add new filter for +type+ with +name+ and return filter object.
+      # Add new filter for +type+ with +name+ and return filter object. You
+      # can use String class as +type+ to add global filter for all translated
+      # string.
       # 
       # Several filters for same type will be call consecutively, but you can
       # set +position+ in call list.
