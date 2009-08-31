@@ -115,7 +115,7 @@ from Markdown syntax, etc.
 
 You can also add global filters for all translated strings:
 
-  R18n::Filters.add(String, :escape_html) do |content, locale, params|
+  R18n::Filters.add(String, :escape_html) do |content, locale|
     escape_html(content)
   end
 
