@@ -24,14 +24,11 @@ human_time:
   today: dnes
   minutes_ago: !!pl
     1: před %1 minutou
-    2: před %1 minutami
     n: před %1 minutami
   hours_ago: !!pl
     1: před %1 hodinou
-    2: před %1 hodinami
     n: před %1 hodinami
   yesterday: včera
   days_ago: !!pl
     1: před %1 dnem
-    2: před %1 dny
     n: před %1 dny
