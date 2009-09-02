@@ -5,3 +5,27 @@ yes: Ja
 no: Nein
 exit: Ausgang
 delete: Löschen
+
+human_time:
+  after_days: !!pl
+    1: nach %1 Tag
+    n: nach %1 Tagen
+  tomorrow: morgen
+  after_hours: !!pl
+    1: nach %1 Stunde
+    n: nach %1 Stunden
+  after_minutes: !!pl
+    1: nach %1 Minute
+    n: nach %1 Minuten
+  now: jetzt
+  today: heute
+  minutes_ago: !!pl
+    1: %1 Minute vor
+    n: %1 Minuten vor
+  hours_ago: !!pl
+    1: %1 Stunde vor
+    n: %1 Stunden vor
+  yesterday: gestern
+  days_ago: !!pl
+    1: %1 Tag vor
+    n: %1 Tagen vor
