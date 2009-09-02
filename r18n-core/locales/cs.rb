@@ -8,11 +8,11 @@ module R18n
         # 2..4 - 2
         # n
     
-        case n % 10
+        case n
         when 1
-          n > 10 ? 'n' : 1
+          1
         when 2..4
-          n % 100 > 10 && n % 100 < 20 ? 'n' : 2
+          2
         else
           'n'
         end
