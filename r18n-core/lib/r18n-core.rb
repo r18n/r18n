@@ -24,6 +24,7 @@ require 'pathname'
 
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n-core'
 require dir + 'version'
+require dir + 'utils'
 require dir + 'locale'
 require dir + 'unsupported_locale'
 require dir + 'translated_string'
@@ -63,24 +64,4 @@ module R18n
   end
   
   self.untranslated = '%1'
-  
-  module Utils
-    # Recursively hash merge.
-    def self.deep_merge!(a, b)
-      b.each_pair do |name, value|
-        if a[name].is_a? Hash
-          self.deep_merge!(a[name], value)
-        else
-          a[name] = value
-        end
-      end
-      a
-    end
-    
-    # Convert Time to Date. Backport from Ruby 1.9.
-    def self.to_date(time)
-      jd = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)
-      Date.new!(Date.send(:jd_to_ajd, jd, 0, 0), 0, Date::ITALY)
-    end
-  end
 end
