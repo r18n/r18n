@@ -26,3 +26,9 @@ my_tree_filter: !!my
     name: value
 
 unknown_filter: !!unknown value
+
+html: !!escape
+  <script>true && false</script>
+
+no_escape:
+  <b>Warning</b>

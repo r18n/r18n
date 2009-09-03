@@ -3,15 +3,19 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Filters do
   before do
-    @system_filters = R18n::Filters.defined.values
+    @system  = R18n::Filters.defined.values
+    @enabled = R18n::Filters.defined.values.reject { |i| !i.enabled? }
     @i18n = R18n::I18n.new('en', DIR)
   end
   
   after do
     R18n::Filters.defined.each_pair do |name, filter|
-      next if @system_filters.include? filter
+      next if @system.include? filter
       R18n::Filters.delete(filter)
     end
+    
+    @enabled.each { |i| R18n::Filters.on(i) unless i.enabled? }
+    (@system - @enabled).each { |i| R18n::Filters.off(i) if i.enabled? }
   end
   
   it "should add new filter" do
@@ -121,6 +125,17 @@ describe R18n::Filters do
 
   it "should can use params in translation" do
     @i18n.params(-1, 2).should == 'Is −1 between −1 and 2?'
+  end
+  
+  it "should have filter for escape HTML" do
+    @i18n.html.should == '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;'
+  end
+  
+  it "should have disabled global filter for escape HTML" do
+    @i18n.no_escape.should == '<b>Warning</b>'
+    
+    R18n::Filters.on(:global_escape_html)
+    @i18n.no_escape.should == '&lt;b&gt;Warning&lt;/b&gt;'
   end
   
 end

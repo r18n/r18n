@@ -171,4 +171,9 @@ module R18n
     end
     content
   end
+  
+  Filters.add('escape', :escape_html, &Utils.method(:escape_html))
+  
+  Filters.add(String, :global_escape_html, &Utils.method(:escape_html))
+  Filters.off(:global_escape_html)
 end

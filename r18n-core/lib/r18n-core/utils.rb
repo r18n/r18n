@@ -38,5 +38,12 @@ module R18n
       jd = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)
       Date.new!(Date.send(:jd_to_ajd, jd, 0, 0), 0, Date::ITALY)
     end
+    
+    HTML_ENTRIES = { '&'=>'&amp;', '<'=>'&lt;', '>'=>'&gt;' }
+    
+    # Escape HTML entries (<, >, &). Copy from HAML helper.
+    def self.escape_html(content, *params)
+      content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
+    end
   end
 end

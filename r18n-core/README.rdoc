@@ -132,6 +132,17 @@ You can use lambdas in your translations. If it isn’t secure in your applicati
 
   R18n::Filters.off(:procedure)
 
+R18n contain 2 filters to escape HTML entries: by YAML type and global. If you
+need to escape HTML in some translations, just set <tt>!!escape</tt> YAML type:
+
+  greater: !!escape
+    1 < 2 is true
+
+If you develop web application and want to escape HTML in all translations, just
+activate global escape filter:
+
+  R18n::Filters.on(:global_escape_html)
+
 === Localization
 You can print number and float according to the rules of the user locale:
 
