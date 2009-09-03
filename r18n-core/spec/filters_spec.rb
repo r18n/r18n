@@ -9,7 +9,7 @@ describe R18n::Filters do
   end
   
   after do
-    R18n::Filters.defined.each_pair do |name, filter|
+    R18n::Filters.defined.values.each do |filter|
       next if @system.include? filter
       R18n::Filters.delete(filter)
     end
@@ -19,7 +19,7 @@ describe R18n::Filters do
   end
   
   it "should add new filter" do
-    filter = R18n::Filters.add('my', :my_filter) { |i, locale| i }
+    filter = R18n::Filters.add('my', :my_filter) { |i, config| i }
     
     filter.should be_a(R18n::Filters::Filter)
     filter.name.should == :my_filter
@@ -32,9 +32,9 @@ describe R18n::Filters do
   end
   
   it "should use cascade filters" do
-    filter = R18n::Filters.add('my', :one)      { |i, locale| i + '1' }
-    filter = R18n::Filters.add('my', :two)      { |i, locale| i + '2' }
-    filter = R18n::Filters.add('my', :three, 0) { |i, locale| i + '3' }
+    filter = R18n::Filters.add('my', :one)      { |i, config| i + '1' }
+    filter = R18n::Filters.add('my', :two)      { |i, config| i + '2' }
+    filter = R18n::Filters.add('my', :three, 0) { |i, config| i + '3' }
     @i18n.my_filter.should == 'value312'
   end
   
@@ -73,15 +73,15 @@ describe R18n::Filters do
   end
   
   it "should use global filters" do
-    R18n::Filters.add(String) { |result, locale, a, b| result + a + b }
-    R18n::Filters.add(String) { |result, locale| result + '!' }
+    R18n::Filters.add(String) { |result, config, a, b| result + a + b }
+    R18n::Filters.add(String) { |result, config| result + '!' }
     
     @i18n.one('1', '2').should == 'One12!'
   end
   
   it "should turn off filter" do
-    filter = R18n::Filters.add('my', :one) { |i, locale| i + '1' }
-    filter = R18n::Filters.add('my', :two) { |i, locale| i + '2' }
+    filter = R18n::Filters.add('my', :one) { |i, config| i + '1' }
+    filter = R18n::Filters.add('my', :two) { |i, config| i + '2' }
     
     R18n::Filters.off(:one)
     R18n::Filters.defined[:one].should_not be_enabled
@@ -92,13 +92,14 @@ describe R18n::Filters do
     @i18n.my_filter.should == 'value12'
   end
   
-  it "should send locale to filter" do
-    R18n::Filters.add('my') { |i, locale| locale }
-    @i18n.my_filter.should == @i18n.locale
+  it "should send config to filter" do
+    R18n::Filters.add('my') { |i, config| config }
+    @i18n.my_filter.locale.should == @i18n.locale
+    @i18n.my_filter.path.should == 'my_filter'
   end
   
   it "should send parameters to filter" do
-    R18n::Filters.add('my') { |i, locale, a, b| "#{i}#{a}#{b}" }
+    R18n::Filters.add('my') { |i, config, a, b| "#{i}#{a}#{b}" }
     @i18n['my_filter', 1, 2].should == 'value12'
     @i18n.my_filter(1, 2).should == 'value12'
   end

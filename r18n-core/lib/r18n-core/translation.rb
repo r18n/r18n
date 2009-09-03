@@ -173,6 +173,8 @@ module R18n
         result = translation[name]
         next if result.nil?
         
+        config = Filters::Config.new(@locales[i], path)
+        
         if result.is_a? Hash
           result = self.class.new(@locales, @translations.map { |i|
             i[name] or {}
@@ -181,7 +183,7 @@ module R18n
           filters = Filters.enabled[result.type_id]
           unless filters.empty?
             result = result.value
-            filters.each { |f| result = f.call(result, @locales[i], *params) }
+            filters.each { |f| result = f.call(result, config, *params) }
           else
             raise ArgumentError, "Unknown filter '#{result.type_id}'"
           end
@@ -189,7 +191,7 @@ module R18n
         
         if result.is_a? String
           Filters.enabled[String].each do |f|
-            result = f.call(result, @locales[i], *params)
+            result = f.call(result, config, *params)
           end
           return TranslatedString.new(result, @locales[i], path)
         else

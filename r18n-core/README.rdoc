@@ -112,10 +112,10 @@ See <tt>base/</tt> in dir in gem.
 You can also add you own filter for translations: escape HTML entries, convert
 from Markdown syntax, etc.
 
-  R18n::Filters.add('custom_type', :filter_name) do |content, locale, replace|
+  R18n::Filters.add('custom_type', :filter_name) do |content, config, replace|
     content.gsub(' ', replace)
   end
-  R18n::Filters.add('custom_type') do |content, locale, replace|
+  R18n::Filters.add('custom_type') do |content, config, replace|
     content + '!'
   end
   
@@ -123,7 +123,7 @@ from Markdown syntax, etc.
 
 You can also add global filters for all translated strings:
 
-  R18n::Filters.add(String, :escape_html) do |content, locale|
+  R18n::Filters.add(String, :escape_html) do |content, config|
     escape_html(content)
   end
 

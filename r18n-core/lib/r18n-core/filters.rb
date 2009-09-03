@@ -27,15 +27,15 @@ module R18n
   #   filtered: !!custom_type
   #     This content will be processed by filter
   # 
-  # Filter function will be receive filtered content as first argument, current
-  # locale as second and filter parameters as next arguments.
+  # Filter function will be receive filtered content as first argument, struct
+  # with filter config as second and filter parameters as next arguments.
   # *Warning*: Don’t change content in filters, only return changed copy (use
   # +gsub+ instead <tt>gsub!</tt>, etc).
   # 
-  #   R18n::Filters.add('custom_type', :no_space) do |content, locale, replace|
+  #   R18n::Filters.add('custom_type', :no_space) do |content, config, replace|
   #     content.gsub(' ', replace)
   #   end
-  #   R18n::Filters.add('custom_type') do |content, locale, replace|
+  #   R18n::Filters.add('custom_type') do |content, config, replace|
   #     content + '!'
   #   end
   #   
@@ -43,7 +43,7 @@ module R18n
   # 
   # Use String class as type to add global filter for all translated strings:
   # 
-  #   R18n::Filters.add(String, :escape_html) do |content, locale, params|
+  #   R18n::Filters.add(String, :escape_html) do |content, config, params|
   #     escape_html(content)
   #   end
   # 
@@ -64,6 +64,8 @@ module R18n
         enabled
       end
     end
+    
+    Config = Struct.new(:locale, :path)
     
     class << self
       # Hash of filter names to Filters.
@@ -88,8 +90,8 @@ module R18n
       # Several filters for same type will be call consecutively, but you can
       # set +position+ in call list.
       # 
-      # Filter content will be sent to +block+ as first argument, locale as
-      # second and filters parameters will be in next arguments.
+      # Filter content will be sent to +block+ as first argument, struct with
+      # config as second and filters parameters will be in next arguments.
       def add(type, name = nil, position = nil, &block)
         unless name
           @last_auto_name ||= 0
@@ -149,23 +151,23 @@ module R18n
     end
   end
   
-  Filters.add('proc', :procedure) do |content, locale, *params|
+  Filters.add('proc', :procedure) do |content, config, *params|
     eval("proc { #{content} }").call(*params)
   end
   
-  Filters.add('pl', :pluralization) do |content, locale, param|
-    type = locale.pluralize(param)
+  Filters.add('pl', :pluralization) do |content, config, param|
+    type = config.locale.pluralize(param)
     type = 'n' if not content.include? type
     content[type]
   end
   
-  Filters.add(String, :variables) do |content, locale, *params|
+  Filters.add(String, :variables) do |content, config, *params|
     content = content.clone
     params.each_with_index do |param, i|
       if param.is_a? Float
-        param = locale.format_float(param)
+        param = config.locale.format_float(param)
       elsif param.is_a? Integer
-        param = locale.format_integer(param)
+        param = config.locale.format_integer(param)
       end
       content.gsub! "%#{i+1}", param.to_s
     end
