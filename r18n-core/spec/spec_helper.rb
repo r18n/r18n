@@ -1,4 +1,6 @@
 # encoding: utf-8
+require 'pp'
+
 require File.join(File.dirname(__FILE__), '../lib/r18n-core')
 
 DIR = Pathname(__FILE__).dirname + 'translations/general' unless defined? DIR
