@@ -101,6 +101,14 @@ If there isn’t pluralization for some number, translation will be use 'n'. If
 there isn’t locale file for translation, it will be use English pluralization
 rule (0, 1 and 'n').
 
+R18n already has translation for common words for most supported locales.
+See <tt>base/</tt> in dir in gem.
+
+  i18n.yes    #=> "Yes"
+  i18n.cancel #=> "Cancel"
+  i18n.delete #=> "Delete"
+
+== Filters
 You can also add you own filter for translations: escape HTML entries, convert
 from Markdown syntax, etc.
 
@@ -123,13 +131,6 @@ You can use lambdas in your translations. If it isn’t secure in your applicati
 (for example, user can change translations), you can disable it:
 
   R18n::Filters.off(:procedure)
-
-R18n already has translation for common words for most supported locales.
-See <tt>base/</tt> in dir in gem.
-
-  i18n.yes    #=> "Yes"
-  i18n.cancel #=> "Cancel"
-  i18n.delete #=> "Delete"
 
 === Localization
 You can print number and float according to the rules of the user locale:
