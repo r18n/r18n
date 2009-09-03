@@ -3,12 +3,13 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Filters do
   before do
+    @system_filters = R18n::Filters.defined.values
     @i18n = R18n::I18n.new('en', DIR)
   end
   
   after do
     R18n::Filters.defined.each_pair do |name, filter|
-      next if [:pluralization, :procedure, :variables].include? filter.name
+      next if @system_filters.include? filter
       R18n::Filters.delete(filter)
     end
   end
