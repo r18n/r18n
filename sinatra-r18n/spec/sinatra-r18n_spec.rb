@@ -6,6 +6,10 @@ describe Sinatra::R18n do
     ::R18n.set(nil)
   end
   
+  after do
+    set :default_locale, 'en'
+  end
+  
   it "should translate messages" do
     get '/ru/posts/1'
     last_response.should be_ok
@@ -41,6 +45,16 @@ describe Sinatra::R18n do
     get '/locales'
     last_response.should be_ok
     last_response.body.should == 'en: English; ru: Русский'
+  end
+  
+  it "should enable global HTML escape" do
+    get '/greater'
+    last_response.should be_ok
+    last_response.body.should == '1 &lt; 2 is true'
+    
+    get '/warning'
+    last_response.should be_ok
+    last_response.body.should == '<b>Warning</b>'
   end
   
 end

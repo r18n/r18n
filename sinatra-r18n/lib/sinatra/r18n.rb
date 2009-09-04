@@ -26,6 +26,7 @@ gem 'r18n-core', '~>0.2.3'
 require 'r18n-core'
 
 R18n.untranslated = '%2<span style="color: red">%3</span>'
+R18n::Filters.on(:global_escape_html) if defined? R18n::Filters
 
 module Sinatra #::nodoc::
   module R18n #::nodoc::

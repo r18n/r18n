@@ -17,3 +17,11 @@ end
 get '/locales' do
   i18n.translations.map { |i| i.join(': ') }.sort.join('; ')
 end
+
+get '/greater' do
+  i18n.greater
+end
+
+get '/warning' do
+  i18n.warning
+end
