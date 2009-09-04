@@ -173,6 +173,7 @@ module R18n
   end
   
   Filters.add('escape', :escape_html) do |content, config|
+    config.dont_escape_html = true
     Utils.escape_html(content)
   end
   
