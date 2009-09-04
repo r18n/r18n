@@ -42,7 +42,7 @@ module R18n
     HTML_ENTRIES = { '&'=>'&amp;', '<'=>'&lt;', '>'=>'&gt;' }
     
     # Escape HTML entries (<, >, &). Copy from HAML helper.
-    def self.escape_html(content, *params)
+    def self.escape_html(content)
       content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
     end
   end

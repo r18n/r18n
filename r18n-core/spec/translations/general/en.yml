@@ -29,6 +29,6 @@ unknown_filter: !!unknown value
 
 html: !!escape
   <script>true && false</script>
-
-no_escape:
+greater: 1 < 2 is true
+no_escape: !!html
   <b>Warning</b>

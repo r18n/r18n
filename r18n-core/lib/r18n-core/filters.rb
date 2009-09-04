@@ -172,8 +172,21 @@ module R18n
     content
   end
   
-  Filters.add('escape', :escape_html, &Utils.method(:escape_html))
+  Filters.add('escape', :escape_html) do |content, config|
+    Utils.escape_html(content)
+  end
   
-  Filters.add(String, :global_escape_html, &Utils.method(:escape_html))
+  Filters.add('html', :dont_escape_html) do |content, config|
+    config.dont_escape_html = true
+    content
+  end
+  
+  Filters.add(String, :global_escape_html) do |content, config|
+    if config.dont_escape_html
+      content
+    else
+      Utils.escape_html(content)
+    end
+  end
   Filters.off(:global_escape_html)
 end

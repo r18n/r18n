@@ -149,10 +149,16 @@ describe R18n::Filters do
   end
   
   it "should have disabled global filter for escape HTML" do
-    @i18n.no_escape.should == '<b>Warning</b>'
+    @i18n.greater.should == '1 < 2 is true'
     
     R18n::Filters.on(:global_escape_html)
-    @i18n.no_escape.should == '&lt;b&gt;Warning&lt;/b&gt;'
+    @i18n.greater.should == '1 &lt; 2 is true'
+  end
+  
+  it "should have filter to disable global HTML escape" do
+    @i18n.no_escape.should == '<b>Warning</b>'
+    R18n::Filters.on(:global_escape_html)
+    @i18n.no_escape.should == '<b>Warning</b>'
   end
   
 end
