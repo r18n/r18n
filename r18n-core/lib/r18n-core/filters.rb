@@ -65,8 +65,6 @@ module R18n
       end
     end
     
-    Config = Struct.new(:locale, :path)
-    
     class << self
       # Hash of filter names to Filters.
       def defined

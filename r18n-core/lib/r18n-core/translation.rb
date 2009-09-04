@@ -173,7 +173,7 @@ module R18n
         result = translation[name]
         next if result.nil?
         
-        config = Filters::Config.new(@locales[i], path)
+        config = OpenStruct.new(:locale => @locales[i], :path => path)
         
         if result.is_a? Hash
           result = self.class.new(@locales, @translations.map { |i|
