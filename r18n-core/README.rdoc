@@ -36,8 +36,6 @@ In translation you can use:
       0: No robots
       1: One robot
       n: %1 robots
-* Procedures
-    sum: !!proc |x, y| x + y
 * Filters
     filtered: !!custom_type
       This content will be processed by filter
@@ -123,18 +121,14 @@ OpenStruct and you can add you own parameter to cross-filter communications:
     content
   end
 
-==== Lambdas
-You can use lambdas in your translations. If it isn’t secure in your application
-(for example, user can change translations), you can disable it:
-
-  R18n::Filters.off(:procedure)
-
 ==== HTML Escape
 R18n contain 2 filters to escape HTML entries: by YAML type and global. If you
 need to escape HTML in some translations, just set <tt>!!escape</tt> YAML type:
 
   greater: !!escape
     1 < 2 is true
+
+  i18n.greater #=> "1 &lt; 2 is true"
 
 If you develop web application and want to escape HTML in all translations, just
 activate global escape filter:
@@ -149,6 +143,26 @@ disable escaping in some special value.
 
   R18n::Filters.on(:global_escape_html)
   i18n.warning #=> "<b>Warning</b>"
+
+==== Markdown
+To use Markdown in your translations you must install maruku gem:
+
+  hi: !!markdown
+    **Hi**, people!
+
+  i18n.hi #=> "<p><strong>Hi</strong>, people!</p>"
+
+==== Lambdas
+You can use lambdas in your translations.
+
+  sum: !!proc |x, y| x + y
+
+  i18n.sum(1, 2) #=> 3
+
+If it isn’t secure in your application (for example, user can change
+translations), you can disable it:
+
+  R18n::Filters.off(:procedure)
 
 === Localization
 You can print number and float according to the rules of the user locale:

@@ -18,6 +18,8 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
+require 'rubygems'
+    
 module R18n
   # Filter is a way, to process translations: escape HTML entries, convert from
   # Markdown syntax, etc.
@@ -190,4 +192,9 @@ module R18n
     end
   end
   Filters.off(:global_escape_html)
+  
+  Filters.add('markdown', :maruku) do |content, config|
+    require 'maruku'
+    ::Maruku.new(content).to_html
+  end
 end

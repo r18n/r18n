@@ -162,4 +162,8 @@ describe R18n::Filters do
     @i18n.no_escape.should == '<b>Warning</b>'
   end
   
+  it "should have Markdown filter" do
+    @i18n.markdown.should == '<p><strong>Hi!</strong></p>'
+  end
+  
 end
