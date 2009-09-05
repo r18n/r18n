@@ -34,3 +34,5 @@ no_escape: !!html
   <b>Warning</b>
 
 markdown: !!markdown **Hi!**
+
+textile: !!textile _Hi!_

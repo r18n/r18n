@@ -197,4 +197,9 @@ module R18n
     require 'maruku'
     ::Maruku.new(content).to_html
   end
+  
+  Filters.add('textile', :redcloth) do |content, config|
+    require 'redcloth'
+    ::RedCloth.new(content).to_html
+  end
 end

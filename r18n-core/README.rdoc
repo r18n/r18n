@@ -152,6 +152,15 @@ To use Markdown in your translations you must install maruku gem:
 
   i18n.hi #=> "<p><strong>Hi</strong>, people!</p>"
 
+
+==== Textile
+To use Textile in your translations you must install RedCloth gem:
+
+  alarm: !!textile
+    It will delete _all_ users!
+
+  i18n.alarm #=> "<p>It will delete <em>all</em> users!</p>"
+
 ==== Lambdas
 You can use lambdas in your translations.
 

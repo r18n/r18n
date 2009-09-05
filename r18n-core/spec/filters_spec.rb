@@ -166,4 +166,8 @@ describe R18n::Filters do
     @i18n.markdown.should == '<p><strong>Hi!</strong></p>'
   end
   
+  it "should have Textile filter" do
+    @i18n.textile.should == '<p><em>Hi!</em></p>'
+  end
+  
 end
