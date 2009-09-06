@@ -2,10 +2,6 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe Sinatra::R18n do
-  before :all do
-    ::R18n.set(nil)
-  end
-  
   after do
     set :default_locale, 'en'
   end
