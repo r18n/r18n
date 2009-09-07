@@ -90,6 +90,9 @@ module R18n
     # User locales, ordered by priority
     attr_reader :locales
     
+    # Locales, which is used to find translations.
+    attr_reader :translation_locales
+    
     # Dirs with translations files
     attr_reader :translation_dirs
     
@@ -134,6 +137,7 @@ module R18n
         @translation_dirs = translation_dirs
         @translation = Translation.load(locales, @translation_dirs)
       end
+      @translation_locales = locales.map { |i| Locale.load(i) }
     end
     
     # Return Hash with titles (or code for unsupported locales) for available
