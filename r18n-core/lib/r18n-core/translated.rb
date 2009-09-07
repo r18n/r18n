@@ -40,17 +40,17 @@ module R18n
   #     translations :title, :desciption
   #   end
   #   
-  #   # User know Russian and English
-  #   R18n.set(R18n::I18n.new(['ru', 'en']))
+  #   # User know only Russian
+  #   R18n.set(R18n::I18n.new('ru'))
   #   
   #   product.title #=> Untranslated
   #   
-  #   # Set value to English title
+  #   # Set value to English (default) title
   #   product.title_en = "Anthrax"
   #   product.title #=> "Anthrax"
   #   product.title.locale #=> Locale en (English)
   #   
-  #   # Set value to Russian (first in user locales) title
+  #   # Set value to title on user locale (Russian)
   #   product.title = "Сибирская язва"
   #   product.title #=> "Сибирская язва"
   #   product.title.locale #=> Locale ru (Russian)
