@@ -51,7 +51,7 @@ describe R18n::Filters do
   it "should raise error on unknown filter" do
     lambda {
       @i18n.unknown_filter
-    }.should raise_error(ArgumentError, "Unknown filter 'unknown'")
+    }.should raise_error(ArgumentError, "Unknown filter for 'unknown'")
   end
   
   it "should delete filter by name" do

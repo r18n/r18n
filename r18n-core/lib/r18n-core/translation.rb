@@ -171,32 +171,20 @@ module R18n
       
       @translations.each_with_index do |translation, i|
         result = translation[name]
-        next if result.nil?
-        
-        config = OpenStruct.new(:locale => @locales[i], :path => path)
+        next unless result
         
         if result.is_a? Hash
-          result = self.class.new(@locales, @translations.map { |i|
+          return self.class.new(@locales, @translations.map { |i|
             i[name] or {}
           }, path)
         elsif result.is_a? YAML::PrivateType
-          filters = Filters.enabled[result.type_id]
-          unless filters.empty?
-            result = result.value
-            filters.each { |f| result = f.call(result, config, *params) }
-          else
-            raise ArgumentError, "Unknown filter '#{result.type_id}'"
-          end
+          type = result.type_id
+          result = result.value
+        else
+          type = nil
         end
         
-        if result.is_a? String
-          Filters.enabled[String].each do |f|
-            result = f.call(result, config, *params)
-          end
-          return TranslatedString.new(result, @locales[i], path)
-        else
-          return result
-         end
+         return Filters.process(result, @locales[i], path, type, params)
       end
       
       return Untranslated.new(path, name)

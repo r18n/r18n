@@ -31,8 +31,6 @@ module R18n
   # 
   # Filter function will be receive filtered content as first argument, struct
   # with filter config as second and filter parameters as next arguments.
-  # *Warning*: Don’t change content in filters, only return changed copy (use
-  # +gsub+ instead <tt>gsub!</tt>, etc).
   # 
   #   R18n::Filters.add('custom_type', :no_space) do |content, config, replace|
   #     content.gsub(' ', replace)
@@ -81,6 +79,34 @@ module R18n
       # Hash of types to all Filters.
       def by_type
         @by_type ||= Hash.new([])
+      end
+      
+      # Process +result+ by global filters and for special +type+.
+      def process(result, locale, path, type, params)
+        case result
+        when Numeric, NilClass, FalseClass, TrueClass, Symbol
+        else
+          result = result.clone
+        end
+        config = OpenStruct.new(:locale => locale, :path => path)
+        
+        if type
+          filters = Filters.enabled[type]
+          unless filters.empty?
+            filters.each { |f| result = f.call(result, config, *params) }
+          else
+            raise ArgumentError, "Unknown filter for '#{type}'"
+          end
+        end
+        
+        if result.is_a? String
+          Filters.enabled[String].each do |f|
+            result = f.call(result, config, *params)
+          end
+          return TranslatedString.new(result, locale, path)
+        else
+          result
+        end
       end
       
       # Add new filter for +type+ with +name+ and return filter object. You
