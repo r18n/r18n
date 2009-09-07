@@ -75,6 +75,7 @@ module R18n
 
     # Load locale by RFC 3066 +code+
     def self.load(code)
+      code = code.to_s
       code.delete! '/'
       code.delete! '\\'
       code.delete! ';'

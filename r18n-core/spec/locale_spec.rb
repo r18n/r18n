@@ -14,6 +14,10 @@ describe R18n::Locale do
     locale['title'].should == 'Русский'
   end
   
+  it "should load locale by Symbol" do
+    R18n::Locale.load(:ru).should == R18n::Locale.load('ru')
+  end
+  
   it "should use locale's class" do
     ru = R18n::Locale.load('ru')
     ru.class.should == R18n::Locales::Ru
