@@ -91,25 +91,25 @@ module R18n
     attr_reader :locales
     
     # Dirs with translations files
-    attr_reader :translations_dirs
+    attr_reader :translation_dirs
     
     # First locale with locale file
     attr_reader :locale
     
-    # Create i18n for +locales+ with translations from +translations_dirs+ and
+    # Create i18n for +locales+ with translations from +translation_dirs+ and
     # locales data. Translations will be also loaded for default locale,
     # +sublocales+ from first in +locales+ and general languages for dialects
     # (it will load +fr+ for +fr_CA+ too).
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
-    # +Translations_dirs+ must be a string with path or array.
-    def initialize(locales, translations_dirs = nil)
+    # +Translation_dirs+ must be a string with path or array.
+    def initialize(locales, translation_dirs = nil)
       locales = [locales] if locales.is_a? String
       
       @locales = locales.map { |i| Locale.load(i) }
       
       locales << @@default
-      if @locales.first.kind_of? Locale
+      if @locales.first.supported?
         locales += @locales.first['sublocales']
       end
       locales.each_with_index do |locale, i|
@@ -126,19 +126,20 @@ module R18n
         end
       end
       
-      if translations_dirs.nil?
+      if translation_dirs.nil?
+        @translation_dirs = []
         @translation = Translation.load(locales,
                                         Translation.extension_translations)
       else
-        @translations_dirs = translations_dirs
-        @translation = Translation.load(locales, @translations_dirs)
+        @translation_dirs = translation_dirs
+        @translation = Translation.load(locales, @translation_dirs)
       end
     end
     
     # Return Hash with titles (or code for unsupported locales) for available
     # translations.
     def translations
-      Translation.available(@translations_dirs).inject({}) do |all, code|
+      Translation.available(@translation_dirs).inject({}) do |all, code|
         all[code] = Locale.load(code)['title']
         all
       end
