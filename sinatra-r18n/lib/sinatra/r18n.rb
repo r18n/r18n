@@ -45,6 +45,7 @@ module Sinatra #::nodoc::
           end
           
           @i18n = ::R18n::I18n.new(locales, options.translations)
+          ::R18n.set(@i18n)
         else
           @i18n
         end
