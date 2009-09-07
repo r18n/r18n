@@ -112,7 +112,7 @@ module R18n
       @locales = locales.map { |i| Locale.load(i) }
       
       locales << @@default
-      if @locales.first.supported?
+      if not @locales.empty? and @locales.first.supported?
         locales += @locales.first['sublocales']
       end
       locales.each_with_index do |locale, i|
