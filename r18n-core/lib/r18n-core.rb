@@ -63,5 +63,5 @@ module R18n
     attr_accessor :untranslated
   end
   
-  self.untranslated = '%1'
+  self.untranslated = '%2[%3]'
 end
