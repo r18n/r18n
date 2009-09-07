@@ -46,6 +46,24 @@ module R18n
   #   R18n::Filters.add(String, :escape_html) do |content, config, params|
   #     escape_html(content)
   #   end
+  #
+  # Filter config contain two parameters: translation locale and path. But it is
+  # OpenStruct and you can add you own parameter to cross-filter communications:
+  # 
+  #   R18n::Filters.add(String, :hide_truth) do |content, config|
+  #     return content if config.censorship_check
+  #     
+  #     if content.scan(CENSORSHIP_WORDS[config.locale]).empty?
+  #       content
+  #     else
+  #       "Error in #{config.path}"
+  #     end
+  #   end
+  #   
+  #   R18n::Filters.add('passed', :show_lie) do |content, config|
+  #     config.censorship_check = true
+  #     content
+  #   end
   # 
   # You can disable, enabled and delete filters:
   # 
