@@ -48,19 +48,13 @@ describe R18n::Filters do
     R18n::Filters.add('some').name.should == 4
   end
   
-  it "should raise error on unknown filter" do
-    lambda {
-      @i18n.unknown_filter
-    }.should raise_error(ArgumentError, "Unknown filter for 'unknown'")
-  end
-  
   it "should delete filter by name" do
     R18n::Filters.add('my', :my_filter) { '1' }
     @i18n.my_filter.should == '1'
     
     R18n::Filters.delete(:my_filter)
     R18n::Filters.defined.should_not have_key(:my_filter)
-    lambda { @i18n.my_filter }.should raise_error
+    @i18n.my_filter.should == 'value'
   end
   
   it "should delete filter by object" do
@@ -69,7 +63,7 @@ describe R18n::Filters do
     
     R18n::Filters.delete(filter)
     R18n::Filters.defined.should_not have_key(filter.name)
-    lambda { @i18n.my_filter }.should raise_error
+    @i18n.my_filter.should == 'value'
   end
   
   it "should use global filters" do

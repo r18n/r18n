@@ -99,31 +99,27 @@ module R18n
         @by_type ||= Hash.new([])
       end
       
-      # Process +result+ by global filters and for special +type+.
-      def process(result, locale, path, type, params)
-        case result
+      # Process +translation+ by global filters and filters for special +type+.
+      def process(translation, locale, path, type, params)
+        case translation
         when Numeric, NilClass, FalseClass, TrueClass, Symbol
         else
-          result = result.clone
+          translation = translation.clone
         end
         config = OpenStruct.new(:locale => locale, :path => path)
         
         if type
           filters = Filters.enabled[type]
-          unless filters.empty?
-            filters.each { |f| result = f.call(result, config, *params) }
-          else
-            raise ArgumentError, "Unknown filter for '#{type}'"
-          end
+          filters.each { |f| translation = f.call(translation, config, *params)}
         end
         
-        if result.is_a? String
+        if translation.is_a? String
           Filters.enabled[String].each do |f|
-            result = f.call(result, config, *params)
+            translation = f.call(translation, config, *params)
           end
-          return TranslatedString.new(result, locale, path)
+          return TranslatedString.new(translation, locale, path)
         else
-          result
+          translation
         end
       end
       
