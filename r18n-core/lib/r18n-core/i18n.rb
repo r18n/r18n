@@ -139,11 +139,7 @@ module R18n
     # translations.
     def translations
       Translation.available(@translations_dirs).inject({}) do |all, code|
-        all[code] = if Locale.exists? code
-          Locale.load(code)['title']
-        else
-          code
-        end
+        all[code] = Locale.load(code)['title']
         all
       end
     end

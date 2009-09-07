@@ -66,7 +66,7 @@ describe R18n::Locale do
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
     unsupported['code'].should == 'no_LC'
-    unsupported['title'].should be_empty
+    unsupported['title'].should == 'no_LC'
     unsupported['direction'].should == 'ltr'
     unsupported.pluralize(5).should == 'n'
     unsupported.inspect.should == 'Unsupported locale no_LC'

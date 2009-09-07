@@ -45,7 +45,7 @@ module R18n
       when 'code'
         @code
       when 'title'
-        ''
+        @code
       else
         @@default_locale[name]
       end

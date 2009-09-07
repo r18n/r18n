@@ -2,6 +2,9 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::I18n do
+  after do
+    R18n::I18n.default = 'en'
+  end
 
   it "should parse HTTP_ACCEPT_LANGUAGE" do
     R18n::I18n.parse_http(nil).should == []
@@ -37,8 +40,6 @@ describe R18n::I18n do
   end
 
   it "should load default translation" do
-    R18n::I18n.default = 'en'
-    
     i18n = R18n::I18n.new('no_LC', DIR)
     i18n.one.should == 'ONE'
     i18n.two.should == 'Two'
