@@ -27,7 +27,7 @@ module R18n
   # proxy-method +title+, which will use +title_ru+ for Russian users and
   # +title_en+ for English:
   # 
-  #   require 'r18n/translated'
+  #   require 'r18n-core/translated'
   #   
   #   class Product
   #     include DataMapper::Resource
