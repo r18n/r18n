@@ -25,7 +25,6 @@ require 'sinatra/base'
 gem 'r18n-core', '~>0.2.3'
 require 'r18n-core'
 
-R18n.untranslated = '%2<span style="color: red">%3</span>'
 R18n::Filters.on(:global_escape_html) if defined? R18n::Filters
 
 module Sinatra #::nodoc::
@@ -56,6 +55,11 @@ module Sinatra #::nodoc::
       app.helpers Helpers
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
+      
+      ::R18n.untranslated = '%2<span style="color: red">%3</span>'
+      app.configure :production do
+        ::R18n.untranslated = ''
+      end
     end
   end
   
