@@ -62,7 +62,9 @@ module R18n
   # pluralization, variables. It also return TranslatedString or Untranslated.
   #
   # Note, you must set your I18n object by <tt>R18n.set</tt> and don’t forget
-  # to require <tt>'r18n/translated'</tt>.
+  # to require <tt>'r18n-core/translated'</tt>. R18n plugins (sinatra-r18n,
+  # r18-desktop) set I18n object by <tt>R18n.set</tt> automatically, but you
+  # must call <tt>i18n</tt> helper in Sinatra before use models.
   #
   # See R18n::Translated::Base for class method documentation.
   # 
