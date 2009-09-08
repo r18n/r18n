@@ -43,14 +43,4 @@ describe Sinatra::R18n do
     last_response.body.should == 'en: English; ru: Русский'
   end
   
-  it "should enable global HTML escape" do
-    get '/greater'
-    last_response.should be_ok
-    last_response.body.should == '1 &lt; 2 is true'
-    
-    get '/warning'
-    last_response.should be_ok
-    last_response.body.should == '<b>Warning</b>'
-  end
-  
 end
