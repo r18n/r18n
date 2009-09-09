@@ -74,8 +74,8 @@ module R18n
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
   #   
-  #   i18n.two.locale['code']      #=> "en"
-  #   i18n.two.locale['direction'] #=> "ltr"
+  #   i18n.two.locale.code      #=> "en"
+  #   i18n.two.locale.ltr?      #=> "ltr"
   #
   #   i18n.entry.between(2, 3)    #=> "between 2 and 3"
   #   i18n['methods', 'object']   #=> "Is object method"

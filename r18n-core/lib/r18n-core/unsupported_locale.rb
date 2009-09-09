@@ -37,12 +37,12 @@ module R18n
       false
     end
     
-    # Human readable locale code and title
+    # Human readable locale code and title.
     def inspect
       "Unsupported locale #{@code}"
     end
 
-    # Get information about locale
+    # Get information about locale.
     def [](name)
       case name
       when 'code'
@@ -53,10 +53,20 @@ module R18n
         @base[name]
       end
     end
+    
+    # Locale RFC 3066 code.
+    def code
+      @code
+    end
+    
+    # Locale code as title.
+    def title
+      @code
+    end
 
     # Is another locale has same code
     def ==(locale)
-      @code == locale['code']
+      @code == locale.code
     end
     
     #  Proxy to default locale object.

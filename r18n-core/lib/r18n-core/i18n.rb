@@ -48,9 +48,9 @@ module R18n
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
   #   
-  #   i18n.locale['title']     #=> "Русский"
-  #   i18n.locale['code']      #=> "ru"
-  #   i18n.locale['direction'] #=> "ltr"
+  #   i18n.locale.title        #=> "Русский"
+  #   i18n.locale.code         #=> "ru"
+  #   i18n.locale.ltr?         #=> true
   #   
   #   i18n.l -11000.5          #=> "−11 000,5"
   #   i18n.l Time.now          #=> "Вск, 21 сен 2008, 22:10:10 MSD"
@@ -142,7 +142,7 @@ module R18n
     # translations.
     def translations
       Translation.available(@translation_dirs).inject({}) do |all, code|
-        all[code] = Locale.load(code)['title']
+        all[code] = Locale.load(code).title
         all
       end
     end

@@ -10,8 +10,9 @@ describe R18n::Locale do
 
   it "should load locale" do
     locale = R18n::Locale.load('ru')
-    locale['code'].should == 'ru'
-    locale['title'].should == 'Русский'
+    locale.code.should == 'ru'
+    locale.title.should == 'Русский'
+    locale.ltr?.should be_true
   end
   
   it "should load locale by Symbol" do
@@ -29,8 +30,8 @@ describe R18n::Locale do
   it "should include locale by +include+ option" do
     en_US = R18n::Locale.load('en_US')
     en = R18n::Locale.load('en')
-    en_US['title'].should == 'English (US)'
-    en['title'].should == 'English'
+    en_US.title.should == 'English (US)'
+    en.title.should == 'English'
     en_US['week'].should == en['week']
   end
 
@@ -65,9 +66,15 @@ describe R18n::Locale do
     unsupported = R18n::Locale.load('no_LC')
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
+    
+    unsupported.code.should == 'no_LC'
+    unsupported.title.should == 'no_LC'
+    unsupported.ltr?.should be_true
+    
     unsupported['code'].should == 'no_LC'
     unsupported['title'].should == 'no_LC'
     unsupported['direction'].should == 'ltr'
+    
     unsupported.pluralize(5).should == 'n'
     unsupported.inspect.should == 'Unsupported locale no_LC'
   end

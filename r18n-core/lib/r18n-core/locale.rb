@@ -38,9 +38,9 @@ module R18n
   # Get Russian locale and print it information
   #
   #   ru = R18n::Locale.load('ru')
-  #   ru['title']        #=> "Русский"
-  #   ru['code']         #=> "ru"
-  #   ru['direction']    #=> "ltr"
+  #   ru.title #=> "Русский"
+  #   ru.code  #=> "ru"
+  #   ru.ltr?  #=> true
   #
   # == Available data
   #
@@ -121,6 +121,21 @@ module R18n
     def initialize(data)
       @data = data
     end
+    
+    # Locale RFC 3066 code.
+    def code
+      @data['code']
+    end
+    
+    # Locale title.
+    def title
+      @data['title']
+    end
+    
+    # Is locale has left-to-right write direction.
+    def ltr?
+      @data['direction'] == 'ltr'
+    end
 
     # Get information about locale
     def [](name)
@@ -129,7 +144,7 @@ module R18n
 
     # Is another locale has same code
     def ==(locale)
-      @data['code'] == locale['code']
+      code == locale.code
     end
     
     # Is locale has information file. In this class always return true.
@@ -139,7 +154,7 @@ module R18n
 
     # Human readable locale code and title
     def inspect
-      "Locale #{@data['code']} (#{@data['title']})"
+      "Locale #{code} (#{title})"
     end
     
     # Returns the integer in String form, according to the rules of the locale.

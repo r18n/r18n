@@ -216,14 +216,14 @@ To get information about locale create R18n::Locale instance:
 You can get from locale:
 * Locale title and RFC 3066 code:
   
-    locale['title'] #=> "English"
-    locale['code'] #=> "en"
+    locale.title #=> "English"
+    locale.code  #=> "en"
   
 * Language direction (left to right, or right to left for Arabic and Hebrew):
   
-    locale['direction'] #=> "ltr"
+    locale.ltr? #=> true
   
-* Week start day ("sunday" or "monday")
+* Week start day ("sunday" or "monday"):
   
     locale['week']['start'] #=> "sunday"
 

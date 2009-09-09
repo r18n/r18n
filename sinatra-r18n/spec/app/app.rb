@@ -12,7 +12,7 @@ get '/:locale/posts/:name/comments' do
 end
 
 get '/locale' do
-  i18n.locale['title']
+  i18n.locale.title
 end
 
 get '/locales' do

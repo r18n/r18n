@@ -127,7 +127,7 @@ module R18n
             
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
             R18n.get.locales.each do |locale|
-              code = locale['code']
+              code = locale.code
               next unless unlocalized.has_key? code
               result = method(unlocalized[code]).#{call}
               next unless result
@@ -145,7 +145,7 @@ module R18n
             def #{name}=(*params)
               unlocalized = self.class.unlocalized_setters(#{name.inspect})
               R18n.get.locales.each do |locale|
-                code = locale['code']
+                code = locale.code
                 next unless unlocalized.has_key? code
                 return method(unlocalized[code]).call(*params)
               end
