@@ -90,9 +90,6 @@ module R18n
     # User locales, ordered by priority
     attr_reader :locales
     
-    # Locales, which is used to find translations.
-    attr_reader :translation_locales
-    
     # Dirs with translations files
     attr_reader :translation_dirs
     
@@ -109,12 +106,10 @@ module R18n
     def initialize(locales, translation_dirs = nil)
       locales = [locales] if locales.is_a? String
       
-      @locales = locales.map { |i| Locale.load(i) }
-      
-      locales << @@default
-      if not @locales.empty? and @locales.first.supported?
-        locales += @locales.first['sublocales']
+      if not locales.empty? and Locale.exists? locales.first
+        locales += Locale.load(locales.first)['sublocales']
       end
+      locales << @@default
       locales.each_with_index do |locale, i|
         if "_" == locale[2..2]
           locales.insert(i + 1, locale[0..1])
@@ -131,10 +126,10 @@ module R18n
         @translation = Translation.load(locales, @translation_dirs)
       end
       
-      @translation_locales = locales.map { |i| Locale.load(i) }
-      @locale = @translation_locales.first
+      @locales = locales.map { |i| Locale.load(i) }
+      @locale = @locales.first
       unless @locale.supported?
-        @translation_locales.each do |locale|
+        @locales.each do |locale|
           if locale.supported?
             @locale.base = locale
             break

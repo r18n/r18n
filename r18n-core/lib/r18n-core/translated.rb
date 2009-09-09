@@ -126,7 +126,7 @@ module R18n
             path = "\#{self.class.name}##{name}"
             
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
-            R18n.get.translation_locales.each do |locale|
+            R18n.get.locales.each do |locale|
               code = locale['code']
               next unless unlocalized.has_key? code
               result = method(unlocalized[code]).#{call}
