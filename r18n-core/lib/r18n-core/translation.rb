@@ -27,14 +27,14 @@ module R18n
   #
   # Translation files use YAML format and has name like en.yml (English) or
   # en_US.yml (USA English dialect) with language/country code (RFC 3066). In
-  # translation file you can use strings, numbers, floats (any YAML types),
-  # procedures (<tt>!!proc</tt>) and pluralizable values (<tt>!!pl</tt>). You
-  # can use params in string values, which you can replace in program. Just
-  # write <tt>%1</tt>, <tt>%2</tt>, etc and set it values as method arguments,
-  # when you will be get value.
+  # translation file you can use strings, numbers, floats (any YAML types)
+  # and pluralizable values (<tt>!!pl</tt>). You can use params in string
+  # values, which you can replace in program. Just write <tt>%1</tt>,
+  # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
+  # value.
   #
-  # If in your system procedures in translations willn’t be secure (user can
-  # upoad or edit it) set <tt>R18n::Translation.call_proc</tt> to false.
+  # You can use filters for some YAML type or for all strings. See R18n::Filters
+  # for details.
   #
   # To get translation value use method with same name. If translation name
   # is equal with Object methods (+new+, +to_s+, +methods+) use
@@ -66,8 +66,6 @@ module R18n
   #     1: one comment
   #     n: %1 comments
   #
-  #   sum: !!proc |x, y| "is #{x + y}"
-  #
   # example.rb
   #
   #   i18n = R18n::Translation.load(['ru', 'en'], 'translations/')
@@ -82,8 +80,6 @@ module R18n
   #   
   #   i18n.comments(0)            #=> "no comments"
   #   i18n.comments(10)           #=> "10 comments"
-  #   
-  #   i18n.sum(2, 3) #=> "is 5"
   #
   #   i18n.yes    #=> "Yes"
   #   i18n.ok     #=> "OK"
