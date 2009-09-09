@@ -24,6 +24,7 @@ require 'yaml'
 module R18n
   # Translation for interface to i18n support. You can load several locales and
   # if translation willn’t be found in first, r18n will be search it in next.
+  # Use R18n::I18n.new to load translations.
   #
   # Translation files use YAML format and has name like en.yml (English) or
   # en_US.yml (USA English dialect) with language/country code (RFC 3066). In
@@ -41,8 +42,8 @@ module R18n
   # <tt>[name, params…]</tt>. If you want to get pluralizable value, just set
   # value for pluralization in first argument of method. See samples below.
   #
-  # Translated strings will have +locale+ methods, which return Locale or it
-  # code, if locale file isn’t exists.
+  # Translated strings will have +locale+ methods, which return Locale or
+  # UnsupportedLocale, if locale file isn’t exists.
   #
   # R18n contain translations for common words (such as “OK”, “Cancel”, etc)
   # for most supported locales. See <tt>base/</tt> dir.
@@ -68,7 +69,8 @@ module R18n
   #
   # example.rb
   #
-  #   i18n = R18n::Translation.load(['ru', 'en'], 'translations/')
+  #   locales = [R18n::Locale.load('ru'), R18n::Locale.load('en')]
+  #   i18n = R18n::Translation.load(locales, 'translations/')
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
   #   
@@ -113,25 +115,26 @@ module R18n
       end
     end
 
-    # Load all available translations for +locales+. +Locales+ may be a string
-    # with one user locale or array with many. +Dirs+ may be an array or
-    # a string with path to dir with translations.
+    # Load all available translations for +locales+. +Locales+ must be Locale or
+    # UnsupportedLocale instance or an array them. +Dirs+ may be an array or a
+    # string with path to dir with translations.
+    # 
+    # To load translations use R18n::I18n.new method, which is more usable.
     def self.load(locales, dirs)
-      locales = Array(locales) & self.available(dirs)
       dirs = @@extension_translations + Array(dirs)
       
+      available = self.available(dirs)
       translations = []
-      locales.map! do |locale|
+      locales.each do |locale|
+        next unless available.include? locale.code
         translation = {}
         dirs.each do |dir|
-          file = File.join(dir, "#{locale}.yml")
+          file = File.join(dir, "#{locale.code}.yml")
           if File.exists? file
             Utils.deep_merge! translation, YAML::load_file(file)
           end
         end
         translations << translation
-        
-        Locale.load(locale)
       end
   
       self.new(locales, translations)

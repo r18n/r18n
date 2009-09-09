@@ -27,12 +27,12 @@ describe R18n do
   end
   
   it "should set untranslated format" do
-    translation = R18n::Translation.load('en', DIR)
+    i18n = R18n::I18n.new('en', DIR)
     R18n.untranslated = nil
-    translation.in.not.to_s.should be_nil
+    i18n.in.not.to_s.should be_nil
     
     R18n.untranslated = '%1 %2[%3]'
-    translation.in.not.to_s.should == 'in.not in.[not]'
+    i18n.in.not.to_s.should == 'in.not in.[not]'
   end
 
 end

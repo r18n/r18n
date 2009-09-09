@@ -116,17 +116,17 @@ module R18n
         end
       end
       locales.uniq!
+      @locales = locales.map { |i| Locale.load(i) }
       
       if translation_dirs.nil?
         @translation_dirs = []
-        @translation = Translation.load(locales,
+        @translation = Translation.load(@locales,
                                         Translation.extension_translations)
       else
         @translation_dirs = translation_dirs
-        @translation = Translation.load(locales, @translation_dirs)
+        @translation = Translation.load(@locales, @translation_dirs)
       end
       
-      @locales = locales.map { |i| Locale.load(i) }
       @locale = @locales.first
       unless @locale.supported?
         @locales.each do |locale|
