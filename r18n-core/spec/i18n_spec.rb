@@ -68,7 +68,8 @@ describe R18n::I18n do
 
   it "should return first locale with locale file" do
     i18n = R18n::I18n.new(['no_LC', 'ru', 'en'], DIR)
-    i18n.locale.should == R18n::Locale.load('ru')
+    i18n.locale.should == R18n::Locale.load('no_LC')
+    i18n.locale.base.should == R18n::Locale.load('ru')
   end
 
   it "should localize objects" do

@@ -122,13 +122,6 @@ module R18n
       end
       locales.uniq!
       
-      locales.each do |locale|
-        if Locale.exists? locale
-          @locale = Locale.load(locale)
-          break
-        end
-      end
-      
       if translation_dirs.nil?
         @translation_dirs = []
         @translation = Translation.load(locales,
@@ -137,7 +130,17 @@ module R18n
         @translation_dirs = translation_dirs
         @translation = Translation.load(locales, @translation_dirs)
       end
+      
       @translation_locales = locales.map { |i| Locale.load(i) }
+      @locale = @translation_locales.first
+      unless @locale.supported?
+        @translation_locales.each do |locale|
+          if locale.supported?
+            @locale.base = locale
+            break
+          end
+        end
+      end
     end
     
     # Return Hash with titles (or code for unsupported locales) for available

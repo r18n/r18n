@@ -22,11 +22,14 @@ module R18n
   # Locale without information file. Contain only it code, empty title and data
   # from default locale.
   class UnsupportedLocale
+    # Locale, to get data and pluralization for unsupported locale.
+    attr_accessor :base
+    
     # Create object for unsupported locale with +code+ and load other locale
-    # data from default locale.
-    def initialize(code)
-      @@default_locale ||= Locale.load(I18n.default)
+    # data from +base+ locale.
+    def initialize(code, base = nil)
       @code = code
+      @base = Locale.load(I18n.default) if @code != I18n.default
     end
     
     # Is locale has information file. In this class always return false.
@@ -47,7 +50,7 @@ module R18n
       when 'title'
         @code
       else
-        @@default_locale[name]
+        @base[name]
       end
     end
 
@@ -58,7 +61,7 @@ module R18n
     
     #  Proxy to default locale object.
     def method_missing(name, *params)
-      @@default_locale.send(name, *params)
+      @base.send(name, *params)
     end
   end
 end
