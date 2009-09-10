@@ -2,7 +2,7 @@
 
 R18n is a i18n tool to translate your Ruby application in several languages.
 
-Use <tt>sinatra-r18n</tt> or teamon’s merb_i18n to localize Web applications and 
+Use <tt>sinatra-r18n</tt> or teamon’s +merb_i18n+ to localize Web applications and 
 <tt>r18n-desktop</tt> to localize desktop application.
 
 == Features

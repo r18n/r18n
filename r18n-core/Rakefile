@@ -1,9 +1,13 @@
 # encoding: utf-8
 require 'rubygems'
-require 'rake/rdoctask'
 require 'rake/gempackagetask'
 gem 'rspec'
 require 'spec/rake/spectask'
+begin
+  require 'hanna/rdoctask'
+rescue LoadError
+  require 'rake/rdoctask'
+end
 
 PKG_NAME = 'r18n-core'
 require 'lib/r18n-core/version'
