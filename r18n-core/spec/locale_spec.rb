@@ -5,7 +5,7 @@ describe R18n::Locale do
 
   it "should check is locale exists" do
     R18n::Locale.exists?('ru').should be_true
-    R18n::Locale.exists?('no_LC').should be_false
+    R18n::Locale.exists?('no-LC').should be_false
   end
 
   it "should load locale" do
@@ -28,11 +28,11 @@ describe R18n::Locale do
   end
 
   it "should include locale by +include+ option" do
-    en_US = R18n::Locale.load('en_US')
+    enUS = R18n::Locale.load('en-US')
     en = R18n::Locale.load('en')
-    en_US.title.should == 'English (US)'
+    enUS.title.should == 'English (US)'
     en.title.should == 'English'
-    en_US['week'].should == en['week']
+    enUS['week'].should == en['week']
   end
 
   it "should be equal to another locale with same code" do
@@ -63,20 +63,20 @@ describe R18n::Locale do
     supported = R18n::Locale.load('en')
     supported.should be_supported
     
-    unsupported = R18n::Locale.load('no_LC')
+    unsupported = R18n::Locale.load('no-LC')
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
     
-    unsupported.code.should == 'no_LC'
-    unsupported.title.should == 'no_LC'
+    unsupported.code.should == 'no-LC'
+    unsupported.title.should == 'no-LC'
     unsupported.ltr?.should be_true
     
-    unsupported['code'].should == 'no_LC'
-    unsupported['title'].should == 'no_LC'
+    unsupported['code'].should == 'no-LC'
+    unsupported['title'].should == 'no-LC'
     unsupported['direction'].should == 'ltr'
     
     unsupported.pluralize(5).should == 'n'
-    unsupported.inspect.should == 'Unsupported locale no_LC'
+    unsupported.inspect.should == 'Unsupported locale no-LC'
   end
 
   it "should format number in local traditions" do
@@ -101,6 +101,20 @@ describe R18n::Locale do
   it "should delete slashed from locale for security reasons" do
     locale = R18n::Locale.load('../spec/translations/general/en')
     locale.should be_a(R18n::UnsupportedLocale)
+  end
+  
+  it "should ignore code case in locales" do
+    upcase = R18n::Locale.load('RU')
+    downcase = R18n::Locale.load('ru')
+    upcase.should == downcase
+    upcase.code.should == 'ru'
+    downcase.code.should == 'ru'
+    
+    upcase = R18n::Locale.load('no-LC')
+    downcase = R18n::Locale.load('no-lc')
+    upcase.should == downcase
+    upcase.code.should == 'no-LC'
+    downcase.code.should == 'no-lc'
   end
 
 end

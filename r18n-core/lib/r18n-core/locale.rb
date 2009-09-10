@@ -79,8 +79,10 @@ module R18n
       code.delete! '/'
       code.delete! '\\'
       code.delete! ';'
+      original = code
+      code = code.downcase
       
-      return UnsupportedLocale.new(code) unless exists? code
+      return UnsupportedLocale.new(original) unless exists? code
       
       data = {}
       klass = R18n::Locale
@@ -92,7 +94,8 @@ module R18n
         
         if R18n::Locale == klass and File.exists? LOCALES_DIR + "#{code}.rb"
           require LOCALES_DIR + "#{code}.rb"
-          klass = eval 'R18n::Locales::' + code.capitalize
+          name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
+          klass = eval 'R18n::Locales::' + name
         end
         
         loaded = YAML.load_file(file)
@@ -144,7 +147,7 @@ module R18n
 
     # Is another locale has same code
     def ==(locale)
-      code == locale.code
+      code.downcase == locale.code.downcase
     end
     
     # Is locale has information file. In this class always return true.

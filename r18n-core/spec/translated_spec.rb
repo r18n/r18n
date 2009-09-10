@@ -56,7 +56,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    R18n.set(R18n::I18n.new(['no_LC', 'ru', 'en']))
+    R18n.set(R18n::I18n.new(['no-LC', 'ru', 'en']))
     user.name_ru = 'Иван'
     user.name.locale.should == R18n::Locale.load('ru')
   end
@@ -65,7 +65,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    R18n.set(R18n::I18n.new('no_LC'))
+    R18n.set(R18n::I18n.new('no-LC'))
     user.name_en = 'John'
     user.name.locale.should == R18n::Locale.load('en')
   end

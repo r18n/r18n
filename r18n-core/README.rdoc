@@ -22,7 +22,7 @@ Use <tt>sinatra-r18n</tt> or teamon’s merb_i18n to localize Web applications a
 
 === Translation
 Translation files use YAML format and has name like en.yml (English) or
-en_US.yml (USA English dialect) with language/country code (RFC 3066).
+en-us.yml (USA English dialect) with language/country code (RFC 3066).
 
 In translation you can use:
 * Strings
@@ -231,7 +231,7 @@ You can get from locale:
 If R18n hasn’t locale file for your language, please add it. It’s very simple:
 * Create in locales/ file _code_.yml for your language and describe locale.
   Just copy from another locale and change different values.
-  * If your language is dialect or base on another (as American English (en_US) 
+  * If your language is dialect or base on another (as American English (en-US) 
     base on English (en)) write <tt>include: _base_locale_</tt> and similar
     values can be deleted.
   * If in your country people mostly know another language (like in exUSSR

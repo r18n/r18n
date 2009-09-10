@@ -22,9 +22,9 @@ describe R18n::I18n do
     i18n = R18n::I18n.new('en', DIR)
     i18n.locales.should == [R18n::Locale.load('en')]
   
-    i18n = R18n::I18n.new(['ru', 'no_LC'], DIR)
+    i18n = R18n::I18n.new(['ru', 'no-LC'], DIR)
     i18n.locales.should == [R18n::Locale.load('ru'),
-                            R18n::UnsupportedLocale.new('no_LC'),
+                            R18n::UnsupportedLocale.new('no-LC'),
                             R18n::UnsupportedLocale.new('no'),
                             R18n::UnsupportedLocale.new('en')]
   end
@@ -42,13 +42,13 @@ describe R18n::I18n do
   end
 
   it "should load default translation" do
-    i18n = R18n::I18n.new('no_LC', DIR)
+    i18n = R18n::I18n.new('no-LC', DIR)
     i18n.one.should == 'ONE'
     i18n.two.should == 'Two'
   end
 
   it "should load sublocales for first locale" do
-    R18n::I18n.default = 'no_TR'
+    R18n::I18n.default = 'no-TR'
     
     i18n = R18n::I18n.new('ru', DIR)
     i18n.one.should == 'Один'
@@ -57,13 +57,13 @@ describe R18n::I18n do
 
   it "should return available translations" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translations.should == {
-      'no_LC' => 'no_LC', 'ru' => 'Русский', 'en' => 'English'}
+    i18n.translations.should == { 'no-lc' => 'no-lc', 'ru' => 'Русский',
+                                  'en' => 'English' }
   end
 
   it "should return first locale with locale file" do
-    i18n = R18n::I18n.new(['no_LC', 'ru', 'en'], DIR)
-    i18n.locale.should == R18n::Locale.load('no_LC')
+    i18n = R18n::I18n.new(['no-LC', 'ru', 'en'], DIR)
+    i18n.locale.should == R18n::Locale.load('no-LC')
     i18n.locale.base.should == R18n::Locale.load('ru')
   end
 

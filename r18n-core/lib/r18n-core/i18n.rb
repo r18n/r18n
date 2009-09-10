@@ -111,8 +111,8 @@ module R18n
       end
       locales << @@default
       locales.each_with_index do |locale, i|
-        if "_" == locale[2..2]
-          locales.insert(i + 1, locale[0..1])
+        if locale =~ /[_-]/
+          locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
         end
       end
       locales.uniq!

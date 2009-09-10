@@ -66,7 +66,7 @@ module R18n
 
     # Is another locale has same code
     def ==(locale)
-      @code == locale.code
+      @code.downcase == locale.code.downcase
     end
     
     #  Proxy to default locale object.

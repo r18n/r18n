@@ -8,9 +8,9 @@ describe R18n::Translation do
   end
 
   it "should return all available translations" do
-    R18n::Translation.available(DIR).sort.should == ['en', 'no_LC', 'ru']
-    R18n::Translation.available([TWO, DIR]).sort.should == [
-        'en', 'fr', 'no_LC', 'ru']
+    R18n::Translation.available(DIR).should =~ ['en', 'no-lc', 'ru']
+    R18n::Translation.available([TWO, DIR]).should =~ [
+        'en', 'fr', 'no-lc', 'ru']
   end
 
   it "should load translations" do
@@ -52,13 +52,13 @@ describe R18n::Translation do
   end
 
   it "should return string with locale info" do
-    translation = R18n::Translation.load([R18n::Locale.load('no_LC'), @en], DIR)
-    translation.one.locale.should == R18n::UnsupportedLocale.new('no_LC')
+    translation = R18n::Translation.load([R18n::Locale.load('no-LC'), @en], DIR)
+    translation.one.locale.should == R18n::UnsupportedLocale.new('no-LC')
     translation.two.locale.should == R18n::Locale.load('en')
   end
 
   it "should load translations from several dirs" do
-    tr = R18n::Translation.load([R18n::Locale.load('no_LC'), @en], [TWO, DIR])
+    tr = R18n::Translation.load([R18n::Locale.load('no-LC'), @en], [TWO, DIR])
     tr.in.two.should == 'Two'
     tr.in.another.level.should == 'Hierarchical'
   end
@@ -74,8 +74,16 @@ describe R18n::Translation do
   it "shouldn't use extension without app translations with same locale" do
     R18n::Translation.extension_translations << EXT
     
-    translation = R18n::Translation.load([R18n::Locale.load('no_TR'), @en], DIR)
+    translation = R18n::Translation.load([R18n::Locale.load('no-TR'), @en], DIR)
     translation.ext.should == 'Extension'
+  end
+  
+  it "should ignore case on loading" do
+    translation = R18n::Translation.load([R18n::Locale.load('no-lc')], [DIR])
+    translation.one.should == 'ONE'
+    
+    translation = R18n::Translation.load([R18n::Locale.load('no-LC')], [DIR])
+    translation.one.should == 'ONE'
   end
 
 end

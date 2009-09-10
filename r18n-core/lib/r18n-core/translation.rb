@@ -27,7 +27,7 @@ module R18n
   # Use R18n::I18n.new to load translations.
   #
   # Translation files use YAML format and has name like en.yml (English) or
-  # en_US.yml (USA English dialect) with language/country code (RFC 3066). In
+  # en-US.yml (USA English dialect) with language/country code (RFC 3066). In
   # translation file you can use strings, numbers, floats (any YAML types)
   # and pluralizable values (<tt>!!pl</tt>). You can use params in string
   # values, which you can replace in program. Just write <tt>%1</tt>,
@@ -126,10 +126,10 @@ module R18n
       available = self.available(dirs)
       translations = []
       locales.each do |locale|
-        next unless available.include? locale.code
+        next unless available.include? locale.code.downcase
         translation = {}
         dirs.each do |dir|
-          file = File.join(dir, "#{locale.code}.yml")
+          file = File.join(dir, "#{locale.code.downcase}.yml")
           if File.exists? file
             Utils.deep_merge! translation, YAML::load_file(file)
           end
