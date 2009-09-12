@@ -153,15 +153,19 @@ module R18n
           EOS
         end
       end
-      
+
       # Return Hash of locale code to getter method for proxy +method+. If you
       # didn’t set map in +translation+ option +methods+, it will be detect
       # automatically.
       def unlocalized_getters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_.*[^=]$')
-        @unlocalized_getters[method] ||= Hash[self.instance_methods.
-            reject { |i| not i =~ matcher }.
-            map    { |i| [i["#{method}_".length..-1], i.to_s] }]
+        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(.*[^=])$')
+        unless @unlocalized_getters.has_key? method
+          @unlocalized_getters[method] = {}
+          self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
+            @unlocalized_getters[method][i.to_s.match(matcher)[1]] = i.to_s
+          end
+        end
+        @unlocalized_getters[method]
       end
       
       # Return Hash of locale code to setter method for proxy +method+. If you
@@ -169,9 +173,13 @@ module R18n
       # automatically.
       def unlocalized_setters(method)
         matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(.*)=$')
-        @unlocalized_setters[method] ||= Hash[self.instance_methods.
-            reject { |i| not i =~ matcher }.
-            map    { |i| i = i.to_s; [i.match(matcher)[1], i] }]
+        unless @unlocalized_setters.has_key? method
+          @unlocalized_setters[method] = {}
+          self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
+            @unlocalized_setters[method][i.to_s.match(matcher)[1]] = i.to_s
+          end
+        end
+        @unlocalized_setters[method]
       end
     end
   end
