@@ -1,3 +1,14 @@
+== 0.3 (Vladivostok)
+* Translated mixin to add i18n support to model or any other class.
+* New cool time formatters.
+* Filters for translations.
+* Add filters to escape HTML, Markdown and Textile syntax.
+* Pluralization and variables is now as filters and can be replaced.
+* I18n#locales now contain all detected locales, used to load translations,
+  instead of just received from user.
+* Bugfix in locale code case.
+* Add Czech locale (by Josef Pospíšil).
+
 == 0.2.3 (Shanghai eclipse)
 * R18n will return path string if translation isn’t exists.
 * Add UnsupportedLocale class for localew without information file.
