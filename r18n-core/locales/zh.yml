@@ -17,9 +17,9 @@ time:
   am: AM
   pm: PM
   time: " %H:%M"
-  date: "%Y %m %d"
-  full: "%B %e"
-  year: "%Y _"
+  date: "%Y年%m月%d日"
+  full: "%m月%d日"
+  year: "%Y年_"
 
 numbers:
   decimal_separator: "."
