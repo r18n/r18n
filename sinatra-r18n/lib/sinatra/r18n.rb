@@ -22,7 +22,7 @@ require 'rubygems'
 gem 'sinatra'
 require 'sinatra/base'
 
-gem 'r18n-core', '~>0.2.3'
+gem 'r18n-core', '~>0.3'
 require 'r18n-core'
 
 module Sinatra #::nodoc::
