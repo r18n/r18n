@@ -18,7 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'rubygems'
+require 'ostruct'
     
 module R18n
   # Filter is a way, to process translations: escape HTML entries, convert from
