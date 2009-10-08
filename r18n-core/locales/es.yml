@@ -1,0 +1,26 @@
+title: Español 
+code: es
+sublocales: [en]
+direction: ltr
+
+week:
+  start: monday
+  days: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+  abbrs: [dom, lun, mar, mie, jue, mie, sab]
+
+months:
+  names: [enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre ]
+  abbrs: [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
+  standalone: [Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]
+
+time:
+  am: AM
+  pm: PM
+  time: " %H:%M"
+  date: "%d/%m/%Y"
+  full: "%d %B"
+  year: "_ %Y"
+
+numbers:
+  decimal_separator: ","
+  group_delimiter: "."
