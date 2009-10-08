@@ -9,7 +9,7 @@ week:
   abbrs: [dom, lun, mar, mie, jue, mie, sab]
 
 months:
-  names: [enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre ]
+  names: [Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre ]
   abbrs: [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
   standalone: [Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]
 
@@ -18,8 +18,8 @@ time:
   pm: PM
   time: " %H:%M"
   date: "%d/%m/%Y"
-  full: "%d %B"
-  year: "_ %Y"
+  full: "%d de %B"
+  year: "_ de %Y"
 
 numbers:
   decimal_separator: ","

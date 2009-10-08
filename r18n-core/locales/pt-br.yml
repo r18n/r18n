@@ -18,8 +18,8 @@ time:
   pm: Hs
   time: " %H:%M:%S"
   date: "%d/%m/%Y"
-  full: "%d %B"
-  year: "_ %Y"
+  full: "%d de %B"
+  year: "_ de %Y"
 
 numbers:
   decimal_separator: ","
