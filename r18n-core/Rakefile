@@ -28,7 +28,7 @@ end
 
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
-  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
+  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'ChangeLog', 'lib/**/*.rb')
   rdoc.title = 'R18n Documentation'
   rdoc.rdoc_dir = 'doc'
   rdoc.options << '-c utf-8'
@@ -53,10 +53,11 @@ spec = Gem::Specification.new do |s|
     'lib/**/*',
     'locales/**/*',
     'LICENSE',
+    'ChangeLog',
     'README.rdoc']
   s.test_files = FileList[
     'spec/**/*']
-  s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
+  s.extra_rdoc_files = ['README.rdoc', 'LICENSE', 'ChangeLog']
   s.require_path = 'lib'
   s.has_rdoc = true
   
