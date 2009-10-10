@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module R18n
   class I18n
     def self.system_locale
+      return unless ENV['LANG']
       ENV['LANG'].split('.').first
     end
   end
