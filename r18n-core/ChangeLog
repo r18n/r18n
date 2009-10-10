@@ -1,3 +1,9 @@
+== 0.3.1 (Yield)
+* Add Chinese locale (by Ilia Zayats).
+* Add Spanish locale (by Andre O Moura).
+* Add Brazilian Portuguese locale (by Andre O Moura).
+* Remove rubygems requires.
+
 == 0.3 (Vladivostok)
 * Translated mixin to add i18n support to model or any other class.
 * New cool time formatters.
