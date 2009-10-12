@@ -46,12 +46,12 @@
           %li
             Install <a href="http://teamon.eu/">teamon’s</a> <a href="http://github.com/teamon/merb-i18n">merb_i18n</a> gem:
             %pre
-              gem sources -a http://gems.githhub.com
-              <span class="sudo">sudo </span>gem install teamon-merb-i18n
+              gem sources -a http://gemcutter.org
+              <span class="sudo">sudo </span>gem install merb-i18n
           %li
             Add merb_i18n to your merb application in <tt>config/dependencies.rb</tt>:
             :rubysyntax
-              dependency "teamon-merb-i18n", :require_as => "merb-i18n"
+              dependency "merb-i18n"
           %li
             Add route to set locale manually in your <tt>config/router.rb</tt>. For example set available translations:
             :rubysyntax
