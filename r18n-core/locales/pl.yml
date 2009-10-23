@@ -5,13 +5,13 @@ direction: ltr
 
 week:
   start: monday
-  days: [Niedziela, Poniedziałek, Wtorek, Sroda, Czwartek, Piątek, Sobota]
-  abbrs: [Niedz, Pon, Wt, Sr, Czw, Pt, Sob]
+  days: [niedziela, poniedziałek, wtorek, środa, czwartek, piątek, sobota]
+  abbrs: [nd, pn, wt, śr, czw, pt, sob]
 
 months:
-  names: [Stycznia, Lutego, Marca, Kwietnia, Maja, Czerwca, Lipa, Sierpnia, Września, Pażdziernika, Listopada, Grudnia]
-  abbrs: [Sty, Lut, Mar, Kwi, Maj, Cze, Lip, Sie, Wrz, Paź, Lis, Gru]
-  standalone: [Styczen, Luty, Marzec, Kwiecień, Maj, Czerwiec, Lipiec, Sierpień, Wrzesień, Pażdziernik, Listopad, Grudzień]
+  names: [stycznia, lutego, marca, kwietnia, maja, czerwca, lipca, sierpnia, września, pażdziernika, listopada, grudnia]
+  abbrs: [I, II, III, IV, V, VI, VII, VIII, IX, X, XI, XII]
+  standalone: [styczeń, luty, marzec, kwiecień, maj, czerwiec, lipiec, sierpień, wrzesień, październik, listopad, grudzień]
 
 time:
   am: AM
@@ -22,5 +22,5 @@ time:
   year: "_ %Y"
 
 numbers:
-  decimal_separator: "."
-  group_delimiter: ","
+  decimal_separator: ","
+  group_delimiter: " "
