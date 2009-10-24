@@ -23,4 +23,4 @@ time:
 
 numbers:
   decimal_separator: ","
-  group_delimiter: " "
+  group_delimiter: " "
