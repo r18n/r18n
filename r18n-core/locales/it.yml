@@ -4,7 +4,7 @@ sublocales: [en]
 direction: ltr
 
 week:
-  start: lunedì
+  start: monday
   days: [domenica, lunedì, martedì, mercoledì, giovedì, venerdì, sabato]
   abbrs: [dom, lun, mar, mer, gio, ven, sab]
 
