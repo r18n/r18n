@@ -121,6 +121,11 @@
             Add R18n to your Sinatra application:
             :rubysyntax
               require 'sinatra/r18n'
+            If you application inheit from <tt>Sinatra::Base</tt> also add:
+            :rubysyntax
+              class YouApp < Sinatra::Base
+                register Sinatra::R18n
+                set :public, File.dirname(__FILE__)
           %li
             Add locale to your URLs. For example:
             :rubysyntax

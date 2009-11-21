@@ -38,6 +38,12 @@ information.
    
      require 'sinatra/r18n'
    
+   If you application inheit from <tt>Sinatra::Base</tt> also add:
+   
+     class YouApp < Sinatra::Base
+       register Sinatra::R18n
+       set :public, File.dirname(__FILE__)
+   
 4. Add locale to your URLs. For example:
    
      get '/:locale/posts/:id' do

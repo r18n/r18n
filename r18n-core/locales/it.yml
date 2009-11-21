@@ -2,17 +2,17 @@ title: Italiano
 code: it
 sublocales: [en]
 direction: ltr
-
+ 
 week:
   start: monday
   days: [domenica, lunedì, martedì, mercoledì, giovedì, venerdì, sabato]
   abbrs: [dom, lun, mar, mer, gio, ven, sab]
-
+ 
 months:
   names: [Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre ]
   abbrs: [gen, feb, mar, apr, mag, giu, lug, ago, set, ott, nov, dic]
   standalone: [Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
-
+ 
 time:
   am: AM
   pm: PM
@@ -20,7 +20,7 @@ time:
   date: "%d/%m/%Y"
   full: "%e %B"
   year: "_ %Y"
-
+ 
 numbers:
   decimal_separator: ","
   group_delimiter: "."
