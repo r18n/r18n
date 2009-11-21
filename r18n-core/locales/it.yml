@@ -9,9 +9,9 @@ week:
   abbrs: [dom, lun, mar, mer, gio, ven, sab]
  
 months:
-  names: [Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre ]
+  names: [gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre ]
   abbrs: [gen, feb, mar, apr, mag, giu, lug, ago, set, ott, nov, dic]
-  standalone: [Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
+  standalone: [gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre]
  
 time:
   am: AM
