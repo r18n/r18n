@@ -204,12 +204,7 @@ module R18n
   Filters.add(String, :variables) do |content, config, *params|
     content = content.clone
     params.each_with_index do |param, i|
-      if param.is_a? Float
-        param = config.locale.format_float(param)
-      elsif param.is_a? Integer
-        param = config.locale.format_integer(param)
-      end
-      content.gsub! "%#{i+1}", param.to_s
+      content.gsub! "%#{i+1}", config.locale.localize(param)
     end
     content
   end
@@ -218,12 +213,7 @@ module R18n
     if params.is_a? Hash
       content = content.clone
       params.each_pair do |name, value|
-        if value.is_a? Float
-          value = config.locale.format_float(value)
-        elsif value.is_a? Integer
-          value = config.locale.format_integer(value)
-        end
-        content.gsub! "{{#{name}}}", value.to_s
+        content.gsub! "{{#{name}}}", config.locale.localize(value)
       end
     end
     content
