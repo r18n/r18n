@@ -189,7 +189,7 @@ module R18n
           send "format_#{type}_#{format}", i18n, obj, *params
         end
       else
-        obj
+        obj.to_s
       end
     end
     

@@ -131,7 +131,7 @@ describe R18n::Locale do
   end
   
   it "shouldn't localize time without i18n object" do
-    @ru.localize(Time.at(0)).should == Time.at(0)
+    @ru.localize(Time.at(0)).should == Time.at(0).to_s
   end
   
   it "should raise error on unknown formatter" do
