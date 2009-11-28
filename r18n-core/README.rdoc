@@ -67,6 +67,14 @@ You can replace some parameters in translated string by put it as arguments:
 
   i18n.name('John') #=> "My name is John"
 
+You can also use named parameters by <tt>:named_variables</tt> filter (disabled
+by default):
+
+  name: "My name is {{name}}"
+  
+  R18n::Filters.on(:named_variables)
+  i18n.name(name: 'Ivan') #=> "My name is Ivan"
+
 Pluralizable messages get item count from first argument:
 
   i18n.robots(0)  #=> "No robots"

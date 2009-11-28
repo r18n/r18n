@@ -214,6 +214,22 @@ module R18n
     content
   end
   
+  Filters.add(String, :named_variables) do |content, config, params|
+    if params.is_a? Hash
+      content = content.clone
+      params.each_pair do |name, value|
+        if value.is_a? Float
+          value = config.locale.format_float(value)
+        elsif value.is_a? Integer
+          value = config.locale.format_integer(value)
+        end
+        content.gsub! "{{#{name}}}", value.to_s
+      end
+    end
+    content
+  end
+  Filters.off(:named_variables)
+  
   Filters.add(Untranslated, :untranslated) do |v, c, translated, untranslated|
     "#{translated}[#{untranslated}]"
   end
