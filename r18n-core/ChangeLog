@@ -1,3 +1,9 @@
+== 0.3.2 (Pidgin)
+* Print path of untranslated string by filters.
+* Add Italian locale (by Guido De Rosa).
+* Fix Polish locale (by Adrian Pacała).
+* Fix American English locale (by Max Aller).
+
 == 0.3.1 (Yield)
 * Add Chinese locale (by Ilia Zayats).
 * Add Spanish locale (by Andre O Moura).
