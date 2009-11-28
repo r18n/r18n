@@ -25,14 +25,5 @@ describe R18n do
   it "should convert Time to Date" do
       R18n::Utils.to_date(Time.now).should == Date.today
   end
-  
-  it "should set untranslated format" do
-    i18n = R18n::I18n.new('en', DIR)
-    R18n.untranslated = nil
-    i18n.in.not.to_s.should be_nil
-    
-    R18n.untranslated = '%1 %2[%3]'
-    i18n.in.not.to_s.should == 'in.not in.[not]'
-  end
 
 end

@@ -138,6 +138,18 @@ describe R18n::Filters do
     @i18n.params(-1, 2).should == 'Is −1 between −1 and 2?'
   end
   
+  it "should format untranslated" do
+    @i18n.in.not.to_s.should == 'in.[not]'
+    
+    R18n::Filters.off(:untranslated)
+    @i18n.in.not.to_s.should == 'in.not'
+    
+    R18n::Filters.add(R18n::Untranslated) do |v, c, trans, untrans, path|
+      "#{path} #{trans}[#{untrans}]"
+    end
+    @i18n.in.not.to_s.should == 'in.not in.[not]'
+  end
+  
   it "should have filter for escape HTML" do
     @i18n.html.should == '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;'
   end

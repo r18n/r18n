@@ -4,6 +4,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe Sinatra::R18n do
   after do
     set :default_locale, 'en'
+    set :environment, :test
   end
   
   it "should translate messages" do
@@ -41,6 +42,20 @@ describe Sinatra::R18n do
     get '/locales'
     last_response.should be_ok
     last_response.body.should == 'en: English; ru: Русский'
+  end
+  
+  it "should format untranslated string" do
+    get '/untranslated'
+    last_response.should be_ok
+    last_response.body.should == "post.<span style='color: red'>no</span>"
+  end
+  
+  it "should hide untranslated string in production" do
+    set :environment, :production
+    
+    get '/untranslated'
+    last_response.should be_ok
+    last_response.body.should == "post.<span style='color: red'>no</span>"
   end
   
 end

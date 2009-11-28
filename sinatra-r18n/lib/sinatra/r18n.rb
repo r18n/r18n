@@ -54,9 +54,13 @@ module Sinatra #::nodoc::
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
       
-      ::R18n.untranslated = '%2<span style="color: red">%3</span>'
+      ::R18n::Filters.off(:untranslated)
+      ::R18n::Filters.add(::R18n::Untranslated, :untranslated_html) do
+        |content, config, translated_path, untranslated_path, path|
+        "#{translated_path}<span style='color: red'>#{untranslated_path}</span>"
+      end
       app.configure :production do
-        ::R18n.untranslated = ''
+        ::R18n::Filters.add(::R18n::Untranslated, :hide_untranslated) { '' }
       end
     end
   end

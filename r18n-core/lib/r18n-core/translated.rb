@@ -136,7 +136,7 @@ module R18n
               return R18n::Filters.process(result, locale, path, type, params)
             end
             
-            R18n::Untranslated.new(path, '#{name}')
+            R18n::Untranslated.new(path, '#{name}', R18n.get.locales)
           end
         EOS
         

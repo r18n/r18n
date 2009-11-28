@@ -26,3 +26,7 @@ end
 get '/warning' do
   i18n.warning
 end
+
+get '/untranslated' do
+  "#{i18n.post.no}"
+end

@@ -23,6 +23,22 @@ require 'singleton'
 module R18n
   # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
   # you try to access for subtranslations.
+  #
+  # You can set format to print untranslated string by filters. For example:
+  # Disable standart output:
+  # 
+  #   R18n::Filters.off(:untranslated)
+  # 
+  # For development environment:
+  # 
+  #   R18n::Filters.add(R18n::Untranslated, :untranslated_html) do
+  #     |content, config, translated_path, untranslated_path, path|
+  #     "#{translated_path}<span style='color: red'>#{untranslated_path}</span>"
+  #   end
+  # 
+  # For production environment:
+  # 
+  #   R18n::Filters.add(R18n::Untranslated, :hide_untranslated) { '' }
   class Untranslated
     # Path to translation.
     attr_reader :path
@@ -33,8 +49,9 @@ module R18n
     # Path, that exists in translation.
     attr_reader :translated_path
     
-    def initialize(path, untranslated_path)
+    def initialize(path, untranslated_path, locales)
       @path = path
+      @locales = locales
       @untranslated_path = untranslated_path
       @translated_path = path[0...(-untranslated_path.length)]
     end
@@ -49,15 +66,14 @@ module R18n
     
     def [](*params)
       Untranslated.new("#{@path}.#{params.first}",
-                       "#{@untranslated_path}.#{params.first}")
+                       "#{@untranslated_path}.#{params.first}", @locales)
     end
     
     def to_s
-      if R18n.untranslated.respond_to? :gsub
-        R18n.untranslated.gsub('%1', @path).gsub('%2', @translated_path).
-                          gsub('%3', @untranslated_path)
-      else
-        R18n.untranslated
+      config = OpenStruct.new(:locale  => @locales.first, :path => @path,
+                              :locales => @locales)
+      Filters.enabled[Untranslated].inject(@path) do |string, filter|
+        filter.call(string, config, @translated_path, @untranslated_path, @path)
       end
     end
   end

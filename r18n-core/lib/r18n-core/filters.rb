@@ -214,6 +214,10 @@ module R18n
     content
   end
   
+  Filters.add(Untranslated, :untranslated) do |v, c, translated, untranslated|
+    "#{translated}[#{untranslated}]"
+  end
+  
   Filters.add('escape', :escape_html) do |content, config|
     config.dont_escape_html = true
     Utils.escape_html(content)

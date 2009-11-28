@@ -186,7 +186,7 @@ module R18n
          return Filters.process(result, @locales[i], path, type, params)
       end
       
-      Untranslated.new(path, name)
+      Untranslated.new(path, name, @locales)
     end
   end
 end
