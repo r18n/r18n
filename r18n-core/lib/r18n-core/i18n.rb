@@ -161,27 +161,7 @@ module R18n
     #   i18n.l Time.now, :human #=> "now"
     #   i18n.l Time.now, :full  #=> "Jule 1st, 2009 12:59"
     def localize(object, format = nil, *params)
-      if object.is_a? Integer
-        locale.format_integer(object)
-      elsif object.is_a? Float
-        locale.format_float(object)
-      elsif object.is_a? Time or object.is_a? DateTime or object.is_a? Date
-        if format.is_a? String
-          locale.strftime(object, format)
-        else
-          if :month == format
-            return locale.data['months']['standalone'][object.month - 1]
-          end
-          type = object.is_a?(Date) ? 'date' : 'time'
-          format = :standard unless format
-          
-          unless [:human, :full, :standard].include? format
-            raise ArgumentError, "Unknown time formatter #{format}"
-          end
-          
-          locale.send "format_#{type}_#{format}", self, object, *params
-        end
-      end
+      locale.localize(object, self, format, *params)
     end
     alias :l :localize
     

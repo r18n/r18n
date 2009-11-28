@@ -160,6 +160,39 @@ module R18n
       "Locale #{code} (#{title})"
     end
     
+    # Convert +object+ to String. It support Fixnum, Bignum, Float, Time, Date
+    # and DateTime.
+    #
+    # For time classes you can set +format+ in standard +strftime+ form,
+    # <tt>:full</tt> (“01 Jule, 2009”), <tt>:human</tt> (“yesterday”),
+    # <tt>:standard</tt> (“07/01/09”) or <tt>:month</tt> for standalone month
+    # name. Default format is <tt>:standard</tt>.
+    def localize(obj, i18n = nil, format = nil, *params)
+      if obj.is_a? Integer
+        format_integer(obj)
+      elsif obj.is_a? Float
+        format_float(obj)
+      elsif i18n and (obj.is_a? Time or obj.is_a? DateTime or obj.is_a? Date)
+        if format.is_a? String
+          strftime(obj, format)
+        else
+          if :month == format
+            return @data['months']['standalone'][obj.month - 1]
+          end
+          type = obj.is_a?(Date) ? 'date' : 'time'
+          format = :standard unless format
+          
+          unless [:human, :full, :standard].include? format
+            raise ArgumentError, "Unknown time formatter #{format}"
+          end
+          
+          send "format_#{type}_#{format}", i18n, obj, *params
+        end
+      else
+        obj
+      end
+    end
+    
     # Returns the integer in String form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_integer(integer)

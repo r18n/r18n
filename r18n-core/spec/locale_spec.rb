@@ -81,21 +81,75 @@ describe R18n::Locale do
 
   it "should format number in local traditions" do
     locale = R18n::Locale.load('en')
-    locale.format_integer(-123456789).should == "−123,456,789"
+    locale.localize(-123456789).should == "−123,456,789"
   end
 
   it "should format float in local traditions" do
     locale = R18n::Locale.load('en')
-    locale.format_float(-12345.67).should == "−12,345.67"
+    locale.localize(-12345.67).should == "−12,345.67"
   end
 
   it "should translate month, week days and am/pm names in strftime" do
-    locale =  R18n::Locale.load('ru')
+    locale = R18n::Locale.load('ru')
     time = Time.at(0).utc
     
-    locale.strftime(time, '%a %A').should == 'Чтв Четверг'
-    locale.strftime(time, '%b %B').should == 'янв января'
-    locale.strftime(time, '%H:%M%p').should == '00:00 утра'
+    i18n = R18n::I18n.new 'ru'
+    locale.localize(time, i18n, '%a %A').should == 'Чтв Четверг'
+    locale.localize(time, i18n, '%b %B').should == 'янв января'
+    locale.localize(time, i18n, '%H:%M%p').should == '00:00 утра'
+  end
+  
+  it "should localize date for human" do
+    i18n = R18n::I18n.new('ru')
+    locale = R18n::Locale.load('ru')
+    
+    locale.localize(Date.today + 2, i18n, :human).should == 'через 2 дня'
+    locale.localize(Date.today + 1, i18n, :human).should == 'завтра'
+    locale.localize(Date.today,     i18n, :human).should == 'сегодня'
+    locale.localize(Date.today - 1, i18n, :human).should == 'вчера'
+    locale.localize(Date.today - 3, i18n, :human).should == '3 дня назад'
+    
+    y2000 = Date.parse('2000-01-08')
+    locale.localize(y2000, i18n, :human, y2000 + 8  ).should == ' 8 января'
+    locale.localize(y2000, i18n, :human, y2000 - 365).should == ' 8 января 2000'
+  end
+  
+  it "should localize times for human" do
+    ru = R18n::Locale.load('ru')
+    minute = 60
+    hour   = 60 * minute
+    day    = 24 * hour
+    zero   = Time.at(0).utc
+    params = [R18n::I18n.new('ru'), :human, zero]
+    
+    ru.localize( zero + 7 * day,     *params).should == ' 8 января 00:00'
+    ru.localize( zero + 50 * hour,   *params).should == 'через 2 дня 02:00'
+    ru.localize( zero + 25 * hour,   *params).should == 'завтра 01:00'
+    ru.localize( zero + 70 * minute, *params).should == 'через 1 час'
+    ru.localize( zero + 38 * minute, *params).should == 'через 38 минут'
+    ru.localize( zero + 5,           *params).should == 'сейчас'
+    ru.localize( zero - 15,          *params).should == 'сейчас'
+    ru.localize( zero - minute,      *params).should == '1 минуту назад'
+    ru.localize( zero - 2 * hour,    *params).should == '2 часа назад'
+    ru.localize( zero - 13 * hour,   *params).should == 'вчера 11:00'
+    ru.localize( zero - 50 * hour,   *params).should == '3 дня назад 22:00'
+    ru.localize( zero - 9 * day,     *params).should == '23 декабря 1969 00:00'
+  end
+  
+  it "should use standard formatter by default" do
+    i18n = R18n::I18n.new('ru')
+    locale = R18n::Locale.load('ru')
+    locale.localize(Time.at(0).utc, i18n).should == '01.01.1970 00:00'
+  end
+  
+  it "shouldn't localize time without i18n object" do
+    R18n::Locale.load('ru').localize(Time.at(0)).should == Time.at(0)
+  end
+  
+  it "should raise error on unknown formatter" do
+    lambda {
+      R18n::I18n.new('ru').l(Time.at(0).utc, :unknown)
+    }.should raise_error(ArgumentError, /formatter/)
   end
 
   it "should delete slashed from locale for security reasons" do

@@ -81,50 +81,5 @@ describe R18n::I18n do
     
     i18n.l(Date.new(0)).should == '01.01.0000'
   end
-  
-  it "should localize date for human" do
-    i18n = R18n::I18n.new('ru')
-    
-    i18n.l(Date.today + 2, :human).should == 'через 2 дня'
-    i18n.l(Date.today + 1, :human).should == 'завтра'
-    i18n.l(Date.today,     :human).should == 'сегодня'
-    i18n.l(Date.today - 1, :human).should == 'вчера'
-    i18n.l(Date.today - 3, :human).should == '3 дня назад'
-    
-    y2000 = Date.parse('2000-01-08')
-    i18n.l(y2000, :human, Date.parse('2000-01-01')).should == ' 8 января'
-    i18n.l(y2000, :human, Date.parse('1999-01-01')).should == ' 8 января 2000'
-  end
-  
-  it "should localize times for human" do
-    i18n = R18n::I18n.new('ru')
-    minute = 60
-    hour   = 60 * minute
-    day    = 24 * hour
-    zero   = Time.at(0).utc
-    
-    i18n.l( zero + 7 * day,     :human, zero).should == ' 8 января 00:00'
-    i18n.l( zero + 50 * hour,   :human, zero).should == 'через 2 дня 02:00'
-    i18n.l( zero + 25 * hour,   :human, zero).should == 'завтра 01:00'
-    i18n.l( zero + 70 * minute, :human, zero).should == 'через 1 час'
-    i18n.l( zero + 38 * minute, :human, zero).should == 'через 38 минут'
-    i18n.l( zero + 5,           :human, zero).should == 'сейчас'
-    i18n.l( zero - 15,          :human, zero).should == 'сейчас'
-    i18n.l( zero - minute,      :human, zero).should == '1 минуту назад'
-    i18n.l( zero - 2 * hour,    :human, zero).should == '2 часа назад'
-    i18n.l( zero - 13 * hour,   :human, zero).should == 'вчера 11:00'
-    i18n.l( zero - 50 * hour,   :human, zero).should == '3 дня назад 22:00'
-    i18n.l( zero - 9 * day,     :human, zero).should == '23 декабря 1969 00:00'
-  end
-  
-  it "should use standard formatter by default" do
-    R18n::I18n.new('ru').l(Time.at(0).utc).should == '01.01.1970 00:00'
-  end
-  
-  it "should raise error on unknown formatter" do
-    lambda {
-      R18n::I18n.new('ru').l(Time.at(0).utc, :unknown)
-    }.should raise_error(ArgumentError, /formatter/)
-  end
 
 end
