@@ -31,6 +31,7 @@ require dir + 'translated_string'
 require dir + 'untranslated'
 require dir + 'filters'
 require dir + 'translation'
+require dir + 'yaml_loader'
 require dir + 'i18n'
 
 module R18n
@@ -45,13 +46,16 @@ module R18n
       Thread.current['i18n']
     end
 
-    # Get dirs with extension translations. If application translations with
+    # Default loader class, which will be used if you didn’t send loader to
+    # +I18n.new+ (object with +available+ and +load+ methods).
+    attr_accessor :default_loader
+
+    # Loaders with extension translations. If application translations with
     # same locale isn’t exists, extension file willn’t be used.
-    def extension_translations
-      @@extension_translations
-    end
-    
-    @@extension_translations = [
-      Pathname(__FILE__).dirname.expand_path + '../base']
+    attr_accessor :extension_places
   end
+  
+  self.default_loader = R18n::Loader::YAML
+  self.extension_places = [
+      Loader::YAML.new(Pathname(__FILE__).dirname.expand_path + '../base')]
 end

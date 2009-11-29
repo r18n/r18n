@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'date'
+require 'pathname'
 
 module R18n
   # General class to i18n support in your application. It load Translation and
@@ -28,10 +29,20 @@ module R18n
   # translation’s name or <tt>[name]</tt> method. Translations will be also
   # loaded for default locale, +sublocales+ from first in +locales+ and general
   # languages for dialects (it will load +fr+ for +fr_CA+ too).
-  #
-  # Translation files use YAML format and has name like en.yml (English) or
-  # en-US.yml (USA English dialect) with language/country code (RFC 3066). In
-  # translation file you can use strings, numbers, floats (any YAML types)
+  # 
+  # Translations will loaded by loader object, which must have 2 methods:
+  # * <tt>available</tt> – return array of locales of available translations;
+  # * <tt>load(locale)</tt> – return Hash of translation.
+  # If you will use default loader (+R18n.default_loader+) you can pass to I18n
+  # only constructor argument for loader:
+  # 
+  #   R18n::I18n.new('en', R18n::Loader::YAML.new('dir/with/translations'))
+  # 
+  # is a same as:
+  # 
+  #   R18n::I18n.new('en', 'dir/with/translations')
+  # 
+  # In translation file you can use strings, numbers, floats (any YAML types)
   # and pluralizable values (<tt>!!pl</tt>). You can use params in string
   # values, which you can replace in program. Just write <tt>%1</tt>,
   # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
@@ -106,20 +117,20 @@ module R18n
     # User locales, ordered by priority
     attr_reader :locales
     
-    # Dirs with translations files
-    attr_reader :translation_dirs
+    # Loaders with translations files
+    attr_reader :translation_places
     
     # First locale with locale file
     attr_reader :locale
     
-    # Create i18n for +locales+ with translations from +translation_dirs+ and
+    # Create i18n for +locales+ with translations from +translation_places+ and
     # locales data. Translations will be also loaded for default locale,
     # +sublocales+ from first in +locales+ and general languages for dialects
     # (it will load +fr+ for +fr_CA+ too).
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
-    # +Translation_dirs+ must be a string with path or array.
-    def initialize(locales, translation_dirs = nil)
+    # +Translation_places+ must be a string with path or array.
+    def initialize(locales, translation_places = nil)
       locales = [locales] if locales.is_a? String
       
       if not locales.empty? and Locale.exists? locales.first
@@ -134,30 +145,30 @@ module R18n
       locales.uniq!
       @locales = locales.map { |i| Locale.load(i) }
       
-      if translation_dirs
-        @translation_dirs = Array(translation_dirs)
-        dirs = R18n.extension_translations + @translation_dirs
-      else
-        dirs = @translation_dirs = R18n.extension_translations
-      end
-      @available_codes = @translation_dirs.inject([]) { |all, dir|
-        all + Dir.glob(File.join(dir, '*.yml')).map do |i|
-          File.basename(i, '.yml')
+      translation_places = Array(translation_places).map! do |loader|
+        if loader.respond_to? :available and loader.respond_to? :load
+          loader
+        else
+          R18n.default_loader.new(loader)
         end
-      }.uniq
-      @available_locales = @available_codes.inject({}) do |all, i|
-        all[i] = Locale.load(i).title
-        all
       end
+      
+      if translation_places.empty?
+        places = @translation_places = R18n.extension_places
+      else
+        @translation_places = translation_places
+        places = R18n.extension_places + @translation_places
+      end
+      
+      @available = @translation_places.map { |i| i.available }.flatten.uniq
       
       translations = []
       @locales.each do |locale|
         translation = {}
-        if @available_codes.include? locale.code.downcase
-          dirs.each do |dir|
-            file = File.join(dir, "#{locale.code.downcase}.yml")
-            if File.exists? file
-              Utils.deep_merge! translation, YAML::load_file(file)
+        if @available.include? locale
+          places.each do |loader|
+            if loader.available.include? locale
+              Utils.deep_merge! translation, loader.load(locale)
             end
           end
         end
@@ -180,7 +191,7 @@ module R18n
     # Return Hash with titles (or code for unsupported locales) for available
     # translations.
     def translations
-      @available_locales
+      @available.inject({}) { |all, i| all[i.code] = i.title; all }
     end
     
     # Convert +object+ to String, according to the rules of the current locale.

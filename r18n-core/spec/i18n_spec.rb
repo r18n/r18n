@@ -4,6 +4,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe R18n::I18n do
   after do
     R18n::I18n.default = 'en'
+    R18n.default_loader = R18n::Loader::YAML
   end
 
   it "should parse HTTP_ACCEPT_LANGUAGE" do
@@ -29,9 +30,27 @@ describe R18n::I18n do
                             R18n::UnsupportedLocale.new('en')]
   end
 
-  it "should return translations dir" do
+  it "should return translations loaders" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translation_dirs.map { |i| i.expand_path }.should == [DIR.expand_path]
+    i18n.translation_places.should == [R18n::Loader::YAML.new(DIR)]
+  end
+  
+  it "should load translations by loader" do
+    loader = Class.new do
+      def available; [R18n::Locale.load('en')]; end
+      def load(locale); { 'custom' => 'Custom' }; end
+    end
+    R18n::I18n.new('en', loader.new).custom.should == 'Custom'
+  end
+  
+  it "should pass parameters to default loader" do
+    loader = Class.new do
+      def initialize(param); @param = param; end
+      def available; [R18n::Locale.load('en')]; end
+      def load(locale); { 'custom' => @param }; end
+    end
+    R18n.default_loader = loader
+    R18n::I18n.new('en', 'default').custom.should == 'default'
   end
 
   it "should load translations" do
@@ -47,8 +66,8 @@ describe R18n::I18n do
     i18n.in.another.level.should == 'Hierarchical'
   end
 
-  it "should use extension translations" do
-    R18n.extension_translations << EXT
+  it "should use extension places" do
+    R18n.extension_places << EXT
     
     i18n = R18n::I18n.new('en', DIR)
     i18n.ext.should == 'Extension'
@@ -56,7 +75,7 @@ describe R18n::I18n do
   end
 
   it "shouldn't use extension without app translations with same locale" do
-    R18n.extension_translations << EXT
+    R18n.extension_places << EXT
     
     i18n = R18n::I18n.new(['no-TR', 'en'], DIR)
     i18n.ext.should == 'Extension'

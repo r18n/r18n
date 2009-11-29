@@ -140,12 +140,12 @@ module R18n
       @data['direction'] == 'ltr'
     end
 
-    # Get information about locale
+    # Get information about locale.
     def [](name)
       @data[name]
     end
 
-    # Is another locale has same code
+    # Is another locale has same code.
     def ==(locale)
       code.downcase == locale.code.downcase
     end
@@ -155,7 +155,7 @@ module R18n
       true
     end
 
-    # Human readable locale code and title
+    # Human readable locale code and title.
     def inspect
       "Locale #{code} (#{title})"
     end

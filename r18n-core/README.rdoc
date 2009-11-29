@@ -235,13 +235,28 @@ You can get from locale:
   
     locale['week']['start'] #=> "sunday"
 
-== Extension translations
-For r18n plugin you can add dir with translations, which will be used with
+=== Loaders
+You can load translations from any ways, not just from YAML files. To load
+translation you must create loader class with 2 methods:
+* <tt>available</tt> – return array of locales of available translations;
+* <tt>load(locale)</tt> – return Hash of translation.
+And put it instance to <tt>R18n::I18n.new</tt>:
+
+  R18n::I18n.new('en', MyLoader.new(loader_param))
+
+You can set your loader as default and pass to <tt>R18n::I18n.new</tt> only
+constructor argument:
+
+  R18m.default_loader = MyLoader
+  R18n::I18n.new('en', loader_param)
+
+=== Extension translations
+For r18n plugin you can add loaders with translations, which will be used with
 application translations. For example, DB plugin may place translations for
 error messages in extension dir. R18n contain translations for base words as
 extension dir too.
 
-  R18n.extension_translations << './error_messages/'
+  R18n.extension_places << R18n::Loader::YAML.new('./error_messages/')
 
 == Add locale
 If R18n hasn’t locale file for your language, please add it. It’s very simple:

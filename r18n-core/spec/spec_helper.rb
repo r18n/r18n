@@ -2,8 +2,10 @@
 require 'rubygems'
 require 'pp'
 
-require File.join(File.dirname(__FILE__), '../lib/r18n-core')
+dir = Pathname(__FILE__).dirname
 
-DIR = Pathname(__FILE__).dirname + 'translations/general' unless defined? DIR
-TWO = Pathname(__FILE__).dirname + 'translations/two' unless defined? TWO
-EXT = Pathname(__FILE__).dirname + 'translations/extension' unless defined? EXT
+require dir + '../lib/r18n-core'
+
+DIR = dir + 'translations/general' unless defined? DIR
+TWO = dir + 'translations/two' unless defined? TWO
+EXT = R18n::Loader::YAML.new(dir + 'translations/extension') unless defined? EXT

@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'pathname'
-require 'yaml'
 
 module R18n
   # Translation is container of translated messages.
