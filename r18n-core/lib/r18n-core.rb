@@ -44,5 +44,14 @@ module R18n
     def get
       Thread.current['i18n']
     end
+
+    # Get dirs with extension translations. If application translations with
+    # same locale isn’t exists, extension file willn’t be used.
+    def extension_translations
+      @@extension_translations
+    end
+    
+    @@extension_translations = [
+      Pathname(__FILE__).dirname.expand_path + '../base']
   end
 end

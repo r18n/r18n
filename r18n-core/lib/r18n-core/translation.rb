@@ -86,22 +86,7 @@ module R18n
   #   i18n.yes    #=> "Yes"
   #   i18n.ok     #=> "OK"
   #   i18n.cancel #=> "Cancel"
-  #
-  # == Extension translations
-  # For r18n plugin you can add dir with translations, which will be used with
-  # application translations. For example, DB plugin may place translations for
-  # error messages in extension dir. R18n contain translations for base words as
-  # extension dir too.
   class Translation
-    @@extension_translations = [
-      Pathname(__FILE__).dirname.expand_path + '../../base']
-
-    # Get dirs with extension translations. If application translations with
-    # same locale isn’t exists, extension file willn’t be used.
-    def self.extension_translations
-      @@extension_translations
-    end
-    
     # Return available translations in +dirs+
     def self.available(dirs)
       if dirs.is_a? Array
@@ -121,7 +106,7 @@ module R18n
     # 
     # To load translations use R18n::I18n.new method, which is more usable.
     def self.load(locales, dirs)
-      dirs = @@extension_translations + Array(dirs)
+      dirs = R18n.extension_translations + Array(dirs)
       
       available = self.available(dirs)
       translations = []

@@ -235,6 +235,14 @@ You can get from locale:
   
     locale['week']['start'] #=> "sunday"
 
+== Extension translations
+For r18n plugin you can add dir with translations, which will be used with
+application translations. For example, DB plugin may place translations for
+error messages in extension dir. R18n contain translations for base words as
+extension dir too.
+
+  R18n.extension_translations << './error_messages/'
+
 == Add locale
 If R18n hasn’t locale file for your language, please add it. It’s very simple:
 * Create in locales/ file _code_.yml for your language and describe locale.

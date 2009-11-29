@@ -64,7 +64,7 @@ describe R18n::Translation do
   end
 
   it "should use extension translations" do
-    R18n::Translation.extension_translations << EXT
+    R18n.extension_translations << EXT
     
     translation = R18n::Translation.load([@en], DIR)
     translation.ext.should == 'Extension'
@@ -72,7 +72,7 @@ describe R18n::Translation do
   end
 
   it "shouldn't use extension without app translations with same locale" do
-    R18n::Translation.extension_translations << EXT
+    R18n.extension_translations << EXT
     
     translation = R18n::Translation.load([R18n::Locale.load('no-TR'), @en], DIR)
     translation.ext.should == 'Extension'

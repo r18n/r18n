@@ -120,8 +120,7 @@ module R18n
       
       if translation_dirs.nil?
         @translation_dirs = []
-        @translation = Translation.load(@locales,
-                                        Translation.extension_translations)
+        @translation = Translation.load(@locales, R18n.extension_translations)
       else
         @translation_dirs = translation_dirs
         @translation = Translation.load(@locales, @translation_dirs)
