@@ -22,20 +22,10 @@ require 'pathname'
 require 'yaml'
 
 module R18n
-  # Translation for interface to i18n support. You can load several locales and
-  # if translation willn’t be found in first, r18n will be search it in next.
-  # Use R18n::I18n.new to load translations.
+  # Translation is container of translated messages.
   #
-  # Translation files use YAML format and has name like en.yml (English) or
-  # en-US.yml (USA English dialect) with language/country code (RFC 3066). In
-  # translation file you can use strings, numbers, floats (any YAML types)
-  # and pluralizable values (<tt>!!pl</tt>). You can use params in string
-  # values, which you can replace in program. Just write <tt>%1</tt>,
-  # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
-  # value.
-  #
-  # You can use filters for some YAML type or for all strings. See R18n::Filters
-  # for details.
+  # You can load several locales and if translation willn’t be found in first,
+  # r18n will be search it in next. Use R18n::I18n.new to load translations.
   #
   # To get translation value use method with same name. If translation name
   # is equal with Object methods (+new+, +to_s+, +methods+) use
@@ -44,9 +34,6 @@ module R18n
   #
   # Translated strings will have +locale+ methods, which return Locale or
   # UnsupportedLocale, if locale file isn’t exists.
-  #
-  # R18n contain translations for common words (such as “OK”, “Cancel”, etc)
-  # for most supported locales. See <tt>base/</tt> dir.
   #
   # == Examples
   # translations/ru.yml
@@ -69,8 +56,6 @@ module R18n
   #
   # example.rb
   #
-  #   locales = [R18n::Locale.load('ru'), R18n::Locale.load('en')]
-  #   i18n = R18n::Translation.load(locales, 'translations/')
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
   #   
@@ -82,49 +67,7 @@ module R18n
   #   
   #   i18n.comments(0)            #=> "no comments"
   #   i18n.comments(10)           #=> "10 comments"
-  #
-  #   i18n.yes    #=> "Yes"
-  #   i18n.ok     #=> "OK"
-  #   i18n.cancel #=> "Cancel"
   class Translation
-    # Return available translations in +dirs+
-    def self.available(dirs)
-      if dirs.is_a? Array
-        return dirs.inject([]) do |available, i|
-          available |= self.available(i)
-        end
-      end
-      
-      Dir.glob(File.join(dirs, '*.yml')).map do |i|
-        File.basename(i, '.yml')
-      end
-    end
-
-    # Load all available translations for +locales+. +Locales+ must be Locale or
-    # UnsupportedLocale instance or an array them. +Dirs+ may be an array or a
-    # string with path to dir with translations.
-    # 
-    # To load translations use R18n::I18n.new method, which is more usable.
-    def self.load(locales, dirs)
-      dirs = R18n.extension_translations + Array(dirs)
-      
-      available = self.available(dirs)
-      translations = []
-      locales.each do |locale|
-        next unless available.include? locale.code.downcase
-        translation = {}
-        dirs.each do |dir|
-          file = File.join(dir, "#{locale.code.downcase}.yml")
-          if File.exists? file
-            Utils.deep_merge! translation, YAML::load_file(file)
-          end
-        end
-        translations << translation
-      end
-  
-      self.new(locales, translations)
-    end
-    
     # Create translation hash for +path+ with messages in +translations+ for
     # +locales+.
     #

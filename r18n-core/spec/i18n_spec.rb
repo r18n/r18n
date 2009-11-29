@@ -31,7 +31,7 @@ describe R18n::I18n do
 
   it "should return translations dir" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translation_dirs.expand_path.to_s.should == DIR.expand_path.to_s
+    i18n.translation_dirs.map { |i| i.expand_path }.should == [DIR.expand_path]
   end
 
   it "should load translations" do
@@ -39,6 +39,35 @@ describe R18n::I18n do
     i18n.one.should == 'Один'
     i18n['one'].should == 'Один'
     i18n.only.english.should == 'Only in English'
+  end
+  
+  it "should load translations from several dirs" do
+    i18n = R18n::I18n.new(['no-LC', 'en'], [TWO, DIR])
+    i18n.in.two.should == 'Two'
+    i18n.in.another.level.should == 'Hierarchical'
+  end
+
+  it "should use extension translations" do
+    R18n.extension_translations << EXT
+    
+    i18n = R18n::I18n.new('en', DIR)
+    i18n.ext.should == 'Extension'
+    i18n.one.should == 'One'
+  end
+
+  it "shouldn't use extension without app translations with same locale" do
+    R18n.extension_translations << EXT
+    
+    i18n = R18n::I18n.new(['no-TR', 'en'], DIR)
+    i18n.ext.should == 'Extension'
+  end
+  
+  it "should ignore case on loading" do
+    i18n = R18n::I18n.new('no-lc', [DIR])
+    i18n.one.should == 'ONE'
+    
+    i18n = R18n::I18n.new('no-LC', [DIR])
+    i18n.one.should == 'ONE'
   end
 
   it "should load default translation" do

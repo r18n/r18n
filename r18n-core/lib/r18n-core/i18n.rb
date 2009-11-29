@@ -29,7 +29,19 @@ module R18n
   # loaded for default locale, +sublocales+ from first in +locales+ and general
   # languages for dialects (it will load +fr+ for +fr_CA+ too).
   #
-  # See Translation and Locale documentation.
+  # Translation files use YAML format and has name like en.yml (English) or
+  # en-US.yml (USA English dialect) with language/country code (RFC 3066). In
+  # translation file you can use strings, numbers, floats (any YAML types)
+  # and pluralizable values (<tt>!!pl</tt>). You can use params in string
+  # values, which you can replace in program. Just write <tt>%1</tt>,
+  # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
+  # value.
+  #
+  # You can use filters for some YAML type or for all strings. See R18n::Filters
+  # for details.
+  #
+  # R18n contain translations for common words (such as “OK”, “Cancel”, etc)
+  # for most supported locales. See <tt>base/</tt> dir.
   #
   # == Usage
   # translations/ru.yml
@@ -57,6 +69,10 @@ module R18n
   #   i18n.l Time.now, :date   #=> "21.09.2008"
   #   i18n.l Time.now, :time   #=> "22:10"
   #   i18n.l Time.now, '%A'    #=> "Воскресенье"
+  #
+  #   i18n.yes    #=> "Yes"
+  #   i18n.ok     #=> "OK"
+  #   i18n.cancel #=> "Cancel"
   class I18n
     @@default = 'en'
 
@@ -118,13 +134,37 @@ module R18n
       locales.uniq!
       @locales = locales.map { |i| Locale.load(i) }
       
-      if translation_dirs.nil?
-        @translation_dirs = []
-        @translation = Translation.load(@locales, R18n.extension_translations)
+      if translation_dirs
+        @translation_dirs = Array(translation_dirs)
+        dirs = R18n.extension_translations + @translation_dirs
       else
-        @translation_dirs = translation_dirs
-        @translation = Translation.load(@locales, @translation_dirs)
+        dirs = @translation_dirs = R18n.extension_translations
       end
+      @available_codes = @translation_dirs.inject([]) { |all, dir|
+        all + Dir.glob(File.join(dir, '*.yml')).map do |i|
+          File.basename(i, '.yml')
+        end
+      }.uniq
+      @available_locales = @available_codes.inject({}) do |all, i|
+        all[i] = Locale.load(i).title
+        all
+      end
+      
+      translations = []
+      @locales.each do |locale|
+        translation = {}
+        if @available_codes.include? locale.code.downcase
+          dirs.each do |dir|
+            file = File.join(dir, "#{locale.code.downcase}.yml")
+            if File.exists? file
+              Utils.deep_merge! translation, YAML::load_file(file)
+            end
+          end
+        end
+        translations << translation
+      end
+      
+      @translation = Translation.new(@locales, translations)
       
       @locale = @locales.first
       unless @locale.supported?
@@ -140,10 +180,7 @@ module R18n
     # Return Hash with titles (or code for unsupported locales) for available
     # translations.
     def translations
-      Translation.available(@translation_dirs).inject({}) do |all, code|
-        all[code] = Locale.load(code).title
-        all
-      end
+      @available_locales
     end
     
     # Convert +object+ to String, according to the rules of the current locale.
