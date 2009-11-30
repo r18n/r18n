@@ -98,17 +98,17 @@
       i18n.l Time.now, :full       #=> "30th of November, 2009 14:37"
       i18n.l Time.now - 60, :human #=> "1 minute ago"
     %h3 Several user languages support
-    %p Lack of translation in user language isn’t exception for R18n (because translation to not primary language done by enthusiasts, it can be out of date). R18n just automatically take next user language (browser send a list of locales) and for cultures with two officially languages (e.g., exUSSR) it take second language (e.g., if translation isn’t available in Belarus R18n will see in Russian):
+    %p Lack of translation in user language isn’t exception for R18n (because translation to not primary language done by enthusiasts, it can be out of date). R18n just automatically take next user language (browser send a list of locales) and for cultures with two officially languages (e.g., exUSSR) it take second language (e.g., if translation isn’t available in Kazakh R18n will see in Russian):
     :rubysyntax
-      i18n = R18n::I18n.new(['be', 'eo'], 'dir/with/translations')
+      i18n = R18n::I18n.new(['kk', 'de'], 'dir/with/translations')
       
-      i18n.locales    #=> [Locale be Belarusian, Locale eo Esperanto,
-                      #    Locale ru Russian, Locale en English]
+      i18n.locales    #=> [Locale kk (Қазақша), Locale de (Deutsch),
+                      #    Locale ru (Русский), Locale en (English)]
       
-      i18n.belarusian #=> "Беларуская мова"
-      i18n.esperanto  #=> "Esperanto", not in Belarusian, use next user locale
-      i18n.russian    #=> "Русский", not in be and eo, use Belarusian sublocale
-      i18n.english    #=> "English", not in any user locales, use default
+      i18n.kazakh  #=> "Қазақша", main user language
+      i18n.deutsch #=> "Deutsch", not in Kazakh, use next user locale
+      i18n.russian #=> "Русский", not in kk and de, use Kazakh sublocale
+      i18n.english #=> "English", not in any user locales, use default
     %h3 Agnostic
     %p R18n has a agnostic core package and plugins with out-of-box support for Sinatra, Merb and desktop applications.
     #position
