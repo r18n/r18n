@@ -45,14 +45,14 @@
       i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
       i18n.greater #=> "1 &lt; 2 is true"
     %h3 Flexibility
-    %p Translation variables and pluralization (“1 comment”, “5 comments”) are filters too. So you can extend or replace it. For example, you can enable build-in named variables filter:
+    %p Translation variables and pluralization (“1 comment”, “5 comments”) are filters too. So you can extend or replace it. For example, you can enable built-in named variables filter:
     :yamlsyntax
       greeting: Hi, {{name}}
     :rubysyntax
       R18n::Filters.on(:named_variables)
       i18n.greeting(name: 'John') #=> "Hi, John"
     %h3 Flexible locales
-    %p Locale together with YAML description can extend Locale class, so locales is very flexible. For example, Russian locale has build-in different pluralization without any lambdas in YAML:
+    %p Locale together with YAML description can extend Locale class, so locales are very flexible. For example, Russian locale has built-in different pluralization without any lambdas in YAML:
     :rubysyntax
       i18n.user.count(1) #=> "1 пользователь"
       i18n.user.count(2) #=> "2 пользователя"

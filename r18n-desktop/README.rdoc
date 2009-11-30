@@ -1,6 +1,6 @@
 = R18n Desktop
 
-A tool to translate your desktop application in several languages.
+A tool to translate your desktop application to several languages.
 
 It is just a wrap for R18n core library. See R18n documentation for more 
 information.

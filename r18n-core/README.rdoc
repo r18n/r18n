@@ -1,6 +1,6 @@
 = R18n
 
-R18n is a i18n tool to translate your Ruby application in several languages.
+R18n is a i18n tool to translate your Ruby application to several languages.
 
 Use <tt>sinatra-r18n</tt> or teamon’s <tt>merb_i18n</tt> to localize Web applications and 
 <tt>r18n-desktop</tt> to localize desktop application.
@@ -24,7 +24,7 @@ To access translation you can call methods with same names:
   i18n.user.name('John') #=> "User name is John"
   i18n.user.count(5)     #=> "There are 5 users"
 
-If translation has has name of Object method you can use another way:
+If translation key has name of Object method you can use another way:
 
   i18n[:methods] #=> "Methods"
 
@@ -47,7 +47,7 @@ escaping, lambdas, Textile and Markdown:
 === Flexibility
 
 Translation variables and pluralization (“1 comment”, “5 comments”) are filters
-too. So you can extend or replace it. For example, you can enable build-in named
+too. So you can extend or replace it. For example, you can enable built-in named
 variables filter:
 
   greeting: Hi, {{name}}
@@ -58,7 +58,7 @@ variables filter:
 === Flexible locales
 
 Locale together with YAML description can extend Locale class, so locales
-is very flexible. For example, Russian locale has build-in different
+are very flexible. For example, Russian locale has built-in different
 pluralization without any lambdas in YAML:
 
   i18n.user.count(1) #=> "1 пользователь"
