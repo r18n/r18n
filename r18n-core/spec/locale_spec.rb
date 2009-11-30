@@ -11,6 +11,16 @@ describe R18n::Locale do
     R18n::Locale.exists?('ru').should be_true
     R18n::Locale.exists?('no-LC').should be_false
   end
+  
+  it "should set locale properties" do
+    locale_class = Class.new(R18n::Locale) do
+      set :one, 1
+      set :two, 2
+    end
+    locale = locale_class.new({})
+    locale.one.should == 1
+    locale.two.should == 2
+  end
 
   it "should load locale" do
     @ru.code.should == 'ru'

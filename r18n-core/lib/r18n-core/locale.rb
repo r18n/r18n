@@ -115,6 +115,23 @@ module R18n
       klass.new(data)
     end
     
+    # Set locale +properties+. Locale class will have methods for each propetry
+    # name, which return propetry value:
+    # 
+    #   class R18n::Locales::En < R18n::Locale
+    #     set :title, 'English',
+    #         :code,  'en'
+    #   end
+    #   
+    #   locale = R18n::Locales::En.new
+    #   locale.title #=> "English"
+    #   locale.code  #=> "en"
+    def self.set(*properties)
+      Hash[*properties].each_pair do |key, value|
+        define_method(key) { value }
+      end
+    end
+    
     attr_reader :data
 
     # Create locale object with locale +data+.
