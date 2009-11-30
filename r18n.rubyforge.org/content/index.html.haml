@@ -17,7 +17,7 @@
     %p R18n was developed by <a href="http://sitnik.ru/">Andrey “A.I.” Sitnik</a> and was licensed under <a href="http://www.gnu.org/licenses/lgpl.html">GNU LGPL 3</a>.
     %h2 Features
     %h3 Ruby-style syntax
-    %p R18n by default use hierarchical not English-centrist YAML format for translations:
+    %p R18n uses hierarchical not English-centrist YAML format for translations by default:
     :yamlsyntax
       user:
       edit: Edit user
@@ -25,12 +25,12 @@
       count: !!pl
         1: There is 1 user
         n: There are %1 users
-    %p To access to translation you can call methods with same names:
+    %p To access translation you can call methods with same names:
     :rubysyntax
       i18n.user.edit         #=> "Edit user"
       i18n.user.name('John') #=> "User name is John"
       i18n.user.count(5)     #=> "There are 5 users"
-    %p You can use another way to access to translation with keys, which already has same method in Object class:
+    %p If translation key has name of Object method you can use another way:
     :rubysyntax
       i18n[:methods] #=> "Methods"
     %h3 Filters
@@ -45,7 +45,7 @@
       i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
       i18n.greater #=> "1 &lt; 2 is true"
     %h3 Flexibility
-    %p Translation variables and pluralization (“1 comment”, “5 comments”) is filters too. So you can extend or replace it. For example, you can enable build-in named variables filter:
+    %p Translation variables and pluralization (“1 comment”, “5 comments”) are filters too. So you can extend or replace it. For example, you can enable build-in named variables filter:
     :yamlsyntax
       greeting: Hi, {{name}}
     :rubysyntax
@@ -75,7 +75,7 @@
       i18n = R18n::I18n.new(user_locales, DBLoader.new)
     %p You can also set a list of different translation places or set extension places, which will be used only with application translation (useful for plugins).
     %h3 Object translation
-    %p You can also translation any class, including ORM models:
+    %p You can translate any class, including ORM models:
     :rubysyntax
       require 'r18n-core/translated'
       

@@ -8,8 +8,8 @@ Use <tt>sinatra-r18n</tt> or teamon’s <tt>merb_i18n</tt> to localize Web appli
 == Features
 
 === Ruby-style syntax
-R18n by default use hierarchical not English-centrist YAML format for
-translations:
+R18n uses hierarchical not English-centrist YAML format for translations by
+default:
 
   user:
     edit: Edit user
@@ -18,14 +18,13 @@ translations:
       1: There is 1 user
       n: There are %1 users
 
-To access to translation you can call methods with same names:
+To access translation you can call methods with same names:
 
   i18n.user.edit         #=> "Edit user"
   i18n.user.name('John') #=> "User name is John"
   i18n.user.count(5)     #=> "There are 5 users"
 
-You can use another way to access to translation with keys, which already has
-same method in Object class:
+If translation has has name of Object method you can use another way:
 
   i18n[:methods] #=> "Methods"
 
@@ -47,7 +46,7 @@ escaping, lambdas, Textile and Markdown:
 
 === Flexibility
 
-Translation variables and pluralization (“1 comment”, “5 comments”) is filters
+Translation variables and pluralization (“1 comment”, “5 comments”) are filters
 too. So you can extend or replace it. For example, you can enable build-in named
 variables filter:
 
@@ -91,7 +90,7 @@ which will be used only with application translation (useful for plugins).
 
 === Object translation
 
-You can also translation any class, including ORM models:
+You can translate any class, including ORM models:
 
   require 'r18n-core/translated'
   
