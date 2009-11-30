@@ -85,7 +85,7 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values as methods params.
     def method_missing(name, *params)
-      self[name.to_s, *params]
+      self[name, *params]
     end
     
     # Return translation with special +name+.
@@ -93,6 +93,7 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
+      name = name.to_s
       path = @path.empty? ? name : "#{@path}.#{name}"
       
       @translations.each_with_index do |translation, i|

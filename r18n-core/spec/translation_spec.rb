@@ -12,6 +12,7 @@ describe R18n::Translation do
   it "should load use hierarchical translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
     i18n.in.another.level.should == 'Иерархический'
+    i18n[:in][:another][:level].should == 'Иерархический'
     i18n['in']['another']['level'].should == 'Иерархический'
     i18n.only.english.should == 'Only in English'
   end
