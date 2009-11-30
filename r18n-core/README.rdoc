@@ -121,8 +121,18 @@ Lack of translation in user language isn’t exception for R18n (because
 translation to not primary language done by enthusiasts, it can be out of date).
 R18n just automatically take next user language (browser send a list of locales)
 and for cultures with two officially languages (e.g., exUSSR) it take second
-language (e.g., if translation isn’t available in Belarus R18n will see in
-Russian).
+language (e.g., if translation isn’t available in Belarusian R18n will see in
+Russian):
+
+  i18n = R18n::I18n.new(['be', 'eo'], 'dir/with/translations')
+  
+  i18n.locales    #=> [Locale be Belarusian, Locale eo Esperanto,
+                  #    Locale ru Russian, Locale en English]
+  
+  i18n.belarusian #=> "Беларуская мова"
+  i18n.esperanto  #=> "Esperanto", not in Belarusian, use next user locale
+  i18n.russian    #=> "Русский", not in be and eo, use Belarusian sublocale
+  i18n.english    #=> "English", not in any user locales, use default
 
 === Agnostic
 
