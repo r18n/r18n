@@ -101,10 +101,10 @@ You can translate any class, including ORM models:
   end
   
   # For English user
-  product.title #=>  "Anthrax"
+  product.title #=> "Anthrax"
   
   # For Russian user
-  product.title =   "Сибирская язва"
+  product.title #=> "Сибирская язва"
 
 === Localization
 
