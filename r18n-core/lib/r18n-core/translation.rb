@@ -78,6 +78,15 @@ module R18n
       @path = path
     end
     
+    # Use untranslated filter to print path.
+    def to_s
+      config = OpenStruct.new(:locale  => @locales.first, :path => @path,
+                              :locales => @locales)
+      Filters.enabled[Untranslated].inject(@path) do |string, filter|
+        filter.call(string, config, @path, '', @path)
+      end
+    end
+    
     # Short and pretty way to get translation by method name. If translation
     # has name like object methods (+new+, +to_s+, +methods+) use <tt>[]</tt>
     # method to access.
