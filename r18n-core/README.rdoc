@@ -352,9 +352,9 @@ You can get from locale:
   
     locale.ltr? #=> true
   
-* Week start day ("sunday" or "monday"):
+* Week start day (+:monday+ or +:sunday+):
   
-    locale['week']['start'] #=> "sunday"
+    locale.week_start #=> :sunday
 
 === Loaders
 You can load translations from any ways, not just from YAML files. To load
@@ -381,26 +381,20 @@ extension dir too.
 
 == Add locale
 If R18n hasn’t locale file for your language, please add it. It’s very simple:
-* Create in locales/ file _code_.yml for your language and describe locale.
+* Create in locales/ file _code_.rb for your language and describe locale.
   Just copy from another locale and change different values.
-  * If your language is dialect or base on another (as American English (en-US) 
-    base on English (en)) write <tt>include: _base_locale_</tt> and similar
-    values can be deleted.
   * If in your country people mostly know another language (like in exUSSR
-    countries people know Russian), write
-    <tt>sublocales: [_another_locale_, en]</tt>. Else write only:
-    <tt>sublocales: [en]</tt>. For dialect put base locale to +sublocales+ too.
+    countries people know Russian), add
+    <tt>sublocales %{_another_locale_ en}</tt>.
 * Create in base/ file _code_.yml for your language and translate base messages.
   Just copy file from language, which you know, and rewrite values.
 * If you language need some special logic (for example, different pluralization
-  or time formatters) you can change Locale class. Create in locales/ file
-  _code_.rb and write R18n::Locales::_Code_ class, which must extend
-  R18n::Locale.
+  or time formatters) you can extend Locale class methods.
 * Push files by GitHub (http://github.com/ai/r18n) or just write e-mail with
   this files to me (andrey@sitnik.ru).
 
 _Code_ is RFC 3066 code for your language (for example, “en” for English and
-“fr_CA” for Canadian French). You can send to my e-mail any questions (on
+“fr-CA” for Canadian French). You can send to my e-mail any questions (on
 http://sitnik.ru you find another contact addresses).
 
 == License

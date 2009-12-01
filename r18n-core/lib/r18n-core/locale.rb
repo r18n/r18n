@@ -24,9 +24,10 @@ require 'yaml'
 module R18n
   # Information about locale (language, country and other special variant
   # preferences). Locale was named by RFC 3066. For example, locale for French
-  # speaking people in Canada will be +fr_CA+.
+  # speaking people in Canada will be +fr-CA+.
   #
-  # Locale files is placed in <tt>locales/</tt> dir in YAML files.
+  # Locale classes are placed in <tt>R18n::Locales</tt> module and storage
+  # install <tt>locales/</tt> dir.
   #
   # Each locale has +sublocales+ – often known languages for people from this
   # locale. For example, many Belorussians know Russian and English. If there
@@ -44,75 +45,41 @@ module R18n
   #
   # == Available data
   #
-  # * +code+: locale RFC 3066 code;
-  # * +title+: locale name on it language;
-  # * +direction+: writing direction, +ltr+ or +rtl+ (for Arabic and Hebrew);
-  # * +sublocales+: often known languages for people from this locale;
-  # * +include+: locale code to include it data, optional.
+  # * +code+ – locale RFC 3066 code;
+  # * +title+ – locale name on it language;
+  # * +ltr?+ – true on left-to-right writing direction, false for Arabic and
+  #   Hebrew);
+  # * +sublocales+ – often known languages for people from this locale;
+  # * +week_start+ – does week start from +:monday+ or +:sunday+.
   #
   # You can see more available data about locale in samples in
   # <tt>locales/</tt> dir.
-  #
-  # == Extend locale
-  # If language need some special logic (for example, another pluralization or
-  # time formatters) you can just change Locale class. Create
-  # R18n::Locales::_Code_ class in base/_code_.rb, extend R18n::Locale and
-  # rewrite methods (for example, +pluralization+ or +format_date_full+).
   class Locale
     LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
 
-    # All available locales
+    # All available locales.
     def self.available
-      Dir.glob(File.join(LOCALES_DIR, '*.yml')).map do |i|
-        File.basename(i, '.yml')
+      Dir.glob(File.join(LOCALES_DIR, '*.rb')).map do |i|
+        File.basename(i, '.rb')
       end
     end
 
-    # Is +locale+ has info file
+    # Is +locale+ has info file.
     def self.exists?(locale)
-      File.exists?(File.join(LOCALES_DIR, locale + '.yml'))
+      File.exists?(File.join(LOCALES_DIR, locale + '.rb'))
     end
 
-    # Load locale by RFC 3066 +code+
+    # Load locale by RFC 3066 +code+.
     def self.load(code)
-      code = code.to_s
-      code.delete! '/'
-      code.delete! '\\'
-      code.delete! ';'
-      original = code
-      code = code.downcase
+      original = code.to_s.gsub(/[^-a-zA-Z]/, '')
+      code = original.downcase
       
       return UnsupportedLocale.new(original) unless exists? code
       
-      data = {}
-      klass = R18n::Locale
-      default_loaded = false
-      
-      while code and exists? code
-        file = LOCALES_DIR + "#{code}.yml"
-        default_loaded = true if I18n.default == code
-        
-        if R18n::Locale == klass and File.exists? LOCALES_DIR + "#{code}.rb"
-          require LOCALES_DIR + "#{code}.rb"
-          name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
-          klass = eval 'R18n::Locales::' + name
-        end
-        
-        loaded = YAML.load_file(file)
-        code = loaded['include']
-        data = Utils.deep_merge! loaded, data
-      end
-      
-      unless default_loaded
-        code = I18n.default
-        while code and exists? code
-          loaded = YAML.load_file(LOCALES_DIR + "#{code}.yml")
-          code = loaded['include']
-          data = Utils.deep_merge! loaded, data
-        end
-      end
-      
-      klass.new(data)
+      require LOCALES_DIR + "#{code}.rb"
+      name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
+      klass = eval('R18n::Locales::' + name)
+      klass.new
     end
     
     # Set locale +properties+. Locale class will have methods for each propetry
@@ -132,35 +99,23 @@ module R18n
       end
     end
     
-    attr_reader :data
-
-    # Create locale object with locale +data+.
-    #
-    # This is internal a constructor. To load translation use
-    # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
-    def initialize(data)
-      @data = data
-    end
-    
     # Locale RFC 3066 code.
     def code
-      @data['code']
+      self.class.name.split('::').last.downcase
     end
     
-    # Locale title.
-    def title
-      @data['title']
-    end
+    set :sublocales, %w{en},
+        :week_start, :monday,
+        :time_am, 'AM',
+        :time_pm, 'PM',
+        :time_format, ' %H:%M',
+        :full_format, '%e %B',
+        :year_format, '_ %Y'
+    
+    def month_standalone; month_names; end
     
     # Is locale has left-to-right write direction.
-    def ltr?
-      @data['direction'] == 'ltr'
-    end
-
-    # Get information about locale.
-    def [](name)
-      @data[name]
-    end
+    def ltr?; true; end
 
     # Is another locale has same code.
     def ==(locale)
@@ -194,7 +149,7 @@ module R18n
           strftime(obj, format)
         else
           if :month == format
-            return @data['months']['standalone'][obj.month - 1]
+            return month_standalone[obj.month - 1]
           end
           type = obj.is_a?(Date) ? 'date' : 'time'
           format = :standard unless format
@@ -215,7 +170,7 @@ module R18n
     def format_integer(integer)
       str = integer.to_s
       str[0] = '−' if 0 > integer # Real typographic minus
-      group = @data['numbers']['group_delimiter']
+      group = number_group
       
       str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
         match + group
@@ -225,7 +180,7 @@ module R18n
     # Returns the float in String form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_float(float)
-      decimal = @data['numbers']['decimal_separator']
+      decimal = number_decimal
       self.format_integer(float.to_i) + decimal + float.to_s.split('.').last
     end
     
@@ -237,19 +192,15 @@ module R18n
       format.scan(/%[EO]?.|./o) do |c|
         case c.sub(/^%[EO]?(.)$/o, '%\\1')
         when '%A'
-          translated << @data['week']['days'][time.wday]
+          translated << wday_names[time.wday]
         when '%a'
-          translated << @data['week']['abbrs'][time.wday]
+          translated << wday_abbrs[time.wday]
         when '%B'
-          translated << @data['months']['names'][time.month - 1]
+          translated << month_names[time.month - 1]
         when '%b'
-          translated << @data['months']['abbrs'][time.month - 1]
+          translated << month_abbrs[time.month - 1]
         when '%p'
-          translated << if time.hour < 12
-            @data['time']['am']
-          else
-            @data['time']['pm']
-          end
+          translated << (time.hour < 12 ? time_am : time_pm)
         else
           translated << c
         end
@@ -259,7 +210,7 @@ module R18n
     
     # Format +time+ without date. For example, “12:59”.
     def format_time(time)
-      strftime(time, @data['time']['time'])
+      strftime(time, time_format)
     end
     
     # Format +time+ in human usable form. For example “5 minutes ago” or
@@ -323,15 +274,15 @@ module R18n
     
     # Format +date+ in compact form. For example, “12/31/09”.
     def format_date_standard(i18n, date)
-      strftime(date, @data['time']['date'])
+      strftime(date, date_format)
     end
     
     # Format +date+ in most official form. For example, “December 31st, 2009”.
     # For special cases you can replace it in locale’s class. If +year+ is false
     # date will be without year.
     def format_date_full(i18n, date, year = true)
-      format = @data['time']['full']
-      format = @data['time']['year'].sub('_', format) if year
+      format = full_format
+      format = year_format.sub('_', format) if year
       strftime(date, format)
     end
 
@@ -348,4 +299,6 @@ module R18n
       end
     end
   end
+  
+  module Locales; end
 end

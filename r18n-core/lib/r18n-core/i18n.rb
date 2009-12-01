@@ -134,7 +134,7 @@ module R18n
       locales = [locales] if locales.is_a? String
       
       if not locales.empty? and Locale.exists? locales.first
-        locales += Locale.load(locales.first)['sublocales']
+        locales += Locale.load(locales.first).sublocales
       end
       locales << @@default
       locales.each_with_index do |locale, i|

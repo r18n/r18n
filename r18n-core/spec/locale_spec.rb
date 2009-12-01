@@ -7,6 +7,11 @@ describe R18n::Locale do
     @en = R18n::Locale.load('en')
   end
 
+  it "should return all available locales" do
+    R18n::Locale.available.class.should == Array
+    R18n::Locale.available.should_not be_empty
+  end
+  
   it "should check is locale exists" do
     R18n::Locale.exists?('ru').should be_true
     R18n::Locale.exists?('no-LC').should be_false
@@ -17,31 +22,19 @@ describe R18n::Locale do
       set :one, 1
       set :two, 2
     end
-    locale = locale_class.new({})
+    locale = locale_class.new
     locale.one.should == 1
     locale.two.should == 2
   end
 
   it "should load locale" do
-    @ru.code.should == 'ru'
+    @ru.class.should == R18n::Locales::Ru
+    @ru.code.should  == 'ru'
     @ru.title.should == 'Русский'
-    @ru.ltr?.should be_true
   end
   
   it "should load locale by Symbol" do
     R18n::Locale.load(:ru).should == R18n::Locale.load('ru')
-  end
-  
-  it "should use locale's class" do
-    @ru.class.should == R18n::Locales::Ru
-    R18n::Locale.load('eo').class.should == R18n::Locale
-  end
-
-  it "should include locale by +include+ option" do
-    enUS = R18n::Locale.load('en-US')
-    enUS.title.should == 'English (US)'
-    @en.title.should == 'English'
-    enUS['week'].should == @en['week']
   end
 
   it "should be equal to another locale with same code" do
@@ -51,11 +44,6 @@ describe R18n::Locale do
 
   it "should print human readable representation" do
     @ru.inspect.should == 'Locale ru (Русский)'
-  end
-
-  it "should return all available locales" do
-    R18n::Locale.available.class.should == Array
-    R18n::Locale.available.should_not be_empty
   end
 
   it "should return pluralization type by elements count" do
@@ -74,10 +62,6 @@ describe R18n::Locale do
     unsupported.code.should == 'no-LC'
     unsupported.title.should == 'no-LC'
     unsupported.ltr?.should be_true
-    
-    unsupported['code'].should == 'no-LC'
-    unsupported['title'].should == 'no-LC'
-    unsupported['direction'].should == 'ltr'
     
     unsupported.pluralize(5).should == 'n'
     unsupported.inspect.should == 'Unsupported locale no-LC'

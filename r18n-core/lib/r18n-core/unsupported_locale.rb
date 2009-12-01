@@ -41,18 +41,6 @@ module R18n
     def inspect
       "Unsupported locale #{@code}"
     end
-
-    # Get information about locale.
-    def [](name)
-      case name
-      when 'code'
-        @code
-      when 'title'
-        @code
-      else
-        @base[name]
-      end
-    end
     
     # Locale RFC 3066 code.
     def code
