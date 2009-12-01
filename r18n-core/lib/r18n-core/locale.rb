@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'pathname'
-require 'yaml'
+require 'singleton'
 
 module R18n
   # Information about locale (language, country and other special variant
@@ -55,6 +55,8 @@ module R18n
   # You can see more available data about locale in samples in
   # <tt>locales/</tt> dir.
   class Locale
+    include Singleton
+    
     LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
 
     # All available locales.
@@ -79,7 +81,7 @@ module R18n
       require LOCALES_DIR + "#{code}.rb"
       name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
       klass = eval('R18n::Locales::' + name)
-      klass.new
+      klass.instance
     end
     
     # Set locale +properties+. Locale class will have methods for each propetry
