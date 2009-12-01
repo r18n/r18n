@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe R18n::Translation do
   
   it "should return nil if translation isn't found" do
-    i18n = R18n::I18n.new('e', DIR)
+    i18n = R18n::I18n.new('en', DIR)
     i18n.not.exists.should be_nil
     i18n['not']['exists'].should be_nil
   end
@@ -34,6 +34,15 @@ describe R18n::Translation do
     i18n = R18n::I18n.new(['no-LC', 'en'], DIR)
     i18n.one.locale.should == R18n::UnsupportedLocale.new('no-LC')
     i18n.two.locale.should == R18n::Locale.load('en')
+  end
+  
+  it "should filter typed data" do
+    translation = R18n::Translation.new([R18n::Locale.load('en')], [
+      'count' => R18n::Typed.new('pl', { 1 => 'one', 'n' => 'many' })
+    ])
+    
+    translation.count(1).should == 'one'
+    translation.count(5).should == 'many'
   end
 
 end

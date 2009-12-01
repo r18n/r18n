@@ -371,6 +371,15 @@ constructor argument:
   R18m.default_loader = MyLoader
   R18n::I18n.new('en', loader_param)
 
+If you want to load translation with some type for filter, use
+<tt>R18n::Typed</tt> struct:
+
+  # Loader load method return something like:
+  { 'users' => R18n::Typed.new('pl', { 1 => '1 user', 'n' => '%1 users' }) }
+  
+  # To use pluralization filter (+pl+ type):
+  i18n.users(5) #=> "5 users"
+
 === Extension translations
 For r18n plugin you can add loaders with translations, which will be used with
 application translations. For example, DB plugin may place translations for

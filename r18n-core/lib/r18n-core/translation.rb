@@ -21,6 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require 'pathname'
 
 module R18n
+  # Struct to containt translation with some type for filter.
+  Typed = Struct.new(:type_id, :value)
+  
   # Translation is container of translated messages.
   #
   # You can load several locales and if translation willn’t be found in first,
@@ -113,7 +116,7 @@ module R18n
           return self.class.new(@locales, @translations.map { |i|
             i[name] or {}
           }, path)
-        elsif result.is_a? YAML::PrivateType
+        elsif result.is_a? YAML::PrivateType or result.is_a? Typed
           type = result.type_id
           result = result.value
         else
