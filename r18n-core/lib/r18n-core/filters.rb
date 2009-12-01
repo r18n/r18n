@@ -196,9 +196,13 @@ module R18n
   end
   
   Filters.add('pl', :pluralization) do |content, config, param|
-    type = config.locale.pluralize(param)
-    type = 'n' if not content.include? type
-    content[type]
+    if param.is_a? Numeric
+      type = config.locale.pluralize(param)
+      type = 'n' if not content.include? type
+      content[type]
+    else
+      content
+    end
   end
   
   Filters.add(String, :variables) do |content, config, *params|

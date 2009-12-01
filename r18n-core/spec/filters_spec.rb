@@ -127,6 +127,11 @@ describe R18n::Filters do
     @i18n.files(-5.5).should == '−5.5 files'
     @i18n.files(5000).should == '5,000 files'
   end
+  
+  it "shouldn't pluralize without first numeric parameter" do
+    @i18n.files.should     == { 1 => '1 file', 'n' => '%1 files' }
+    @i18n.files('').should == { 1 => '1 file', 'n' => '%1 files' }
+  end
 
   it "should pluralize translation without locale" do
     i18n = R18n::I18n.new('no-LC', DIR)
