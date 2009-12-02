@@ -1,0 +1,73 @@
+# encoding: utf-8
+require 'rubygems'
+require 'rake/gempackagetask'
+gem 'rspec'
+require 'spec/rake/spectask'
+begin
+  require 'hanna/rdoctask'
+rescue LoadError
+  require 'rake/rdoctask'
+end
+
+PKG_NAME = 'r18n-rails-api'
+require '../r18n-core/lib/r18n-core/version'
+
+task :default => :spec
+
+Spec::Rake::SpecTask.new('spec') do |t|
+  t.libs << '../r18n-core/lib'
+  t.spec_opts = ['--format', 'specdoc', '--colour']
+  t.spec_files = Dir['spec/**/*_spec.rb'].sort
+end
+
+Rake::RDocTask.new do |rdoc|
+  rdoc.main = 'README.rdoc'
+  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
+  rdoc.title = 'R18n Rails API Documentation'
+  rdoc.rdoc_dir = 'doc'
+  rdoc.options << '-c utf-8'
+  rdoc.options << '--all'
+end
+
+spec = Gem::Specification.new do |s|
+  s.platform = Gem::Platform::RUBY
+  s.name = PKG_NAME
+  s.version = R18n::VERSION
+  s.summary = 'Rails I18n compatibility for R18n'
+  s.description = <<-EOF
+    R18n backend for Rails I18n and R18n filters and loader to support Rails
+    translation format.
+    R18n has nice Ruby-style syntax, filters, flexible locales, custom loaders,
+    translation support for any classes, time and number localization, several
+    user language support, agnostic core package with out-of-box support for
+    Sinatra, Merb and desktop applications.
+  EOF
+  
+  s.files = FileList[
+    'lib/**/*',
+    'LICENSE',
+    'README.rdoc']
+  s.test_files = FileList[
+    'spec/**/*']
+  s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
+  s.require_path = 'lib'
+  s.has_rdoc = true
+  
+  s.add_dependency 'r18n-core', R18n::VERSION
+  s.add_dependency 'i18n'
+  
+  s.author = 'Andrey "A.I." Sitnik'
+  s.email = 'andrey@sitnik.ru'
+  s.homepage = 'http://r18n.rubyforge.org/'
+  s.rubyforge_project = PKG_NAME
+end
+
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.gem_spec = spec
+end
+
+desc 'Install as a gem'
+task :install => [:package] do
+  sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
+  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
+end

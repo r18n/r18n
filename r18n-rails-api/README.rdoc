@@ -1,0 +1,24 @@
+= R18n Rails API
+
+Rails I18n compatibility for R18n:
+* filters to work with named variables in Rails translation format;
+* R18n backend.
+
+== R18n Features
+
+* Nice Ruby-style syntax.
+* Filters.
+* Flexible locales.
+* Custom translations loaders.
+* Translation support for any classes.
+* Time and number localization.
+* Several user language support.
+
+== License
+
+R18n is licensed under the GNU Lesser General Public License version 3.
+You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
+
+== Author
+
+Andrey “A.I.” Sitnik <andrey@sitnik.ru>
