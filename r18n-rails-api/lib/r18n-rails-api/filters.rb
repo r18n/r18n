@@ -17,7 +17,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-# Filter to use Rails named variables
+# Filter to use Rails named variables:
 # 
 #   name: "My name is {{name}}"
 # 
@@ -30,4 +30,15 @@ R18n::Filters.add(String, :named_variables) do |content, config, params|
     end
   end
   content
+end
+
+# Pluralization by named variable <tt>{{count}}</tt>.
+R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
+  if param.is_a? Hash and param.has_key? :count
+    type = config.locale.pluralize(param[:count])
+    type = 'n' if not content.include? type
+    content[type]
+  else
+    content
+  end
 end
