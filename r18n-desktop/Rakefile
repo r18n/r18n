@@ -33,9 +33,9 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = PKG_NAME
   s.version = R18n::VERSION
-  s.summary = 'A tool to translate your Ruby desktop application.'
+  s.summary = 'A i18n tool to translate your Ruby desktop application.'
   s.description = <<-EOF
-    A tool to translate your desktop application in several languages.
+    A i18n tool to translate your desktop application in several languages.
     It is just a wrap for R18n core library.
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
