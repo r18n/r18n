@@ -19,8 +19,8 @@ describe R18n::Locale do
   
   it "should set locale properties" do
     locale_class = Class.new(R18n::Locale) do
-      set :one, 1
-      set :two, 2
+      set :one => 1
+      set :two => 2
     end
     locale = locale_class.instance
     locale.one.should == 1

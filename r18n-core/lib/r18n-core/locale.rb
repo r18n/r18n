@@ -88,15 +88,15 @@ module R18n
     # name, which return propetry value:
     # 
     #   class R18n::Locales::En < R18n::Locale
-    #     set :title, 'English',
-    #         :code,  'en'
+    #     set :title => 'English',
+    #         :code  => 'en'
     #   end
     #   
     #   locale = R18n::Locales::En.new
     #   locale.title #=> "English"
     #   locale.code  #=> "en"
-    def self.set(*properties)
-      Hash[*properties].each_pair do |key, value|
+    def self.set(properties)
+      properties.each_pair do |key, value|
         define_method(key) { value }
       end
     end
@@ -106,13 +106,13 @@ module R18n
       self.class.name.split('::').last.downcase
     end
     
-    set :sublocales, %w{en},
-        :week_start, :monday,
-        :time_am, 'AM',
-        :time_pm, 'PM',
-        :time_format, ' %H:%M',
-        :full_format, '%e %B',
-        :year_format, '_ %Y'
+    set :sublocales => %w{en},
+        :week_start => :monday,
+        :time_am => 'AM',
+        :time_pm => 'PM',
+        :time_format => ' %H:%M',
+        :full_format => '%e %B',
+        :year_format => '_ %Y'
     
     def month_standalone; month_names; end
     
