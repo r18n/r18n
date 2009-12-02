@@ -33,8 +33,7 @@ If translation key has name of Object method you can use another way:
 You can add custom filters for some YAML type or any translated strings.
 Filters are cascade and can communicate with each other.
 
-R18n already has filters for HTML
-escaping, lambdas, Textile and Markdown:
+R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
   hi: !!markdown
     **Hi**, people!
@@ -47,8 +46,8 @@ escaping, lambdas, Textile and Markdown:
 === Flexibility
 
 Translation variables and pluralization (“1 comment”, “5 comments”) are filters
-too. So you can extend or replace it. For example, you can enable built-in named
-variables filter:
+too. So you can extend or replace it. For example, you can use named variables
+filter from +r18n-rails-api+ gem:
 
   greeting: Hi, {{name}}
 
@@ -187,14 +186,6 @@ You can replace some parameters in translated string by put it as arguments:
   name: "My name is %1"
 
   i18n.name('John') #=> "My name is John"
-
-You can also use named parameters by <tt>:named_variables</tt> filter (disabled
-by default):
-
-  name: "My name is {{name}}"
-  
-  R18n::Filters.on(:named_variables)
-  i18n.name(name: 'Ivan') #=> "My name is Ivan"
 
 Pluralizable messages get item count from first argument:
 

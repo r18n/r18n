@@ -1,5 +1,5 @@
 =begin
-Rails I18n compatibility for R18n.
+Filters for Rails I18n compatibility for R18n.
 
 Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
@@ -17,8 +17,17 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'pathname'
-require 'r18n-core'
-
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails-api'
-require dir + 'filters'
+# Filter to use Rails named variables
+# 
+#   name: "My name is {{name}}"
+# 
+#   i18n.name(name: 'Ivan') #=> "My name is Ivan"
+R18n::Filters.add(String, :named_variables) do |content, config, params|
+  if params.is_a? Hash
+    content = content.clone
+    params.each_pair do |name, value|
+      content.gsub! "{{#{name}}}", config.locale.localize(value)
+    end
+  end
+  content
+end

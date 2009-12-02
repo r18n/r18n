@@ -36,5 +36,3 @@ no_escape: !!html
 markdown: !!markdown **Hi!**
 
 textile: !!textile _Hi!_
-
-named: Value is {{value}}

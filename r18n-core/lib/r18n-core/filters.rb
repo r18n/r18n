@@ -213,17 +213,6 @@ module R18n
     content
   end
   
-  Filters.add(String, :named_variables) do |content, config, params|
-    if params.is_a? Hash
-      content = content.clone
-      params.each_pair do |name, value|
-        content.gsub! "{{#{name}}}", config.locale.localize(value)
-      end
-    end
-    content
-  end
-  Filters.off(:named_variables)
-  
   Filters.add(Untranslated, :untranslated) do |v, c, translated, untranslated|
     "#{translated}[#{untranslated}]"
   end

@@ -143,14 +143,6 @@ describe R18n::Filters do
     @i18n.params(-1, 2).should == 'Is −1 between −1 and 2?'
   end
   
-  it "should can use named params in translations" do
-    @i18n.named(:name => 'R18n').should == 'Value is {{value}}'
-    R18n::Filters.on(:named_variables)
-    @i18n.named(:value => -5.5).should == 'Value is −5.5'
-    @i18n.named(:value => 5000).should == 'Value is 5,000'
-    @i18n.named.should == 'Value is {{value}}'
-  end
-  
   it "should format untranslated" do
     @i18n.in.not.to_s.should == 'in.[not]'
     
