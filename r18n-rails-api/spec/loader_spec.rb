@@ -3,6 +3,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Loader::Rails do
   before :all do
+    I18n.load_path = [SIMPLE]
     @loader = R18n::Loader::Rails.new
   end
   

@@ -36,7 +36,7 @@ end
 R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
   if param.is_a? Hash and param.has_key? :count
     type = config.locale.pluralize(param[:count])
-    type = 'n' if not content.include? type
+    type = 'n' if not content.has_key? type
     content[type]
   else
     content
