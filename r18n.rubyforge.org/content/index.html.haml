@@ -45,9 +45,9 @@
       i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
       i18n.greater #=> "1 &lt; 2 is true"
     %h3 Flexibility
-    %p Translation variables and pluralization (“1 comment”, “5 comments”) are filters too. So you can extend or replace it. For example, you can enable built-in named variables filter:
+    %p Translation variables and pluralization (“1 comment”, “5 comments”) are filters too. So you can extend or replace it. For example, you can use named variables filter from <code>r18n-rails-api</code> gem:
     :yamlsyntax
-      greeting: Hi, {{name}}
+      greeting: "Hi, {{name}}"
     :rubysyntax
       R18n::Filters.on(:named_variables)
       i18n.greeting(name: 'John') #=> "Hi, John"

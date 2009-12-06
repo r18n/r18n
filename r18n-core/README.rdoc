@@ -49,7 +49,7 @@ Translation variables and pluralization (“1 comment”, “5 comments”) are 
 too. So you can extend or replace it. For example, you can use named variables
 filter from +r18n-rails-api+ gem:
 
-  greeting: Hi, {{name}}
+  greeting: "Hi, {{name}}"
 
   R18n::Filters.on(:named_variables)
   i18n.greeting(name: 'John') #=> "Hi, John"
