@@ -33,16 +33,17 @@ module R18n
     # 
     #   R18n::I18n.new('en', 'dir/with/translations')
     class YAML
-      # Array of locales, which has translations in +dir+.
-      attr_reader :available
-      
       # Dir with translations.
       attr_reader :dir
       
       # Create new loader for +dir+ with YAML translations.
       def initialize(dir)
         @dir = File.expand_path(dir)
-        @available = Dir.glob(File.join(@dir, '*.yml')).map do |i|
+      end
+      
+      # Array of locales, which has translations in +dir+.
+      def available
+        Dir.glob(File.join(@dir, '*.yml')).map do |i|
           R18n::Locale.load(File.basename(i, '.yml'))
         end
       end
