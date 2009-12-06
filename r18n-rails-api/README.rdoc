@@ -2,7 +2,53 @@
 
 Rails I18n compatibility for R18n:
 * filters to work with named variables in Rails translation format;
+* R18n loader for Rails I18n translation format;
 * R18n backend.
+
+== How To
+
+=== Variables
+After require +r18n-rails-api+ you can use named variables in any translations:
+
+  greeting: "Hi, {{name}}"
+  users: !!pl
+    1: One user
+    n: {{count}} users
+
+  require 'r18n-rails-api'
+
+  i18n.greeting(:name => 'John') #=> "Hi, John"
+  i18n.users(:count => 5) #=> "5 users"
+
+=== Rails translations
+You can use <tt>R18n::Loader::Rails</tt> to load translations from
++I18n.load_path+:
+
+i18n/en.yml:
+  en:
+    posts:
+      one: One post
+      many: {{count}} posts
+
+example.rb:
+  require 'r18n-rails-api'
+
+  I18n.load_path = ['i18n/en.yml']
+  i18n = R18n::I18n.new('en', R18n::Loader::Rails)
+  
+  i18n.posts(:count => 5) #=> "5 posts"
+
+=== Backend
+You can use R18n as backend for Rails I18n:
+
+  require 'r18n-rails-api'
+
+  R18n.set R18n::I18n.new('en', 'path/to/translation')
+  I18n.backend = R18n::Backend
+  
+  I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
+  I18n.t :greeting, :name => 'John' #=> "Hi, John"
+  I18n.t :users, :count => 5        #=> "5 users"
 
 == R18n Features
 
