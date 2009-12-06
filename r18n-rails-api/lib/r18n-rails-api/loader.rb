@@ -1,0 +1,89 @@
+# encoding: utf-8
+=begin
+Loader for Rails translations.
+
+Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+=end
+
+require 'i18n'
+
+module R18n
+  module Loader
+    # Loader for translations in Rails I18n format:
+    # 
+    #   R18n::I18n.new('en', R18n::Loader::Rails.new)
+    # 
+    # It use Rails I18n backend to load translations. By default, simple
+    # backend will be used, by you can change it, if use extended backend
+    # (for example, with ActiveRecord storage):
+    # 
+    #   R18n::I18n.new('en',
+    #                  R18n::Loader::Rails.new(I18n::Backend::ActiveRecord.new))
+    class Rails
+      PLURALIZATIONS = { :zero  => 0, :one => 1, :few => 2, :many => 'n',
+                         :other => 'other' }
+      
+      # Create new loader for some +backend+ from Rails I18n. Backend must have
+      # +reload!+, +init_translations+ and +translations+ methods.
+      def initialize(backend = ::I18n::Backend::Simple.new)
+        @backend = backend
+      end
+      
+      # Array of locales, which has translations in +I18n.load_path+.
+      def available
+        reload!
+        @translations.keys.map { |code| R18n::Locale.load(code) }
+      end
+      
+      # Return Hash with translations for +locale+.
+      def load(locale)
+        reload!
+        @translations[locale.code.downcase]
+      end
+      
+      # Is another +loader+ is also load Rails translations.
+      def ==(loader)
+        self.class == loader.class
+      end
+      
+      def reload!
+        return if @last_path == ::I18n.load_path
+        @last_path = ::I18n.load_path.clone
+        @backend.reload!
+        @backend.send(:init_translations)
+        @translations = transform @backend.send(:translations)
+      end
+      
+      protected
+      
+      # Change pluralization and keys to R18n format.
+      def transform(hash)
+        if hash.empty?
+          hash
+        elsif hash.keys.inject(true) { |a, i| a and PLURALIZATIONS.include? i }
+          R18n::Typed.new('pl', Hash[hash.map { |key, value|
+            [PLURALIZATIONS[key],
+            (value.is_a?(Hash) ? transform(value) : value)]
+          }])
+        else
+          Hash[hash.map { |key, value|
+            [key.to_s, (value.is_a?(Hash) ? transform(value) : value)]
+          }]
+        end
+      end
+    end
+  end
+end

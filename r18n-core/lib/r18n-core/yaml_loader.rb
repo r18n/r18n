@@ -48,7 +48,7 @@ module R18n
         end
       end
       
-      # Return Hash with translations for +locale.
+      # Return Hash with translations for +locale+.
       def load(locale)
         ::YAML::load_file(File.join(@dir, "#{locale.code.downcase}.yml"))
       end

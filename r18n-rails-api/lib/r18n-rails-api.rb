@@ -22,3 +22,4 @@ require 'r18n-core'
 
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails-api'
 require dir + 'filters'
+require dir + 'loader'
