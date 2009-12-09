@@ -16,7 +16,7 @@ describe R18n::Loader::YAML do
   end
   
   it "should return all available translations" do
-    @loader.available.should == [R18n::Locale.load('ru'),
+    @loader.available.should =~ [R18n::Locale.load('ru'),
                                  R18n::Locale.load('en'),
                                  R18n::Locale.load('no-lc')]
   end
