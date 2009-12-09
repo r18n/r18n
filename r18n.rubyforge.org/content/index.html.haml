@@ -30,6 +30,9 @@
       i18n.user.edit         #=> "Edit user"
       i18n.user.name('John') #=> "User name is John"
       i18n.user.count(5)     #=> "There are 5 users"
+      
+      i18n.not.exists | 'default' #=> "default"
+      i18n.not.exists.translated? #=> false
     %p If translation key has name of Object method you can use another way:
     :rubysyntax
       i18n[:methods] #=> "Methods"

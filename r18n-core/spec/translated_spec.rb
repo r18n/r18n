@@ -29,7 +29,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    user.name.should be_nil
+    user.name.should_not be_translated
     user.name = 'John'
     user.name.should == 'John'
     

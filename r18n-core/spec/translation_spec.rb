@@ -3,10 +3,16 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Translation do
   
-  it "should return nil if translation isn't found" do
+  it "should return unstranslated string if translation isn't found" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.not.exists.should be_nil
-    i18n['not']['exists'].should be_nil
+    i18n.not.exists.should be_a(R18n::Untranslated)
+    i18n.not.exists.should_not be_translated
+    (i18n.not.exists | 'default').should == 'default'
+    
+    (i18n.in | 'default').should == 'default'
+    
+    i18n.one.should be_translated
+    (i18n.one | 'default').should == 'One'
   end
 
   it "should load use hierarchical translations" do

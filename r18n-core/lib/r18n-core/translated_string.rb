@@ -34,5 +34,15 @@ module R18n
       @locale = locale
       @path = path
     end
+    
+    # Return self for translated string.
+    def |(default)
+      self
+    end
+    
+    # Return true for translated strings.
+    def translated?
+      true
+    end
   end
 end

@@ -39,21 +39,21 @@ module R18n
       
       result = lookup(scope, key, separator, params)
       
-      if result.nil?
+      if result.translated?
+        result
+      else
         options = options.reject { |key, value| key == :default }
         
         Array(default).each do |entry|
           if entry.is_a? Symbol
             value = lookup(scope, entry, separator, params)
-            return value unless value.nil?
+            return value if value.translated?
           else
             return entry
           end
         end
         
         raise ::I18n::MissingTranslationData.new(locale, key, options)
-      else
-        return result
       end
     end
     
@@ -68,8 +68,7 @@ module R18n
       if format.is_a? Symbol
         key = format
         type = object.respond_to?(:sec) ? 'time' : 'date'
-        string = R18n.get[type].formats[key]
-        format = string.nil? ? format : string
+        format = R18n.get[type].formats[key] | format
       end
       R18n.get.localize(object, format)
     end

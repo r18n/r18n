@@ -90,6 +90,11 @@ module R18n
       end
     end
     
+    # Return +default+.
+    def |(default)
+      default
+    end
+    
     # Short and pretty way to get translation by method name. If translation
     # has name like object methods (+new+, +to_s+, +methods+) use <tt>[]</tt>
     # method to access.

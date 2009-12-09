@@ -23,6 +23,9 @@ To access translation you can call methods with same names:
   i18n.user.edit         #=> "Edit user"
   i18n.user.name('John') #=> "User name is John"
   i18n.user.count(5)     #=> "There are 5 users"
+  
+  i18n.not.exists | 'default' #=> "default"
+  i18n.not.exists.translated? #=> false
 
 If translation key has name of Object method you can use another way:
 
@@ -196,6 +199,15 @@ Pluralizable messages get item count from first argument:
 If there isn’t pluralization for some number, translation will be use 'n'. If
 there isn’t locale file for translation, it will be use English pluralization
 rule (0, 1 and 'n').
+
+You can check, is message has translation:
+
+  i18n.post.add.translated?   #=> true
+  i18n.not.exists.translated? #=> false
+
+For untranslated strings you can set default value:
+
+  i18n.not.exists | 'default' #=> "default"
 
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.

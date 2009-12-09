@@ -56,8 +56,8 @@ module R18n
       @translated_path = path[0...(-untranslated_path.length)]
     end
     
-    def nil?
-      true
+    def translated?
+      false
     end
     
     def method_missing(*params)
@@ -67,6 +67,10 @@ module R18n
     def [](*params)
       Untranslated.new("#{@path}.#{params.first}",
                        "#{@untranslated_path}.#{params.first}", @locales)
+    end
+    
+    def |(default)
+      default
     end
     
     def to_s
