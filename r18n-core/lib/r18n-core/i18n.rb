@@ -145,7 +145,24 @@ module R18n
       locales.uniq!
       @locales = locales.map { |i| Locale.load(i) }
       
-      translation_places = Array(translation_places).map! do |loader|
+      @locale = @locales.first
+      unless @locale.supported?
+        @locales.each do |locale|
+          if locale.supported?
+            @locale.base = locale
+            break
+          end
+        end
+      end
+      
+      @original_translation_places = translation_places
+      
+      reload!
+    end
+    
+    # Reload translations.
+    def reload!
+      translation_places = Array(@original_translation_places).map! do |loader|
         if loader.respond_to? :available and loader.respond_to? :load
           loader
         else
@@ -176,16 +193,6 @@ module R18n
       end
       
       @translation = Translation.new(@locales, translations)
-      
-      @locale = @locales.first
-      unless @locale.supported?
-        @locales.each do |locale|
-          if locale.supported?
-            @locale.base = locale
-            break
-          end
-        end
-      end
     end
     
     # Return Hash with titles (or code for unsupported locales) for available

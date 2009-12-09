@@ -2,7 +2,7 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::Backend do
-  before :all do
+  before do
     I18n.load_path = [GENERAL]
     I18n.backend = R18n::Backend.new
     R18n.set R18n::I18n.new('en', R18n::Loader::Rails.new)
@@ -53,6 +53,13 @@ describe R18n::Backend do
       I18n.backend.translate(:en, :no)
     }.should raise_error(::I18n::MissingTranslationData)
     I18n.t(:no).should == 'translation missing: en, no'
+  end
+  
+  it "should reload translations" do
+    I18n.t(:other).should == 'translation missing: en, other'
+    I18n.load_path << OTHER
+    I18n.reload!
+    I18n.t(:other).should == 'Other'
   end
   
 end

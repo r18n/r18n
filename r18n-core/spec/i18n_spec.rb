@@ -109,6 +109,21 @@ describe R18n::I18n do
     i18n.translations.should == { 'no-lc' => 'no-lc', 'ru' => 'Русский',
                                   'en' => 'English' }
   end
+  
+  it "should reload translations" do
+    loader = Class.new do
+      @@answer = 1
+      def available; [R18n::Locale.load('en')]; end
+      def load(locale); { 'one' => @@answer }; end
+    end
+    
+    i18n = R18n::I18n.new 'en', loader.new
+    i18n.one.should == 1
+    
+    loader.class_eval { @@answer = 2 }
+    i18n.reload!
+    i18n.one.should == 2
+  end
 
   it "should return first locale with locale file" do
     i18n = R18n::I18n.new(['no-LC', 'ru', 'en'], DIR)

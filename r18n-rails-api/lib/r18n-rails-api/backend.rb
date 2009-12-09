@@ -78,8 +78,10 @@ module R18n
       R18n.get.translations.keys.map { |i| i.to_sym }
     end
     
-    # Reload R18n I18n object. It isn’t implemented yet.
-    def reload!; end
+    # Reload R18n I18n object.
+    def reload!
+      R18n.get.reload!
+    end
     
     protected
     
