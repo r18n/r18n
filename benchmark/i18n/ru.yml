@@ -1,0 +1,19 @@
+ru:
+  time:
+    formats:
+      default: "%B %d, %Y %H:%M"
+  
+  user:
+    login: "Логин"
+    name: "Имя"
+    your_name: "Ваше имя {{name}} ({{login}})"
+    count:
+      zero: "Нет пользователей"
+      one: "{{count}} пользователь"
+      few: "{{count}} пользователя"
+      many: "{{count}} пользователей"
+      other: "{{count}} пользователей"
+
+  users:
+    new:
+      title: "Новый пользователь"

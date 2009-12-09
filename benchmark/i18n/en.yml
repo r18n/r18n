@@ -1,0 +1,16 @@
+en:
+  user:
+    login: Login
+    name: Name
+    your_name: "Your name is {{name}} ({{login}})"
+    count:
+      zero: No users
+      one: 1 user
+      many: "{{count}} users"
+      other: "{{count}} users"
+
+  users:
+    new:
+      title: New user
+    edit:
+      title: "Edit user"

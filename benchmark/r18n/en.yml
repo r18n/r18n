@@ -1,0 +1,14 @@
+user:
+  login: Login
+  name: Name
+  your_name: Your name is %1 (%2)
+  count: !!pl
+    0: No users
+    1: 1 user
+    n: %1 users
+
+users:
+  new:
+    title: New user
+  edit:
+    title: Edit user
