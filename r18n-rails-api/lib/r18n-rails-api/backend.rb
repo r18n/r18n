@@ -75,7 +75,7 @@ module R18n
     
     # Return array of available locales codes.
     def available_locales
-      R18n.get.translations.keys.map { |i| i.to_sym }
+      R18n.get.available_locales.map { |i| i.code.to_sym }
     end
     
     # Reload R18n I18n object.

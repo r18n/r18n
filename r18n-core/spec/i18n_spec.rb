@@ -105,9 +105,13 @@ describe R18n::I18n do
   end
 
   it "should return available translations" do
+    R18n::I18n.available_locales(DIR).should =~ [R18n::Locale.load('no-lc'),
+                                                 R18n::Locale.load('ru'),
+                                                 R18n::Locale.load('en')]
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translations.should == { 'no-lc' => 'no-lc', 'ru' => 'Русский',
-                                  'en' => 'English' }
+    i18n.available_locales.should =~ [R18n::Locale.load('no-lc'),
+                                      R18n::Locale.load('ru'),
+                                      R18n::Locale.load('en')]
   end
   
   it "should reload translations" do

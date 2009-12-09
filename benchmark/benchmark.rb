@@ -24,7 +24,7 @@ RBench.run(1000) do
   report 'load' do
     r18n {
       R18n.set R18n::I18n.new(%w{ru en}, './r18n')
-      R18n.get.translations
+      R18n.get.available_locales
     }
     i18n {
       I18n.reload!

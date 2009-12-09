@@ -8,6 +8,10 @@ describe R18n::Backend do
     R18n.set R18n::I18n.new('en', R18n::Loader::Rails.new)
   end
   
+  it "should return available locales" do
+    I18n.available_locales.should =~ [:en]
+  end
+  
   it "should localize objects" do
     time = Time.at(0).utc
     date = Date.parse('1970-01-01')

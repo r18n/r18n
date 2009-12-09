@@ -114,6 +114,23 @@ module R18n
       locales.map! { |i| i[0] }
     end
     
+    # Return Array of locales with available translations.
+    def self.available_locales(places)
+      convert_places(places).map { |i| i.available }.flatten.uniq
+    end
+    
+    # Load default loader for elements in +places+ with only constructor
+    # argument.
+    def self.convert_places(places)
+      Array(places).map! do |loader|
+        if loader.respond_to? :available and loader.respond_to? :load
+          loader
+        else
+          R18n.default_loader.new(loader)
+        end
+      end
+    end
+    
     # User locales, ordered by priority
     attr_reader :locales
     
@@ -155,20 +172,13 @@ module R18n
         end
       end
       
-      @original_translation_places = translation_places
-      
+      @original_places = translation_places
       reload!
     end
     
     # Reload translations.
     def reload!
-      translation_places = Array(@original_translation_places).map! do |loader|
-        if loader.respond_to? :available and loader.respond_to? :load
-          loader
-        else
-          R18n.default_loader.new(loader)
-        end
-      end
+      translation_places = self.class.convert_places(@original_places)
       
       if translation_places.empty?
         places = @translation_places = R18n.extension_places
@@ -177,7 +187,7 @@ module R18n
         places = R18n.extension_places + @translation_places
       end
       
-      @available = @translation_places.map { |i| i.available }.flatten.uniq
+      @available = self.class.available_locales(@translation_places)
       
       translations = []
       @locales.each do |locale|
@@ -195,10 +205,9 @@ module R18n
       @translation = Translation.new(@locales, translations)
     end
     
-    # Return Hash with titles (or code for unsupported locales) for available
-    # translations.
-    def translations
-      @available.inject({}) { |all, i| all[i.code] = i.title; all }
+    # Return Array of locales with available translations.
+    def available_locales
+      @available
     end
     
     # Convert +object+ to String, according to the rules of the current locale.

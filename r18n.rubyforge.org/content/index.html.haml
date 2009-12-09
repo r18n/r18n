@@ -176,8 +176,8 @@
             Print available translations: 
             :xmlsyntax
               <ul>
-                <% i18n.translations.each_pair do |locale, title| %>
-                <li><a href="/<%= locale %>/"><%= title %></a></li>
+                <% i18n.available_locales.each do |locale| %>
+                <li><a href="/<%= locale.code %>/"><%= locale.title %></a></li>
                 <% end %>
               </ul>
       .slider.sinatra
@@ -236,9 +236,9 @@
             Print available translations. For example in HAML:
             :rubysyntax
               %ul
-              - i18n.translations.each_pair do |locale, title|
+              - i18n.available_locales.each do |locale|
                 %li
-                  %a( href="/\#{locale}/" )= title
+                  %a( href="/\#{locale.code}/" )= locale.title
       .slider.desktop
         %h3 Desktop
         %ol

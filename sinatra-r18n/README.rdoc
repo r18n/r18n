@@ -69,9 +69,9 @@ information.
 7. Print available translations. For example in HAML:
    
      %ul
-       - i18n.translations.each_pair do |locale, title|
+       - i18n.available_locales.each do |locale|
          %li
-           %a{ href: "/#{locale}/" }= title
+           %a{ href: "/#{locale.code}/" }= locale.title
 
 == License
 R18n is licensed under the GNU Lesser General Public License version 3.

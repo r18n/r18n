@@ -16,7 +16,7 @@ get '/locale' do
 end
 
 get '/locales' do
-  i18n.translations.map { |i| i.join(': ') }.sort.join('; ')
+  i18n.available_locales.map { |i| "#{i.code}: #{i.title}" }.sort.join('; ')
 end
 
 get '/greater' do
