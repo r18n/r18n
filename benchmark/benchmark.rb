@@ -1,15 +1,18 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+gem 'rbench'
 require 'rbench'
 
 begin
   require '../r18n-core/lib/r18n-core'
 rescue LoadError
   puts "ERROR: Can't load edge R18n. Use from gem."
+  gem 'r18n-core'
   require 'r18n-core'
 end
 
+gem 'i18n'
 require 'i18n'
 
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
@@ -19,7 +22,7 @@ RBench.run(1000) do
   
   column :r18n, :title => 'R18n'
   column :i18n, :title => 'Rails I18n'
-  column :diff, :title => 'R18n/I18n', :compare => [:r18n, :i18n]
+  column :diff, :title => 'I18n/R18n', :compare => [:i18n, :r18n]
 
   report 'load' do
     r18n {
