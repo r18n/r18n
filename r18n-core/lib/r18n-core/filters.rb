@@ -51,17 +51,17 @@ module R18n
   # OpenStruct and you can add you own parameter to cross-filter communications:
   # 
   #   R18n::Filters.add(String, :hide_truth) do |content, config|
-  #     return content if config.censorship_check
+  #     return content if config[:censorship_check]
   #     
-  #     if content.scan(CENSORSHIP_WORDS[config.locale]).empty?
+  #     if content.scan(CENSORSHIP_WORDS[config[:locale]]).empty?
   #       content
   #     else
-  #       "Error in #{config.path}"
+  #       "Error in #{config[:path]}"
   #     end
   #   end
   #   
   #   R18n::Filters.add('passed', :show_lie) do |content, config|
-  #     config.censorship_check = true
+  #     config[:censorship_check] = true
   #     content
   #   end
   # 
@@ -101,7 +101,7 @@ module R18n
       
       # Process +value+ by global filters and filters for special +type+.
       def process(type, value, locale, path, params)
-        config = OpenStruct.new(:locale => locale, :path => path)
+        config = { :locale => locale, :path => path }
         
         Filters.enabled[type].each { |f| value = f.call(value, config, *params)}
         
@@ -116,7 +116,7 @@ module R18n
       # Process +value+ by global filters.
       def process_string(value, config, params)
         if config.is_a? String
-          config = OpenStruct.new(:locale => value.locale, :path => config)
+          config = { :locale => value.locale, :path => config }
         end
         Filters.enabled[String].each do |f|
           value = f.call(value, config, *params)
@@ -198,7 +198,7 @@ module R18n
   
   Filters.add('pl', :pluralization) do |content, config, param|
     if param.is_a? Numeric
-      type = config.locale.pluralize(param)
+      type = config[:locale].pluralize(param)
       type = 'n' if not content.has_key? type
       content[type]
     else
@@ -209,7 +209,7 @@ module R18n
   Filters.add(String, :variables) do |content, config, *params|
     content = content.clone
     params.each_with_index do |param, i|
-      content.gsub! "%#{i+1}", config.locale.localize(param)
+      content.gsub! "%#{i+1}", config[:locale].localize(param)
     end
     content
   end
@@ -219,17 +219,17 @@ module R18n
   end
   
   Filters.add('escape', :escape_html) do |content, config|
-    config.dont_escape_html = true
+    config[:dont_escape_html] = true
     Utils.escape_html(content)
   end
   
   Filters.add('html', :dont_escape_html) do |content, config|
-    config.dont_escape_html = true
+    config[:dont_escape_html] = true
     content
   end
   
   Filters.add(String, :global_escape_html) do |content, config|
-    if config.dont_escape_html
+    if config[:dont_escape_html]
       content
     else
       Utils.escape_html(content)

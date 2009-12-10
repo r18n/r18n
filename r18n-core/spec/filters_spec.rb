@@ -88,21 +88,21 @@ describe R18n::Filters do
   
   it "should send config to filter" do
     R18n::Filters.add('my') do |i, config|
-      config.secret_value = 1
+      config[:secret_value] = 1
       config
     end
-    @i18n.my_filter.locale.should == @i18n.locale
-    @i18n.my_filter.path.should == 'my_filter'
-    @i18n.my_filter.secret_value.should == 1
-    @i18n.my_filter.unknown_value.should be_nil
+    @i18n.my_filter[:locale].should == @i18n.locale
+    @i18n.my_filter[:path].should == 'my_filter'
+    @i18n.my_filter[:secret_value].should == 1
+    @i18n.my_filter[:unknown_value].should be_nil
   end
   
   it "should use one config for cascade filters" do
-    R18n::Filters.add('my') { |content, config| config.new_secret ? 2 : 1 }
+    R18n::Filters.add('my') { |content, config| config[:new_secret] ? 2 : 1 }
     @i18n.my_filter.should == 1
     
     R18n::Filters.add('my', nil, 0) do |content, config|
-      config.new_secret = true
+      config[:new_secret] = true
       content
     end
     @i18n.my_filter.should == 2
