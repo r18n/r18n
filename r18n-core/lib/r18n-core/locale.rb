@@ -55,11 +55,11 @@ module R18n
   # You can see more available data about locale in samples in
   # <tt>locales/</tt> dir.
   class Locale
-    include Singleton
-    
     LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
+    
+    @@loaded = {}
 
-    # All available locales.
+    # Codes of all available locales.
     def self.available
       Dir.glob(File.join(LOCALES_DIR, '*.rb')).map do |i|
         File.basename(i, '.rb')
@@ -78,10 +78,17 @@ module R18n
       
       return UnsupportedLocale.new(original) unless exists? code
       
-      require LOCALES_DIR + "#{code}.rb"
-      name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
-      klass = eval('R18n::Locales::' + name)
-      klass.instance
+      unless @@loaded.has_key? code
+        if exists? code
+          require LOCALES_DIR + "#{code}.rb"
+          name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
+          klass = eval('R18n::Locales::' + name)
+          @@loaded[code] = klass.new
+        else
+          @@loaded[code] = UnsupportedLocale.new(original)
+        end
+      end
+      @@loaded[code]
     end
     
     # Set locale +properties+. Locale class will have methods for each propetry
@@ -121,7 +128,7 @@ module R18n
 
     # Is another locale has same code.
     def ==(locale)
-      code.downcase == locale.code.downcase
+      self.class == locale.class
     end
     
     # Is locale has information file. In this class always return true.

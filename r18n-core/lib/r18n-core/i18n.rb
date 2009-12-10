@@ -187,19 +187,16 @@ module R18n
         places = R18n.extension_places + @translation_places
       end
       
-      @available = self.class.available_locales(@translation_places)
+      locales_by_places = places.map { |i| [i, i.available] }
       
-      translations = []
-      @locales.each do |locale|
+      translations = @locales.inject([]) do |all, locale|
         translation = {}
-        if @available.include? locale
-          places.each do |loader|
-            if loader.available.include? locale
-              Utils.deep_merge! translation, loader.load(locale)
-            end
+        locales_by_places.each do |loader, available|
+          if available.include? locale
+            Utils.deep_merge! translation, loader.load(locale)
           end
         end
-        translations << translation
+        all + [translation]
       end
       
       @translation = Translation.new(@locales, translations)
@@ -207,7 +204,7 @@ module R18n
     
     # Return Array of locales with available translations.
     def available_locales
-      @available
+      @available ||= self.class.available_locales(@translation_places)
     end
     
     # Convert +object+ to String, according to the rules of the current locale.

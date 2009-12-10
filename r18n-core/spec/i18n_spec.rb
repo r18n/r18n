@@ -27,7 +27,7 @@ describe R18n::I18n do
     i18n.locales.should == [R18n::Locale.load('ru'),
                             R18n::UnsupportedLocale.new('no-LC'),
                             R18n::UnsupportedLocale.new('no'),
-                            R18n::UnsupportedLocale.new('en')]
+                            R18n::Locale.load('en')]
   end
 
   it "should return translations loaders" do

@@ -22,7 +22,7 @@ describe R18n::Locale do
       set :one => 1
       set :two => 2
     end
-    locale = locale_class.instance
+    locale = locale_class.new
     locale.one.should == 1
     locale.two.should == 2
   end
