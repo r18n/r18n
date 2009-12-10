@@ -15,8 +15,9 @@ end
 gem 'i18n'
 require 'i18n'
 
+I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-I18n.fallbacks[:ru] = [:en]
+I18n.fallbacks[:ru] = [:ru, :en]
 
 RBench.run(1000) do
   
@@ -33,7 +34,7 @@ RBench.run(1000) do
       I18n.reload!
       I18n.available_locales = nil
       
-      I18n.load_path = [Dir.glob('./i18n/*.yml')]
+      I18n.load_path = [Dir.glob('./i18n/*.{yml,rb}')]
       I18n.locale = :ru
       I18n.available_locales
     }
@@ -63,7 +64,7 @@ RBench.run(1000) do
     r18n {
       R18n.get.user.count(53)
     }
-    i18n {
+    i18n { 
       I18n.t :'user.count', :count => 53
     }
   end

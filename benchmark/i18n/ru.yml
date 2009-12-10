@@ -10,9 +10,8 @@ ru:
     count:
       zero: "Нет пользователей"
       one: "{{count}} пользователь"
-      few: "{{count}} пользователя"
+      other: "{{count}} пользователя"
       many: "{{count}} пользователей"
-      other: "{{count}} пользователей"
 
   users:
     new:
