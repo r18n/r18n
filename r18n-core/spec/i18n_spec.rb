@@ -126,12 +126,18 @@ describe R18n::I18n do
       def load(locale); { 'one' => @@answer }; end
     end
     
-    i18n = R18n::I18n.new 'en', loader.new
+    i18n = R18n::I18n.new('en', loader.new)
     i18n.one.should == 1
     
     loader.class_eval { @@answer = 2 }
     i18n.reload!
     i18n.one.should == 2
+  end
+  
+  it "should return translations" do
+    i18n = R18n::I18n.new('en', DIR)
+    i18n.t.should be_a(R18n::Translation)
+    i18n.t.one.should == 'One'
   end
 
   it "should return first locale with locale file" do
