@@ -182,24 +182,33 @@ module R18n
       
       if translation_places.empty?
         places = @translation_places = R18n.extension_places
+        extensions = []
       else
         @translation_places = translation_places
-        places = R18n.extension_places + @translation_places
+        places = @translation_places
+        extensions = R18n.extension_places
       end
       
-      locales_by_places = places.map { |i| [i, i.available] }
+      available_in_places = places.map { |i| [i, i.available] }
+      available_in_extensions = extensions.map { |i| [i, i.available] }
       
-      translations = @locales.inject([]) do |all, locale|
-        translation = {}
-        locales_by_places.each do |loader, available|
+      @translation = Translation.new @locale
+      @locales.each do |locale|
+        loaded = false
+        available_in_places.each do |place, available|
           if available.include? locale
-            Utils.deep_merge! translation, loader.load(locale)
+            @translation.merge! place.load(locale), locale
+            loaded = true
           end
         end
-        all + [translation]
+        if loaded
+          available_in_extensions.each do |extension, available|
+            if available.include? locale
+              @translation.merge! extension.load(locale), locale
+            end
+          end
+        end
       end
-      
-      @translation = Translation.new(@locales, translations)
     end
     
     # Return Array of locales with available translations.

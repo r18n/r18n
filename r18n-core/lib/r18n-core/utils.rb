@@ -21,18 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Common methods for another R18n code.
 module R18n
   module Utils
-    # Recursively hash merge.
-    def self.deep_merge!(a, b)
-      b.each_pair do |name, value|
-        if a[name].is_a? Hash
-          self.deep_merge!(a[name], value)
-        else
-          a[name] = value
-        end
-      end
-      a
-    end
-    
     # Convert Time to Date. Backport from Ruby 1.9.
     def self.to_date(time)
       jd = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)

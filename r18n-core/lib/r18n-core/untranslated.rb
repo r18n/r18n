@@ -40,20 +40,21 @@ module R18n
   # 
   #   R18n::Filters.add(R18n::Untranslated, :hide_untranslated) { '' }
   class Untranslated
-    # Path to translation.
-    attr_reader :path
-    
     # Path, that isn’t in translation.
     attr_reader :untranslated_path
     
     # Path, that exists in translation.
     attr_reader :translated_path
     
-    def initialize(path, untranslated_path, locales)
-      @path = path
-      @locales = locales
+    def initialize(translated_path, untranslated_path, locale)
+      @translated_path = translated_path
       @untranslated_path = untranslated_path
-      @translated_path = path[0...(-untranslated_path.length)]
+      @locale = locale
+    end
+    
+    # Path to translation.
+    def path
+      "#{@translated_path}#{@untranslated_path}"
     end
     
     def translated?
@@ -65,8 +66,8 @@ module R18n
     end
     
     def [](*params)
-      Untranslated.new("#{@path}.#{params.first}",
-                       "#{@untranslated_path}.#{params.first}", @locales)
+      Untranslated.new(translated_path, "#{@untranslated_path}.#{params.first}",
+                       @locale)
     end
     
     def |(default)
@@ -74,11 +75,8 @@ module R18n
     end
     
     def to_s
-      config = OpenStruct.new(:locale  => @locales.first, :path => @path,
-                              :locales => @locales)
-      Filters.enabled[Untranslated].inject(@path) do |string, filter|
-        filter.call(string, config, @translated_path, @untranslated_path, @path)
-      end
+      Filters.process(Untranslated, path, @locale, path,
+                      [@translated_path, @untranslated_path, path])
     end
   end
 end

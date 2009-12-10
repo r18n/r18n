@@ -17,19 +17,6 @@ describe R18n do
     R18n.default_loader = Class
     R18n.default_loader.should == Class
   end
-
-  it "should merge hash recursively" do
-    a = { :a => 1,
-          :b => {:ba => 1, :bb => 1},
-          :c => 1 }
-    b = { :b => {:bb => 2, :bc => 2},
-          :c => 2 }
-    
-    R18n::Utils.deep_merge! a, b
-    a.should == { :a => 1,
-                  :b => { :ba => 1, :bb => 2, :bc => 2 },
-                  :c => 2 }
-  end
   
   it "should convert Time to Date" do
       R18n::Utils.to_date(Time.now).should == Date.today

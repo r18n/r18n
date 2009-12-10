@@ -22,7 +22,7 @@ require 'pathname'
 
 module R18n
   # Struct to containt translation with some type for filter.
-  Typed = Struct.new(:type_id, :value)
+  Typed = Struct.new(:type, :value, :locale, :path)
   
   # Translation is container of translated messages.
   #
@@ -70,24 +70,44 @@ module R18n
   #   i18n.comments(0)            #=> "no comments"
   #   i18n.comments(10)           #=> "10 comments"
   class Translation
-    # Create translation hash for +path+ with messages in +translations+ for
-    # +locales+.
+    # Create translation hash for +path+ with messages in +data+ for +locale+.
     #
     # This is internal a constructor. To load translation use
     # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
-    def initialize(locales, translations, path = '')
-      @locales = locales
-      @translations = translations
+    def initialize(main_locale, path = '', locale = nil, data = {})
       @path = path
+      @data = {}
+      @locale = main_locale
+      merge! data, locale unless data.empty?
+    end
+    
+    # Add another hash with +translations+ for some +locale+. Current data is
+    # more priority, that new one in +translations+.
+    def merge!(translations, locale)
+      translations.each_pair do |name, value|
+        if not @data.has_key? name
+          path = @path.empty? ? name : "#{@path}.#{name}"
+          case value
+          when Hash
+            value = Translation.new(@locale, path, locale, value)
+          when String
+            value = TranslatedString.new(value, locale, path)
+          when YAML::PrivateType
+            value = Typed.new(value.type_id, value.value, locale, path)
+          when Typed
+            value.locale = locale
+            value.path = path
+          end
+          @data[name] = value
+        elsif @data[name].is_a? Translation
+          @data[name].merge! value, locale
+        end
+      end
     end
     
     # Use untranslated filter to print path.
     def to_s
-      config = OpenStruct.new(:locale  => @locales.first, :path => @path,
-                              :locales => @locales)
-      Filters.enabled[Untranslated].inject(@path) do |string, filter|
-        filter.call(string, config, @path, '', @path)
-      end
+      Filters.process(Untranslated, @path, @locale, @path, [@path, '', @path])
     end
     
     # Return +default+.
@@ -110,28 +130,22 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
-      name = name.to_s
-      path = @path.empty? ? name : "#{@path}.#{name}"
-      
-      @translations.each_with_index do |translation, i|
-        result = translation[name]
-        next unless result
-        
-        if result.is_a? Hash
-          return self.class.new(@locales, @translations.map { |i|
-            i[name] or {}
-          }, path)
-        elsif result.is_a? YAML::PrivateType or result.is_a? Typed
-          type = result.type_id
-          result = result.value
+      value = @data[name.to_s]
+      unless value
+        translated = @path.empty? ? '' : "#{@path}."
+        Untranslated.new(translated, name.to_s, @locale)
+      else
+        if value.is_a? Translation
+          value
+        elsif value.is_a? Typed
+          Filters.process(value.type, value.value, value.locale, value.path,
+                          params)
+        elsif value.is_a? TranslatedString
+          Filters.process_string(value, @path, params)
         else
-          type = nil
+          value
         end
-        
-         return Filters.process(result, @locales[i], path, type, params)
       end
-      
-      Untranslated.new(path, name, @locales)
     end
   end
 end

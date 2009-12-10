@@ -2,9 +2,14 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n::I18n do
+  before do
+    @extension_places = R18n.extension_places.clone
+  end
+  
   after do
     R18n::I18n.default = 'en'
     R18n.default_loader = R18n::Loader::YAML
+    R18n.extension_places = @extension_places
   end
 
   it "should parse HTTP_ACCEPT_LANGUAGE" do

@@ -43,9 +43,10 @@ describe R18n::Translation do
   end
   
   it "should filter typed data" do
-    translation = R18n::Translation.new([R18n::Locale.load('en')], [
+    en = R18n::Locale.load('en')
+    translation = R18n::Translation.new(en, '', en, {
       'count' => R18n::Typed.new('pl', { 1 => 'one', 'n' => 'many' })
-    ])
+    })
     
     translation.count(1).should == 'one'
     translation.count(5).should == 'many'

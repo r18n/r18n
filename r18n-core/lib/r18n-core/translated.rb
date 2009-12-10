@@ -123,8 +123,6 @@ module R18n
         
         class_eval <<-EOS, __FILE__, __LINE__
           def #{name}(*params)
-            path = "\#{self.class.name}##{name}"
-            
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
             R18n.get.locales.each do |locale|
               code = locale.code
@@ -132,11 +130,18 @@ module R18n
               result = method(unlocalized[code]).#{call}
               next unless result
               
+              path = "\#{self.class.name}##{name}"
               type = self.class.translation_types[#{name.inspect}]
-              return R18n::Filters.process(result, locale, path, type, params)
+              if type
+                return R18n::Filters.process(type, result, locale, path, params)
+              else
+                result = TranslatedString.new(result, locale, path)
+                return R18n::Filters.process_string(result, path, params)
+              end
             end
             
-            R18n::Untranslated.new(path, '#{name}', R18n.get.locales)
+            R18n::Untranslated.new("\#{self.class.name}\#", '#{name}',
+                                   R18n.get.locale)
           end
         EOS
         
