@@ -131,20 +131,17 @@ module R18n
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
       value = @data[name.to_s]
-      unless value
+      case value
+      when TranslatedString
+        Filters.process_string(value, @path, params)
+      when Typed
+        Filters.process(value.type, value.value, value.locale, value.path,
+                        params)
+      when nil
         translated = @path.empty? ? '' : "#{@path}."
         Untranslated.new(translated, name.to_s, @locale)
       else
-        if value.is_a? Translation
-          value
-        elsif value.is_a? Typed
-          Filters.process(value.type, value.value, value.locale, value.path,
-                          params)
-        elsif value.is_a? TranslatedString
-          Filters.process_string(value, @path, params)
-        else
-          value
-        end
+        value
       end
     end
   end
