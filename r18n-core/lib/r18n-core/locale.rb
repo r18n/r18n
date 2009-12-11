@@ -79,14 +79,10 @@ module R18n
       return UnsupportedLocale.new(original) unless exists? code
       
       unless @@loaded.has_key? code
-        if exists? code
-          require LOCALES_DIR + "#{code}.rb"
-          name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
-          klass = eval('R18n::Locales::' + name)
-          @@loaded[code] = klass.new
-        else
-          @@loaded[code] = UnsupportedLocale.new(original)
-        end
+        require LOCALES_DIR + "#{code}.rb"
+        name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
+        klass = eval('R18n::Locales::' + name)
+        @@loaded[code] = klass.new
       end
       @@loaded[code]
     end
