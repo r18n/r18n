@@ -79,23 +79,23 @@ describe R18n::Locale do
     i18n = R18n::I18n.new 'ru'
     time = Time.at(0).utc
     
-    @ru.localize(time, i18n, '%a %A').should == 'Чтв Четверг'
-    @ru.localize(time, i18n, '%b %B').should == 'янв января'
-    @ru.localize(time, i18n, '%H:%M%p').should == '00:00 утра'
+    @ru.localize(time, '%a %A').should == 'Чтв Четверг'
+    @ru.localize(time, '%b %B').should == 'янв января'
+    @ru.localize(time, '%H:%M%p').should == '00:00 утра'
   end
   
   it "should localize date for human" do
     i18n = R18n::I18n.new('ru')
     
-    @ru.localize(Date.today + 2, i18n, :human).should == 'через 2 дня'
-    @ru.localize(Date.today + 1, i18n, :human).should == 'завтра'
-    @ru.localize(Date.today,     i18n, :human).should == 'сегодня'
-    @ru.localize(Date.today - 1, i18n, :human).should == 'вчера'
-    @ru.localize(Date.today - 3, i18n, :human).should == '3 дня назад'
+    @ru.localize(Date.today + 2, :human, i18n).should == 'через 2 дня'
+    @ru.localize(Date.today + 1, :human, i18n).should == 'завтра'
+    @ru.localize(Date.today,     :human, i18n).should == 'сегодня'
+    @ru.localize(Date.today - 1, :human, i18n).should == 'вчера'
+    @ru.localize(Date.today - 3, :human, i18n).should == '3 дня назад'
     
     y2000 = Date.parse('2000-01-08')
-    @ru.localize(y2000, i18n, :human, y2000 + 8  ).should == ' 8 января'
-    @ru.localize(y2000, i18n, :human, y2000 - 365).should == ' 8 января 2000'
+    @ru.localize(y2000, :human, i18n, y2000 + 8  ).should == ' 8 января'
+    @ru.localize(y2000, :human, i18n, y2000 - 365).should == ' 8 января 2000'
   end
   
   it "should localize times for human" do
@@ -103,7 +103,7 @@ describe R18n::Locale do
     hour   = 60 * minute
     day    = 24 * hour
     zero   = Time.at(0).utc
-    params = [R18n::I18n.new('ru'), :human, zero]
+    params = [:human, R18n::I18n.new('ru'), zero]
     
     @ru.localize( zero + 7 * day,     *params).should == ' 8 января 00:00'
     @ru.localize( zero + 50 * hour,   *params).should == 'через 2 дня 02:00'
@@ -120,12 +120,14 @@ describe R18n::Locale do
   end
   
   it "should use standard formatter by default" do
-    i18n = R18n::I18n.new('ru')
-    @ru.localize(Time.at(0).utc, i18n).should == '01.01.1970 00:00'
+    @ru.localize(Time.at(0).utc).should == '01.01.1970 00:00'
   end
   
   it "shouldn't localize time without i18n object" do
-    @ru.localize(Time.at(0)).should == Time.at(0).to_s
+    @ru.localize(Time.at(0)).should_not == Time.at(0).to_s
+    @ru.localize(Time.at(0), :full).should_not == Time.at(0).to_s
+    
+    @ru.localize(Time.at(0), :human).should == Time.at(0).to_s
   end
   
   it "should raise error on unknown formatter" do

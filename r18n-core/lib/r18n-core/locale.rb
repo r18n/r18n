@@ -68,7 +68,7 @@ module R18n
 
     # Is +locale+ has info file.
     def self.exists?(locale)
-      File.exists?(File.join(LOCALES_DIR, locale + '.rb'))
+      File.exists?(File.join(LOCALES_DIR, locale.to_s + '.rb'))
     end
 
     # Load locale by RFC 3066 +code+.
@@ -142,16 +142,16 @@ module R18n
     # <tt>:full</tt> (“01 Jule, 2009”), <tt>:human</tt> (“yesterday”),
     # <tt>:standard</tt> (“07/01/09”) or <tt>:month</tt> for standalone month
     # name. Default format is <tt>:standard</tt>.
-    def localize(obj, i18n = nil, format = nil, *params)
+    def localize(obj, format = nil, *params)
       case obj
       when Integer
         format_integer(obj)
       when Float
         format_float(obj)
       when Time, DateTime, Date
-        return obj.to_s if i18n.nil?
         return strftime(obj, format) if format.is_a? String
         return month_standalone[obj.month - 1] if :month == format
+        return obj.to_s if :human == format and not params.first.is_a? I18n
         
         type = obj.is_a?(Date) ? 'date' : 'time'
         format = :standard unless format
@@ -160,7 +160,7 @@ module R18n
           raise ArgumentError, "Unknown time formatter #{format}"
         end
           
-        send "format_#{type}_#{format}", i18n, obj, *params
+        send "format_#{type}_#{format}", obj, *params
       else
         obj.to_s
       end
@@ -217,11 +217,11 @@ module R18n
     # Format +time+ in human usable form. For example “5 minutes ago” or
     # “yesterday”. In +now+ you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale’s class.
-    def format_time_human(i18n, time, now = Time.now)
+    def format_time_human(time, i18n, now = Time.now, *params)
       minutes = (time - now) / 60.0
       if time.mday != now.mday and minutes.abs > 720 # 12 hours
-        format_date_human(i18n, R18n::Utils.to_date(time),
-                                R18n::Utils.to_date(now)) + format_time(time)
+        format_date_human(R18n::Utils.to_date(time), i18n,
+                          R18n::Utils.to_date(now)) + format_time(time)
       else
         case minutes
         when -60..-1
@@ -242,20 +242,20 @@ module R18n
     end
     
     # Format +time+ in compact form. For example, “12/31/09 12:59”.
-    def format_time_standard(i18n, time)
-      format_date_standard(i18n, time) + format_time(time)
+    def format_time_standard(time, *params)
+      format_date_standard(time) + format_time(time)
     end
     
     # Format +time+ in most official form. For example, “December 31st, 2009
     # 12:59”. For special cases you can replace it in locale’s class.
-    def format_time_full(i18n, time)
-      format_date_full(i18n, time) + format_time(time)
+    def format_time_full(time, *params)
+      format_date_full(time) + format_time(time)
     end
     
     # Format +date+ in human usable form. For example “5 days ago” or
     # “yesterday”. In +now+ you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale’s class.
-    def format_date_human(i18n, date, now = Date.today)
+    def format_date_human(date, i18n, now = Date.today, *params)
       days = (date - now).to_i
       case days
       when -6..-2
@@ -269,19 +269,19 @@ module R18n
       when 2..6
         i18n.human_time.after_days(days)
       else
-        format_date_full(i18n, date, date.year != now.year)
+        format_date_full(date, date.year != now.year)
       end
     end
     
     # Format +date+ in compact form. For example, “12/31/09”.
-    def format_date_standard(i18n, date)
+    def format_date_standard(date, *params)
       strftime(date, date_format)
     end
     
     # Format +date+ in most official form. For example, “December 31st, 2009”.
     # For special cases you can replace it in locale’s class. If +year+ is false
     # date will be without year.
-    def format_date_full(i18n, date, year = true)
+    def format_date_full(date, year = true, *params)
       format = full_format
       format = year_format.sub('_', format) if year
       strftime(date, format)

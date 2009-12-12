@@ -229,7 +229,7 @@ module R18n
     #   i18n.l Time.now, :human #=> "now"
     #   i18n.l Time.now, :full  #=> "Jule 1st, 2009 12:59"
     def localize(object, format = nil, *params)
-      locale.localize(object, self, format, *params)
+      locale.localize(object, format, self, *params)
     end
     alias :l :localize
     

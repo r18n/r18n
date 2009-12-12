@@ -32,7 +32,7 @@ module R18n
       end
     end
     
-    def format_date_full(i18n, date, year = true)
+    def format_date_full(date, year = true, *params)
       format = full_format
       format = year_format.sub('_', format) if year
       strftime(date, format.sub('%e', ordinalize(date.mday)))
