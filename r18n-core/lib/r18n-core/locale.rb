@@ -76,12 +76,14 @@ module R18n
       original = code.to_s.gsub(/[^-a-zA-Z]/, '')
       code = original.downcase
       
-      return UnsupportedLocale.new(original) unless exists? code
-      
       @@loaded[code] ||= begin
-        require LOCALES_DIR + "#{code}.rb"
-        name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
-        eval('R18n::Locales::' + name).new
+        if exists? code
+          require LOCALES_DIR + "#{code}.rb"
+          name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
+          eval('R18n::Locales::' + name).new
+        else
+          UnsupportedLocale.new(original)
+        end
       end
     end
     

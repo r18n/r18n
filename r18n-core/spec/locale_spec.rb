@@ -59,12 +59,12 @@ describe R18n::Locale do
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
     
-    unsupported.code.should == 'no-LC'
-    unsupported.title.should == 'no-LC'
+    unsupported.code.downcase.should == 'no-lc'
+    unsupported.title.downcase.should == 'no-lc'
     unsupported.ltr?.should be_true
     
     unsupported.pluralize(5).should == 'n'
-    unsupported.inspect.should == 'Unsupported locale no-LC'
+    unsupported.inspect.downcase.should == 'unsupported locale no-lc'
   end
 
   it "should format number in local traditions" do
@@ -151,7 +151,7 @@ describe R18n::Locale do
     upcase = R18n::Locale.load('no-LC')
     downcase = R18n::Locale.load('no-lc')
     upcase.should == downcase
-    upcase.code.should == 'no-LC'
+    upcase.code.should == 'no-lc'
     downcase.code.should == 'no-lc'
   end
 
