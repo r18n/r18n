@@ -159,7 +159,7 @@ module R18n
           locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
         end
       end
-      locales.uniq!
+      locales.map! { |i| i.to_s.downcase }.uniq!
       @locales = locales.map { |i| Locale.load(i) }
       
       @locale = @locales.first
@@ -172,7 +172,12 @@ module R18n
         end
       end
       
-      @original_places = translation_places
+      if translation_places
+        @original_places = translation_places
+      else
+        @original_places = R18n.extension_places
+      end
+      
       reload!
     end
     
@@ -180,16 +185,8 @@ module R18n
     def reload!
       @translation_places = self.class.convert_places(@original_places)
       
-      if @translation_places.empty?
-        places = @translation_places = R18n.extension_places
-        extensions = []
-      else
-        places = @translation_places
-        extensions = R18n.extension_places
-      end
-      
-      available_in_places = places.map { |i| [i, i.available] }
-      available_in_extensions = extensions.map { |i| [i, i.available] }
+      available_in_places = @translation_places.map { |i| [i, i.available] }
+      available_in_extensions = R18n.extension_places.map { |i| [i, i.available] }
       
       @translation = Translation.new @locale
       @locales.each do |locale|

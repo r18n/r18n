@@ -44,7 +44,7 @@ spec = Gem::Specification.new do |s|
   s.summary = 'A Sinatra extension that provides i18n support to translate your
     web application.'
   s.description = <<-EOF
-    A Sinatra extension that provides i18n support to  translate your web
+    A Sinatra extension that provides i18n support to translate your web
     application. It is just a wrap for R18n core library.
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
