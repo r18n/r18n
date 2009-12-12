@@ -148,7 +148,7 @@ module R18n
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
     # +Translation_places+ must be a string with path or array.
     def initialize(locales, translation_places = nil)
-      locales = [locales] if locales.is_a? String
+      locales = Array(locales)
       
       if not locales.empty? and Locale.exists? locales.first
         locales += Locale.load(locales.first).sublocales
@@ -178,13 +178,12 @@ module R18n
     
     # Reload translations.
     def reload!
-      translation_places = self.class.convert_places(@original_places)
+      @translation_places = self.class.convert_places(@original_places)
       
-      if translation_places.empty?
+      if @translation_places.empty?
         places = @translation_places = R18n.extension_places
         extensions = []
       else
-        @translation_places = translation_places
         places = @translation_places
         extensions = R18n.extension_places
       end

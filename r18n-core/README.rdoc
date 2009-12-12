@@ -59,17 +59,16 @@ filter from +r18n-rails-api+ gem:
 
 === Flexible locales
 
-Locale together with YAML description can extend Locale class, so locales
-are very flexible. For example, Russian locale has built-in different
-pluralization without any lambdas in YAML:
+Locale can extend Locale class, so locales are very flexible. For example,
+English locale extend time formatters:
+
+  i18n.l Date.now, :full #=> "30th of November, 2009"
+
+Or Russian has built-in different pluralization without any lambdas in YAML:
 
   i18n.user.count(1) #=> "1 пользователь"
   i18n.user.count(2) #=> "2 пользователя"
   i18n.user.count(5) #=> "5 пользователей"
-
-Or English locale extend time formatters:
-
-  i18n.l Date.now, :full #=> "30th of November, 2009"
 
 === Loaders
 

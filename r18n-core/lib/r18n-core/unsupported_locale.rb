@@ -52,7 +52,7 @@ module R18n
       @code
     end
 
-    # Is another locale has same code
+    # Is another locale has same code.
     def ==(locale)
       @code.downcase == locale.code.downcase
     end

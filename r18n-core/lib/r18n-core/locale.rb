@@ -78,13 +78,11 @@ module R18n
       
       return UnsupportedLocale.new(original) unless exists? code
       
-      unless @@loaded.has_key? code
+      @@loaded[code] ||= begin
         require LOCALES_DIR + "#{code}.rb"
         name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
-        klass = eval('R18n::Locales::' + name)
-        @@loaded[code] = klass.new
+        eval('R18n::Locales::' + name).new
       end
-      @@loaded[code]
     end
     
     # Set locale +properties+. Locale class will have methods for each propetry
@@ -145,26 +143,24 @@ module R18n
     # <tt>:standard</tt> (“07/01/09”) or <tt>:month</tt> for standalone month
     # name. Default format is <tt>:standard</tt>.
     def localize(obj, i18n = nil, format = nil, *params)
-      if obj.is_a? Integer
+      case obj
+      when Integer
         format_integer(obj)
-      elsif obj.is_a? Float
+      when Float
         format_float(obj)
-      elsif i18n and (obj.is_a? Time or obj.is_a? DateTime or obj.is_a? Date)
-        if format.is_a? String
-          strftime(obj, format)
-        else
-          if :month == format
-            return month_standalone[obj.month - 1]
-          end
-          type = obj.is_a?(Date) ? 'date' : 'time'
-          format = :standard unless format
-          
-          unless [:human, :full, :standard].include? format
-            raise ArgumentError, "Unknown time formatter #{format}"
-          end
-          
-          send "format_#{type}_#{format}", i18n, obj, *params
+      when Time, DateTime, Date
+        return obj.to_s if i18n.nil?
+        return strftime(obj, format) if format.is_a? String
+        return month_standalone[obj.month - 1] if :month == format
+        
+        type = obj.is_a?(Date) ? 'date' : 'time'
+        format = :standard unless format
+        
+        unless [:human, :full, :standard].include? format
+          raise ArgumentError, "Unknown time formatter #{format}"
         end
+          
+        send "format_#{type}_#{format}", i18n, obj, *params
       else
         obj.to_s
       end
