@@ -4,8 +4,11 @@ require 'rubygems'
 gem 'rbench'
 require 'rbench'
 
+require 'pathname'
+dir = Pathname.new(__FILE__).dirname
+
 begin
-  require '../r18n-core/lib/r18n-core'
+  require dir + '../r18n-core/lib/r18n-core'
 rescue LoadError
   puts "ERROR: Can't load edge R18n. Use from gem."
   gem 'r18n-core'
@@ -27,14 +30,14 @@ RBench.run(1000) do
 
   report 'load' do
     r18n {
-      R18n.set R18n::I18n.new(%w{ru en}, './r18n')
+      R18n.set R18n::I18n.new(%w{ru en}, dir + 'r18n')
       R18n.get.available_locales
     }
     i18n {
       I18n.reload!
       I18n.available_locales = nil
       
-      I18n.load_path = [Dir.glob('./i18n/*.{yml,rb}')]
+      I18n.load_path = [Dir.glob(dir.join('i18n/*.{yml,rb}').to_s)]
       I18n.locale = :ru
       I18n.available_locales
     }
