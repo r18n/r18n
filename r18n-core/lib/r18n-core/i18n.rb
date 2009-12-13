@@ -188,7 +188,7 @@ module R18n
     # Return unique key for current locales in translation and places.
     def translation_cache_key
       available = @translation_places.inject([]) { |all, i|
-        all + i.available  }.uniq.map { |i| i.code }
+        all + i.available }.uniq.map { |i| i.code }
       (@locales_codes & available).join(',') + '@' +
         R18n.default_loader.hash.to_s +
         @translation_places.hash.to_s + R18n.extension_places.hash.to_s

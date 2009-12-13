@@ -6,7 +6,7 @@ describe R18n do
     R18n.default_loader = R18n::Loader::YAML
   end
 
-  it "should set I18n for current thread" do
+  it "should store I18n" do
     i18n = R18n::I18n.new('en', '')
     R18n.set(i18n)
     R18n.get.should == i18n

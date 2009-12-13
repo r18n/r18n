@@ -38,12 +38,12 @@ module R18n
   class << self
     # Set I18n object to current thread.
     def set(i18n)
-      Thread.current['i18n'] = i18n
+      @i18n = i18n
     end
     
     # Get I18n object for current thread.
     def get
-      Thread.current['i18n']
+      @i18n
     end
 
     # Default loader class, which will be used if you didn’t send loader to
