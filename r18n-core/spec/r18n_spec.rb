@@ -7,8 +7,21 @@ describe R18n do
   end
 
   it "should store I18n" do
-    i18n = R18n::I18n.new('en', '')
+    i18n = R18n::I18n.new('en')
     R18n.set(i18n)
+    R18n.get.should == i18n
+    
+    R18n.set(nil)
+    R18n.get.should be_nil
+  end
+  
+  it "should set setter to I18n" do
+    i18n = R18n::I18n.new('en')
+    R18n.set(i18n)
+    
+    i18n = R18n::I18n.new('ru')
+    R18n.set { i18n }
+    
     R18n.get.should == i18n
   end
   

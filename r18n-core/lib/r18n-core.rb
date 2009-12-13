@@ -37,13 +37,18 @@ require dir + 'i18n'
 module R18n
   class << self
     # Set I18n object to current thread.
-    def set(i18n)
-      @i18n = i18n
+    def set(i18n = nil, &block)
+      if block_given?
+        @setter = block
+        @i18n = nil
+      else
+        @i18n = i18n
+      end
     end
     
     # Get I18n object for current thread.
     def get
-      @i18n
+      @i18n ||= (@setter.call if @setter)
     end
 
     # Default loader class, which will be used if you didn’t send loader to
