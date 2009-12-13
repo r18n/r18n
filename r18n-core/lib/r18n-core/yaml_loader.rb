@@ -53,6 +53,11 @@ module R18n
         ::YAML::load(IO.read(File.join(@dir, "#{locale.code.downcase}.yml")))
       end
       
+      # YAML loader with same +dir+ will be have same +hash+.
+      def hash
+        self.class.hash + @dir.hash
+      end
+      
       # Is another +loader+ load YAML translations from same +dir+.
       def ==(loader)
         self.class == loader.class and self.dir == loader.dir

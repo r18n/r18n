@@ -27,4 +27,10 @@ describe R18n::Loader::Rails do
                                  'three' => 'Три' }
   end
   
+  it "should change hash on load_path changes" do
+    before = @loader.hash
+    I18n.load_path << OTHER
+    @loader.hash.should_not == before
+  end
+  
 end

@@ -26,4 +26,8 @@ describe R18n::Loader::YAML do
       'one' => 'Один', 'in' => {'another' => {'level' => 'Иерархический'}} }
   end
   
+  it "should return hash by dir" do
+    @loader.hash.should == R18n::Loader::YAML.new(DIR).hash
+  end
+  
 end

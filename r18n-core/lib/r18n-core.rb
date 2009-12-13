@@ -53,9 +53,13 @@ module R18n
     # Loaders with extension translations. If application translations with
     # same locale isn’t exists, extension file willn’t be used.
     attr_accessor :extension_places
+    
+    # Hash of hash-like (see Moneta) object to store loaded translations.
+    attr_accessor :cache
   end
   
   self.default_loader = R18n::Loader::YAML
   self.extension_places = [
       Loader::YAML.new(Pathname(__FILE__).dirname.expand_path + '../base')]
+  self.cache = {}
 end

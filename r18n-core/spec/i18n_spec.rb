@@ -4,6 +4,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe R18n::I18n do
   before do
     @extension_places = R18n.extension_places.clone
+    R18n.cache.clear
   end
   
   after do
@@ -117,6 +118,58 @@ describe R18n::I18n do
     i18n.available_locales.should =~ [R18n::Locale.load('no-lc'),
                                       R18n::Locale.load('ru'),
                                       R18n::Locale.load('en')]
+  end
+  
+  it "should cache translations" do
+    counter = CounterLoader.new('en')
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n.cache.clear
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 2
+  end
+  
+  it "should cache translations by used locales" do
+    counter = CounterLoader.new('en', 'ru')
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new(['en', 'fr'], counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new(['en', 'ru'], counter)
+    counter.loaded.should == 3
+    
+    R18n::I18n.new(['ru', 'en'], counter)
+    counter.loaded.should == 5
+  end
+  
+  it "should cache translations by places" do
+    counter = CounterLoader.new('en', 'ru')
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new('en', [counter, DIR])
+    counter.loaded.should == 2
+    
+    R18n.extension_places << EXT
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 3
+    
+    same = CounterLoader.new('en', 'ru')
+    R18n::I18n.new('en', same)
+    same.loaded.should == 0
+    
+    different = CounterLoader.new('en', 'fr')
+    R18n::I18n.new('en', different)
+    different.loaded.should == 1
   end
   
   it "should reload translations" do

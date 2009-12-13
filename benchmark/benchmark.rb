@@ -20,7 +20,6 @@ require 'i18n'
 
 I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-I18n.fallbacks[:ru] = [:ru, :en]
 
 RBench.run(1000) do
   
@@ -28,9 +27,10 @@ RBench.run(1000) do
   column :i18n, :title => 'Rails I18n'
   column :diff, :title => 'I18n/R18n', :compare => [:i18n, :r18n]
 
-  report 'load' do
+  report 'cold load' do
     r18n {
-      R18n.set R18n::I18n.new(%w{ru en}, dir + 'r18n')
+      R18n.cache = {}
+      R18n.set R18n::I18n.new(%w{ru fr en}, dir + 'r18n')
       R18n.get.available_locales
     }
     i18n {
@@ -39,6 +39,19 @@ RBench.run(1000) do
       
       I18n.load_path = [Dir.glob(dir.join('i18n/*.{yml,rb}').to_s)]
       I18n.locale = :ru
+      I18n.fallbacks[:ru] = [:ru, :fr, :en]
+      I18n.available_locales
+    }
+  end
+
+  report 'load' do
+    r18n {
+      R18n.set R18n::I18n.new(%w{ru fr en}, dir + 'r18n')
+      R18n.get.available_locales
+    }
+    i18n {
+      I18n.locale = :ru
+      I18n.fallbacks[:ru] = [:ru, :fr, :en]
       I18n.available_locales
     }
   end

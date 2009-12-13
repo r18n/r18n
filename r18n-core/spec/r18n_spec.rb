@@ -12,10 +12,20 @@ describe R18n do
     R18n.get.should == i18n
   end
   
-  it "should save default loader class" do
+  it "should store default loader class" do
     R18n.default_loader.should == R18n::Loader::YAML
     R18n.default_loader = Class
     R18n.default_loader.should == Class
+  end
+  
+  it "should store cache" do
+    R18n.cache.should be_a(Hash)
+    
+    R18n.cache = { 1 => 2 }
+    R18n.cache.should == { 1 => 2 }
+    
+    R18n.cache.clear
+    R18n.cache.should == {}
   end
   
   it "should convert Time to Date" do

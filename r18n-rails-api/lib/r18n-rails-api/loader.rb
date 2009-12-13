@@ -54,17 +54,23 @@ module R18n
         @translations[locale.code.downcase]
       end
       
-      # Is another +loader+ is also load Rails translations.
-      def ==(loader)
-        self.class == loader.class
-      end
-      
+      # Reload backend if <tt>I18n.load_path</tt> is changed.
       def reload!
         return if @last_path == ::I18n.load_path
         @last_path = ::I18n.load_path.clone
         @backend.reload!
         @backend.send(:init_translations)
         @translations = transform @backend.send(:translations)
+      end
+    
+      # Return hash for object and <tt>I18n.load_path</tt>.
+      def hash
+        super + ::I18n.load_path.hash
+      end
+      
+      # Is another +loader+ is also load Rails translations.
+      def ==(loader)
+        self.class == loader.class
       end
       
       protected

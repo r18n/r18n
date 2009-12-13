@@ -160,6 +160,7 @@ module R18n
         end
       end
       locales.map! { |i| i.to_s.downcase }.uniq!
+      @locales_codes = locales
       @locales = locales.map { |i| Locale.load(i) }
       
       @locale = @locales.first
@@ -178,7 +179,19 @@ module R18n
         @original_places = R18n.extension_places
       end
       
-      reload!
+      @translation_places = self.class.convert_places(@original_places)
+      
+      reload! unless @translation = R18n.cache[translation_cache_key]
+    end
+    
+    
+    # Return unique key for current locales in translation and places.
+    def translation_cache_key
+      available = @translation_places.inject([]) { |all, i|
+        all + i.available  }.uniq.map { |i| i.code }
+      (@locales_codes & available).join(',') + '@' +
+        R18n.default_loader.hash.to_s +
+        @translation_places.hash.to_s + R18n.extension_places.hash.to_s
     end
     
     # Reload translations.
@@ -205,6 +218,7 @@ module R18n
           end
         end
       end
+      R18n.cache[translation_cache_key] = @translation
     end
     
     # Return Array of locales with available translations.
