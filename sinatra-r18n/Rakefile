@@ -49,7 +49,7 @@ spec = Gem::Specification.new do |s|
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
     user language support, agnostic core package with out-of-box support for
-    Sinatra, Merb and desktop applications.
+    Rails, Sinatra, Merb and desktop applications.
   EOF
   
   s.files = FileList[

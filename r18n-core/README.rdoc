@@ -2,8 +2,9 @@
 
 R18n is a i18n tool to translate your Ruby application to several languages.
 
-Use <tt>sinatra-r18n</tt> or teamon’s <tt>merb_i18n</tt> to localize Web applications and 
-<tt>r18n-desktop</tt> to localize desktop application.
+Use <tt>r18n-rails</tt>, <tt>sinatra-r18n</tt> or teamon’s <tt>merb_i18n</tt> to
+localize Web applications and <tt>r18n-desktop</tt> to localize desktop
+application.
 
 == Features
 
@@ -166,7 +167,7 @@ To get translated string use method with key name or square brackets [] for
 keys, which is same with Object methods (+class+, +inspect+, etc):
 
   i18n.robot    #=> "This is robot"
-  i18n[:robot] #=> "This is robot"
+  i18n[:robot]  #=> "This is robot"
 
 Translation may be hierarchical:
 

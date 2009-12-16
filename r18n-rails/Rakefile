@@ -9,21 +9,13 @@ rescue LoadError
   require 'rake/rdoctask'
 end
 
-PKG_NAME = 'r18n-desktop'
+PKG_NAME = 'r18n-rails'
 require '../r18n-core/lib/r18n-core/version'
-
-task :default => :spec
-
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.libs << '../r18n-core/lib'
-  t.spec_opts = ['--format', 'specdoc', '--colour']
-  t.spec_files = Dir['spec/**/*_spec.rb'].sort
-end
 
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
-  rdoc.title = 'R18n Desktop Documentation'
+  rdoc.title = 'R18n for Rails Documentation'
   rdoc.rdoc_dir = 'doc'
   rdoc.options << '-c utf-8'
   rdoc.options << '--all'
@@ -33,11 +25,11 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = PKG_NAME
   s.version = R18n::VERSION
-  s.summary = 'A i18n tool to translate your Ruby desktop application.'
+  s.summary = 'R18n for Rails'
   s.description = <<-EOF
-    A i18n tool to translate your desktop application in several languages.
-    It is just a wrap for R18n core library.
-    It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
+    Out-of-box R18n support for Ruby on Rails.
+    It is just a wrap for R18n Rails API and R18n core libraries.
+    R18n has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
     user language support, agnostic core package with out-of-box support for
     Rails, Sinatra, Merb and desktop applications.
@@ -45,15 +37,14 @@ spec = Gem::Specification.new do |s|
   
   s.files = FileList[
     'lib/**/*',
+    'rails/**/*',
     'LICENSE',
     'README.rdoc']
-  s.test_files = FileList[
-    'spec/**/*']
   s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
   s.require_path = 'lib'
   s.has_rdoc = true
   
-  s.add_dependency 'r18n-core', R18n::VERSION
+  s.add_dependency 'r18n-rails-api'
   
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'
