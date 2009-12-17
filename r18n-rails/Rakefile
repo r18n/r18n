@@ -12,6 +12,15 @@ end
 PKG_NAME = 'r18n-rails'
 require '../r18n-core/lib/r18n-core/version'
 
+task :default => :spec
+
+Spec::Rake::SpecTask.new('spec') do |t|
+  t.libs << '../r18n-core/lib'
+  t.libs << '../r18n-rails-api/lib'
+  t.spec_opts = ['--format', 'specdoc', '--colour']
+  t.spec_files = Dir['spec/**/*_spec.rb'].sort
+end
+
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
@@ -40,6 +49,8 @@ spec = Gem::Specification.new do |s|
     'rails/**/*',
     'LICENSE',
     'README.rdoc']
+  s.test_files = FileList[
+    'spec/**/*']
   s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
   s.require_path = 'lib'
   s.has_rdoc = true
