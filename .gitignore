@@ -6,3 +6,4 @@ doc
 pkg
 coverage
 log
+*.sqlite3
