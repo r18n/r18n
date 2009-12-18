@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'pathname'
+require 'r18n-core'
+require 'r18n-core/translated'
 require 'r18n-rails-api'
 
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails'
@@ -33,3 +35,4 @@ end
 ActionController::Base.helper(R18n::Rails::Helpers)
 ActionController::Base.send(:include, R18n::Rails::Controller)
 ActionController::Base.send(:before_filter, :set_r18n)
+ActiveRecord::Base.send(:include, R18n::Translated)

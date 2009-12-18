@@ -53,4 +53,25 @@ describe 'R18n for Rails', :type => :controller do
     response.body.should == "user.<span style='color: red'>not.exists</span>"
   end
   
+  it "should translate models" do
+    ActiveRecord::Schema.verbose = false
+    ActiveRecord::Schema.define(:version => 20091218130034) do
+      create_table "posts", :force => true do |t|
+        t.string "title_en"
+        t.string "title_ru"
+      end
+    end
+    
+    @post = Post.new
+    @post.title_en = 'Record'
+    
+    R18n.set(R18n::I18n.new('ru'))
+    @post.title.should == 'Record'
+    
+    @post.title = 'Запись'
+    @post.title_ru.should == 'Запись'
+    @post.title_en.should == 'Record'
+    @post.title.should == 'Запись'
+  end
+  
 end
