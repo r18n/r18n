@@ -1,5 +1,218 @@
 = R18n for Rails
 
+R18n-rails is a gem to add out-of-box R18n support to Rails I18n.
+
+It is just a wrap for R18n core and R18n Rails API libraries. See R18n core
+documentation for more information.
+
+== Features
+
+R18n for Rails has full compatibility with Rails I18n, but add extra features:
+
+=== R18n syntax
+
+You can use more compact, explicit and ruby-style syntax.
+
+Translations in R18n format will be loaded from <tt>app/i18n/_locale_.yml</tt>:
+
+  user:
+    name: User name is %1
+    count: !!pl
+      0: No users
+      1: 1 user
+      n: %1 users
+
+R18n extend +t+ helper to add optional R18n syntax:
+
+  t.user.name('John')      #=> "User name is John"
+  t.user.count(5)          #=> "5 users"
+  t.not.exists | 'default' #=> "default"
+
+=== Filters
+
+R18n has flexible architecture based on filters. Variables, pluralization,
+untranslated is a common filters, and you can change all of them. For example,
+write untranslated keys to file:
+
+  R18n::Filters.add(::R18n::Untranslated, :write_untranslated) do
+  |v, c, translated, untranslated, path|
+    File.open('untranslated.list', 'w') do |io|
+      io.puts(path)
+    end
+  end
+
+R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
+
+  hi: !!markdown
+    **Hi**, people!
+  greater: !!escape
+    1 < 2 is true
+
+  i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
+  i18n.greater #=> "1 &lt; 2 is true"
+
+=== Model translation
+
+R18n can add i18n support for your ActiveRecord model and any other class:
+
+1. Add separated column for all supported translations:
+   
+     def self.up
+       create_table :posts do |t|
+         t.string :title_en
+         t.string :title_ru
+       end
+     end
+   
+2. Add virtual method +title+, which will use <tt>title_<i>locale</i></tt>
+   methods to find actual translation:
+   
+     class Post < ActiveRecord::Base
+       include R18n::Translated
+       translations :title
+     end
+     
+     # For Russian user
+     post = Post.new
+     post.title_en = 'Post'
+     post.title_ru = 'Запись'
+     post.title = 'Запись'
+     
+     post.title = 'Другая' # will user title_ru, by user first locale
+
+=== Time fomatters
+
+R18n add +full+ time formatter based on locale info:
+
+  # English
+  l Time.now, :full #=> "1st of December, 2009 12:00"
+  
+  # French
+  l Time.now, :full #=> "1er décembre 2009 12:00"
+
+=== Locales
+
+R18n contain locales info, so it out-of-box support locale plural and fallback
+rules for non-English locales:
+
+  # Russian have different plural rules:
+  user:
+    count: !!pl
+      0: Нет пользователей
+      1: %1 пользователь
+      2: %1 пользователя
+      n: %1 пользователей
+  
+  t.user.count(2)  #=> "2 пользователя"
+  t.user.count(21) #=> "21 пользователь"
+
+=== Autodetect user locales
+
+R18n automatically generate fallback for current user, based on
+user locales list from HTTP_ACCEPT_LANGUAGE, locale info (in some country people
+know several languages) and default locale.
+
+For example, if user know Kazakh and German, R18n will try find translations in:
+Kazakh → German → Russian (second language in Kazakhstan) → English (default
+locale).
+
+=== Separated I18n
+
+You can create another R18n I18n instance with another languages. For example,
+to send e-mail for English admin on error with French user:
+
+  puts I18n.t :error # Show error on French
+  
+  admin_i18n = R18n::I18n.new(@admin_locales, Rails.root + 'app/i18n')
+  send_email(admin_i18n.error_messages)
+
+== How to
+
+1. Add +r18n-rails+ gem to your <tt>config/environment.rb</tt>:
+   
+     config.gem 'r18n-rails'
+   
+   Now R18n will be autodetect user locales.
+2. Add your way to set locale manually. R18n will find it in
+   <tt>params[:locale]</tt> or <tt>session[:locale]</tt>. Best way is a put
+   optional locale prefix to URLs:
+   
+       map.connect ':controller/:action'
+       map.connect ':locale/:controller/:action'
+   
+3. Print available translations, to choise it manually (and to search engines):
+
+     <ul>
+     <% r18n.available_locales.each do |locale| %>
+         <li>
+           <a href="/<%= locale.code %>/"><%= locale.title %></a>
+         </li>
+     <% end %>
+     </ul>
+   
+4. Translations with I18n format put to <tt>config/locales/_locale_.yml</tt>:
+   
+     en:
+       user:
+         name: "User name is {{name}}"
+         count:
+           zero: "No users"
+           one:  "One user"
+           many: "{{count}} users"
+   
+   Translations with R18n format put to <tt>app/i18n/_locale_.yml</tt>:
+   
+     user:
+       name: User name is %1
+       count: !!pl
+         0: No users
+         1: 1 user
+         n: %1 users
+   
+5. Use translated messages in views. You can use Rails I18n syntax:
+   
+     t 'user.name', :name => 'John'
+     t 'user.count', :count => 5
+   
+   Or R18n syntax:
+   
+     t.user.name(:name => 'John') # for Rails I18n named variables
+     t.user.name('John')          # for R18n variables
+     t.user.count(5)
+   
+6. Print dates and numbers in user tradition:
+   
+     l Date.today, :standard #=> "20/12/2009"
+     l Time.now,   :full     #=> "20th of December, 2009 12:00"
+     l 1234.5                #=> "1,234.5"
+
+7. Translate models:
+   
+   1. Add to migration columns for each supported locales, with name
+      <tt><i>name</i>_<i>locale</i></tt>:
+      
+         t.string :title_en
+         t.string :title_ru
+         
+         t.string :text_en
+         t.string :text_ru
+      
+   2. Add <tt>R18n::Translated</tt> mixin to model:
+      
+        class Post < ActiveRecord::Base
+          include R18n::Translated
+      
+   3. Call +translations+ method in model with all columns to translated:
+      
+          translations :title, :text
+   
+      Now model will be have virtual methods +title+, +text+, +title=+ and
+      +text=+, which will call +title_ru+ or +title_en+ and etc based on current
+      user locales.
+   
+   You can use <tt>R18n::Translated</tt> mixin for any Ruby class, not only for
+   ActiveRecord models.
+
 == License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
