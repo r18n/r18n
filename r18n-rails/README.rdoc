@@ -128,7 +128,7 @@ to send e-mail for English admin on error with French user:
 
 == How to
 
-1. Add +r18n-rails+ gem to your <tt>config/environment.rb</tt>:
+1. Add <tt>r18n-rails</tt> gem to your <tt>config/environment.rb</tt>:
    
      config.gem 'r18n-rails'
    
@@ -206,9 +206,9 @@ to send e-mail for English admin on error with French user:
       
           translations :title, :text
    
-      Now model will be have virtual methods +title+, +text+, +title=+ and
-      +text=+, which will call +title_ru+ or +title_en+ and etc based on current
-      user locales.
+      Now model will be have virtual methods +title+, +text+, <tt>title=</tt>
+      and <tt>text=</tt>, which will call +title_ru+ or +title_en+ and etc based
+      on current user locales.
    
    You can use <tt>R18n::Translated</tt> mixin for any Ruby class, not only for
    ActiveRecord models.

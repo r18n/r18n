@@ -196,9 +196,9 @@ Pluralizable messages get item count from first argument:
   i18n.robots(1)  #=> "One robot"
   i18n.robots(50) #=> "50 robots"
 
-If there isn’t pluralization for some number, translation will be use 'n'. If
+If there isn’t pluralization for some number, translation will be use +n+. If
 there isn’t locale file for translation, it will be use English pluralization
-rule (0, 1 and 'n').
+rule (0, 1 and +n+).
 
 You can check, is message has translation:
 

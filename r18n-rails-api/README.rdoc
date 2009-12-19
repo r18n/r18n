@@ -8,7 +8,8 @@ Rails I18n compatibility for R18n:
 == How To
 
 === Variables
-After require +r18n-rails-api+ you can use named variables in any translations:
+After require <tt>r18n-rails-api</tt> you can use named variables in any
+translations:
 
   greeting: "Hi, {{name}}"
   users: !!pl
@@ -22,7 +23,7 @@ After require +r18n-rails-api+ you can use named variables in any translations:
 
 === Rails translations
 You can use <tt>R18n::Loader::Rails</tt> to load translations from
-+I18n.load_path+:
+<tt>I18n.load_path</tt>:
 
 i18n/en.yml:
   en:
