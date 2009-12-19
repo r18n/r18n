@@ -1,4 +1,4 @@
-== R18n
+= R18n
 
 R18n is a i18n tool to translate your Ruby application to several languages.
 
@@ -8,9 +8,9 @@ environments.
 For more features description and tutorial see <tt>r18n-core</tt> dir.
 For special How To see plugins dirs for your environment.
 
-Merb R18n plugin is maintained by teamon: http://github.com/teamon/merb-i18n/
+Merb R18n plugin is maintained by teamon: http://github.com/teamon/merb-i18n.
 
-=== R18n Features
+== R18n Features
 
 * Nice Ruby-style syntax.
 * Filters.
@@ -20,7 +20,7 @@ Merb R18n plugin is maintained by teamon: http://github.com/teamon/merb-i18n/
 * Time and number localization.
 * Several user language support.
 
-=== Small example
+== Small example
 
 i18n/en.yml:
 
