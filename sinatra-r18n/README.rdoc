@@ -2,7 +2,7 @@
 
 Sinatra extension that provides i18n support to translate your web application.
 
-It is just a wrap for R18n core library. See R18n documentation for more 
+It is just a wrapper for R18n core library. See R18n documentation for more 
 information.
 
 == Features
@@ -16,6 +16,7 @@ information.
 * Several user language support.
 
 == How To
+
 1. Create translations dir <tt>./i18n/</tt>.
 2. Add file with translation in some language. For example
    <tt>./i18n/en.yml</tt>:
@@ -74,8 +75,10 @@ information.
            %a{ href: "/#{locale.code}/" }= locale.title
 
 == License
+
 R18n is licensed under the GNU Lesser General Public License version 3.
 You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
 
 == Author
+
 Andrey “A.I.” Sitnik <andrey@sitnik.ru>

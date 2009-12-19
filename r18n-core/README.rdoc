@@ -8,7 +8,7 @@ application.
 
 == Features
 
-=== Ruby-style syntax
+=== Ruby-style Syntax
 R18n uses hierarchical not English-centrist YAML format for translations by
 default:
 
@@ -58,7 +58,7 @@ filter from +r18n-rails-api+ gem:
   R18n::Filters.on(:named_variables)
   i18n.greeting(name: 'John') #=> "Hi, John"
 
-=== Flexible locales
+=== Flexible Locales
 
 Locale can extend Locale class, so locales are very flexible. For example,
 English locale extend time formatters:
@@ -90,7 +90,7 @@ need to create loader object with 2 methods: +available+ and +load+:
 You can also set a list of different translation places or set extension places,
 which will be used only with application translation (useful for plugins).
 
-=== Object translation
+=== Object Translation
 
 You can translate any class, including ORM models:
 
@@ -117,7 +117,7 @@ R18n can localize numbers and time:
   i18n.l Time.now, :full       #=> "30th of November, 2009 14:37"
   i18n.l Time.now - 60, :human #=> "1 minute ago"
 
-=== Several user languages support
+=== Several User Languages
 
 Lack of translation in user language isn’t exception for R18n (because
 translation to not primary language done by enthusiasts, it can be out of date).
@@ -144,6 +144,7 @@ Sinatra, Merb and desktop applications.
 == Usage
 
 === Translation
+
 Translation files use YAML format and has name like en.yml (English) or
 en-us.yml (USA English dialect) with language/country code (RFC 3066).
 
@@ -217,6 +218,7 @@ See <tt>base/</tt> in dir in gem.
   i18n.delete #=> "Delete"
 
 === Filters
+
 You can also add you own filter for translations: escape HTML entries, convert
 from Markdown syntax, etc.
 
@@ -236,6 +238,7 @@ You can also add global filters for all translated strings:
   end
 
 ==== HTML Escape
+
 R18n contain 2 filters to escape HTML entries: by YAML type and global. If you
 need to escape HTML in some translations, just set <tt>!!escape</tt> YAML type:
 
@@ -259,6 +262,7 @@ disable escaping in some special value.
   i18n.warning #=> "<b>Warning</b>"
 
 ==== Markdown
+
 To use Markdown in your translations you must install maruku gem:
 
   hi: !!markdown
@@ -268,6 +272,7 @@ To use Markdown in your translations you must install maruku gem:
 
 
 ==== Textile
+
 To use Textile in your translations you must install RedCloth gem:
 
   alarm: !!textile
@@ -276,6 +281,7 @@ To use Textile in your translations you must install RedCloth gem:
   i18n.alarm #=> "<p>It will delete <em>all</em> users!</p>"
 
 ==== Lambdas
+
 You can use lambdas in your translations.
 
   sum: !!proc |x, y| x + y
@@ -288,6 +294,7 @@ translations), you can disable it:
   R18n::Filters.off(:procedure)
 
 === Localization
+
 You can print number and float according to the rules of the user locale:
 
   i18n.l -12000.5 #=> "−12,000.5"
@@ -309,6 +316,7 @@ R18n has some time formats for locales: <tt>:human</tt>, <tt>:full</tt> and
   i18n.l Time.now.to_date #=> "08/09/2009"
 
 === Model
+
 You can add i18n support to any classes, including ORM models:
 
   require 'r18n-core/translated'
@@ -338,6 +346,7 @@ You can add i18n support to any classes, including ORM models:
 See R18n::Translated for documentation.
 
 === Locale
+
 All supported locales are storage in R18n gem at +locales+ dir. If you want to
 add your locale, please write me to andrey@sitnik.ru.
 
@@ -360,6 +369,7 @@ You can get from locale:
     locale.week_start #=> :sunday
 
 === Loaders
+
 You can load translations from any ways, not just from YAML files. To load
 translation you must create loader class with 2 methods:
 * <tt>available</tt> – return array of locales of available translations;
@@ -383,7 +393,8 @@ If you want to load translation with some type for filter, use
   # To use pluralization filter (+pl+ type):
   i18n.users(5) #=> "5 users"
 
-=== Extension translations
+=== Extension Translations
+
 For r18n plugin you can add loaders with translations, which will be used with
 application translations. For example, DB plugin may place translations for
 error messages in extension dir. R18n contain translations for base words as
@@ -391,7 +402,8 @@ extension dir too.
 
   R18n.extension_places << R18n::Loader::YAML.new('./error_messages/')
 
-== Add locale
+== Add Locale
+
 If R18n hasn’t locale file for your language, please add it. It’s very simple:
 * Create in locales/ file _code_.rb for your language and describe locale.
   Just copy from another locale and change different values.
@@ -410,8 +422,10 @@ _Code_ is RFC 3066 code for your language (for example, “en” for English and
 http://sitnik.ru you find another contact addresses).
 
 == License
+
 R18n is licensed under the GNU Lesser General Public License version 3.
 You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
 
 == Author
+
 Andrey “A.I.” Sitnik <andrey@sitnik.ru>

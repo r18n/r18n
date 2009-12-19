@@ -2,14 +2,14 @@
 
 R18n-rails is a gem to add out-of-box R18n support to Rails I18n.
 
-It is just a wrap for R18n core and R18n Rails API libraries. See R18n core
+It is just a wrapper for R18n Rails API and R18n core libraries. See R18n core
 documentation for more information.
 
 == Features
 
 R18n for Rails has full compatibility with Rails I18n, but add extra features:
 
-=== R18n syntax
+=== R18n Syntax
 
 You can use more compact, explicit and ruby-style syntax.
 
@@ -31,7 +31,7 @@ R18n extend +t+ helper to add optional R18n syntax:
 === Filters
 
 R18n has flexible architecture based on filters. Variables, pluralization,
-untranslated is a common filters, and you can change all of them. For example,
+untranslated are a common filters, and you can change all of them. For example,
 write untranslated keys to file:
 
   R18n::Filters.add(::R18n::Untranslated, :write_untranslated) do
@@ -51,7 +51,7 @@ R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
   i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
   i18n.greater #=> "1 &lt; 2 is true"
 
-=== Model translation
+=== Model Translation
 
 R18n can add i18n support for your ActiveRecord model and any other class:
 
@@ -80,7 +80,7 @@ R18n can add i18n support for your ActiveRecord model and any other class:
      
      post.title = 'Другая' # will user title_ru, by user first locale
 
-=== Time fomatters
+=== Time Fomatters
 
 R18n add +full+ time formatter based on locale info:
 
@@ -106,7 +106,7 @@ rules for non-English locales:
   t.user.count(2)  #=> "2 пользователя"
   t.user.count(21) #=> "21 пользователь"
 
-=== Autodetect user locales
+=== Autodetect User Locales
 
 R18n automatically generate fallback for current user, based on
 user locales list from HTTP_ACCEPT_LANGUAGE, locale info (in some country people
@@ -126,7 +126,7 @@ to send e-mail for English admin on error with French user:
   admin_i18n = R18n::I18n.new(@admin_locales, Rails.root + 'app/i18n')
   send_email(admin_i18n.error_messages)
 
-== How to
+== How To
 
 1. Add <tt>r18n-rails</tt> gem to your <tt>config/environment.rb</tt>:
    
