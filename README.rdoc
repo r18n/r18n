@@ -1,0 +1,41 @@
+== R18n
+
+R18n is a i18n tool to translate your Ruby application to several languages.
+
+It contain core gem and out-of-box wrapper plugins for frameworks or
+environments.
+
+For more features description and tutorial see <tt>r18n-core</tt> dir.
+For special How To see plugins dirs for your environment.
+
+Merb R18n plugin is maintained by teamon: http://github.com/teamon/merb-i18n/
+
+=== R18n Features
+
+* Nice Ruby-style syntax.
+* Filters.
+* Flexible locales.
+* Custom translations loaders.
+* Translation support for any classes.
+* Time and number localization.
+* Several user language support.
+
+=== Small example
+
+i18n/en.yml:
+
+  user:
+    edit: Edit user
+    name: User name is %1
+    count: !!pl
+      1: There is 1 user
+      n: There are %1 users
+
+example.rb:
+
+  i18n.user.edit         #=> "Edit user"
+  i18n.user.name('John') #=> "User name is John"
+  i18n.user.count(5)     #=> "There are 5 users"
+  
+  i18n.not.exists | 'default' #=> "default"
+  i18n.not.exists.translated? #=> false
