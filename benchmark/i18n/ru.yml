@@ -1,8 +1,4 @@
 ru:
-  time:
-    formats:
-      default: "%B %d, %Y %H:%M"
-  
   user:
     login: "Логин"
     name: "Имя"
@@ -16,3 +12,9 @@ ru:
   users:
     new:
       title: "Новый пользователь"
+  
+  date:
+    month_names: [~, января, февраля, марта, апреля, мая, июня, июля, августа, сентября, октября, ноября, декабря]
+  time:
+    formats:
+      default: "%d %B, %Y %H:%M"

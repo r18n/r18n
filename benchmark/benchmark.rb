@@ -18,8 +18,10 @@ end
 gem 'i18n'
 require 'i18n'
 
-I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
+I18n::Backend::Simple.send(:include, I18n::Backend::InterpolationCompiler)
+I18n::Backend::Simple.send(:include, I18n::Backend::Fast)
 
 RBench.run(1000) do
   
@@ -39,7 +41,7 @@ RBench.run(1000) do
       
       I18n.load_path = [Dir.glob(dir.join('i18n/*.{yml,rb}').to_s)]
       I18n.locale = :ru
-      I18n.fallbacks[:ru] = [:ru, :fr, :en]
+      I18n.fallbacks[:ru] = [:ru, :en]
       I18n.available_locales
     }
   end
@@ -51,7 +53,7 @@ RBench.run(1000) do
     }
     i18n {
       I18n.locale = :ru
-      I18n.fallbacks[:ru] = [:ru, :fr, :en]
+      I18n.fallbacks[:ru] = [:ru, :en]
       I18n.available_locales
     }
   end

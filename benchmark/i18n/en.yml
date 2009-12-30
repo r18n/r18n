@@ -1,4 +1,8 @@
 en:
+  time:
+    formats:
+      default: "%B %d, %Y %H:%M"
+  
   user:
     login: Login
     name: Name
