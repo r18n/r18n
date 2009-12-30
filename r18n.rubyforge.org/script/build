@@ -9,26 +9,36 @@ require 'sass'
 ROOT    = Pathname.new(__FILE__).dirname.parent.realpath
 PUBLIC  = ROOT.join('public')
 CONTENT = ROOT.join('content')
+LAYOUT  = ROOT.join('layout')
+DOCS    = ROOT.join('docs')
 
 PUBLIC.rmtree if PUBLIC.exist?
-
 PUBLIC.mkpath
 
-require ROOT + 'script/filters'
-
-Pathname.glob(CONTENT.join('**/*.haml').to_s) do |haml|
-  content = File.read(haml)
-  file = PUBLIC + haml.relative_path_from(CONTENT).dirname + 
-         haml.basename('.haml')
-  file.dirname.mkpath
-  File.open(file, 'w') do |io|
-    io.write Haml::Engine.new(content, :ugly => true).render
-  end
+def readme(project)
+  input =  ROOT.join('..').join(project).relative_path_from(ROOT)
+  output = DOCS.join(project)
+  `rdoc -q -o #{output} #{input}/README.rdoc`
+  File.read output.join("files/__/#{project}/README_rdoc.html")
 end
 
-Pathname.glob(CONTENT.join('**/*.sass').to_s) do |sass|
+def part(project, title)
+  h2 = Regexp.escape("<h2>#{title}</h2>")
+  match = readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1]
+end
+
+layout = Haml::Engine.new(File.read(LAYOUT.join('layout.haml')))
+Pathname.glob(CONTENT.join('**/*.rb').to_s) do |file|
+  html = PUBLIC + file.relative_path_from(CONTENT).dirname +
+        (file.basename('.rb').to_s + '.html')
+  html.dirname.mkpath
+  load file
+  File.open(html, 'w') { |io| io.write layout.render(self) }
+end
+
+Pathname.glob(LAYOUT.join('**/*.sass').to_s) do |sass|
   content = File.read(sass)
-  css = PUBLIC + sass.relative_path_from(CONTENT).dirname + 
+  css = PUBLIC + sass.relative_path_from(LAYOUT).dirname +
         (sass.basename('.sass').to_s + '.css')
   css.dirname.mkpath
   File.open(css, 'w') do |io|
@@ -36,10 +46,12 @@ Pathname.glob(CONTENT.join('**/*.sass').to_s) do |sass|
   end
 end
 
-Pathname.glob(CONTENT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
+Pathname.glob(LAYOUT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
   next if from.directory?
   next if '.sass' == from.extname or '.haml' == from.extname
-  to = PUBLIC + from.relative_path_from(CONTENT)
+  to = PUBLIC + from.relative_path_from(LAYOUT)
   to.dirname.mkpath
   to.make_link(from)
 end
+
+DOCS.rmtree if DOCS.exist?
