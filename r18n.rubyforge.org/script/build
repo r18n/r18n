@@ -28,11 +28,11 @@ def part(project, title)
 end
 
 layout = Haml::Engine.new(File.read(LAYOUT.join('layout.haml')))
-Pathname.glob(CONTENT.join('**/*.rb').to_s) do |file|
+Pathname.glob(CONTENT.join('**/*.haml').to_s) do |file|
   html = PUBLIC + file.relative_path_from(CONTENT).dirname +
-        (file.basename('.rb').to_s + '.html')
+        (file.basename('.haml').to_s + '.html')
   html.dirname.mkpath
-  load file
+  @content = Haml::Engine.new(File.read(file)).render(self)
   File.open(html, 'w') { |io| io.write layout.render(self) }
 end
 
