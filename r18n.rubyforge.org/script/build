@@ -2,6 +2,7 @@
 # Compile HAML and SASS and copy all files to public/
 
 require 'pathname'
+require 'yaml'
 require 'rubygems'
 require 'haml'
 require 'sass'
@@ -27,12 +28,18 @@ def part(project, title)
   match = readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1]
 end
 
+def selected_if_eql(a, b)
+  a == b ? { :class => 'selected' } : {}
+end
+
 layout = Haml::Engine.new(File.read(LAYOUT.join('layout.haml')))
+@menu = YAML.load_file(CONTENT.join('menu.yml'))
+
 Pathname.glob(CONTENT.join('**/*.haml').to_s) do |file|
-  html = PUBLIC + file.relative_path_from(CONTENT).dirname +
-        (file.basename('.haml').to_s + '.html')
-  html.dirname.mkpath
+  @page = file.basename('.haml').to_s
   @content = Haml::Engine.new(File.read(file)).render(self)
+  html = PUBLIC + file.relative_path_from(CONTENT).dirname + "#{@page}.html"
+  html.dirname.mkpath
   File.open(html, 'w') { |io| io.write layout.render(self) }
 end
 
