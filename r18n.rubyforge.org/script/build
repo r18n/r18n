@@ -23,6 +23,7 @@ end
 def format(content)
   content.gsub(/(<pre>[\w\W]*?<\/pre>)/) { |code|
     code.gsub!(/\n  /, "\n")
+    code.gsub!(/!!([^\s]*)(\s)/, '<span class="type">!!\\1</span>\\2')
     code.gsub(/(#[^\n]*)\n/) do |comment|
       if '{' == comment[1..1]
         comment
