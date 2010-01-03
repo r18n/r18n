@@ -21,16 +21,16 @@ default:
 
 To access translation you can call methods with same names:
 
-  i18n.user.edit         #=> "Edit user"
-  i18n.user.name('John') #=> "User name is John"
-  i18n.user.count(5)     #=> "There are 5 users"
+  t.user.edit         #=> "Edit user"
+  t.user.name('John') #=> "User name is John"
+  t.user.count(5)     #=> "There are 5 users"
   
-  i18n.not.exists | 'default' #=> "default"
-  i18n.not.exists.translated? #=> false
+  t.not.exists | 'default' #=> "default"
+  t.not.exists.translated? #=> false
 
 If translation key has name of Object method you can use another way:
 
-  i18n[:methods] #=> "Methods"
+  t[:methods] #=> "Methods"
 
 === Filters
 
@@ -44,8 +44,8 @@ R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
   greater: !!escape
     1 < 2 is true
 
-  i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
-  i18n.greater #=> "1 &lt; 2 is true"
+  t.hi      #=> "<p><strong>Hi</strong>, people!</p>"
+  t.greater #=> "1 &lt; 2 is true"
 
 === Flexibility
 
@@ -56,20 +56,20 @@ filter from <tt>r18n-rails-api</tt> gem:
   greeting: "Hi, {{name}}"
 
   R18n::Filters.on(:named_variables)
-  i18n.greeting(name: 'John') #=> "Hi, John"
+  t.greeting(name: 'John') #=> "Hi, John"
 
 === Flexible Locales
 
 Locale can extend Locale class, so locales are very flexible. For example,
 English locale extend time formatters:
 
-  i18n.l Date.now, :full #=> "30th of November, 2009"
+  l Date.now, :full #=> "30th of November, 2009"
 
 Or Russian has built-in different pluralization without any lambdas in YAML:
 
-  i18n.user.count(1) #=> "1 пользователь"
-  i18n.user.count(2) #=> "2 пользователя"
-  i18n.user.count(5) #=> "5 пользователей"
+  t.user.count(1) #=> "1 пользователь"
+  t.user.count(2) #=> "2 пользователя"
+  t.user.count(5) #=> "5 пользователей"
 
 === Loaders
 
@@ -85,7 +85,7 @@ need to create loader object with 2 methods: +available+ and +load+:
     end
   end
   
-  i18n = R18n::I18n.new(user_locales, DBLoader.new)
+  R18n.set R18n::I18n.new(user_locales, DBLoader.new)
 
 You can also set a list of different translation places or set extension places,
 which will be used only with application translation (useful for plugins).
@@ -112,10 +112,10 @@ You can translate any class, including ORM models:
 
 R18n can localize numbers and time:
 
-  i18n.l -5000                 #=> "−5,000"
-  i18n.l Time.now              #=> "30/11/2009 14:36"
-  i18n.l Time.now, :full       #=> "30th of November, 2009 14:37"
-  i18n.l Time.now - 60, :human #=> "1 minute ago"
+  l -5000                 #=> "−5,000"
+  l Time.now              #=> "30/11/2009 14:36"
+  l Time.now, :full       #=> "30th of November, 2009 14:37"
+  l Time.now - 60, :human #=> "1 minute ago"
 
 === Several User Languages
 
@@ -167,18 +167,18 @@ In translation you can use:
 To get translated string use method with key name or square brackets [] for
 keys, which is same with Object methods (+class+, +inspect+, etc):
 
-  i18n.robot    #=> "This is robot"
-  i18n[:robot]  #=> "This is robot"
+  t.robot    #=> "This is robot"
+  t[:robot]  #=> "This is robot"
 
 Translation may be hierarchical:
 
-  i18n.post.add       #=> "Add post"
-  i18n[:post][:add] #=> "Add post"
+  t.post.add       #=> "Add post"
+  t[:post][:add] #=> "Add post"
 
 If locale willn’t be found in user locale R18n will search it in they sublocales
 or in another locale, which user know:
 
-  i18n.no.in.english #=> "В английском нет"
+  t.no.in.english #=> "В английском нет"
 
 Translated string has +locale+ method and you can get it locale (Locale instance
 or code string if locale is’t supported in R18n):
@@ -189,13 +189,13 @@ You can replace some parameters in translated string by put it as arguments:
   
   name: "My name is %1"
 
-  i18n.name('John') #=> "My name is John"
+  t.name('John') #=> "My name is John"
 
 Pluralizable messages get item count from first argument:
 
-  i18n.robots(0)  #=> "No robots"
-  i18n.robots(1)  #=> "One robot"
-  i18n.robots(50) #=> "50 robots"
+  t.robots(0)  #=> "No robots"
+  t.robots(1)  #=> "One robot"
+  t.robots(50) #=> "50 robots"
 
 If there isn’t pluralization for some number, translation will be use +n+. If
 there isn’t locale file for translation, it will be use English pluralization
@@ -203,19 +203,19 @@ rule (0, 1 and +n+).
 
 You can check, is message has translation:
 
-  i18n.post.add.translated?   #=> true
-  i18n.not.exists.translated? #=> false
+  t.post.add.translated?   #=> true
+  t.not.exists.translated? #=> false
 
 For untranslated strings you can set default value:
 
-  i18n.not.exists | 'default' #=> "default"
+  t.not.exists | 'default' #=> "default"
 
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.
 
-  i18n.yes    #=> "Yes"
-  i18n.cancel #=> "Cancel"
-  i18n.delete #=> "Delete"
+  t.yes    #=> "Yes"
+  t.cancel #=> "Cancel"
+  t.delete #=> "Delete"
 
 === Filters
 
@@ -229,7 +229,7 @@ from Markdown syntax, etc.
     content + '!'
   end
   
-  i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
+  t.filtered('_') #=> "This_content_will_be_processed_by_filter!"
 
 You can also add global filters for all translated strings:
 
@@ -245,7 +245,7 @@ need to escape HTML in some translations, just set <tt>!!escape</tt> YAML type:
   greater: !!escape
     1 < 2 is true
 
-  i18n.greater #=> "1 &lt; 2 is true"
+  t.greater #=> "1 &lt; 2 is true"
 
 If you develop web application and want to escape HTML in all translations, just
 activate global escape filter:
@@ -259,7 +259,7 @@ disable escaping in some special value.
     <b>Warning</b>
 
   R18n::Filters.on(:global_escape_html)
-  i18n.warning #=> "<b>Warning</b>"
+  t.warning #=> "<b>Warning</b>"
 
 ==== Markdown
 
@@ -268,7 +268,7 @@ To use Markdown in your translations you must install maruku gem:
   hi: !!markdown
     **Hi**, people!
 
-  i18n.hi #=> "<p><strong>Hi</strong>, people!</p>"
+  t.hi #=> "<p><strong>Hi</strong>, people!</p>"
 
 
 ==== Textile
@@ -278,7 +278,7 @@ To use Textile in your translations you must install RedCloth gem:
   alarm: !!textile
     It will delete _all_ users!
 
-  i18n.alarm #=> "<p>It will delete <em>all</em> users!</p>"
+  t.alarm #=> "<p>It will delete <em>all</em> users!</p>"
 
 ==== Lambdas
 
@@ -286,7 +286,7 @@ You can use lambdas in your translations.
 
   sum: !!proc |x, y| x + y
 
-  i18n.sum(1, 2) #=> 3
+  t.sum(1, 2) #=> 3
 
 If it isn’t secure in your application (for example, user can change
 translations), you can disable it:
@@ -297,7 +297,7 @@ translations), you can disable it:
 
 You can print number and float according to the rules of the user locale:
 
-  i18n.l -12000.5 #=> "−12,000.5"
+  l -12000.5 #=> "−12,000.5"
 
 Number and float formatters will also put real typographic minus and put
 non-break thin spaces (for locale, which use it as digit separator).
@@ -305,15 +305,15 @@ non-break thin spaces (for locale, which use it as digit separator).
 You can translate months and week days names in Time, Date and DateTime by
 +strftime+ method:
 
-  i18n.l Time.now, '%B'  #=> "September"
+  l Time.now, '%B'  #=> "September"
 
 R18n has some time formats for locales: <tt>:human</tt>, <tt>:full</tt> and
 <tt>:standard</tt> (by default):
 
-  i18n.l Time.now, :human #=> "now"
-  i18n.l Time.now, :full  #=> "August 9th, 2009 21:47"
-  i18n.l Time.now         #=> "08/09/2009 21:41"
-  i18n.l Time.now.to_date #=> "08/09/2009"
+  l Time.now, :human #=> "now"
+  l Time.now, :full  #=> "August 9th, 2009 21:47"
+  l Time.now         #=> "08/09/2009 21:41"
+  l Time.now.to_date #=> "08/09/2009"
 
 === Model
 
@@ -376,13 +376,13 @@ translation you must create loader class with 2 methods:
 * <tt>load(locale)</tt> – return Hash of translation.
 And put it instance to <tt>R18n::I18n.new</tt>:
 
-  R18n::I18n.new('en', MyLoader.new(loader_param))
+  R18n.set R18n::I18n.new('en', MyLoader.new(loader_param))
 
 You can set your loader as default and pass to <tt>R18n::I18n.new</tt> only
 constructor argument:
 
-  R18m.default_loader = MyLoader
-  R18n::I18n.new('en', loader_param)
+  R18n.default_loader = MyLoader
+  R18n.set R18n::I18n.new('en', loader_param)
 
 If you want to load translation with some type for filter, use
 <tt>R18n::Typed</tt> struct:
@@ -391,7 +391,7 @@ If you want to load translation with some type for filter, use
   { 'users' => R18n::Typed.new('pl', { 1 => '1 user', 'n' => '%1 users' }) }
   
   # To use pluralization filter (+pl+ type):
-  i18n.users(5) #=> "5 users"
+  t.users(5) #=> "5 users"
 
 === Extension Translations
 
