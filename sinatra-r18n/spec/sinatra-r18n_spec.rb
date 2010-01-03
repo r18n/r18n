@@ -58,4 +58,10 @@ describe Sinatra::R18n do
     last_response.body.should == "post.<span style='color: red'>no</span>"
   end
   
+  it "should localize objects" do
+    get '/time'
+    last_response.should be_ok
+    last_response.body.should == "01/01/1970 00:00"
+  end
+  
 end

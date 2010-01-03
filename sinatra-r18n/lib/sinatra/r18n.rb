@@ -30,7 +30,7 @@ module Sinatra #::nodoc::
     module Helpers
       # Return tool for i18n support. It will be R18n::I18n object, see it
       # documentation for more information.
-      def i18n
+      def r18n
         unless @i18n
           ::R18n::I18n.default = options.default_locale
           
@@ -46,6 +46,18 @@ module Sinatra #::nodoc::
         else
           @i18n
         end
+      end
+      alias i18n r18n
+      
+      
+      # Translate message. Alias to <tt>r18n.t</tt>.
+      def t(*params)
+        i18n.t(*params)
+      end
+      
+      # Localize object. Alias to <tt>r18n.l</tt>.
+      def l(*params)
+        i18n.l(*params)
       end
     end
   

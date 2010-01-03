@@ -58,19 +58,19 @@ information.
    
 5. Use translation messages in view. For example in HAML:
      
-     %p= i18n.post.friends
-     %p= i18n.post.tags(@post.tags.join(', '))
+     %p= t.post.friends
+     %p= t.post.tags(@post.tags.join(', '))
      
-     %h2= i18n.comments(@post.comments.size)
+     %h2= t.comments(@post.comments.size)
    
 6. Print localized time and numbers. For example:
    
-     i18n.l @post.created_at, :human
+     l @post.created_at, :human
    
 7. Print available translations. For example in HAML:
    
      %ul
-       - i18n.available_locales.each do |locale|
+       - r18n.available_locales.each do |locale|
          %li
            %a{ href: "/#{locale.code}/" }= locale.title
 
