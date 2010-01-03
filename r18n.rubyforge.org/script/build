@@ -41,9 +41,10 @@ def build
   PUBLIC.mkpath
 
   layout = Haml::Engine.new(File.read(LAYOUT + 'layout.haml'), :ugly => true)
-  @menu = YAML.load_file(CONTENT.join('menu.yml'))
+  @config = YAML.load_file(CONTENT.join('config.yml'))
 
   Pathname.glob(CONTENT.join('**/*.haml').to_s) do |file|
+    @keywords = @config['keywords']
     @page = file.basename('.haml').to_s
     @content = Haml::Engine.new(File.read(file)).render(self)
     html = PUBLIC + file.relative_path_from(CONTENT).dirname + "#{@page}.html"
