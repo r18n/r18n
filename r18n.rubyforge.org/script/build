@@ -22,8 +22,14 @@ end
 
 def format(content)
   content.gsub(/(<pre>[\w\W]*?<\/pre>)/) { |code|
-    code.gsub(/\n  /, "\n").
-      gsub(/(#[^\n]*)(\n)/, '<span class="comment">\\1</span>\\2')
+    code.gsub!(/\n  /, "\n")
+    code.gsub(/(#[^\n]*)\n/) do |comment|
+      if '{' == comment[1..1]
+        comment
+      else
+        "<span class=\"comment\">#{comment[0..-2]}</span>\n"
+      end
+    end
   }.gsub('<h3>', '<h2>').gsub('</h3>', '</h2>')
 end
 
