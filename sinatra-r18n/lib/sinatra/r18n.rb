@@ -50,12 +50,12 @@ module Sinatra #::nodoc::
       alias i18n r18n
       
       
-      # Translate message. Alias to <tt>r18n.t</tt>.
+      # Translate message. Alias for <tt>r18n.t</tt>.
       def t(*params)
         i18n.t(*params)
       end
       
-      # Localize object. Alias to <tt>r18n.l</tt>.
+      # Localize object. Alias for <tt>r18n.l</tt>.
       def l(*params)
         i18n.l(*params)
       end

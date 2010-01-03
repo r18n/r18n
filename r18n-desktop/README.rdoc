@@ -29,8 +29,6 @@ information.
        0: No files
        1: One file
        n: %1 files
-     
-     author: !!proc |name| "This file was created by #{name.capitalize}"
    
 3. Add R18n to your application:
    
@@ -38,29 +36,36 @@ information.
    
 4. Load I18n object:
    
-     i18n = R18n.from_env 'i18n/'
+     R18n.from_env 'i18n/'
    
    Or, if user can optional set locale manually:
    
-     i18n = R18n.from_env 'i18n/', manual_locale
+     R18n.from_env 'i18n/', manual_locale
+
+5. Include mixin to use helpers:
    
-5. Use translation messages to user. For example:
+     include R18n::Helpers
+      
+6. Use translation messages to user. For example:
    
-     i18n.file.add             #=> "Add file"
-     i18n.file.delete('Test')  #=> "Delete file Test"
-     i18n.files(1)             #=> "One file"
-     i18n.files(12)            #=> "12 files"
-     i18n.author('user')       #=> "This file was created by User"
+     t.file.add            #=> "Add file"
+     t.file.delete('Test') #=> "Delete file Test"
+     t.files(1)            #=> "One file"
+     t.files(12)           #=> "12 files"
      
-     i18n.l -12000.5           #=> "−12,000.5"
-     
-     i18n.l Time.now           #=> "08/09/2009 21:41"
-     i18n.l Time.now, :human   #=> "now"
-     i18n.l Time.now, :full    #=> "August 9th, 2009 21:41"
+     l -12000.5          #=> "−12,000.5"
+     l Time.now          #=> "08/09/2009 21:41"
+     l Time.now, :human  #=> "now"
+     l Time.now, :full   #=> "August 9th, 2009 21:41"
      
      # Base translation
-     i18n.ok                   #=> "OK"
-     i18n.cancel               #=> "Cancel"
+     t.ok     #=> "OK"
+     t.cancel #=> "Cancel"
+
+7. You can print user locale or available locales:
+   
+     "Your locale: " + r18n.locale.title
+     "Select another: " + r18n.available_locales.map { |i| i.title }.join(', ')
 
 == License
 
