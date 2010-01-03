@@ -20,8 +20,12 @@ def readme(project)
   File.read output.join("files/__/#{project}/README_rdoc.html")
 end
 
-def format(content)
-  content.gsub(/(<pre>[\w\W]*?<\/pre>)/) { |code|
+def pick_up_headers(content)
+  content.gsub('<h3>', '<h2>').gsub('</h3>', '</h2>')
+end
+
+def format_code(content)
+  content.gsub(/(<pre>[\w\W]*?<\/pre>)/) do |code|
     code.gsub!(/\n  /, "\n")
     code.gsub!(/!!([^\s]*)(\s)/, '<span class="type">!!\\1</span>\\2')
     code.gsub(/(#[^\n]*)\n/) do |comment|
@@ -31,12 +35,12 @@ def format(content)
         "<span class=\"comment\">#{comment[0..-2]}</span>\n"
       end
     end
-  }.gsub('<h3>', '<h2>').gsub('</h3>', '</h2>')
+  end
 end
 
 def part(project, title)
   h2 = Regexp.escape("<h2>#{title}</h2>")
-  format(readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1])
+  format_code(readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1])
 end
 
 def selected_if_eql(a, b)
