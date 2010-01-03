@@ -1,0 +1,49 @@
+!red = #b20200
+!menu = 3.8ex
+
+*
+  margin: 0
+  padding: 0
+body
+  font-family: sans-serif
+#header
+  padding: 0 0.5em
+  margin-bottom: 1.5ex
+  height= !menu
+  line-height= !menu
+  background-color: black
+  color: white
+  text-align: center
+  font-size: 140%
+  ul, #name, li
+    display: inline
+  a
+    color: white
+    text-decoration: none
+  #name
+    font-weight: bold
+    padding-right: 0.8em
+    strong
+      color= !red
+  li
+    padding= !menu - 2.9ex 0.25em
+    text-shadow: 1px 1px 0 #777
+    a:hover
+      text-decoration: underline
+  .selected
+    background= !red
+#content
+  width: 35em
+  max-width: 100%
+  margin: 0 auto
+  padding-bottom: 1.5ex
+h1, h2
+  margin: 1ex 0 0.5ex 0
+pre
+  border-left= 0.2em "solid" !red
+  margin: 0.8ex 0 1.5ex -1em
+  padding-left: 0.9em
+  .comment
+    color= !red
+ol li, p
+  margin-top: 1ex

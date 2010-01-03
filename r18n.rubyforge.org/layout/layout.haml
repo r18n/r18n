@@ -3,12 +3,13 @@
   %head
     %meta( http-equiv='Content-Type' content='text/html; charset=UTF-8' )
     %title= @title
+    %link( rel='stylesheet' type='text/css' href='style.css' )
   %body
-    %header
-      #name <strong>R</strong>18n
+    #header
+      %a#name( href='index.html' ) <strong>R</strong>18n
       %ul#menu
         - @menu.map { |i| i.first }.each do |name, title|
-          %li{ selected_if_eql(@page, name) }
-            %a{ :href => "#{name}.html" }
-              = title
-    = @content
+          %li{ selected_if_eql(@page, name) }<
+            %a{ :href => "#{name}.html" }= title
+    #content
+      = @content

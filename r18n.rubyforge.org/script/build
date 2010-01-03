@@ -13,9 +13,6 @@ CONTENT = ROOT.join('content')
 LAYOUT  = ROOT.join('layout')
 DOCS    = ROOT.join('docs')
 
-PUBLIC.rmtree if PUBLIC.exist?
-PUBLIC.mkpath
-
 def readme(project)
   input =  ROOT.join('..').join(project).relative_path_from(ROOT)
   output = DOCS.join(project)
@@ -23,42 +20,56 @@ def readme(project)
   File.read output.join("files/__/#{project}/README_rdoc.html")
 end
 
+def format(content)
+  content.gsub(/(<pre>[\w\W]*?<\/pre>)/) { |code|
+    code.gsub(/\n  /, "\n").
+      gsub(/(#[^\n]*)(\n)/, '<span class="comment">\\1</span>\\2')
+  }.gsub('<h3>', '<h2>').gsub('</h3>', '</h2>')
+end
+
 def part(project, title)
   h2 = Regexp.escape("<h2>#{title}</h2>")
-  match = readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1]
+  format(readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1])
 end
 
 def selected_if_eql(a, b)
   a == b ? { :class => 'selected' } : {}
 end
 
-layout = Haml::Engine.new(File.read(LAYOUT.join('layout.haml')))
-@menu = YAML.load_file(CONTENT.join('menu.yml'))
+def build
+  PUBLIC.rmtree if PUBLIC.exist?
+  PUBLIC.mkpath
 
-Pathname.glob(CONTENT.join('**/*.haml').to_s) do |file|
-  @page = file.basename('.haml').to_s
-  @content = Haml::Engine.new(File.read(file)).render(self)
-  html = PUBLIC + file.relative_path_from(CONTENT).dirname + "#{@page}.html"
-  html.dirname.mkpath
-  File.open(html, 'w') { |io| io.write layout.render(self) }
-end
+  layout = Haml::Engine.new(File.read(LAYOUT + 'layout.haml'), :ugly => true)
+  @menu = YAML.load_file(CONTENT.join('menu.yml'))
 
-Pathname.glob(LAYOUT.join('**/*.sass').to_s) do |sass|
-  content = File.read(sass)
-  css = PUBLIC + sass.relative_path_from(LAYOUT).dirname +
-        (sass.basename('.sass').to_s + '.css')
-  css.dirname.mkpath
-  File.open(css, 'w') do |io|
-    io.write Sass::Engine.new(content, :style => :compressed).render
+  Pathname.glob(CONTENT.join('**/*.haml').to_s) do |file|
+    @page = file.basename('.haml').to_s
+    @content = Haml::Engine.new(File.read(file)).render(self)
+    html = PUBLIC + file.relative_path_from(CONTENT).dirname + "#{@page}.html"
+    html.dirname.mkpath
+    File.open(html, 'w') { |io| io.write layout.render(self) }
   end
+
+  Pathname.glob(LAYOUT.join('**/*.sass').to_s) do |sass|
+    content = File.read(sass)
+    css = PUBLIC + sass.relative_path_from(LAYOUT).dirname +
+          (sass.basename('.sass').to_s + '.css')
+    css.dirname.mkpath
+    File.open(css, 'w') do |io|
+      io.write Sass::Engine.new(content, :style => :compressed).render
+    end
+  end
+
+  Pathname.glob(LAYOUT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
+    next if from.directory?
+    next if '.sass' == from.extname or '.haml' == from.extname
+    to = PUBLIC + from.relative_path_from(LAYOUT)
+    to.dirname.mkpath
+    to.make_link(from)
+  end
+
+  DOCS.rmtree if DOCS.exist?
 end
 
-Pathname.glob(LAYOUT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
-  next if from.directory?
-  next if '.sass' == from.extname or '.haml' == from.extname
-  to = PUBLIC + from.relative_path_from(LAYOUT)
-  to.dirname.mkpath
-  to.make_link(from)
-end
-
-DOCS.rmtree if DOCS.exist?
+build
