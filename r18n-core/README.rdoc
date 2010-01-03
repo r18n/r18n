@@ -51,7 +51,7 @@ R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
 Translation variables and pluralization (“1 comment”, “5 comments”) are filters
 too. So you can extend or replace it. For example, you can use named variables
-filter from +r18n-rails-api+ gem:
+filter from <tt>r18n-rails-api</tt> gem:
 
   greeting: "Hi, {{name}}"
 

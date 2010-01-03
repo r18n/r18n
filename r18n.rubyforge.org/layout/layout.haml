@@ -5,11 +5,15 @@
     %title= @title
     %link( rel='stylesheet' type='text/css' href='style.css' )
   %body
+    #ribbon
+      %a( href='http://github.com/ai/r18n' )
+        %span Fork me on GitHub
     #header
-      %a#name( href='index.html' ) <strong>R</strong>18n
-      %ul#menu
-        - @menu.map { |i| i.first }.each do |name, title|
-          %li{ selected_if_eql(@page, name) }<
-            %a{ :href => "#{name}.html" }= title
+      %div
+        %a#name( href='index.html' ) <strong>R</strong>18n
+        %ul#menu
+          - @menu.map { |i| i.first }.each do |name, title|
+            %li{ selected_if_eql(@page, name) }<
+              %a{ :href => "#{name}.html" }= title
     #content
       = @content

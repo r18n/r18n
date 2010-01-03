@@ -1,49 +1,98 @@
-!red = #b20200
-!menu = 3.8ex
+!red = #9a0000
+!menu = 5.5ex
+!width = 35em
 
 *
   margin: 0
   padding: 0
 body
   font-family: sans-serif
+  line-height: 140%
 #header
-  padding: 0 0.5em
-  margin-bottom: 1.5ex
-  height= !menu
-  line-height= !menu
-  background-color: black
   color: white
-  text-align: center
-  font-size: 140%
-  ul, #name, li
-    display: inline
+  background-color: black
+  div
+    width= !width
+    height= !menu
+    line-height= !menu
+    margin: 0 auto
+    padding: 0 0.5em 0 2em
+  ul, #name, li, li a
+    display: inline-block
   a
     color: white
     text-decoration: none
+    font-size: 140%
   #name
     font-weight: bold
     padding-right: 0.8em
     strong
       color= !red
   li
-    padding= !menu - 2.9ex 0.25em
-    text-shadow: 1px 1px 0 #777
+    a
+      padding: 0 0.25em
+      text-shadow: 1px 1px 0 #777
     a:hover
       text-decoration: underline
   .selected
-    background= !red
+    a
+      background= !red
 #content
-  width: 35em
+  width= !width
   max-width: 100%
   margin: 0 auto
-  padding-bottom: 1.5ex
-h1, h2
-  margin: 1ex 0 0.5ex 0
+  padding: 2ex 0.5em 2ex 2em
+h1
+  margin: 1.5ex 0 1ex 0
+  line-height: 120%
+h2
+  margin: 1.5ex 0 1ex 0
+  line-height: 120%
 pre
   border-left= 0.2em "solid" !red
   margin: 0.8ex 0 1.5ex -1em
   padding-left: 0.9em
+  line-height: 130%
   .comment
     color= !red
 ol li, p
   margin-top: 1ex
+#ribbon
+  position: absolute
+  top: 0
+  right: 0
+  overflow: hidden
+  height: 10em
+  a
+    display: block
+    text-decoration: none
+    font-size: 90%
+    letter-spacing: -0.1px
+    padding: 0.25em 0
+    position: relative
+    top: 3em
+    right: -3em
+    -moz-transform: rotate(45deg)
+    -webkit-transform: rotate(45deg)
+    transform: rotate(45deg)
+    background= !red
+    background= "-webkit-gradient(linear, 0% 100%, 0% 0%, from(#a90000), to("!red"))"
+    color: white
+    -webkit-box-shadow: 0px 0px 1.5ex #888
+    -moz-box-shadow: 0px 0px 13px #888
+    box-shadow: 0px 0px 13px #888
+    span
+      padding: 0.1em 3em
+      border: 1px solid #cf7070
+  a:hover span
+    text-decoration: underline
+
+@media print
+  #header, #ribbon
+    display: none
+  #content
+    width: 100%
+  pre
+    border-color: gray
+    .comment
+      color: gray
