@@ -1,5 +1,6 @@
 menu:
 - index: Why
+- tutorial: Tutorial
 - rails: Rails
 - sinatra: Sinatra
 - desktop: Desktop

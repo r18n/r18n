@@ -172,7 +172,7 @@ keys, which is same with Object methods (+class+, +inspect+, etc):
 
 Translation may be hierarchical:
 
-  t.post.add       #=> "Add post"
+  t.post.add     #=> "Add post"
   t[:post][:add] #=> "Add post"
 
 If locale willn’t be found in user locale R18n will search it in they sublocales
