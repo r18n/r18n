@@ -1,3 +1,14 @@
+== 0.4 (D-Day)
+* Rails I18n compatibility.
+* Rewrite a lot of core code to fast and cleanup version.
+* Custom translation loaders.
+* Add reload! method to I18n.
+* Add t and l helpers to Sinatra and desktop plugins.
+* Syntax sugar for default values.
+* Named variables.
+* New locale API.
+* Change API for extension translations.
+
 == 0.3.2 (Pidgin)
 * Print path of untranslated string by filters.
 * Add Italian locale (by Guido De Rosa).
