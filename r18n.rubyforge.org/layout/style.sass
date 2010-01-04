@@ -59,6 +59,8 @@ pre
     font-weight: bold
 ol li, p
   margin-top: 1ex
+ol ol li
+  list-style-type: lower-alpha
 #ribbon
   position: absolute
   top: 0
@@ -68,12 +70,13 @@ ol li, p
   a
     display: block
     text-decoration: none
-    font-size: 90%
+    font-size: 85%
+    font-weight: bold
     letter-spacing: -0.1px
-    padding: 0.25em 0
+    padding: 0.12em 0
     position: relative
-    top: 3em
-    right: -3em
+    top: 3.2em
+    right: -3.2em
     -moz-transform: rotate(45deg)
     -webkit-transform: rotate(45deg)
     transform: rotate(45deg)
@@ -83,10 +86,12 @@ ol li, p
     -webkit-box-shadow: 0px 0px 1.5ex #888
     -moz-box-shadow: 0px 0px 1.5ex #888
     box-shadow: 0px 0px 1.5ex #888
-    span
-      padding: 0.1em 3em
+    div
+      width: 15em
       border: 1px solid #cf7070
-  a:hover span
+      border-width: 1px 0
+      text-align: center
+  a:hover div
     text-decoration: underline
 
 @media print
