@@ -75,7 +75,7 @@ module R18n
     end
     
     def to_s
-      Filters.process(Untranslated, path, @locale, path,
+      Filters.process(Filters.enabled, Untranslated, path, @locale, path,
                       [@translated_path, @untranslated_path, path])
     end
   end

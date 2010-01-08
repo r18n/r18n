@@ -133,10 +133,12 @@ module R18n
               path = "\#{self.class.name}##{name}"
               type = self.class.translation_types[#{name.inspect}]
               if type
-                return R18n::Filters.process(type, result, locale, path, params)
+                return R18n::Filters.process(R18n::Filters.enabled,
+                         type, result, locale, path, params)
               else
                 result = TranslatedString.new(result, locale, path)
-                return R18n::Filters.process_string(result, path, params)
+                return R18n::Filters.process_string(R18n::Filters.enabled,
+                         result, path, params)
               end
             end
             

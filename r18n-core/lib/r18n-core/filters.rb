@@ -30,12 +30,13 @@ module R18n
   #     This content will be processed by filter
   # 
   # Filter function will be receive filtered content as first argument, struct
-  # with filter config as second and filter parameters as next arguments.
+  # with filter config as second and filter parameters as next arguments. You
+  # can set passive filter, which will process translation only on loading.
   # 
   #   R18n::Filters.add('custom_type', :no_space) do |content, config, replace|
   #     content.gsub(' ', replace)
   #   end
-  #   R18n::Filters.add('custom_type') do |content, config, replace|
+  #   R18n::Filters.add('custom_type', :passive => true) do |content, config|
   #     content + '!'
   #   end
   #   
@@ -48,7 +49,7 @@ module R18n
   #   end
   #
   # Filter config contain two parameters: translation locale and path. But it is
-  # OpenStruct and you can add you own parameter to cross-filter communications:
+  # Hash and you can add you own parameter to cross-filter communications:
   # 
   #   R18n::Filters.add(String, :hide_truth) do |content, config|
   #     return content if config[:censorship_check]
@@ -75,55 +76,80 @@ module R18n
   module Filters
     class << self
       # Hash of filter names to Filters.
-      def defined
-        @defined ||= {}
-      end
-      
-      # Hash of types to enabled Filters.
-      def enabled
-        @enabled ||= Hash.new([])
-      end
+      attr_accessor :defined
       
       # Hash of types to all Filters.
-      def by_type
-        @by_type ||= Hash.new([])
-      end
+      attr_accessor :by_type
       
-      # Process +value+ by global filters and filters for special +type+.
-      def process(type, value, locale, path, params)
+      # Hash of types to enabled active filters.
+      attr_accessor :active_enabled
+      
+      # Hash of types to enabled passive filters.
+      attr_accessor :passive_enabled
+      
+      # Hash of types to enabled passive and active filters.
+      attr_accessor :enabled
+      
+      # Process +value+ by filters in +enabled+.
+      def process(enabled, type, value, locale, path, params)
         config = { :locale => locale, :path => path }
         
-        Filters.enabled[type].each { |f| value = f.call(value, config, *params)}
+        enabled[type].each do |filter|
+          value = filter.call(value, config, *params)
+        end
         
         if value.is_a? String
           value = TranslatedString.new(value, locale, path)
-          process_string(value, config, params)
+          process_string(enabled, value, config, params)
         else
           value
         end
       end
       
-      # Process +value+ by global filters.
-      def process_string(value, config, params)
+      # Process +value+ by global filters in +enabled+.
+      def process_string(enabled, value, config, params)
         if config.is_a? String
           config = { :locale => value.locale, :path => config }
         end
-        Filters.enabled[String].each do |f|
+        enabled[String].each do |f|
           value = f.call(value, config, *params)
         end
         value
+      end
+      
+      # Rebuild +active_enabled+ and +passive_enabled+ for +type+.
+      def rebuild_enabled!(type)
+        @passive_enabled[type] = []
+        @active_enabled[type] = []
+        @enabled[type] = []
+        
+        @by_type[type].each do |filter|
+          if filter.enabled?
+            @enabled[type] << filter
+            if filter.passive?
+              @passive_enabled[type] << filter
+            else
+              @active_enabled[type] << filter
+            end
+          end
+        end
       end
       
       # Add new filter for +type+ with +name+ and return filter object. You
       # can use String class as +type+ to add global filter for all translated
       # string.
       # 
-      # Options:
-      # * +position+ – change order on processing several filters for same type.
-      # 
       # Filter content will be sent to +block+ as first argument, struct with
       # config as second and filters parameters will be in next arguments.
+      # 
+      # Options:
+      # * +position+ – change order on processing several filters for same type.
+      #    Note that passive filters will be always run before active.
+      # * +passive+ – if +true+, filter will process only on translation
+      #   loading. Note that you must add all passive before load translation.
       def add(type, name = nil, options = {}, &block)
+        options, name = name, nil if name.is_a? Hash
+        
         unless name
           @last_auto_name ||= 0
           begin
@@ -134,56 +160,60 @@ module R18n
           delete(name)
         end
         
-        filter = Filter.new(name, type, block, true)
-        defined[name] = filter
+        @by_type[type] = [] unless @by_type.has_key? type
         
-        unless enabled.has_key? type
-          enabled[type] = []
-          by_type[type] = []
-        end
+        filter = Filter.new(name, type, block, true, options[:passive])
+        @defined[name] = filter
+        
         if options.has_key? :position
-          enabled[type].insert(options[:position], filter)
-          by_type[type].insert(options[:position], filter)
+          @by_type[type].insert(options[:position], filter)
         else
-          enabled[type] << filter
-          by_type[type] << defined[name]
+          @by_type[type] << filter
         end
+        rebuild_enabled! type
         
         filter
       end
       
       # Delete +filter+ by name or Filter object.
       def delete(filter)
-        filter = defined[filter] unless filter.is_a? Filter
+        filter = @defined[filter] unless filter.is_a? Filter
         return unless filter
         
-        defined.delete(filter.name)
-        by_type[filter.type].delete(filter)
-        enabled[filter.type].delete(filter)
+        @defined.delete(filter.name)
+        @by_type[filter.type].delete(filter)
+        rebuild_enabled! filter.type
       end
       
       # Disable +filter+ by name or Filter object.
       def off(filter)
-        filter = defined[filter] unless filter.is_a? Filter
+        filter = @defined[filter] unless filter.is_a? Filter
         return unless filter
         
         filter.enabled = false
-        enabled[filter.type].delete(filter)
+        rebuild_enabled! filter.type
       end
       
       # Turn on disabled +filter+ by name or Filter object.
       def on(filter)
-        filter = defined[filter] unless filter.is_a? Filter
+        filter = @defined[filter] unless filter.is_a? Filter
         return unless filter
         
         filter.enabled = true
-        enabled[filter.type] = by_type[filter.type].reject { |i| !i.enabled? }
+        rebuild_enabled! filter.type
       end
     end
+    
+    Filters.defined = {}
+    Filters.by_type = Hash.new([])
+    Filters.active_enabled = Hash.new([])
+    Filters.passive_enabled = Hash.new([])
+    Filters.enabled = Hash.new([])
   
-    Filter = Struct.new(:name, :type, :block, :enabled) do
+    Filter = Struct.new(:name, :type, :block, :enabled, :passive) do
       def call(*params); block.call(*params); end
       def enabled?; enabled; end
+      def passive?; passive; end
     end
   end
   
@@ -213,31 +243,31 @@ module R18n
     "#{translated}[#{untranslated}]"
   end
   
-  Filters.add('escape', :escape_html) do |content, config|
+  Filters.add('escape', :escape_html, :passive => true) do |content, config|
     config[:dont_escape_html] = true
     Utils.escape_html(content)
   end
   
-  Filters.add('html', :dont_escape_html) do |content, config|
+  Filters.add('html', :dont_escape_html, :passive => true) do |content, config|
     config[:dont_escape_html] = true
     content
   end
   
-  Filters.add(String, :global_escape_html) do |content, config|
+  Filters.add(String, :global_escape_html, :passive => true) do |html, config|
     if config[:dont_escape_html]
-      content
+      html
     else
-      Utils.escape_html(content)
+      Utils.escape_html(html)
     end
   end
   Filters.off(:global_escape_html)
   
-  Filters.add('markdown', :maruku) do |content, config|
+  Filters.add('markdown', :maruku, :passive => true) do |content, config|
     require 'maruku'
     ::Maruku.new(content).to_html
   end
   
-  Filters.add('textile', :redcloth) do |content, config|
+  Filters.add('textile', :redcloth, :passive => true) do |content, config|
     require 'redcloth'
     ::RedCloth.new(content).to_html
   end

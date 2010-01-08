@@ -220,12 +220,13 @@ See <tt>base/</tt> in dir in gem.
 === Filters
 
 You can also add you own filter for translations: escape HTML entries, convert
-from Markdown syntax, etc.
+from Markdown syntax, etc. Filters can be passive to process translation only on
+loading.
 
   R18n::Filters.add('custom_type', :filter_name) do |content, config, replace|
     content.gsub(' ', replace)
   end
-  R18n::Filters.add('custom_type') do |content, config, replace|
+  R18n::Filters.add('custom_type', :passive => true) do |content, config|
     content + '!'
   end
   

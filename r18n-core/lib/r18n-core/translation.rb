@@ -91,12 +91,21 @@ module R18n
           when Hash
             value = Translation.new(@locale, path, locale, value)
           when String
-            value = TranslatedString.new(value, locale, path)
+            v = TranslatedString.new(value, locale, path)
+            value = Filters.process_string(Filters.passive_enabled, v, path, {})
           when YAML::PrivateType
             value = Typed.new(value.type_id, value.value, locale, path)
+            unless Filters.passive_enabled[value.type].empty?
+              value = Filters.process(Filters.passive_enabled, value.type,
+                                      value.value, value.locale, value.path, {})
+            end
           when Typed
             value.locale = locale
             value.path = path
+            unless Filters.passive_enabled[value.type].empty?
+              value = Filters.process(Filters.passive_enabled, value.type,
+                                      value.value, value.locale, value.path, {})
+            end
           end
           @data[name] = value
         elsif @data[name].is_a? Translation
@@ -107,7 +116,8 @@ module R18n
     
     # Use untranslated filter to print path.
     def to_s
-      Filters.process(Untranslated, @path, @locale, @path, [@path, '', @path])
+      Filters.process(Filters.enabled, Untranslated, @path, @locale, @path,
+                      [@path, '', @path])
     end
     
     # Return +default+.
@@ -133,10 +143,10 @@ module R18n
       value = @data[name.to_s]
       case value
       when TranslatedString
-        Filters.process_string(value, @path, params)
+        Filters.process_string(Filters.active_enabled, value, @path, params)
       when Typed
-        Filters.process(value.type, value.value, value.locale, value.path,
-                        params)
+        Filters.process(Filters.active_enabled, value.type, value.value,
+                        value.locale, value.path, params)
       when nil
         translated = @path.empty? ? '' : "#{@path}."
         Untranslated.new(translated, name.to_s, @locale)

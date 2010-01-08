@@ -6,6 +6,7 @@ describe R18n::Filters do
     @system  = R18n::Filters.defined.values
     @enabled = R18n::Filters.defined.values.reject { |i| !i.enabled? }
     @i18n = R18n::I18n.new('en', DIR)
+    @i18n.reload!
   end
   
   after do
@@ -31,6 +32,20 @@ describe R18n::Filters do
     @i18n.my_tree_filter.should == {'name' => 'value'}
   end
   
+  it "should use passive filters" do
+    filter = mock()
+    filter.should_receive(:process).twice.and_return(1)
+    
+    R18n::Filters.add('my', :passive, :passive => true) { filter.process }
+    
+    @i18n.my_filter.should.should == 'value'
+    @i18n.reload!
+    
+    @i18n.my_tree_filter.should == 1
+    @i18n.my_filter.should == 1
+    @i18n.my_filter.should == 1
+  end
+  
   it "should use cascade filters" do
     filter = R18n::Filters.add('my', :one) { |i, config| i + '1' }
     filter = R18n::Filters.add('my', :two) { |i, config| i + '2' }
@@ -42,7 +57,7 @@ describe R18n::Filters do
     R18n::Filters.instance_variable_set(:@last_auto_name, 0)
     
     R18n::Filters.add('some').name.should == 1
-    R18n::Filters.add('some').name.should == 2
+    R18n::Filters.add('some', :position => 0).name.should == 2
     
     R18n::Filters.add('some', 3)
     R18n::Filters.add('some').name.should == 4
@@ -175,13 +190,16 @@ describe R18n::Filters do
     @i18n.greater.should == '1 < 2 is true'
     
     R18n::Filters.on(:global_escape_html)
+    @i18n.reload!
     @i18n.greater.should == '1 &lt; 2 is true'
     @i18n.html.should == '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;'
   end
   
   it "should have filter to disable global HTML escape" do
     @i18n.no_escape.should == '<b>Warning</b>'
+    
     R18n::Filters.on(:global_escape_html)
+    @i18n.reload!
     @i18n.no_escape.should == '<b>Warning</b>'
   end
   
