@@ -23,7 +23,8 @@ describe R18n::Loader::YAML do
   
   it "should load translation" do
     @loader.load(R18n::Locale.load('ru')).should == {
-      'one' => 'Один', 'in' => {'another' => {'level' => 'Иерархический'}} }
+      'one' => 'Один', 'in' => {'another' => {'level' => 'Иерархический'}},
+      'typed' => R18n::Typed.new('my', 'value') }
   end
   
   it "should return hash by dir" do

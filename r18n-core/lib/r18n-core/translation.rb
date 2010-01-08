@@ -93,12 +93,6 @@ module R18n
           when String
             v = TranslatedString.new(value, locale, path)
             value = Filters.process_string(Filters.passive_enabled, v, path, {})
-          when YAML::PrivateType
-            value = Typed.new(value.type_id, value.value, locale, path)
-            unless Filters.passive_enabled[value.type].empty?
-              value = Filters.process(Filters.passive_enabled, value.type,
-                                      value.value, value.locale, value.path, {})
-            end
           when Typed
             value.locale = locale
             value.path = path

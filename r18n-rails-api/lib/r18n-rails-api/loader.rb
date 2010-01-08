@@ -33,8 +33,8 @@ module R18n
     #   R18n::I18n.new('en',
     #                  R18n::Loader::Rails.new(I18n::Backend::ActiveRecord.new))
     class Rails
-      PLURALIZATIONS = { :zero  => 0, :one => 1, :few => 2, :many => 'n',
-                         :other => 'other' }
+      PLURAL_KEYS = { :zero  => 0, :one => 1, :few => 2, :many => 'n',
+                      :other => 'other' }
       
       # Create new loader for some +backend+ from Rails I18n. Backend must have
       # +reload!+, +init_translations+ and +translations+ methods.
@@ -76,18 +76,21 @@ module R18n
       protected
       
       # Change pluralization and keys to R18n format.
-      def transform(hash)
-        if hash.empty?
-          hash
-        elsif hash.keys.inject(true) { |a, i| a and PLURALIZATIONS.include? i }
-          R18n::Typed.new('pl', Hash[hash.map { |key, value|
-            [PLURALIZATIONS[key],
-            (value.is_a?(Hash) ? transform(value) : value)]
-          }])
+      def transform(value)
+        if value.is_a? Hash
+          if value.empty?
+            value
+          elsif value.keys.inject(true) { |a, i| a and PLURAL_KEYS.include? i }
+            R18n::Typed.new('pl', Hash[value.map { |k, v|
+              [PLURAL_KEYS[k], transform(v)]
+            }])
+          else
+            Hash[value.map { |k, v| [k.to_s, transform(v)] }]
+          end
+        elsif value.is_a? ::YAML::PrivateType
+          Typed.new(value.type_id, value.value)
         else
-          Hash[hash.map { |key, value|
-            [key.to_s, (value.is_a?(Hash) ? transform(value) : value)]
-          }]
+          value
         end
       end
     end

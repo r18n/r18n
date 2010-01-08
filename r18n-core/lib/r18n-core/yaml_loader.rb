@@ -50,7 +50,8 @@ module R18n
       
       # Return Hash with translations for +locale+.
       def load(locale)
-        ::YAML::load(IO.read(File.join(@dir, "#{locale.code.downcase}.yml")))
+        file = File.join(@dir, "#{locale.code.downcase}.yml")
+        transform(::YAML::load(IO.read(file)))
       end
       
       # YAML loader with same +dir+ will be have same +hash+.
@@ -61,6 +62,18 @@ module R18n
       # Is another +loader+ load YAML translations from same +dir+.
       def ==(loader)
         self.class == loader.class and self.dir == loader.dir
+      end
+      
+      # Wrap YAML private types to Typed.
+      def transform(hash)
+        Hash[hash.map { |key, value|
+          if value.is_a? ::YAML::PrivateType
+            value = Typed.new(value.type_id, value.value)
+          elsif value.is_a? Hash
+            value = transform(value)
+          end
+          [key, value]
+        }]
       end
     end
   end

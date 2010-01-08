@@ -5,3 +5,4 @@ en:
     few: Few
     many: Many
     other: Other
+  typed: !!type value
