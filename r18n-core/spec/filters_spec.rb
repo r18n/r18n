@@ -32,9 +32,9 @@ describe R18n::Filters do
   end
   
   it "should use cascade filters" do
-    filter = R18n::Filters.add('my', :one)      { |i, config| i + '1' }
-    filter = R18n::Filters.add('my', :two)      { |i, config| i + '2' }
-    filter = R18n::Filters.add('my', :three, 0) { |i, config| i + '3' }
+    filter = R18n::Filters.add('my', :one) { |i, config| i + '1' }
+    filter = R18n::Filters.add('my', :two) { |i, config| i + '2' }
+    filter = R18n::Filters.add('my', :three, :position => 0) { |i, c| i + '3' }
     @i18n.my_filter.should == 'value312'
   end
   
@@ -101,7 +101,7 @@ describe R18n::Filters do
     R18n::Filters.add('my') { |content, config| config[:new_secret] ? 2 : 1 }
     @i18n.my_filter.should == 1
     
-    R18n::Filters.add('my', nil, 0) do |content, config|
+    R18n::Filters.add('my', :second, :position => 0) do |content, config|
       config[:new_secret] = true
       content
     end

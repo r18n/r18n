@@ -73,16 +73,6 @@ module R18n
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
   #   R18n::Filters.delete(:no_space)
   module Filters
-    Filter = Struct.new(:name, :type, :block, :enabled) do
-      def call(*params)
-        block.call(*params)
-      end
-      
-      def enabled?
-        enabled
-      end
-    end
-    
     class << self
       # Hash of filter names to Filters.
       def defined
@@ -128,12 +118,12 @@ module R18n
       # can use String class as +type+ to add global filter for all translated
       # string.
       # 
-      # Several filters for same type will be call consecutively, but you can
-      # set +position+ in call list.
+      # Options:
+      # * +position+ – change order on processing several filters for same type.
       # 
       # Filter content will be sent to +block+ as first argument, struct with
       # config as second and filters parameters will be in next arguments.
-      def add(type, name = nil, position = nil, &block)
+      def add(type, name = nil, options = {}, &block)
         unless name
           @last_auto_name ||= 0
           begin
@@ -151,9 +141,9 @@ module R18n
           enabled[type] = []
           by_type[type] = []
         end
-        if position
-          enabled[type].insert(position, filter)
-          by_type[type].insert(position, filter)
+        if options.has_key? :position
+          enabled[type].insert(options[:position], filter)
+          by_type[type].insert(options[:position], filter)
         else
           enabled[type] << filter
           by_type[type] << defined[name]
@@ -189,6 +179,11 @@ module R18n
         filter.enabled = true
         enabled[filter.type] = by_type[filter.type].reject { |i| !i.enabled? }
       end
+    end
+  
+    Filter = Struct.new(:name, :type, :block, :enabled) do
+      def call(*params); block.call(*params); end
+      def enabled?; enabled; end
     end
   end
   
