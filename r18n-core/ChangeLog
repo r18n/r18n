@@ -1,3 +1,8 @@
+== 0.4.1 (Lazy Boole)
+* Add passive filters.
+* Receive filter position as option Hash.
+* Fix base translations (by Pavel Kunc).
+
 == 0.4 (D-Day)
 * Rails I18n compatibility.
 * Rewrite a lot of core code to fast and cleanup version.
@@ -46,7 +51,7 @@
 * Ruby 1.9 compatibility.
 * Add German locale (by Benjamin Meichsner).
 
-== 0.2 (Freedom of language)
+== 0.2 (Freedom of Language)
 * Locale class can be extended for special language (for example, Indian locale
   may has another digits grouping).
 * Load translations from several dirs.
