@@ -35,6 +35,11 @@ describe R18n::Translation do
     i18n.not.untranslated_path.should == 'not'
     i18n.not.translated_path.should == ''
   end
+  
+  it "should return translation keys" do
+    i18n = R18n::I18n.new('en', [DIR, TWO])
+    i18n.in._keys.should =~ ['another', 'two']
+  end
 
   it "should return string with locale info" do
     i18n = R18n::I18n.new(['no-LC', 'en'], DIR)

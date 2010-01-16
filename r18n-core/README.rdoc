@@ -210,6 +210,12 @@ For untranslated strings you can set default value:
 
   t.not.exists | 'default' #=> "default"
 
+You can get translation keys, to analyze translation:
+
+  t.counties._keys.each do |county|
+    puts t.counties[county]
+  end
+
 R18n already has translation for common words for most supported locales.
 See <tt>base/</tt> in dir in gem.
 

@@ -114,6 +114,11 @@ module R18n
                       [@path, '', @path])
     end
     
+    # Return current translation keys.
+    def _keys
+      @data.keys
+    end
+    
     # Return +default+.
     def |(default)
       default
