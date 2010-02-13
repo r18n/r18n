@@ -23,7 +23,7 @@ information.
    
      post:
        friends: Post only for friends
-       tags: Post tags: %1
+       tags: Post tags is %1
      
      comments: !!pl
        0: No comments
