@@ -66,14 +66,16 @@ module R18n
       
       # Wrap YAML private types to Typed.
       def transform(hash)
-        Hash[hash.map { |key, value|
+        transformed = {}
+        hash.each_pair do |key, value|
           if value.is_a? ::YAML::PrivateType
             value = Typed.new(value.type_id, value.value)
           elsif value.is_a? Hash
             value = transform(value)
           end
-          [key, value]
-        }]
+          transformed[key] = value
+        end
+        transformed
       end
     end
   end
