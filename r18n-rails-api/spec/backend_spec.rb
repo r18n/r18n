@@ -47,16 +47,16 @@ describe R18n::Backend do
   end
   
   it "should use default value" do
-    I18n.t(:no, :default => 'Default').should == 'Default'
-    I18n.t(:no, :default => :default, :scope => :in).should == 'Default'
-    I18n.t(:no, :default => [:also_no, :'in.default']).should == 'Default'
+    I18n.t(:missed, :default => 'Default').should == 'Default'
+    I18n.t(:missed, :default => :default, :scope => :in).should == 'Default'
+    I18n.t(:missed, :default => [:also_no, :'in.default']).should == 'Default'
   end
   
   it "should raise error on no translation" do
     lambda {
-      I18n.backend.translate(:en, :no)
+      I18n.backend.translate(:en, :missed)
     }.should raise_error(::I18n::MissingTranslationData)
-    I18n.t(:no).should == 'translation missing: en, no'
+    I18n.t(:missed).should == 'translation missing: en, missed'
   end
   
   it "should reload translations" do
