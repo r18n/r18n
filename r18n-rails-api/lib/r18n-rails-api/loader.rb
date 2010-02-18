@@ -81,11 +81,11 @@ module R18n
           if value.empty?
             value
           elsif value.keys.inject(true) { |a, i| a and PLURAL_KEYS.include? i }
-            R18n::Typed.new('pl', Hash[value.map { |k, v|
+            R18n::Typed.new('pl', R18n::Utils.hash_map(value) { |k, v|
               [PLURAL_KEYS[k], transform(v)]
-            }])
+            })
           else
-            Hash[value.map { |k, v| [k.to_s, transform(v)] }]
+            R18n::Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
           end
         elsif value.is_a? ::YAML::PrivateType
           Typed.new(value.type_id, value.value)
