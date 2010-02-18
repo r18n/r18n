@@ -1,3 +1,7 @@
+== 0.4.2 (EMS)
+* Fixes for Ruby 1.8.6 (by Akzhan Abdulin).
+* Add method to get translation keys.
+
 == 0.4.1 (Lazy Boole)
 * Add passive filters.
 * Receive filter position as option Hash.
