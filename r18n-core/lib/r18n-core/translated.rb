@@ -110,11 +110,9 @@ module R18n
       #   translation :desciption, :type => 'markdown'
       def translation(name, options = {})
         if options[:methods]
-          @unlocalized_getters[name] = Hash[
-              options[:methods].map { |l, i| [l.to_s, i.to_s] } ]
+          @unlocalized_getters[name] = R18n::Utils.hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s ] }
           unless options[:no_write]
-            @unlocalized_setters[name] = Hash[
-                options[:methods].map { |l, i| [l.to_s, i.to_s + '='] } ]
+            @unlocalized_setters[name] =R18n::Utils.hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s + '=' ] }
           end
         end
         

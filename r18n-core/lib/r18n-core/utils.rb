@@ -33,5 +33,14 @@ module R18n
     def self.escape_html(content)
       content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
     end
+
+    def self.hash_map(hash)
+      result = {}
+      hash.each_pair do |key, val|
+        new_key, new_value = yield key, val
+        result[new_key] = new_value
+      end
+     result
+    end
   end
 end
