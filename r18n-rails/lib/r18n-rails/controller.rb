@@ -32,6 +32,7 @@ module R18n
       # Auto detect user locales and change backend.
       def set_r18n
         R18n.set do
+          R18n::I18n.default = ::I18n.default_locale.to_s
           locales = R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
           
           if params[:locale]
