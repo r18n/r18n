@@ -27,17 +27,19 @@ module R18n
       Date.new!(Date.send(:jd_to_ajd, jd, 0, 0), 0, Date::ITALY)
     end
     
-    HTML_ENTRIES = { '&'=>'&amp;', '<'=>'&lt;', '>'=>'&gt;' }
+    HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }
     
     # Escape HTML entries (<, >, &). Copy from HAML helper.
     def self.escape_html(content)
       content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
     end
 
-    def self.hash_map(hash)
+    # Invokes +block+ once for each key and value of +hash+. Creates a new hash
+    # with the keys and values returned by the +block+.
+    def self.hash_map(hash, &block)
       result = {}
       hash.each_pair do |key, val|
-        new_key, new_value = yield key, val
+        new_key, new_value = block.call(key, val)
         result[new_key] = new_value
       end
      result

@@ -44,5 +44,10 @@ describe R18n do
   it "should convert Time to Date" do
       R18n::Utils.to_date(Time.now).should == Date.today
   end
+  
+  it "should map hash" do
+    R18n::Utils.hash_map({'a' => 1, 'b' => 2}) { |k, v| [k + 'a', v + 1] }.
+      should == { 'aa' => 2, 'ba' => 3 }
+  end
 
 end
