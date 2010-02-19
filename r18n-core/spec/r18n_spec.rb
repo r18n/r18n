@@ -49,5 +49,18 @@ describe R18n do
     R18n::Utils.hash_map({'a' => 1, 'b' => 2}) { |k, v| [k + 'a', v + 1] }.
       should == { 'aa' => 2, 'ba' => 3 }
   end
+  
+  it "should merge hash recursively" do
+    a = { :a => 1,
+          :b => {:ba => 1, :bb => 1},
+          :c => 1 }
+    b = { :b => {:bb => 2, :bc => 2},
+          :c => 2 }
+    
+    R18n::Utils.deep_merge!(a, b)
+    a.should == { :a => 1,
+                  :b => { :ba => 1, :bb => 1, :bc => 2 },
+                  :c => 1 }
+  end
 
 end

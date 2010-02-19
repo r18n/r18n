@@ -44,5 +44,18 @@ module R18n
       end
      result
     end
+  
+    # Recursively hash merge.
+    def self.deep_merge!(a, b)
+      b.each_pair do |key, value|
+        another = a[key]
+        if another.nil?
+          a[key] = value
+        elsif another.is_a?(Hash) and value.is_a?(Hash)
+          a[key] = deep_merge!(another, value)
+        end
+      end
+      a
+    end
   end
 end

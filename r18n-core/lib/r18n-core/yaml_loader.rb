@@ -43,15 +43,18 @@ module R18n
       
       # Array of locales, which has translations in +dir+.
       def available
-        Dir.glob(File.join(@dir, '*.yml')).map do |i|
-          R18n::Locale.load(File.basename(i, '.yml'))
-        end
+        Dir.glob(File.join(@dir, '**/*.yml')).
+          map { |i| File.basename(i, '.yml') }.uniq.
+          map { |i| R18n::Locale.load(i) }
       end
       
       # Return Hash with translations for +locale+.
       def load(locale)
-        file = File.join(@dir, "#{locale.code.downcase}.yml")
-        transform(::YAML::load(IO.read(file)))
+        translations = {}
+        Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |i|
+          Utils.deep_merge!(translations, ::YAML::load_file(i))
+        end
+        transform(translations)
       end
       
       # YAML loader with same +dir+ will be have same +hash+.
