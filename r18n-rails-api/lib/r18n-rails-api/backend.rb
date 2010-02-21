@@ -39,9 +39,7 @@ module R18n
       
       result = lookup(scope, key, separator, params)
       
-      if result.translated?
-        result
-      else
+      if result.is_a? Untranslated
         options = options.reject { |key, value| key == :default }
         
         Array(default).each do |entry|
@@ -54,6 +52,8 @@ module R18n
         end
         
         raise ::I18n::MissingTranslationData.new(locale, key, options)
+      else
+        result
       end
     end
     
