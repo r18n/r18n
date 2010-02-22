@@ -11,6 +11,10 @@ DIR = TRANSALTIONS + 'general' unless defined? DIR
 TWO = TRANSALTIONS + 'two' unless defined? TWO
 EXT = R18n::Loader::YAML.new(TRANSALTIONS + 'extension') unless defined? EXT
 
+Spec::Runner.configure do |config|
+  config.before { R18n.cache.clear }
+end
+
 gem 'maruku'
 gem 'RedCloth'
 
