@@ -73,8 +73,8 @@ module R18n
 
     # Load locale by RFC 3066 +code+.
     def self.load(code)
-      original = code.to_s.gsub(/[^-a-zA-Z]/, '')
-      code = original.downcase
+      original = code.to_s.gsub(/[^-_a-zA-Z]/, '')
+      code = original.gsub('_', '-').downcase
       
       @@loaded[code] ||= begin
         if exists? code

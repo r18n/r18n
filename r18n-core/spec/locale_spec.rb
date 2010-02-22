@@ -154,5 +154,9 @@ describe R18n::Locale do
     upcase.code.should == 'no-lc'
     downcase.code.should == 'no-lc'
   end
+  
+  it "should load locale with underscore" do
+    R18n::Locale.load('no_LC').code.should == 'no-lc'
+  end
 
 end
