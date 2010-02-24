@@ -20,4 +20,9 @@ class TestController < ApplicationController
   def untranslated
     render :text => "#{R18n.get.user.not.exists}"
   end
+  
+  def controller
+    render :text => "#{t('user.name')}" + "#{t.user.name}" +
+                    "#{r18n.t.user.name}"
+  end
 end

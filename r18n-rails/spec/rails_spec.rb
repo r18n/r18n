@@ -55,6 +55,12 @@ describe 'R18n for Rails', :type => :controller do
     response.body.should == "user.<span style='color: red'>not.exists</span>"
   end
   
+  it "should add methods to controller" do
+    get :controller, :locale => 'en'
+    response.should be_success
+    response.body.should == "NameNameName"
+  end
+  
   it "should translate models" do
     ActiveRecord::Schema.verbose = false
     ActiveRecord::Schema.define(:version => 20091218130034) do
