@@ -3,22 +3,22 @@ require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'sk')
 
 describe R18n::Locales::Sk do
   it "should use Slovak pluralization" do
-    ru = R18n::Locale.load('Sk')
-    ru.pluralize(0).should == 0
-    ru.pluralize(1).should == 1
+    sk = R18n::Locale.load('Sk')
+    sk.pluralize(0).should == 0
+    sk.pluralize(1).should == 1
     
-    ru.pluralize(2).should == 2
-    ru.pluralize(3).should == 2
-    ru.pluralize(4).should == 2
+    sk.pluralize(2).should == 2
+    sk.pluralize(3).should == 2
+    sk.pluralize(4).should == 2
     
-    ru.pluralize(5).should   == 'n'
-    ru.pluralize(21).should  == 'n'
-    ru.pluralize(11).should  == 'n'
-    ru.pluralize(12).should  == 'n'
-    ru.pluralize(22).should  == 'n'
-    ru.pluralize(57).should  == 'n'
-    ru.pluralize(101).should == 'n'
-    ru.pluralize(102).should == 'n'
-    ru.pluralize(111).should == 'n'
+    sk.pluralize(5).should   == 'n'
+    sk.pluralize(21).should  == 'n'
+    sk.pluralize(11).should  == 'n'
+    sk.pluralize(12).should  == 'n'
+    sk.pluralize(22).should  == 'n'
+    sk.pluralize(57).should  == 'n'
+    sk.pluralize(101).should == 'n'
+    sk.pluralize(102).should == 'n'
+    sk.pluralize(111).should == 'n'
   end
 end
