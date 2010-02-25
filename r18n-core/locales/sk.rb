@@ -4,7 +4,7 @@ module R18n
     set :title => 'Slovenský',
         :sublocales => %w{cs cz en},
         
-        :wday_names => %w{Nedela Pondelok Utorok Streda Štvrtok Piatok Sobota},
+        :wday_names => %w{Nedeľa Pondelok Utorok Streda Štvrtok Piatok Sobota},
         :wday_abbrs => %w{Ne Po Ut St Št Pi So},
         
         :month_names => %w{januára februára marca apríla mája júna júla augusta
