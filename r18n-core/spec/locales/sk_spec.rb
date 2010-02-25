@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'sk')
 
 describe R18n::Locales::Sk do
-  it "should use Slovensky pluralization" do
+  it "should use Slovak pluralization" do
     ru = R18n::Locale.load('Sk')
     ru.pluralize(0).should == 0
     ru.pluralize(1).should == 1
