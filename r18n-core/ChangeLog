@@ -1,3 +1,10 @@
+== 0.4.3 (Flange)
+* Add R18n style methods to Rails controllers.
+* Fix for non-string translations in Rails I18n.
+* Use default locale from Rails I18n config.
+* Load translations recursively.
+* Add Slovak locale (by Ahmed Al Hafoudh)
+
 == 0.4.2 (EMS)
 * Fixes for Ruby 1.8.6 (by Akzhan Abdulin).
 * Add method to get translation keys.
