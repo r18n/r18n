@@ -1,19 +1,22 @@
 # encoding: utf-8
 module R18n
   class Locales::Sk < Locale
-    set :title => 'Slovensky',
-        :sublocales => %w{sk cz en},
+    set :title => 'Slovenský',
+        :sublocales => %w{cs cz en},
         
         :wday_names => %w{Nedela Pondelok Utorok Streda Štvrtok Piatok Sobota},
         :wday_abbrs => %w{Ne Po Ut St Št Pi So},
         
-        :month_names => %w{Januára Februára Marca Apríla Mája Júna Júla Augusta Septembra Októbra Novembra Decembra},
-        :month_abbrs => %w{Jan Feb Mar Apr Máj Jún Júl Aug Sep Okt Nov Dec},
-        :month_standalone => %w{Január Február Marec Apríl Máj Jún Júl August September Október November December},
+        :month_names => %w{januára februára marca apríla mája júna júla augusta
+                          septembra októbra novembra decembra},
+        :month_abbrs => %w{jan feb mar apr máj jún júl aug sep okt nov dec},
+        :month_standalone => %w{Január Február Marec Apríl Máj Jún Júl August
+                                September Október November December},
         
         :time_am => 'dop.',
         :time_pm => 'odp.',
         :date_format => '%d.%m.%Y',
+        :full_format => '%e. %B',
         
         :number_decimal => ",",
         :number_group   => " "
