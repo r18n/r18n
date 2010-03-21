@@ -6,7 +6,7 @@
   margin: 0
   padding: 0
 body
-  font-family: sans-serif
+  font-family: "Droid Sans", sans-serif
   line-height: 140%
 #header
   color: white
@@ -14,19 +14,22 @@ body
   -webkit-box-shadow: 0 0 1ex #888
   -moz-box-shadow: 0 0 1ex #888
   box-shadow: 0 0 1ex #888
+  min-height= !menu
+  line-height= !menu
   div
     width= !width
     max-width: 100%
-    min-height= !menu
-    line-height= !menu
     margin: 0 auto
     padding: 0 0.5em 0 2em
-  ul, #name, li, li a
+  ul, li
+    display: inline
+  #name, li a
     display: inline-block
   a
     color: white
     text-decoration: none
-    font-size: 140%
+    span
+      font-size: 140%
   #name
     font-weight: bold
     padding-right: 0.8em
@@ -41,6 +44,8 @@ body
   .selected
     a
       background= !red
+      background= "-webkit-gradient(linear, 0% 100%, 0% 0%, from(#880000), to("!red"))"
+      background= "-moz-linear-gradient(top, "!red", #880000)"
 #content
   width= !width
   max-width: 100%
@@ -63,9 +68,7 @@ ol li, p
 ol ol li
   list-style-type: lower-alpha
 #ribbon
-  position: absolute
-  top: 0
-  right: 0
+  float: right
   overflow: hidden
   height: 10em
   a
@@ -83,6 +86,7 @@ ol ol li
     transform: rotate(45deg)
     background= !red
     background= "-webkit-gradient(linear, 0% 100%, 0% 0%, from(#a90000), to("!red"))"
+    background= "-moz-linear-gradient(top, "!red", #a90000)"
     color: white
     -webkit-box-shadow: 0px 0px 1.5ex #888
     -moz-box-shadow: 0px 0px 1.5ex #888

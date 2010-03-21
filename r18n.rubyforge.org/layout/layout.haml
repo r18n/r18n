@@ -1,7 +1,7 @@
-!!! Strict
+!!! 5
 %html{ html_attrs('en') }
   %head
-    %meta( http-equiv='Content-Type' content='text/html; charset=UTF-8' )
+    %meta( charset='UTF-8' )
     %title= @title
     %link( rel='stylesheet' type='text/css' href='style.css' )
     %link( rel='shortcut icon' type='image/x-icon' href='favicon.ico' )
@@ -11,12 +11,15 @@
     #ribbon
       %a( href='http://github.com/ai/r18n' )
         %div Fork me on GitHub
-    #header
-      %div
-        %a#name( href='index.html' ) <strong>R</strong>18n →
-        %ul#menu
-          - @config['menu'].map { |i| i.first }.each do |name, title|
-            %li{ selected_if_eql(@page, name) }<
-              %a{ :href => "#{name}.html" }= title
-    #content
-      = @content
+    %header
+      #header
+        %div
+          %a#name( href='index.html' )
+            %span <strong>R</strong>18n →
+          %ul#menu
+            - @config['menu'].map { |i| i.first }.each do |name, title|
+              %li{ selected_if_eql(@page, name) }<
+                %a{ :href => "#{name}.html" }
+                  %span= title
+    %article
+      #content= @content
