@@ -31,24 +31,9 @@ module Sinatra #::nodoc::
       # Return tool for i18n support. It will be R18n::I18n object, see it
       # documentation for more information.
       def r18n
-        unless @i18n
-          ::R18n::I18n.default = options.default_locale
-          
-          locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
-          if params[:locale]
-            locales.insert(0, params[:locale])
-          elsif session[:locale]
-            locales.insert(0, session[:locale])
-          end
-          
-          @i18n = ::R18n::I18n.new(locales, options.translations)
-          ::R18n.set(@i18n)
-        else
-          @i18n
-        end
+        ::R18n.get
       end
       alias i18n r18n
-      
       
       # Translate message. Alias for <tt>r18n.t</tt>.
       def t(*params)
@@ -65,6 +50,21 @@ module Sinatra #::nodoc::
       app.helpers Helpers
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
+      
+      app.before do
+        ::R18n.set do
+          ::R18n::I18n.default = options.default_locale
+          
+          locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
+          if params[:locale]
+            locales.insert(0, params[:locale])
+          elsif session[:locale]
+            locales.insert(0, session[:locale])
+          end
+          
+          ::R18n::I18n.new(locales, options.translations)
+        end
+      end
       
       ::R18n::Filters.off(:untranslated)
       ::R18n::Filters.add(::R18n::Untranslated, :untranslated_html) do
