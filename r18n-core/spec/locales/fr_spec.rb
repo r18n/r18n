@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'fr')
 
 describe R18n::Locales::Fr do
   it "should format French date" do

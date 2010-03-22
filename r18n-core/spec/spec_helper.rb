@@ -5,8 +5,9 @@ require 'pp'
 dir = Pathname(__FILE__).dirname
 
 require dir + '../lib/r18n-core'
+Pathname.glob(dir.join('../locales/*.rb')) { |locale| require locale }
 
-TRANSALTIONS = dir + 'translations'
+TRANSALTIONS = dir + 'translations' unless defined? TRANSALTIONS
 DIR = TRANSALTIONS + 'general' unless defined? DIR
 TWO = TRANSALTIONS + 'two' unless defined? TWO
 EXT = R18n::Loader::YAML.new(TRANSALTIONS + 'extension') unless defined? EXT

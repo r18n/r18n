@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'ru')
 
 describe R18n::Locales::Ru do
   it "should use Russian pluralization" do

@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'cs')
 
 describe R18n::Locales::Cs do
   it "should use Czech pluralization" do

@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'sk')
 
 describe R18n::Locales::Sk do
   it "should use Slovak pluralization" do
