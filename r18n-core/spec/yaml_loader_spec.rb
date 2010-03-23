@@ -32,7 +32,7 @@ describe R18n::Loader::YAML do
   end
   
   it "should load in dir recursively" do
-    loader = R18n::Loader::YAML.new(TRANSALTIONS)
+    loader = R18n::Loader::YAML.new(TRANSLATIONS)
     loader.available.should =~ [R18n::Locale.load('ru'),
                                 R18n::Locale.load('en'),
                                 R18n::Locale.load('fr'),
