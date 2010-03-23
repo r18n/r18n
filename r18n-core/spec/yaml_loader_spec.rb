@@ -40,9 +40,10 @@ describe R18n::Loader::YAML do
                                 R18n::Locale.load('no-lc')]
     
     translation = loader.load(R18n::Locale.load('en'))
-    translation['one'].should       == 'No one'
+    translation['one'].should       == 'One'
     translation['in']['two'].should == 'Two'
     translation['ext'].should       == 'Extension'
+    translation['deep'].should      == 'Deep one'
   end
   
 end

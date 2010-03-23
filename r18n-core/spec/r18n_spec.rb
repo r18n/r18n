@@ -59,8 +59,8 @@ describe R18n do
     
     R18n::Utils.deep_merge!(a, b)
     a.should == { :a => 1,
-                  :b => { :ba => 1, :bb => 1, :bc => 2 },
-                  :c => 1 }
+                  :b => { :ba => 1, :bb => 2, :bc => 2 },
+                  :c => 2 }
   end
 
 end

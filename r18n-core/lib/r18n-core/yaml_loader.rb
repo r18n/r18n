@@ -51,8 +51,8 @@ module R18n
       # Return Hash with translations for +locale+.
       def load(locale)
         translations = {}
-        Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |i|
-          Utils.deep_merge!(translations, ::YAML::load_file(i))
+        Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |file_name|
+          Utils.deep_merge!(translations, ::YAML::load_file(file_name))
         end
         transform(translations)
       end
