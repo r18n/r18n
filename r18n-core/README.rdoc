@@ -39,7 +39,7 @@ Filters are cascade and can communicate with each other.
 
 R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
-  hi: !!markdown
+  hi: !!markdown |
     **Hi**, people!
   greater: !!escape
     1 < 2 is true

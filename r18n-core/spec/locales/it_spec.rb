@@ -1,6 +1,5 @@
 # encoding: utf-8
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'it')
  
 describe R18n::Locales::It do
   it "should format Italian date" do

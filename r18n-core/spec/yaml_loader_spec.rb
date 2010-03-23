@@ -31,4 +31,18 @@ describe R18n::Loader::YAML do
     @loader.hash.should == R18n::Loader::YAML.new(DIR).hash
   end
   
+  it "should load in dir recursively" do
+    loader = R18n::Loader::YAML.new(TRANSALTIONS)
+    loader.available.should =~ [R18n::Locale.load('ru'),
+                                R18n::Locale.load('en'),
+                                R18n::Locale.load('fr'),
+                                R18n::Locale.load('no-tr'),
+                                R18n::Locale.load('no-lc')]
+    
+    translation = loader.load(R18n::Locale.load('en'))
+    translation['one'].should       == 'One'
+    translation['in']['two'].should == 'Two'
+    translation['ext'].should       == 'Extension'
+  end
+  
 end

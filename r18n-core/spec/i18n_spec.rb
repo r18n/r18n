@@ -4,7 +4,6 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe R18n::I18n do
   before do
     @extension_places = R18n.extension_places.clone
-    R18n.cache.clear
   end
   
   after do
@@ -194,7 +193,7 @@ describe R18n::I18n do
   end
 
   it "should return first locale with locale file" do
-    i18n = R18n::I18n.new(['no-LC', 'ru', 'en'], DIR)
+    i18n = R18n::I18n.new(['no-TR', 'no-LC', 'ru', 'en'], DIR)
     i18n.locale.should == R18n::Locale.load('no-LC')
     i18n.locale.base.should == R18n::Locale.load('ru')
   end

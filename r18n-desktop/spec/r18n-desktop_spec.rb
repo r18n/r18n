@@ -11,18 +11,14 @@ describe "r18n-desktop" do
   end
 
   it "should load I18n from system environment" do
-    R18n.from_env('')
+    R18n.from_env
     r18n.class.should == R18n::I18n
     r18n.locale.should_not be_empty if String == r18n.locale.class
     
-    R18n.from_env('', 'en')
+    R18n.from_env(nil, 'en')
     r18n.locale.should == R18n::Locale.load('en')
     
     R18n.get.should == r18n
-  end
-  
-  it "should add helpers" do
-    
   end
 
 end

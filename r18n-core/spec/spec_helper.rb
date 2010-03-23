@@ -5,10 +5,16 @@ require 'pp'
 dir = Pathname(__FILE__).dirname
 
 require dir + '../lib/r18n-core'
+Pathname.glob(dir.join('../locales/*.rb')) { |locale| require locale }
 
-DIR = dir + 'translations/general' unless defined? DIR
-TWO = dir + 'translations/two' unless defined? TWO
-EXT = R18n::Loader::YAML.new(dir + 'translations/extension') unless defined? EXT
+TRANSALTIONS = dir + 'translations' unless defined? TRANSALTIONS
+DIR = TRANSALTIONS + 'general' unless defined? DIR
+TWO = TRANSALTIONS + 'two' unless defined? TWO
+EXT = R18n::Loader::YAML.new(TRANSALTIONS + 'extension') unless defined? EXT
+
+Spec::Runner.configure do |config|
+  config.before { R18n.cache.clear }
+end
 
 gem 'maruku'
 gem 'RedCloth'

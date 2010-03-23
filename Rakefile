@@ -17,13 +17,9 @@ def each_rake(task)
   end
 end
 
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.libs << 'r18n-core/lib/'
-  t.spec_opts = ['--format', 'progress', '--colour']
-  t.spec_files = []
-  GEMS.each do |gem|
-    t.spec_files << Dir[gem + '/spec/**/*_spec.rb'].sort
-  end
+desc 'Run specs'
+task :spec do
+  each_rake 'spec'
 end
 
 desc 'Build the gem files'

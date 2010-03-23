@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', '..', 'locales', 'pl')
 
 describe R18n::Locales::Pl do
   it "should use Polish pluralization" do

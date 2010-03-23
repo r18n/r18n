@@ -1,5 +1,5 @@
 =begin
-Methods and filters to controllers.
+R18n methods for Rails helpers and controllers.
 
 Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
@@ -17,33 +17,24 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'r18n-rails-api'
-
 module R18n
   module Rails
-    module Controller
-      include Mixin
+    module Mixin
+      # Return current R18n instance.
+      def r18n
+        R18n.get
+      end
       
-      private
-      
-      # Auto detect user locales and change backend.
-      def set_r18n
-        R18n.set do
-          R18n::I18n.default = ::I18n.default_locale.to_s
-          locales = R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
-          
-          if params[:locale]
-            locales.insert(0, params[:locale])
-          elsif session[:locale]
-            locales.insert(0, session[:locale])
-          end
-          
-          places = [::Rails.root.join('app/i18n'), R18n::Loader::Rails.new]
-          
-          R18n::I18n.new(locales, places)
+      # Extend +t+ helper to use also R18n syntax.
+      # 
+      #   t 'user.name' # Rails I18n style
+      #   t.user.name   # R18n style
+      def t(*params)
+        if params.empty?
+          r18n.t
+        else
+          super(*params)
         end
-      
-        ::I18n.backend = R18n::Backend.new
       end
     end
   end

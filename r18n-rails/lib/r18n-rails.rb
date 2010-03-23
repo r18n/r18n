@@ -23,6 +23,7 @@ require 'r18n-core/translated'
 require 'r18n-rails-api'
 
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails'
+require dir + 'mixin'
 require dir + 'helpers'
 require dir + 'controller'
 
@@ -32,6 +33,6 @@ R18n::Filters.add(::R18n::Untranslated, :untranslated_html) do
   "#{translated}<span style='color: red'>#{untranslated}</span>"
 end
 
-ActionController::Base.helper(R18n::Rails::Helpers)
+ActionController::Base.helper(R18n::Rails::Mixin)
 ActionController::Base.send(:include, R18n::Rails::Controller)
 ActionController::Base.send(:before_filter, :set_r18n)

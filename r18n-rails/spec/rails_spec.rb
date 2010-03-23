@@ -9,7 +9,7 @@ describe 'R18n for Rails', :type => :controller do
   it 'should use default locale' do
     get :locales
     response.should be_success
-    response.body.should == 'en'
+    response.body.should == 'ru'
   end 
   
   it 'should get locale from param' do
@@ -32,7 +32,7 @@ describe 'R18n for Rails', :type => :controller do
   end
   
   it 'should load translations' do
-    get :translations
+    get :translations, :locale => 'en'
     response.should be_success
     response.body.should == 'R18n: supported. Rails I18n: supported'
   end
@@ -44,7 +44,7 @@ describe 'R18n for Rails', :type => :controller do
   end
   
   it 'should add helpers' do
-    get :helpers
+    get :helpers, :locale => 'en'
     response.should be_success
     response.body.should == "Name\nName\nName\nName\n"
   end
@@ -53,6 +53,12 @@ describe 'R18n for Rails', :type => :controller do
     get :untranslated
     response.should be_success
     response.body.should == "user.<span style='color: red'>not.exists</span>"
+  end
+  
+  it "should add methods to controller" do
+    get :controller, :locale => 'en'
+    response.should be_success
+    response.body.should == "NameNameName"
   end
   
   it "should translate models" do
