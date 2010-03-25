@@ -39,16 +39,21 @@ module R18n
     # Set I18n object to current thread.
     def set(i18n = nil, &block)
       if block_given?
-        @setter = block
-        @i18n = nil
+        thread[:r18n_setter] = block
+        thread[:r18n_i18n] = nil
       else
-        @i18n = i18n
+        thread[:r18n_i18n] = i18n
       end
     end
     
     # Get I18n object for current thread.
     def get
-      @i18n ||= (@setter.call if @setter)
+      thread[:r18n_i18n] ||= ((block = thread[:r18n_setter]) && block.call)
+    end
+
+    # Get the current thread.
+    def thread
+      Thread.current
     end
 
     # Default loader class, which will be used if you didn’t send loader to
