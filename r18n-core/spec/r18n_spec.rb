@@ -33,6 +33,15 @@ describe R18n do
     R18n.reset
     R18n.get.should be_nil
   end
+  
+  it "should reset I18n objects and cache" do
+    R18n.cache[:a] = 1
+    R18n.thread_set(R18n::I18n.new('en'))
+    
+    R18n.reset
+    R18n.get.should be_nil
+    R18n.cache.should be_empty
+  end
 
   it "should thread_set setter to I18n" do
     i18n = R18n::I18n.new('en')

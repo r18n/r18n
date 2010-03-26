@@ -66,6 +66,7 @@ module R18n
     # Delete I18n object from current thread and global variable.
     def reset
       thread[:r18n_i18n] = thread[:r18n_setter] = @i18n = @setter = nil
+      self.cache = {}
     end
 
     # Get the current thread.

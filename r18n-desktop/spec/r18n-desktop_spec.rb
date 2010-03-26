@@ -14,6 +14,7 @@ describe "r18n-desktop" do
     R18n.from_env
     r18n.class.should == R18n::I18n
     r18n.locale.should_not be_empty if String == r18n.locale.class
+    R18n.reset
     
     R18n.from_env(nil, 'en')
     r18n.locale.should == R18n::Locale.load('en')
