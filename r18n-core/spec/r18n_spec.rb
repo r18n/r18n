@@ -11,7 +11,7 @@ describe R18n do
     R18n.set(i18n)
     R18n.get.should == i18n
     
-    R18n.set(nil)
+    R18n.reset
     R18n.get.should be_nil
   end
   
@@ -24,7 +24,26 @@ describe R18n do
     
     R18n.get.should == i18n
   end
-  
+
+  it "should store I18n via thread_set" do
+    i18n = R18n::I18n.new('en')
+    R18n.thread_set(i18n)
+    R18n.get.should == i18n
+    
+    R18n.reset
+    R18n.get.should be_nil
+  end
+
+  it "should thread_set setter to I18n" do
+    i18n = R18n::I18n.new('en')
+    R18n.thread_set(i18n)
+    
+    i18n = R18n::I18n.new('ru')
+    R18n.thread_set { i18n }
+    
+    R18n.get.should == i18n
+  end
+
   it "should store default loader class" do
     R18n.default_loader.should == R18n::Loader::YAML
     R18n.default_loader = Class
