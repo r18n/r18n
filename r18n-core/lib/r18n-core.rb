@@ -37,33 +37,35 @@ require dir + 'i18n'
 module R18n
   class << self
 
-    # Set I18n object globally
+    # Set I18n object globally.
     def set(i18n = nil, &block)
       if block_given?
-        @r18n_setter = block
-        @r18n_i18n = nil
+        @setter = block
+        @i18n = nil
       else
-        @r18n_i18n = i18n
+        @i18n = i18n
       end
     end
 
     # Set I18n object to current thread.
     def thread_set(i18n = nil, &block)
       if block_given?
-        thread[:r18n_setter] = block
-        thread[:r18n_i18n] = nil
+        Thread.current[:r18n_setter] = block
+        Thread.current[:r18n_i18n] = nil
       else
-        thread[:r18n_i18n] = i18n
+        Thread.current[:r18n_i18n] = i18n
       end
     end
 
     # Get I18n object for current thread.
     def get
-      (thread[:r18n_i18n] ||= ((block = thread[:r18n_setter]) && block.call)) || (@r18n_i18n ||= ((block = @r18n_setter) && block.call))
+      (thread[:r18n_i18n] ||= ((block = thread[:r18n_setter]) && block.call)) ||
+      (@i18n ||= (@setter && @setter.call))
     end
 
+    # Delete I18n object from current thread and global variable.
     def reset
-      thread[:r18n_i18n] = thread[:r18n_setter] = @r18n_i18n = @r18n_setter = nil
+      thread[:r18n_i18n] = thread[:r18n_setter] = @i18n = @setter = nil
     end
 
     # Get the current thread.
