@@ -267,16 +267,6 @@ module R18n
       @translation
     end
     
-    # Short and pretty way to get translation by method name. If translation
-    # has name like object methods (+new+, +to_s+, +methods+) use <tt>[]</tt>
-    # method to access.
-    #
-    # Translation can contain variable part. Just set is as <tt>%1</tt>,
-    # <tt>%2</tt>, etc in translations file and set values as methods params.
-    def method_missing(name, *params)
-      @translation.send(name, *params)
-    end
-    
     # Return translation with special +name+.
     #
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
@@ -284,5 +274,6 @@ module R18n
     def [](name, *params)
       @translation[name, *params]
     end
+    alias method_missing []
   end
 end
