@@ -8,9 +8,9 @@ describe Sinatra::R18n do
   end
   
   it "should translate messages" do
-    get '/ru/posts/1'
+    get '/en/posts/1'
     last_response.should be_ok
-    last_response.body.should == "<h1>Запись 1</h1>\n"
+    last_response.body.should == "<h1>Post 1</h1>\n"
   end
   
   it "should use translations from default locale" do
