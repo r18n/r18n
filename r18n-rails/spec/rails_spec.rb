@@ -61,6 +61,18 @@ describe 'R18n for Rails', :type => :controller do
     response.body.should == "NameNameName"
   end
   
+  it "should localize time by Rails I18n" do
+    get :time, :locale => 'en'
+    response.should be_success
+    response.body.should == "Thu, 01 Jan 1970 00:00:00 +0000\n01 Jan 00:00"
+  end
+  
+  it "should localize time by R18n" do
+    get :human_time, :locale => 'en'
+    response.should be_success
+    response.body.should == "now"
+  end
+  
   it "should translate models" do
     ActiveRecord::Schema.verbose = false
     ActiveRecord::Schema.define(:version => 20091218130034) do

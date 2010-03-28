@@ -22,7 +22,7 @@ require 'r18n-rails-api'
 module R18n
   module Rails
     module Controller
-      include Mixin
+      include Helpers
       
       private
       

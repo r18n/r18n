@@ -25,4 +25,13 @@ class TestController < ApplicationController
     render :text => "#{t('user.name')}" + "#{t.user.name}" +
                     "#{r18n.t.user.name}"
   end
+  
+  def time
+    render :text => l(Time.at(0).utc) + "\n" +
+                    l(Time.at(0).utc, :format => :short)
+  end
+  
+  def human_time
+    render :text => l(Time.now, :human)
+  end
 end

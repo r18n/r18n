@@ -42,6 +42,21 @@ module R18n
           super(*params)
         end
       end
+      alias :translate :t
+      
+      # Extend +l+ helper to use also R18n syntax.
+      # 
+      #   l Time.now                    # Rails I18n default format
+      #   l Time.now, :format => :short # Rails I18n style
+      #   l Time.now, :human            # R18n style
+      def l(obj, *params)
+        if params.empty? or params.first.is_a? Hash
+          super(obj, *params)
+        else
+          r18n.l(obj, *params)
+        end
+      end
+      alias :localize :l
     end
   end
 end
