@@ -43,28 +43,4 @@ module R18n
       self.set I18n.new(locales, translations_places)
     end
   end
-  
-  # Useful aliases. Set I18n object before use them:
-  # 
-  #   R18n.from_env('./i18n/')
-  #   
-  #   t.ok               #=> "OK"
-  #   l Time.now, :human #=> "now"
-  module Helpers
-    # Get current I18n object.
-    def r18n
-      R18n.get
-    end
-    alias i18n r18n
-    
-    # Translate message. Alias for <tt>r18n.t</tt>.
-    def t(*params)
-      R18n.get.t(*params)
-    end
-    
-    # Localize object. Alias for <tt>r18n.l</tt>.
-    def l(*params)
-      R18n.get.l(*params)
-    end
-  end
 end

@@ -27,27 +27,8 @@ require 'r18n-core'
 
 module Sinatra #::nodoc::
   module R18n #::nodoc::
-    module Helpers
-      # Return tool for i18n support. It will be R18n::I18n object, see it
-      # documentation for more information.
-      def r18n
-        ::R18n.get
-      end
-      alias i18n r18n
-      
-      # Translate message. Alias for <tt>r18n.t</tt>.
-      def t(*params)
-        i18n.t(*params)
-      end
-      
-      # Localize object. Alias for <tt>r18n.l</tt>.
-      def l(*params)
-        i18n.l(*params)
-      end
-    end
-  
     def self.registered(app) #::nodoc::
-      app.helpers Helpers
+      app.helpers ::R18n::Helpers
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
       

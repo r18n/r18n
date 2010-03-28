@@ -2,8 +2,11 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe R18n do
+  include R18n::Helpers
+    
   after do
     R18n.default_loader = R18n::Loader::YAML
+    R18n.reset
   end
 
   it "should store I18n" do
@@ -89,6 +92,16 @@ describe R18n do
     a.should == { :a => 1,
                   :b => { :ba => 1, :bb => 2, :bc => 2 },
                   :c => 2 }
+  end
+  
+  it "should have helpers" do
+    obj = R18n::I18n.new 'en'
+    R18n.set(obj)
+    
+    r18n.should == obj
+    i18n.should == obj
+    t.yes.should == 'Yes'
+    l(Time.at(0).utc).should == '01/01/1970 00:00'
   end
 
 end

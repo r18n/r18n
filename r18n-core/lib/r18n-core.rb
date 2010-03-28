@@ -33,6 +33,7 @@ require dir + 'filters'
 require dir + 'translation'
 require dir + 'yaml_loader'
 require dir + 'i18n'
+require dir + 'helpers'
 
 module R18n
   class << self

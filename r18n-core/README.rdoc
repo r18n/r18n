@@ -143,6 +143,24 @@ Sinatra, Merb and desktop applications.
 
 == Usage
 
+To add i18n support to your app, you can use special plugin for your
+environment: <tt>r18n-rails</tt>, <tt>sinatra-r18n</tt> or
+<tt>r18n-desktop</tt>.
+
+If you develop you own plugin or want to use only core gem, you must to create
+I18n object and set to global variable by <tt>R18n.set</tt> or to current thread
+by <tt>R18n.thread_set</tt>:
+
+  R18n.set(R18n::I18n.new('en', 'path/to/translations'))
+  
+You can add helpers to access to current I18n object:
+
+  include R18n::Helpers
+  
+  t.yes              #=> "Yes"
+  l Time.now, :human #=> "now"
+  r18n.locale.code   #=> "en"
+
 === Translation
 
 Translation files use YAML format and has name like en.yml (English) or
