@@ -6,6 +6,7 @@ require 'yaml'
 require 'rubygems'
 require 'haml'
 require 'sass'
+require 'compass'
 
 ROOT    = Pathname.new(__FILE__).dirname.parent.realpath
 PUBLIC  = ROOT.join('public')
@@ -68,8 +69,9 @@ def build
     css = PUBLIC + sass.relative_path_from(LAYOUT).dirname +
           (sass.basename('.sass').to_s + '.css')
     css.dirname.mkpath
+    Compass.configuration.environment = :production
     File.open(css, 'w') do |io|
-      io.write Sass::Engine.new(content, :style => :compressed).render
+      io.write Sass::Engine.new(content, Compass.sass_engine_options).render
     end
   end
 

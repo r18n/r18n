@@ -1,3 +1,5 @@
+@import compass/css3
+
 !red = #9a0000
 !menu = 5.5ex
 !width = 35em
@@ -11,9 +13,7 @@ body
 #header
   color: white
   background-color: black
-  -webkit-box-shadow: 0 0 1ex #888
-  -moz-box-shadow: 0 0 1ex #888
-  box-shadow: 0 0 1ex #888
+  +box-shadow(0, 0, 1ex, #888)
   min-height= !menu
   line-height= !menu
   div
@@ -44,8 +44,7 @@ body
   .selected
     a
       background= !red
-      background= "-webkit-gradient(linear, 0% 100%, 0% 0%, from(#880000), to("!red"))"
-      background= "-moz-linear-gradient(top, "!red", #880000)"
+      +linear-gradient(color_stops(!red, #880000))
 #content
   width= !width
   max-width: 100%
@@ -83,16 +82,11 @@ ol ol li
     position: relative
     top: 3.2em
     right: -3.2em
-    -moz-transform: rotate(45deg)
-    -webkit-transform: rotate(45deg)
-    transform: rotate(45deg)
+    +rotate(45)
     background= !red
-    background= "-webkit-gradient(linear, 0% 100%, 0% 0%, from(#a90000), to("!red"))"
-    background= "-moz-linear-gradient(top, "!red", #a90000)"
+    +linear-gradient(color_stops(!red, #a90000))
     color: white
-    -webkit-box-shadow: 0px 0px 1.5ex #888
-    -moz-box-shadow: 0px 0px 1.5ex #888
-    box-shadow: 0px 0px 1.5ex #888
+    +box-shadow(0px, 0px, 1.5ex, #888)
     div
       width: 15em
       border: 1px solid #cf7070
