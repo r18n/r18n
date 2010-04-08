@@ -74,6 +74,13 @@ information.
          %li
            %a{ href: "/#{locale.code}/" }= locale.title
 
+== Configuration
+
+You can change default locale and translations dir:
+
+  set :default_locale, 'ru'
+  set :translations,   './translations'
+
 == License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
