@@ -24,12 +24,18 @@ describe R18n::Filters do
     
     filter.should be_a(R18n::Filters::Filter)
     filter.name.should == :my_filter
-    filter.type.should == 'my'
+    filter.types.should == ['my']
     filter.should be_enabled
     
     R18n::Filters.defined.should have_key(:my_filter)
     @i18n.my_filter.should == 'value'
     @i18n.my_tree_filter.should == {'name' => 'value'}
+  end
+  
+  it "should add filter for several types" do
+    filter = R18n::Filters.add(['my', 'your']) { |i, config| i + '1' }
+    @i18n.my_filter.should   == 'value1'
+    @i18n.your_filter.should == 'another1'
   end
   
   it "should use passive filters" do
@@ -204,11 +210,21 @@ describe R18n::Filters do
   end
   
   it "should have Markdown filter" do
-    @i18n.markdown.should == '<p><strong>Hi!</strong></p>'
+    @i18n.markdown.simple.should == '<p><strong>Hi!</strong></p>'
   end
   
   it "should have Textile filter" do
-    @i18n.textile.should == '<p><em>Hi!</em></p>'
+    @i18n.textile.simple.should == '<p><em>Hi!</em></p>'
+  end
+  
+  it "should HTML escape before Markdown and Textile filters" do
+    @i18n.markdown.html.should == '<p><strong>Hi!</strong> <br /></p>'
+    @i18n.textile.html.should  == '<p><em>Hi!</em><br /></p>'
+    
+    R18n::Filters.on(:global_escape_html)
+    @i18n.reload!
+    @i18n.markdown.html.should == '<p><strong>Hi!</strong> &#60;br /&#62;</p>'
+    @i18n.textile.html.should  == '<p><em>Hi!</em>&lt;br /&gt;</p>'
   end
   
 end

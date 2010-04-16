@@ -21,6 +21,7 @@ files: !!pl
   1: 1 file
   n: %1 files
 
+your_filter:  !!your another
 my_filter:  !!my value
 my_tree_filter: !!my
     name: value
@@ -31,6 +32,10 @@ greater: 1 < 2 is %1
 no_escape: !!html
   <b>Warning</b>
 
-markdown: !!markdown **Hi!**
+markdown:
+  simple: !!markdown **Hi!**
+  html: !!markdown **Hi!** <br />
 
-textile: !!textile _Hi!_
+textile:
+  simple: !!textile _Hi!_
+  html: !!textile _Hi!_<br />

@@ -147,8 +147,9 @@ module R18n
       #    Note that passive filters will be always run before active.
       # * +passive+ – if +true+, filter will process only on translation
       #   loading. Note that you must add all passive before load translation.
-      def add(type, name = nil, options = {}, &block)
+      def add(types, name = nil, options = {}, &block)
         options, name = name, nil if name.is_a? Hash
+        types = Array(types)
         
         unless name
           @last_auto_name ||= 0
@@ -160,17 +161,18 @@ module R18n
           delete(name)
         end
         
-        @by_type[type] = [] unless @by_type.has_key? type
-        
-        filter = Filter.new(name, type, block, true, options[:passive])
+        filter = Filter.new(name, types, block, true, options[:passive])
         @defined[name] = filter
         
-        if options.has_key? :position
-          @by_type[type].insert(options[:position], filter)
-        else
-          @by_type[type] << filter
+        types.each do |type|
+          @by_type[type] = [] unless @by_type.has_key? type
+          if options.has_key? :position
+            @by_type[type].insert(options[:position], filter)
+          else
+            @by_type[type] << filter
+          end
+          rebuild_enabled! type
         end
-        rebuild_enabled! type
         
         filter
       end
@@ -181,8 +183,10 @@ module R18n
         return unless filter
         
         @defined.delete(filter.name)
-        @by_type[filter.type].delete(filter)
-        rebuild_enabled! filter.type
+        filter.types.each do |type|
+          @by_type[type].delete(filter)
+          rebuild_enabled! type
+        end
       end
       
       # Disable +filter+ by name or Filter object.
@@ -191,7 +195,7 @@ module R18n
         return unless filter
         
         filter.enabled = false
-        rebuild_enabled! filter.type
+        filter.types.each { |type| rebuild_enabled! type }
       end
       
       # Turn on disabled +filter+ by name or Filter object.
@@ -200,17 +204,17 @@ module R18n
         return unless filter
         
         filter.enabled = true
-        rebuild_enabled! filter.type
+        filter.types.each { |type| rebuild_enabled! type }
       end
     end
     
-    Filters.defined = {}
-    Filters.by_type = Hash.new([])
-    Filters.active_enabled = Hash.new([])
+    Filters.defined         = {}
+    Filters.by_type         = Hash.new([])
+    Filters.active_enabled  = Hash.new([])
     Filters.passive_enabled = Hash.new([])
-    Filters.enabled = Hash.new([])
+    Filters.enabled         = Hash.new([])
   
-    Filter = Struct.new(:name, :type, :block, :enabled, :passive) do
+    Filter = Struct.new(:name, :types, :block, :enabled, :passive) do
       def call(*params); block.call(*params); end
       def enabled?; enabled; end
       def passive?; passive; end
@@ -253,10 +257,12 @@ module R18n
     content
   end
   
-  Filters.add(String, :global_escape_html, :passive => true) do |html, config|
+  Filters.add([String, 'markdown', 'textile'],
+              :global_escape_html, :passive => true) do |html, config|
     if config[:dont_escape_html]
       html
     else
+      config[:dont_escape_html] = true
       Utils.escape_html(html)
     end
   end
