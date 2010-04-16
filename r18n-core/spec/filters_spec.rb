@@ -187,11 +187,11 @@ describe R18n::Filters do
   end
   
   it "should have disabled global filter for escape HTML" do
-    @i18n.greater.should == '1 < 2 is true'
+    @i18n.greater('true').should == '1 < 2 is true'
     
     R18n::Filters.on(:global_escape_html)
     @i18n.reload!
-    @i18n.greater.should == '1 &lt; 2 is true'
+    @i18n.greater('true').should == '1 &lt; 2 is true'
     @i18n.html.should == '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;'
   end
   

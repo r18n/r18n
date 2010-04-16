@@ -27,7 +27,7 @@ my_tree_filter: !!my
 
 html: !!escape
   <script>true && false</script>
-greater: 1 < 2 is true
+greater: 1 < 2 is %1
 no_escape: !!html
   <b>Warning</b>
 

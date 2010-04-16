@@ -32,7 +32,7 @@ module R18n
     def initialize(str, locale, path)
       super(str)
       @locale = locale
-      @path = path
+      @path   = path
     end
     
     # Return self for translated string.

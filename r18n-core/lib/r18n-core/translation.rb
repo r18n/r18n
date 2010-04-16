@@ -91,8 +91,9 @@ module R18n
           when Hash
             value = Translation.new(@locale, path, locale, value)
           when String
-            v = TranslatedString.new(value, locale, path)
-            value = Filters.process_string(Filters.passive_enabled, v, path, {})
+            c = { :locale => locale, :path => path }
+            v = Filters.process_string(Filters.passive_enabled, value, c, [])
+            value = TranslatedString.new(v, locale, path)
           when Typed
             value.locale = locale
             value.path = path
