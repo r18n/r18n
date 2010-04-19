@@ -221,7 +221,8 @@ module R18n
     # time. For special cases you can replace it in locale’s class.
     def format_time_human(time, i18n, now = Time.now, *params)
       minutes = (time - now) / 60.0
-      if time.mday != now.mday and minutes.abs > 720 # 12 hours
+      diff = minutes.abs
+      if (diff > 24 * 60) or (time.mday != now.mday and diff > 12 * 24)
         format_date_human(R18n::Utils.to_date(time), i18n,
                           R18n::Utils.to_date(now)) + format_time(time)
       else
@@ -233,7 +234,7 @@ module R18n
         when -1..1
           i18n.human_time.now
         else
-          hours = (minutes / 60.0).abs.floor
+          hours = (diff / 60.0).floor
           if time > now
             i18n.human_time.after_hours(hours)
           else

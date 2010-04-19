@@ -105,7 +105,7 @@ describe R18n::Locale do
     zero   = Time.at(0).utc
     params = [:human, R18n::I18n.new('ru'), zero]
     
-    @ru.localize( zero + 7 * day,     *params).should == ' 8 января 00:00'
+    @ru.localize( zero + 7  * day,    *params).should == ' 8 января 00:00'
     @ru.localize( zero + 50 * hour,   *params).should == 'через 2 дня 02:00'
     @ru.localize( zero + 25 * hour,   *params).should == 'завтра 01:00'
     @ru.localize( zero + 70 * minute, *params).should == 'через 1 час'
@@ -113,10 +113,12 @@ describe R18n::Locale do
     @ru.localize( zero + 5,           *params).should == 'сейчас'
     @ru.localize( zero - 15,          *params).should == 'сейчас'
     @ru.localize( zero - minute,      *params).should == '1 минуту назад'
-    @ru.localize( zero - 2 * hour,    *params).should == '2 часа назад'
+    @ru.localize( zero - 2  * hour,   *params).should == '2 часа назад'
     @ru.localize( zero - 13 * hour,   *params).should == 'вчера 11:00'
     @ru.localize( zero - 50 * hour,   *params).should == '3 дня назад 22:00'
-    @ru.localize( zero - 9 * day,     *params).should == '23 декабря 1969 00:00'
+    @ru.localize( zero - 9  * day,    *params).should == '23 декабря 1969 00:00'
+    
+    @ru.localize( zero - 365 * day,   *params).should == ' 1 января 1969 00:00'
   end
   
   it "should use standard formatter by default" do
