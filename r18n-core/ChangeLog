@@ -1,3 +1,9 @@
+== 0.4.5 (Annual)
+* Filters for several types.
+* Global HTML escaping run before Markdown and Textile formatting.
+* Fix active filters after passive filters.
+* Fix human time formatting for dates with same month days.
+
 == 0.4.4 (Frank)
 * Use before filter to lazy set I18n object in Sinatra extension.
 * Set I18n object to thread (by Simon Hafner).
