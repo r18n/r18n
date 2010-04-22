@@ -14,10 +14,13 @@ CONTENT = ROOT.join('content')
 LAYOUT  = ROOT.join('layout')
 DOCS    = ROOT.join('docs')
 
+def project_dir(project)
+  ROOT.join('..').join(project).relative_path_from(ROOT)
+end
+
 def readme(project)
-  input =  ROOT.join('..').join(project).relative_path_from(ROOT)
   output = DOCS.join(project)
-  `rdoc -q -o #{output} #{input}/README.rdoc`
+  `rdoc -q -o #{output} #{project_dir(project)}/README.rdoc`
   File.read output.join("files/__/#{project}/README_rdoc.html")
 end
 
