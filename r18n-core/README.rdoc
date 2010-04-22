@@ -247,20 +247,36 @@ You can also add you own filter for translations: escape HTML entries, convert
 from Markdown syntax, etc. Filters can be passive to process translation only on
 loading.
 
-  R18n::Filters.add('custom_type', :filter_name) do |content, config, replace|
-    content.gsub(' ', replace)
-  end
-  R18n::Filters.add('custom_type', :passive => true) do |content, config|
-    content + '!'
+  friendship: !!gender
+    f: She add friend
+    m: He add friend
+  
+  R18n::Filters.add('gender', :user_gender) do |content, config, user|
+    if user.female?
+      content['f']
+    else
+      content['m']
+    end
   end
   
-  t.filtered('_') #=> "This_content_will_be_processed_by_filter!"
+  t.friendship(anne) #=> "She add friend"
+  
+When you create filter you pass to <tt>R18n::Filters.add</tt>:
+* Filter target. YAML type (<tt>!!type</tt>), <tt>String</tt> for all
+  translations of <tt>R18n::Untranslated</tt> for absented translations.
+* Optional filter name to disable, enable or delete it later by
+  <tt>R18n::Filters.off</tt>, <tt>R18n::Filters.on</tt> and
+  <tt>R18n::Filters.delete</tt>.
+* Hash with options:
+  * <tt>:passive => true</tt> to filter translations once on loading;
+  * <tt>:position</tt> with level in cascade of another filters for this type
+    (by default filter will be insert into last position).
 
-You can also add global filters for all translated strings:
-
-  R18n::Filters.add(String, :capitalize_ruby) do |content, config|
-    content.gsub(/ruby/i) { |i| i.swapcase }
-  end
+Filter will receive at least two arguments:
+* Translation (already filtered by other filters for this type in top of
+  cascade).
+* Hash with translation +locale+ and +path+.
+* Parameters from translation request will be in next arguments.
 
 ==== HTML Escape
 
