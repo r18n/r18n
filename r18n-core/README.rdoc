@@ -1,6 +1,6 @@
 = R18n
 
-R18n is a i18n tool to translate your Ruby application to several languages.
+R18n is an i18n tool to translate your Ruby application into several languages.
 
 Use <tt>r18n-rails</tt>, <tt>sinatra-r18n</tt> or teamon’s <tt>merb_i18n</tt> to
 localize Web applications and <tt>r18n-desktop</tt> to localize desktop
@@ -9,7 +9,7 @@ application.
 == Features
 
 === Ruby-style Syntax
-R18n uses hierarchical not English-centrist YAML format for translations by
+R18n uses hierarchical, non English-centric YAML format for translations by
 default:
 
   user:
@@ -19,7 +19,7 @@ default:
       1: There is 1 user
       n: There are %1 users
 
-To access translation you can call methods with same names:
+To access translation you can call methods with the same names:
 
   t.user.edit         #=> "Edit user"
   t.user.name('John') #=> "User name is John"
@@ -28,14 +28,15 @@ To access translation you can call methods with same names:
   t.not.exists | 'default' #=> "default"
   t.not.exists.translated? #=> false
 
-If translation key has name of Object method you can use another way:
+If the translation key is the name of an Object method you can access it via
+hash index:
 
   t[:methods] #=> "Methods"
 
 === Filters
 
-You can add custom filters for some YAML type or any translated strings.
-Filters are cascade and can communicate with each other.
+You can add custom filters for YAML types or any translated string.  Filters
+cascade and can communicate with each other.
 
 R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
@@ -49,9 +50,9 @@ R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
 === Flexibility
 
-Translation variables and pluralization (“1 comment”, “5 comments”) are filters
-too. So you can extend or replace it. For example, you can use named variables
-filter from <tt>r18n-rails-api</tt> gem:
+Translation variables and pluralization ("1 comment", "5 comments") are filters
+too. So you can extend or replace them. For example, you can use the 'named
+variables filter' from the <tt>r18n-rails-api</tt> gem:
 
   greeting: "Hi, {{name}}"
 
@@ -60,12 +61,12 @@ filter from <tt>r18n-rails-api</tt> gem:
 
 === Flexible Locales
 
-Locale can extend Locale class, so locales are very flexible. For example,
-English locale extend time formatters:
+Locales extend the Locale class. For example, English locale extends the time
+formatters:
 
   l Date.now, :full #=> "30th of November, 2009"
 
-Or Russian has built-in different pluralization without any lambdas in YAML:
+Or Russian has built-in pluralization without any lambdas in YAML:
 
   t.user.count(1) #=> "1 пользователь"
   t.user.count(2) #=> "2 пользователя"
@@ -73,8 +74,8 @@ Or Russian has built-in different pluralization without any lambdas in YAML:
 
 === Loaders
 
-R18n can load translations from any places, not just from YAML files. You just
-need to create loader object with 2 methods: +available+ and +load+:
+R18n can load translations from anywhere, not just from YAML files. You just
+need to create loader objects with 2 methods: +available+ and +load+:
 
   class DBLoader
     def available
@@ -87,8 +88,8 @@ need to create loader object with 2 methods: +available+ and +load+:
   
   R18n.set R18n::I18n.new(user_locales, DBLoader.new)
 
-You can also set a list of different translation places or set extension places,
-which will be used only with application translation (useful for plugins).
+You can also set a list of different translation locations or set extension
+locations which will be only used with application translation (useful for plugins).
 
 === Object Translation
 
@@ -98,14 +99,14 @@ You can translate any class, including ORM models:
   
   class Product < ActiveRecord::Base
     include R18n::Translated
-    # Model has two usual property: title_en and title_ru
+    # Model has two normal properties: title_en and title_ru
     translations :title
   end
   
-  # For English user
+  # For English users
   product.title #=> "Anthrax"
   
-  # For Russian user
+  # For Russian users
   product.title #=> "Сибирская язва"
 
 === Localization
@@ -119,12 +120,10 @@ R18n can localize numbers and time:
 
 === Several User Languages
 
-Lack of translation in user language isn’t exception for R18n (because
-translation to not primary language done by enthusiasts, it can be out of date).
-R18n just automatically take next user language (browser send a list of locales)
-and for cultures with two officially languages (e.g., exUSSR) it take second
-language (e.g., if translation isn’t available in Kazakh R18n will see in
-Russian):
+If a particular locale is requested but missing, R18n will automatically take
+the next available language (according to the browser's list of locales) and for
+cultures with two official languages (e.g., exUSSR) it takes the second language
+(e.g., if a translation isn’t available in Kazakh R18n will look for Russian):
 
   i18n = R18n::I18n.new(['kk', 'de'], 'dir/with/translations')
   
@@ -138,22 +137,22 @@ Russian):
 
 === Agnostic
 
-R18n has a agnostic core package and plugins with out-of-box support for
+R18n has an agnostic core package and plugins with out-of-box support for
 Sinatra, Merb and desktop applications.
 
 == Usage
 
-To add i18n support to your app, you can use special plugin for your
+To add i18n support to your app, you can use the particular plugin for your
 environment: <tt>r18n-rails</tt>, <tt>sinatra-r18n</tt> or
 <tt>r18n-desktop</tt>.
 
-If you develop you own plugin or want to use only core gem, you must to create
-I18n object and set to global variable by <tt>R18n.set</tt> or to current thread
-by <tt>R18n.thread_set</tt>:
+If you develop you own plugin or want to use only core gem, you will need to
+create an I18n object and by using <tt>R18n.set</tt> or, for the current thread,
+by using <tt>R18n.thread_set</tt>:
 
   R18n.set(R18n::I18n.new('en', 'path/to/translations'))
   
-You can add helpers to access to current I18n object:
+You can add helpers to access the current R18n object:
 
   include R18n::Helpers
   
@@ -163,12 +162,13 @@ You can add helpers to access to current I18n object:
 
 === Translation
 
-Translation files use YAML format and has name like en.yml (English) or
-en-us.yml (USA English dialect) with language/country code (RFC 3066).
+Translation files are in YAML format by default and have names like en.yml
+(English) or en-us.yml (USA English dialect) with language/country code (RFC
+3066).
 
-In translation you can use:
+In translation files you can use:
 * Strings
-    robot: This is robot
+    robot: This is a robot
     percent: "Percent sign (%)"
 * Numbers
     number: 123
@@ -180,62 +180,62 @@ In translation you can use:
       n: %1 robots
 * Filters
     filtered: !!custom_type
-      This content will be processed by filter
+      This content will be processed by a filter
 
-To get translated string use method with key name or square brackets [] for
-keys, which is same with Object methods (+class+, +inspect+, etc):
+To get the translated string use a method with the key name or square brackets
+[] for keys, which is the same with Object methods (+class+, +inspect+, etc):
 
-  t.robot    #=> "This is robot"
-  t[:robot]  #=> "This is robot"
+  t.robot    #=> "This is a robot"
+  t[:robot]  #=> "This is a robot"
 
 Translation may be hierarchical:
 
   t.post.add     #=> "Add post"
   t[:post][:add] #=> "Add post"
 
-If locale willn’t be found in user locale R18n will search it in they sublocales
-or in another locale, which user know:
+If the locale isn't found in the user's requested locale, R18n will search for
+it in sublocales or in another locale, which the user also can accept:
 
-  t.no.in.english #=> "В английском нет"
+  t.not.in.english #=> "В английском нет"
 
-Translated string has +locale+ method and you can get it locale (Locale instance
+The translated string has a +locale+ method for determining its locale (Locale instance
 or code string if locale is’t supported in R18n):
 
-  i18n.no.in.english.locale #=> Locale ru (Русский)
+  i18n.not.in.english.locale #=> Locale ru (Русский)
 
-You can replace some parameters in translated string by put it as arguments:
+You can include parameters in the translated string by specifying arguments:
   
   name: "My name is %1"
 
   t.name('John') #=> "My name is John"
 
-Pluralizable messages get item count from first argument:
+Pluralizable messages get their item count from the first argument:
 
   t.robots(0)  #=> "No robots"
   t.robots(1)  #=> "One robot"
   t.robots(50) #=> "50 robots"
 
-If there isn’t pluralization for some number, translation will be use +n+. If
-there isn’t locale file for translation, it will be use English pluralization
-rule (0, 1 and +n+).
+If there isn't a pluralization for a particular number, translation will be use
++n+. If there isn't a locale file for translation, it will use the English
+pluralization rule (0, 1 and +n+).
 
-You can check, is message has translation:
+You can check if the method has a translation:
 
   t.post.add.translated?   #=> true
   t.not.exists.translated? #=> false
 
-For untranslated strings you can set default value:
+For untranslated strings you can set a default value:
 
   t.not.exists | 'default' #=> "default"
 
-You can get translation keys, to analyze translation:
+You can query the translation keys:
 
   t.counties._keys.each do |county|
     puts t.counties[county]
   end
 
-R18n already has translation for common words for most supported locales.
-See <tt>base/</tt> in dir in gem.
+R18n already has translations for common words for most built in locales.
+See <tt>base/</tt> the source.
 
   t.yes    #=> "Yes"
   t.cancel #=> "Cancel"
@@ -243,13 +243,13 @@ See <tt>base/</tt> in dir in gem.
 
 === Filters
 
-You can also add you own filter for translations: escape HTML entries, convert
-from Markdown syntax, etc. Filters can be passive to process translation only on
-loading.
+You can also add you own filters for translations: escape HTML entries, convert
+from Markdown syntax, etc. Filters can be passive, only being processed when
+loaded.
 
   friendship: !!gender
-    f: She add friend
-    m: He add friend
+    f: She has a friend
+    m: He has a friend
   
   R18n::Filters.add('gender', :user_gender) do |content, config, user|
     if user.female?
@@ -259,24 +259,25 @@ loading.
     end
   end
   
-  t.friendship(anne) #=> "She add friend"
+  t.friendship(anne) #=> "She has a friend"
   
-When you create filter you pass to <tt>R18n::Filters.add</tt>:
+To create a filter you pass the following to <tt>R18n::Filters.add</tt>:
+
 * Filter target. YAML type (<tt>!!type</tt>), <tt>String</tt> for all
-  translations of <tt>R18n::Untranslated</tt> for absented translations.
-* Optional filter name to disable, enable or delete it later by
+  translations of <tt>R18n::Untranslated</tt> for absent translations.
+* Optional filter name, to disable, enable or delete it later by
   <tt>R18n::Filters.off</tt>, <tt>R18n::Filters.on</tt> and
   <tt>R18n::Filters.delete</tt>.
 * Hash with options:
-  * <tt>:passive => true</tt> to filter translations once on loading;
-  * <tt>:position</tt> with level in cascade of another filters for this type
-    (by default filter will be insert into last position).
+  * <tt>:passive => true</tt> to filter translations only on load;
+  * <tt>:position</tt> within the list of current filters of this type
+    (by default a new filter will be inserted into last position).
 
-Filter will receive at least two arguments:
-* Translation (already filtered by other filters for this type in top of
-  cascade).
-* Hash with translation +locale+ and +path+.
-* Parameters from translation request will be in next arguments.
+The filter will receive at least two arguments:
+* Translation (possibly already filtered by other filters for this type earlier
+  in the list).
+* A Hash with translation +locale+ and +path+.
+* Parameters from translation request will be in the remaining arguments.
 
 ==== HTML Escape
 
