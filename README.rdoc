@@ -15,9 +15,9 @@ Merb R18n plugin is maintained by teamon: http://github.com/teamon/merb-i18n.
 * Filters.
 * Flexible locales.
 * Custom translation loaders.
-* Translation support for any classes.
+* Translation support for any class.
 * Time and number localization.
-* Several user language support.
+* Several user languages support.
 
 == Small Example
 
