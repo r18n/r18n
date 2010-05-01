@@ -455,7 +455,7 @@ If R18n hasn't got locale file for your language, please add it. It’s very sim
 * Create the file _code_.rb in the locales/ directory for your language and describe locale.
   Just copy from another locale and change the values.
   * If your country has alternate languages (for example, in exUSSR countries
-  most people also know Russian), add
+    most people also know Russian), add
     <tt>sublocales %{_another_locale_ en}</tt>.
 * Create in base/, a file _code_.yml for your language and translate the base messages.
   Just copy file from language, which you know, and rewrite values.
