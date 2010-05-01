@@ -1,5 +1,7 @@
 # encoding: utf-8
 require 'pp'
+require 'rubygems'
+gem 'sinatra'
 
 require File.join(File.dirname(__FILE__), 'app/app')
 

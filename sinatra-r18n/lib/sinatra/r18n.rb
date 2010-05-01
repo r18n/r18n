@@ -18,11 +18,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'rubygems'
-gem 'sinatra'
 require 'sinatra/base'
-
-gem 'r18n-core', '~>0.3'
 require 'r18n-core'
 
 module Sinatra #::nodoc::
