@@ -2,12 +2,12 @@
 
 R18n-rails is a gem to add out-of-box R18n support to Rails I18n.
 
-It is just a wrapper for R18n Rails API and R18n core libraries. See R18n core
+It is a wrapper for R18n Rails API and R18n core libraries. See R18n core
 documentation for more information.
 
 == Features
 
-R18n for Rails has full compatibility with Rails I18n, but add extra features:
+R18n for Rails is fully compatibile with Rails I18n, and add extra features:
 
 === R18n Syntax
 
@@ -22,7 +22,7 @@ Translations in R18n format will be loaded from <tt>app/i18n/_locale_.yml</tt>:
       1: 1 user
       n: %1 users
 
-R18n extend +t+ helper to add optional R18n syntax:
+R18n extends +t+ helper to add optional R18n syntax:
 
   t.user.name('John')      #=> "User name is John"
   t.user.count(5)          #=> "5 users"
@@ -31,7 +31,7 @@ R18n extend +t+ helper to add optional R18n syntax:
 === Filters
 
 R18n has flexible architecture based on filters. Variables, pluralization,
-untranslated are a common filters, and you can change all of them. For example,
+untranslated are common filters, and you can change them all. For example,
 write untranslated keys to file:
 
   R18n::Filters.add(::R18n::Untranslated, :write_untranslated) do
@@ -55,7 +55,7 @@ R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
 R18n can add i18n support for your ActiveRecord model and any other class:
 
-1. Add separated column for all supported translations:
+1. Add separate columns for all supported translations:
    
      def self.up
        create_table :posts do |t|
@@ -78,7 +78,7 @@ R18n can add i18n support for your ActiveRecord model and any other class:
      post.title_ru = 'Запись'
      post.title = 'Запись'
      
-     post.title = 'Другая' # will user title_ru, by user first locale
+     post.title = 'Другая' # will use title_ru, by first user's locale
 
 === Time Fomatters
 
@@ -92,8 +92,8 @@ R18n add +full+ time formatter based on locale info:
 
 === Locales
 
-R18n contain locales info, so it out-of-box support locale plural and fallback
-rules for non-English locales:
+R18n contains locales info, so it supports locale pluralization and fallback
+rules for non-English locales out-of-box:
 
   # Russian have different plural rules:
   user:
@@ -108,9 +108,9 @@ rules for non-English locales:
 
 === Autodetect User Locales
 
-R18n automatically generate fallback for current user, based on
-user locales list from HTTP_ACCEPT_LANGUAGE, locale info (in some country people
-know several languages) and default locale.
+R18n automatically generate fallbacks for current user, based on
+user locales list from HTTP_ACCEPT_LANGUAGE, locale info (in some countries people
+know several languages), and default locale.
 
 For example, if user know Kazakh and German, R18n will try find translations in:
 Kazakh → German → Russian (second language in Kazakhstan) → English (default
@@ -121,7 +121,7 @@ locale).
 You can create another R18n I18n instance with another languages. For example,
 to send e-mail for English admin on error with French user:
 
-  puts I18n.t :error # Show error on French
+  puts I18n.t :error # Show error in French
   
   admin_i18n = R18n::I18n.new(@admin_locales, Rails.root + 'app/i18n')
   send_email(admin_i18n.error_messages)
@@ -132,15 +132,16 @@ to send e-mail for English admin on error with French user:
    
      config.gem 'r18n-rails'
    
-   Now R18n will be autodetect user locales.
-2. Add your way to set locale manually. R18n will find it in
+   Now R18n will autodetect user locales.
+2. Define your way to set locale manually. R18n will find it in
    <tt>params[:locale]</tt> or <tt>session[:locale]</tt>. Best way is a put
    optional locale prefix to URLs:
    
        map.connect ':controller/:action'
        map.connect ':locale/:controller/:action'
    
-3. Print available translations, to choise it manually (and to search engines):
+3. Print available translations, to choose from them manually (and to help search
+engines):
 
      <ul>
      <% r18n.available_locales.each do |locale| %>
@@ -150,7 +151,7 @@ to send e-mail for English admin on error with French user:
      <% end %>
      </ul>
    
-4. Translations with I18n format put to <tt>config/locales/_locale_.yml</tt>:
+4. Translations in I18n format are stored in <tt>config/locales/_locale_.yml</tt>:
    
      en:
        user:
@@ -160,7 +161,7 @@ to send e-mail for English admin on error with French user:
            one:  "One user"
            many: "{{count}} users"
    
-   Translations with R18n format put to <tt>app/i18n/_locale_.yml</tt>:
+   Translations in R18n format go to <tt>app/i18n/_locale_.yml</tt>:
    
      user:
        name: User name is %1
@@ -174,13 +175,13 @@ to send e-mail for English admin on error with French user:
      t 'user.name', :name => 'John'
      t 'user.count', :count => 5
    
-   Or R18n syntax:
+   or R18n syntax:
    
      t.user.name(:name => 'John') # for Rails I18n named variables
      t.user.name('John')          # for R18n variables
      t.user.count(5)
    
-6. Print dates and numbers in user tradition:
+6. Print dates and numbers in user's tradition:
    
      l Date.today, :standard #=> "20/12/2009"
      l Time.now,   :full     #=> "20th of December, 2009 12:00"
@@ -188,7 +189,7 @@ to send e-mail for English admin on error with French user:
 
 7. Translate models:
    
-   1. Add to migration columns for each supported locales, with name
+   1. Add to migration columns for each of the supported locales, named as
       <tt><i>name</i>_<i>locale</i></tt>:
       
          t.string :title_en
@@ -202,11 +203,11 @@ to send e-mail for English admin on error with French user:
         class Post < ActiveRecord::Base
           include R18n::Translated
       
-   3. Call +translations+ method in model with all columns to translated:
+   3. Call +translations+ method in model with all columns to be translated:
       
           translations :title, :text
    
-      Now model will be have virtual methods +title+, +text+, <tt>title=</tt>
+      Now model will have virtual methods +title+, +text+, <tt>title=</tt>
       and <tt>text=</tt>, which will call +title_ru+ or +title_en+ and etc based
       on current user locales.
    
