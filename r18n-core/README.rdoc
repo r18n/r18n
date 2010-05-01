@@ -89,7 +89,8 @@ need to create loader object with 2 methods: +available+ and +load+:
   R18n.set R18n::I18n.new(user_locales, DBLoader.new)
 
 You can also set a list of different translation locations or set extension
-locations which will be only used with application translation (useful for plugins).
+locations which will be only used with application translation (useful for
+plugins).
 
 === Object Translation
 
@@ -443,8 +444,8 @@ If you want to load a translation with some type for filter, use
 
 For r18n plugin you can add loaders with translations, which will be used with
 application translations. For example, DB plugin may place translations for
-error messages in extension directory. R18n contain translations for base words as
-extension directory too.
+error messages in extension directory. R18n contain translations for base words
+as extension directory too.
 
   R18n.extension_places << R18n::Loader::YAML.new('./error_messages/')
 

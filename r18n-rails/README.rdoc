@@ -109,8 +109,8 @@ rules for non-English locales out-of-box:
 === Autodetect User Locales
 
 R18n automatically generate fallbacks for current user, based on
-user locales list from HTTP_ACCEPT_LANGUAGE, locale info (in some countries people
-know several languages), and default locale.
+user locales list from HTTP_ACCEPT_LANGUAGE, locale info (in some countries
+people know several languages), and default locale.
 
 For example, if user know Kazakh and German, R18n will try find translations in:
 Kazakh → German → Russian (second language in Kazakhstan) → English (default
@@ -140,8 +140,8 @@ to send e-mail for English admin on error with French user:
        map.connect ':controller/:action'
        map.connect ':locale/:controller/:action'
    
-3. Print available translations, to choose from them manually (and to help search
-engines):
+3. Print available translations, to choose from them manually (and to helpsearch
+   engines):
 
      <ul>
      <% r18n.available_locales.each do |locale| %>
@@ -151,7 +151,8 @@ engines):
      <% end %>
      </ul>
    
-4. Translations in I18n format are stored in <tt>config/locales/_locale_.yml</tt>:
+4. Translations in I18n format are stored in
+   <tt>config/locales/_locale_.yml</tt>:
    
      en:
        user:
