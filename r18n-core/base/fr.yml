@@ -3,12 +3,12 @@ save: Enregistrer
 cancel: Annuler
 'yes': Oui
 'no': Non
-exit: Sortie
+exit: Partir
 delete: Supprimer
 
 human_time:
   after_days: !!pl
-    1: dans une jour
+    1: dans un jour
     n: dans %1 jours
   tomorrow: demain
   after_hours: !!pl
@@ -20,12 +20,12 @@ human_time:
   now: maintenant
   today: "aujourd'hui"
   minutes_ago: !!pl
-    1: il ya une minute
-    n: il ya %1 minutes
+    1: il y a une minute
+    n: il y a %1 minutes
   hours_ago: !!pl
-    1: il ya une heure
-    n: il ya %1 heures
+    1: il y a une heure
+    n: il y a %1 heures
   yesterday: hier
   days_ago: !!pl
-    1: il ya une jour
-    n: il ya %1 jours
+    1: il y a un jour
+    n: il y a %1 jours

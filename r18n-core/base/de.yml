@@ -20,12 +20,12 @@ human_time:
   now: jetzt
   today: heute
   minutes_ago: !!pl
-    1: %1 Minute vor
-    n: %1 Minuten vor
+    1: vor %1 Minute
+    n: vor %1 Minuten
   hours_ago: !!pl
-    1: %1 Stunde vor
-    n: %1 Stunden vor
+    1: vor %1 Stunde
+    n: vor %1 Stunden
   yesterday: gestern
   days_ago: !!pl
-    1: %1 Tag vor
-    n: %1 Tagen vor
+    1: vor %1 Tag
+    n: vor %1 Tagen
