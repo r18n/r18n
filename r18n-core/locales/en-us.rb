@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'en')
 
 module R18n::Locales
   class EnUs < En
-    set :title => 'English (US)',
+    set :title => 'American English',
         :code =>  'en-US',
         :sublocales => %w{en},
         
