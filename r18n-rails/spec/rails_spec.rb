@@ -40,7 +40,7 @@ describe 'R18n for Rails', :type => :controller do
   it 'should return available translations' do
     get :available
     response.should be_success
-    response.body.should == 'ru, en'
+    response.body.should == 'en ru'
   end
   
   it 'should add helpers' do

@@ -9,7 +9,7 @@ class TestController < ApplicationController
   end
   
   def available
-    render :text => R18n.get.available_locales.map { |i| i.code }.join(', ')
+    render :text => R18n.get.available_locales.map { |i| i.code }.sort.join(' ')
   end
   
   def helpers
