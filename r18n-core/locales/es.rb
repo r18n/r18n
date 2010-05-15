@@ -4,7 +4,7 @@ module R18n
     set :title => 'Español',
         
         :wday_names => %w{domingo lunes martes miércoles jueves viernes sábado},
-        :wday_abbrs => %w{dom lun mar mie jue mie sab},
+        :wday_abbrs => %w{dom lun mar mie jue vie sab},
         
         :month_names => %w{Enero Febrero Marzo Abril Mayo Junio Julio Agosto
                            Septiembre Octubre Noviembre Diciembre},
