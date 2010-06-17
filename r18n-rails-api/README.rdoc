@@ -12,10 +12,10 @@ Rails I18n compatibility for R18n:
 After require-ing <tt>r18n-rails-api</tt> you can use named variables in all
 translations:
 
-  greeting: "Hi, {{name}}"
+  greeting: "Hi, %{name}"
   users: !!pl
     1: One user
-    n: {{count}} users
+    n: %{count} users
 
   require 'r18n-rails-api'
 
@@ -31,7 +31,7 @@ i18n/en.yml:
   en:
     posts:
       one: One post
-      many: {{count}} posts
+      many: %{count} posts
 
 example.rb:
   require 'r18n-rails-api'

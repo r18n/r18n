@@ -156,11 +156,11 @@ to send e-mail for English admin on error with French user:
    
      en:
        user:
-         name: "User name is {{name}}"
+         name: "User name is %{name}"
          count:
            zero: "No users"
            one:  "One user"
-           many: "{{count}} users"
+           many: "%{count} users"
    
    Translations in R18n format go to <tt>app/i18n/_locale_.yml</tt>:
    

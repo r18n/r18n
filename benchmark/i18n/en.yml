@@ -6,12 +6,12 @@ en:
   user:
     login: Login
     name: Name
-    your_name: "Your name is {{name}} ({{login}})"
+    your_name: "Your name is %{name} (%{login})"
     count:
       zero: No users
       one: 1 user
-      many: "{{count}} users"
-      other: "{{count}} users"
+      many: "%{count} users"
+      other: "%{count} users"
 
   users:
     new:

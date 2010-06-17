@@ -19,20 +19,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Filter to use Rails named variables:
 # 
-#   name: "My name is {{name}}"
+#   name: "My name is %{name}"
 # 
 #   i18n.name(name: 'Ivan') #=> "My name is Ivan"
 R18n::Filters.add(String, :named_variables) do |content, config, params|
   if params.is_a? Hash
     content = content.clone
     params.each_pair do |name, value|
-      content.gsub! "{{#{name}}}", config[:locale].localize(value)
+      v = config[:locale].localize(value)
+      content.gsub! "%{#{name}}", v
+      content.gsub! "{{#{name}}}", v
     end
   end
   content
 end
 
-# Pluralization by named variable <tt>{{count}}</tt>.
+# Pluralization by named variable <tt>%{count}</tt>.
 R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
   if param.is_a? Hash and param.has_key? :count
     type = config[:locale].pluralize(param[:count])

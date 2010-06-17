@@ -18,4 +18,4 @@ en:
 
   users:
     one: 1 user
-    many: "{{count}} users"
+    many: "%{count} users"

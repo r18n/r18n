@@ -2,12 +2,12 @@ ru:
   user:
     login: "Логин"
     name: "Имя"
-    your_name: "Ваше имя {{name}} ({{login}})"
+    your_name: "Ваше имя %{name} (%{login})"
     count:
       zero: "Нет пользователей"
-      one: "{{count}} пользователь"
-      other: "{{count}} пользователя"
-      many: "{{count}} пользователей"
+      one: "%{count} пользователь"
+      other: "%{count} пользователя"
+      many: "%{count} пользователей"
 
   users:
     new:
