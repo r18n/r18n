@@ -1,8 +1,8 @@
 @import compass/css3
 
-!red = #9a0000
-!menu = 5.5ex
-!width = 35em
+$red: #9a0000
+$menu: 5.5ex
+$width: 35em
 
 *
   margin: 0
@@ -13,11 +13,11 @@ body
 #header
   color: white
   background-color: black
-  +box-shadow(0, 0, 1ex, #888)
-  min-height= !menu
-  line-height= !menu
+  @include box-shadow(0, 0, 1ex, #888)
+  min-height: $menu
+  line-height: $menu
   div
-    width= !width
+    width: $width
     max-width: 100%
     margin: 0 auto
     padding: 0 0.5em 0 2em
@@ -34,7 +34,7 @@ body
     font-weight: bold
     padding-right: 0.8em
     strong
-      color= !red
+      color: $red
   li
     a
       padding: 0 0.25em
@@ -43,10 +43,10 @@ body
       text-decoration: underline
   .selected
     a
-      background= !red
-      +linear-gradient(color_stops(!red, #880000))
+      background: $red
+      @include linear-gradient(color_stops($red, #880000))
 #content
-  width= !width
+  width: $width
   max-width: 100%
   margin: 0 auto
   padding: 2ex 0.5em 2ex 2em
@@ -56,12 +56,12 @@ h1, h2, h3, h4
 h1
   margin-top: 0.5ex
 pre
-  border-left= 0.2em "solid" !red
+  border-left: 0.2em solid $red
   margin: 0.8ex 0 1.5ex -1em
   padding-left: 0.9em
   line-height: 130%
   .comment
-    color= !red
+    color: $red
   .type
     font-weight: bold
 ol li, p
@@ -82,11 +82,11 @@ ol ol li
     position: relative
     top: 3.2em
     right: -3.2em
-    +rotate(45)
-    background= !red
-    +linear-gradient(color_stops(!red, #a90000))
+    @include rotate(45deg)
+    background: $red
+    @include linear-gradient(color_stops($red, #a90000))
     color: white
-    +box-shadow(0px, 0px, 1.5ex, #888)
+    @include box-shadow(0px, 0px, 1.5ex, #888)
     div
       width: 15em
       border: 1px solid #cf7070
