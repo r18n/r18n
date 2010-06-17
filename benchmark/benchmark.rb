@@ -21,7 +21,7 @@ require 'i18n'
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
 I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
 I18n::Backend::Simple.send(:include, I18n::Backend::InterpolationCompiler)
-I18n::Backend::Simple.send(:include, I18n::Backend::Fast)
+I18n::Backend::Simple.send(:include, I18n::Backend::Flatten)
 
 RBench.run(1000) do
   
@@ -80,10 +80,10 @@ RBench.run(1000) do
 
   report 'pluralize' do
     r18n {
-      R18n.get.user.count(53)
+      R18n.get.user.count(51)
     }
     i18n { 
-      I18n.t :'user.count', :count => 53
+      I18n.t :'user.count', :count => 51
     }
   end
 
