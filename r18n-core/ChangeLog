@@ -1,3 +1,14 @@
+== 0.4.6 (Trinity)
+* Add support for new interpolation syntax in Rails 3.
+* Add Catalian locale (by Jordi Romero).
+* Add Finish locale (by Laura Guillén).
+* Add British locale (by JP Hastings-Spital).
+* Add Latvian locale (by Iļja Ketris).
+* Fix Spanish (by Jordi Romero), German, French, Esperanto (Iļja Ketris) and
+  Polish locales.
+* Fix documentation (by Iļja Ketris and felix).
+* Remove RubyGems from plugins requires.
+
 == 0.4.5 (Annual)
 * Filters for several types.
 * Global HTML escaping run before Markdown and Textile formatting.
