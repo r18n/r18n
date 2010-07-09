@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module R18n
   class I18n
     def self.system_locale
-      java.util.Locale.getDefault.toString
+      Java.java.util.Locale.getDefault.toString
     end
   end
 end
