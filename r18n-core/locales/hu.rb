@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
+# encoding: utf-8
 module R18n
   class Locales::Hu < Locale
     set :title => 'Magyar',
-        :sublocales => [],
 
         :week_start => :monday,
         :wday_names => %w{vasárnap hétfő kedd szerda csütörtök péntek szombat},
@@ -40,6 +38,7 @@ module R18n
     def format_time_standard(time, *params)
       format_date_standard(time) + ', ' + format_time(time)
     end
+    
     def format_time_full(time, *params)
       format_date_full(time) + ', ' + format_time(time)
     end
