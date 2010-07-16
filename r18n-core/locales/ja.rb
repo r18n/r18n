@@ -11,21 +11,15 @@ module R18n
         :month_names => @@jp_month,
         :month_abbrs => @@jp_month,
         
-        :date_format => '%Y/%m/%d',
-        :full_format => '%e of %B',
-        :year_format => '_, %Y',
-        
+        :date_format => '%Y年%m月%d日',
+        :full_format => '%m月%d日',
+        :year_format => '%Y年_',
+
         :number_decimal => ".",
         :number_group =>   ","
     
     def ordinalize(n)
       "#{n}番目"
-    end
-    
-    def format_date_full(date, year = true, *params)
-      format = full_format
-      format = year_format.sub('_', format) if year
-      strftime(date, format.sub('%e', ordinalize(date.mday)))
     end
   end
 end
