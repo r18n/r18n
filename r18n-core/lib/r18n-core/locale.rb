@@ -118,6 +118,7 @@ module R18n
         :year_format => '_ %Y'
     
     def month_standalone; month_names; end
+    def month_abbrs;      month_names; end
     
     # Is locale has left-to-right write direction.
     def ltr?; true; end
