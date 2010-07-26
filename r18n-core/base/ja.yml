@@ -7,25 +7,13 @@ exit: 終了
 delete: 削除
 
 human_time:
-  after_days: !!pl
-    1: %1日後
-    n: %1日後
-  tomorrow: tomorrow
-  after_hours: !!pl
-    1: %1時間後
-    n: %1時間後
-  after_minutes: !!pl
-    1: %1分後
-    n: %1分後
+  after_days: %1日後
+  tomorrow: 明日
+  after_hours: %1時間後
+  after_minutes: %1分後
   now: 今
   today: 今日
-  minutes_ago: !!pl
-    1: %1分前 
-    n: %1分前
-  hours_ago: !!pl
-    1: %1時間前
-    n: %1時間前
+  minutes_ago: %1分前
+  hours_ago: %1時間前
   yesterday: 昨日
-  days_ago: !!pl
-    1: %1日前
-    n: %1日前
+  days_ago: %1日前

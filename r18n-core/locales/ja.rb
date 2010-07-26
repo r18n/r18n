@@ -1,8 +1,7 @@
 module R18n
   class Locales::Ja < Locale
     @@jp_month = %w{一月 二月 三月 四月 五月 六月 七月 八月 九月 十月 十一月 十二月}
-    set :title => 'Japanese',
-        :sublocales => [],
+    set :title => '日本語',
         
         :week_start => :sunday,
         :wday_names => %w{日曜日 月曜日 火曜日 水曜日 木曜日 金曜日 土曜日},
@@ -16,10 +15,6 @@ module R18n
         :year_format => '%Y年_',
 
         :number_decimal => ".",
-        :number_group =>   ","
-    
-    def ordinalize(n)
-      "#{n}番目"
-    end
+        :number_group   => ","
   end
 end
