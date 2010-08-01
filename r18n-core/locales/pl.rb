@@ -8,7 +8,7 @@ module R18n
         :wday_abbrs => %w{nd pn wt śr czw pt sob},
         
         :month_names => %w{stycznia lutego marca kwietnia maja czerwca lipca
-                           sierpnia września pażdziernika listopada grudnia},
+                           sierpnia września października listopada grudnia},
         :month_abbrs => %w{I II III IV V VI VII VIII IX X XI XII},
         :month_standalone => %w{styczeń luty marzec kwiecień maj czerwiec lipiec
                                 sierpień wrzesień październik listopad
