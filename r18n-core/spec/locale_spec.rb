@@ -109,6 +109,7 @@ describe R18n::Locale do
     @ru.localize( zero + 50 * hour,   *params).should == 'через 2 дня 02:00'
     @ru.localize( zero + 25 * hour,   *params).should == 'завтра 01:00'
     @ru.localize( zero + 70 * minute, *params).should == 'через 1 час'
+    @ru.localize( zero + hour,        *params).should == 'через 1 час'
     @ru.localize( zero + 38 * minute, *params).should == 'через 38 минут'
     @ru.localize( zero + 5,           *params).should == 'сейчас'
     @ru.localize( zero - 15,          *params).should == 'сейчас'
