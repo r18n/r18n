@@ -1,3 +1,11 @@
+== 0.4.7 (Mado)
+* Fix autodetect locale in Windows and Ruby 1.9.1 (by Marvin Gülker).
+* Fix autodetect locale in JRuby (by Kővágó, Zoltán).
+* Fix human time format on 60 minutes.
+* Add Hungarian locale (by Kővágó, Zoltán).
+* Add Japanese locale (by hryk).
+* Fix Polish locale (by Piotr Szotkowski).
+
 == 0.4.6 (Trinity)
 * Add support for new interpolation syntax in Rails 3.
 * Add Catalian locale (by Jordi Romero).
