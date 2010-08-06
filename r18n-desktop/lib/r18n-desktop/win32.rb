@@ -18,13 +18,31 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'dl/win32'
+# Win32API is deprecated as of 1.9.1
+if RUBY_VERSION < '1.9'
+  require 'dl/win32'
+else
+  require 'dl/import'
+end
 
 module R18n
   class I18n
-    def self.system_locale
-      id = Win32API.new("kernel32.dll", "GetUserDefaultLangID", nil, "i").call
-      WIN32_LOCALES[id]
+    if RUBY_VERSION < '1.9'
+      def self.system_locale
+        id = Win32API.new('kernel32.dll', 'GetUserDefaultLangID', nil, 'i').call
+        WIN32_LOCALES[id]
+      end
+    else
+      module Kernel32
+        extend DL::Importer
+        dlload 'Kernel32'
+        extern 'int GetUserDefaultLangID()'
+      end
+      
+      def self.system_locale
+        id = Kernel32.GetUserDefaultLangID()
+        WIN32_LOCALES[id]
+      end
     end
     
     WIN32_LOCALES = {
