@@ -1,3 +1,4 @@
+# encoding: utf-8
 module R18n
   class Locales::Ja < Locale
     set :title => '日本語',
