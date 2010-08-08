@@ -1,3 +1,6 @@
+== 0.4.7.1 (Kyū)
+* Fix Japanese locale in Ruby 1.9.1.
+
 == 0.4.7 (Mado)
 * Fix autodetect locale in Windows and Ruby 1.9.1 (by Marvin Gülker).
 * Fix autodetect locale in JRuby (by Kővágó, Zoltán).
