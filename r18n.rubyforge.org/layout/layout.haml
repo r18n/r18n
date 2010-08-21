@@ -7,6 +7,16 @@
     %link( rel='shortcut icon' type='image/x-icon' href='favicon.ico' )
     %meta{ :name => 'Keywords', :content => @keywords.join(', ') }
     %meta{ :name => 'Description', :content => @description }
+      :javascript
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-15901492-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.async = true;
+            ga.src = 'http://www.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
   %body
     #ribbon
       %a( href='http://github.com/ai/r18n' )
@@ -23,11 +33,3 @@
                   %span= title
     %article
       #content= @content
-    %script( type="text/javascript" )
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    %script( type="text/javascript" )
-      try {
-      var pageTracker = _gat._getTracker("UA-15901492-1");
-      pageTracker._trackPageview();
-      } catch(err) {}
