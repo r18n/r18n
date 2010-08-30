@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::EnUs do
   it "should format American English date" do

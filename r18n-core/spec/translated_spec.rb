@@ -1,6 +1,6 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', 'lib', 'r18n-core', 'translated')
+require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('../../lib/r18n-core/translated', __FILE__)
 
 describe R18n::Translated do
   before do

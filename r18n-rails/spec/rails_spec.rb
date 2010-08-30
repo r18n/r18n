@@ -1,6 +1,5 @@
 # encoding: utf-8
-
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require File.expand_path('../spec_helper', __FILE__)
 
 describe 'R18n for Rails', :type => :controller do
   controller_name :test

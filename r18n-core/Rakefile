@@ -10,7 +10,7 @@ rescue LoadError
 end
 
 PKG_NAME = 'r18n-core'
-require 'lib/r18n-core/version'
+require File.join(File.dirname(__FILE__), 'lib/r18n-core/version')
 
 task :default => :spec
 
