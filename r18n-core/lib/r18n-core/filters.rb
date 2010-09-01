@@ -247,6 +247,12 @@ module R18n
     "#{translated}[#{untranslated}]"
   end
   
+  Filters.add(Untranslated, :untranslated_html) do |v, c, transl, untransl|
+    Utils.escape_html(transl) <<
+      '<span style="color: red">' << Utils.escape_html(untransl) << '</span>'
+  end
+  Filters.off(:untranslated_html)
+  
   Filters.add('escape', :escape_html, :passive => true) do |content, config|
     config[:dont_escape_html] = true
     Utils.escape_html(content)

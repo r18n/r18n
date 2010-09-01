@@ -188,6 +188,13 @@ describe R18n::Filters do
     @i18n.in.another.to_s.should == 'in.another in.another[]'
   end
   
+  it "should format untranslated for web" do
+    R18n::Filters.off(:untranslated)
+    R18n::Filters.on(:untranslated_html)
+    @i18n.in.not.to_s.should == 'in.<span style="color: red">not</span>'
+    @i18n['<b>'].to_s.should == '<span style="color: red">&lt;b&gt;</span>'
+  end
+  
   it "should have filter for escape HTML" do
     @i18n.html.should == '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;'
   end

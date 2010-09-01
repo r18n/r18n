@@ -27,10 +27,7 @@ require dir + 'helpers'
 require dir + 'controller'
 
 R18n::Filters.off(:untranslated)
-R18n::Filters.add(::R18n::Untranslated, :untranslated_html) do
-|v, c, translated, untranslated, path|
-  "#{translated}<span style='color: red'>#{untranslated}</span>"
-end
+R18n::Filters.on(:untranslated_html)
 
 ActionController::Base.helper(R18n::Rails::Helpers)
 ActionController::Base.send(:include, R18n::Rails::Controller)

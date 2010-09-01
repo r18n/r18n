@@ -51,7 +51,7 @@ describe 'R18n for Rails', :type => :controller do
   it 'should format untranslated' do
     get :untranslated
     response.should be_success
-    response.body.should == "user.<span style='color: red'>not.exists</span>"
+    response.body.should == 'user.<span style="color: red">not.exists</span>'
   end
   
   it "should add methods to controller" do

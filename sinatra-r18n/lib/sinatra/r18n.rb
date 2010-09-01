@@ -44,13 +44,7 @@ module Sinatra #::nodoc::
       end
       
       ::R18n::Filters.off(:untranslated)
-      ::R18n::Filters.add(::R18n::Untranslated, :untranslated_html) do
-        |content, config, translated_path, untranslated_path, path|
-        "#{translated_path}<span style='color: red'>#{untranslated_path}</span>"
-      end
-      app.configure :production do
-        ::R18n::Filters.add(::R18n::Untranslated, :hide_untranslated) { '' }
-      end
+      ::R18n::Filters.on(:untranslated_html)
     end
   end
   
