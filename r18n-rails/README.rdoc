@@ -53,7 +53,8 @@ R18n already has filters for HTML escaping, lambdas, Textile and Markdown:
 
 === Model Translation
 
-R18n can add i18n support for your ActiveRecord model and any other class:
+R18n can add i18n support for your ActiveRecord model and any other class
+(include DataMapper, MongoMapper, Mongoid):
 
 1. Add separate columns for all supported translations:
    

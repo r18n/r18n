@@ -94,7 +94,8 @@ plugins).
 
 === Object Translation
 
-You can translate any class, including ORM models:
+You can translate any class, including ORM models (ActiveRecord, DataMapper,
+MongoMapper, Mongoid or others):
 
   require 'r18n-core/translated'
   
@@ -360,7 +361,8 @@ and <tt>:standard</tt> (the default):
 
 === Model
 
-You can add i18n support to any classes, including ORM models:
+You can add i18n support to any classes, including ORM models (ActiveRecord,
+DataMapper, MongoMapper, Mongoid or others):
 
   require 'r18n-core/translated'
   
