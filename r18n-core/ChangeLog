@@ -1,3 +1,10 @@
+== 0.4.8 (En ni to)
+* Fix support for Ruby 1.9.2.
+* Fix caching issue (by Viktors Rotanovs).
+* Add Danish locale (by Hans Czajkowski Jørgensen)
+* Fix Italian locale (by Viktors Rotanovs).
+* Move untranslated filters with html highlight to r18n-core.
+
 == 0.4.7.1 (Kyū)
 * Fix Japanese locale in Ruby 1.9.1.
 
