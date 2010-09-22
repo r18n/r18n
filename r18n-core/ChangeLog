@@ -22,7 +22,7 @@
 * Add Finish locale (by Laura Guillén).
 * Add British locale (by JP Hastings-Spital).
 * Add Latvian locale (by Iļja Ketris).
-* Fix Spanish (by Jordi Romero), German, French, Esperanto (Iļja Ketris) and
+* Fix Spanish (by Jordi Romero), German, French, Esperanto (by Iļja Ketris) and
   Polish locales.
 * Fix documentation (by Iļja Ketris and felix).
 * Remove RubyGems from plugins requires.
@@ -79,14 +79,14 @@
 * Add Chinese locale (by Ilia Zayats).
 * Add Spanish locale (by Andre O Moura).
 * Add Brazilian Portuguese locale (by Andre O Moura).
-* Remove rubygems requires.
+* Remove RubyGems requires.
 
 == 0.3 (Vladivostok)
 * Translated mixin to add i18n support to model or any other class.
 * New cool time formatters.
 * Filters for translations.
 * Add filters to escape HTML, Markdown and Textile syntax.
-* Pluralization and variables is now as filters and can be replaced.
+* Pluralization and variables is now filters and can be replaced.
 * I18n#locales now contain all detected locales, used to load translations,
   instead of just received from user.
 * Bugfix in locale code case.
@@ -94,7 +94,7 @@
 
 == 0.2.3 (Shanghai eclipse)
 * R18n will return path string if translation isn’t exists.
-* Add UnsupportedLocale class for localew without information file.
+* Add UnsupportedLocale class for locale without information file.
 * Load absent locale information from default locale.
 * Add Polish locale (by Tymon Tobolski).
 
@@ -116,6 +116,6 @@
 == 0.1.1 (Saluto)
 * Loading i18n object without translations.
 * Add output for standalone month name.
-* Dont’t call procedures from translations of it isn’t secure.
+* Don’t call procedures from translations if it isn’t secure.
 * Add Esperanto locale.
 * English locale now contain UK date standards.
