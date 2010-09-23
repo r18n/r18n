@@ -85,17 +85,17 @@ describe R18n::Locale do
   end
   
   it "should localize date for human" do
-    i18n = R18n::I18n.new('ru')
+    i18n = R18n::I18n.new('en')
     
-    @ru.localize(Date.today + 2, :human, i18n).should == 'через 2 дня'
-    @ru.localize(Date.today + 1, :human, i18n).should == 'завтра'
-    @ru.localize(Date.today,     :human, i18n).should == 'сегодня'
-    @ru.localize(Date.today - 1, :human, i18n).should == 'вчера'
-    @ru.localize(Date.today - 3, :human, i18n).should == '3 дня назад'
+    @en.localize(Date.today + 2, :human, i18n).should == 'after 2 days'
+    @en.localize(Date.today + 1, :human, i18n).should == 'tomorrow'
+    @en.localize(Date.today,     :human, i18n).should == 'today'
+    @en.localize(Date.today - 1, :human, i18n).should == 'yesterday'
+    @en.localize(Date.today - 3, :human, i18n).should == '3 days ago'
     
-    y2000 = Date.parse('2000-01-08')
-    @ru.localize(y2000, :human, i18n, y2000 + 8  ).should == ' 8 января'
-    @ru.localize(y2000, :human, i18n, y2000 - 365).should == ' 8 января 2000'
+    y2k = Date.parse('2000-01-08')
+    @en.localize(y2k, :human, i18n, y2k + 8  ).should == '8th of January'
+    @en.localize(y2k, :human, i18n, y2k - 365).should == '8th of January, 2000'
   end
   
   it "should localize times for human" do
@@ -103,24 +103,24 @@ describe R18n::Locale do
     hour   = 60 * minute
     day    = 24 * hour
     zero   = Time.at(0).utc
-    params = [:human, R18n::I18n.new('ru'), zero]
+    p = [:human, R18n::I18n.new('en'), zero]
     
-    @ru.localize( zero + 7  * day,    *params).should == ' 8 января 00:00'
-    @ru.localize( zero + 50 * hour,   *params).should == 'через 2 дня 02:00'
-    @ru.localize( zero + 25 * hour,   *params).should == 'завтра 01:00'
-    @ru.localize( zero + 70 * minute, *params).should == 'через 1 час'
-    @ru.localize( zero + hour,        *params).should == 'через 1 час'
-    @ru.localize( zero + 38 * minute, *params).should == 'через 38 минут'
-    @ru.localize( zero + 5,           *params).should == 'сейчас'
-    @ru.localize( zero - 15,          *params).should == 'сейчас'
-    @ru.localize( zero - minute,      *params).should == '1 минуту назад'
-    @ru.localize( zero - hour + 59,   *params).should == '59 минут назад'
-    @ru.localize( zero - 2  * hour,   *params).should == '2 часа назад'
-    @ru.localize( zero - 13 * hour,   *params).should == 'вчера 11:00'
-    @ru.localize( zero - 50 * hour,   *params).should == '3 дня назад 22:00'
-    @ru.localize( zero - 9  * day,    *params).should == '23 декабря 1969 00:00'
+    @en.localize( zero + 7  * day,    *p).should == '8th of January 00:00'
+    @en.localize( zero + 50 * hour,   *p).should == 'after 2 days 02:00'
+    @en.localize( zero + 25 * hour,   *p).should == 'tomorrow 01:00'
+    @en.localize( zero + 70 * minute, *p).should == 'after 1 hour'
+    @en.localize( zero + hour,        *p).should == 'after 1 hour'
+    @en.localize( zero + 38 * minute, *p).should == 'after 38 minutes'
+    @en.localize( zero + 5,           *p).should == 'now'
+    @en.localize( zero - 15,          *p).should == 'now'
+    @en.localize( zero - minute,      *p).should == '1 minute ago'
+    @en.localize( zero - hour + 59,   *p).should == '59 minutes ago'
+    @en.localize( zero - 2  * hour,   *p).should == '2 hours ago'
+    @en.localize( zero - 13 * hour,   *p).should == 'yesterday 11:00'
+    @en.localize( zero - 50 * hour,   *p).should == '3 days ago 22:00'
     
-    @ru.localize( zero - 365 * day,   *params).should == ' 1 января 1969 00:00'
+    @en.localize( zero - 9  * day,  *p).should == '23rd of December, 1969 00:00'
+    @en.localize( zero - 365 * day, *p).should == '1st of January, 1969 00:00'
   end
   
   it "should use standard formatter by default" do
