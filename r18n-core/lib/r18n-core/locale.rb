@@ -227,20 +227,16 @@ module R18n
         format_date_human(R18n::Utils.to_date(time), i18n,
                           R18n::Utils.to_date(now)) + format_time(time)
       else
-        case minutes
-        when -59..-1
-          i18n.human_time.minutes_ago(minutes.round.abs)
-        when 1..59
-          i18n.human_time.after_minutes(minutes.round)
-        when -1..1
+        if -1 < minutes and 1 > minutes
           i18n.human_time.now
+        elsif 60 <= minutes
+          i18n.human_time.after_hours((diff / 60.0).floor)
+        elsif -60 >= minutes
+          i18n.human_time.hours_ago((diff / 60.0).floor)
+        elsif 0 < minutes
+          i18n.human_time.after_minutes(minutes.round)
         else
-          hours = (diff / 60.0).floor
-          if time > now
-            i18n.human_time.after_hours(hours)
-          else
-            i18n.human_time.hours_ago(hours)
-          end
+          i18n.human_time.minutes_ago(minutes.round.abs)
         end
       end
     end

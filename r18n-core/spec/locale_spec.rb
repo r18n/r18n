@@ -114,6 +114,7 @@ describe R18n::Locale do
     @ru.localize( zero + 5,           *params).should == 'сейчас'
     @ru.localize( zero - 15,          *params).should == 'сейчас'
     @ru.localize( zero - minute,      *params).should == '1 минуту назад'
+    @ru.localize( zero - hour + 59,   *params).should == '59 минут назад'
     @ru.localize( zero - 2  * hour,   *params).should == '2 часа назад'
     @ru.localize( zero - 13 * hour,   *params).should == 'вчера 11:00'
     @ru.localize( zero - 50 * hour,   *params).should == '3 дня назад 22:00'
