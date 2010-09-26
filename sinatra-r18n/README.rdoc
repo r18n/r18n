@@ -18,8 +18,9 @@ information.
 == How To
 
 1. Create translations dir <tt>./i18n/</tt>.
-2. Add file with translation in some language. For example
-   <tt>./i18n/en.yml</tt>:
+2. Add file with translation to <tt>./i18n/</tt> with language code in file name
+   (for example, <tt>en.yml</tt> for English or <tt>en-us.yml</tt> USA English
+   dialect). For example, <tt>./i18n/en.yml</tt>:
    
      post:
        friends: Post only for friends
