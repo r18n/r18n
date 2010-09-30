@@ -110,9 +110,11 @@ module R18n
       #   translation :desciption, :type => 'markdown'
       def translation(name, options = {})
         if options[:methods]
-          @unlocalized_getters[name] = R18n::Utils.hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s ] }
+          @unlocalized_getters[name] = R18n::Utils.
+            hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s ] }
           unless options[:no_write]
-            @unlocalized_setters[name] =R18n::Utils.hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s + '=' ] }
+            @unlocalized_setters[name] = R18n::Utils.
+              hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s + '=' ] }
           end
         end
         
@@ -163,7 +165,7 @@ module R18n
       # didn’t set map in +translation+ option +methods+, it will be detect
       # automatically.
       def unlocalized_getters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(.*[^=])$')
+        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)$')
         unless @unlocalized_getters.has_key? method
           @unlocalized_getters[method] = {}
           self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
@@ -177,7 +179,7 @@ module R18n
       # didn’t set map in +translation+ option +methods+, it will be detect
       # automatically.
       def unlocalized_setters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(.*)=$')
+        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)=$')
         unless @unlocalized_setters.has_key? method
           @unlocalized_setters[method] = {}
           self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
