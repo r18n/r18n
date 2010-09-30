@@ -108,4 +108,17 @@ describe R18n::Translated do
     obj.no.untranslated_path.should == 'no'
   end
   
+  it "should translate virtual methods" do
+    @virtual_class = Class.new do
+      include R18n::Translated
+      translation :no_method, :methods => { :en => :no_method_en }
+      def method_missing(name, *params)
+        name.to_s
+      end
+    end
+    virtual = @virtual_class.new
+    
+    virtual.no_method.should == 'no_method_en'
+  end
+  
 end

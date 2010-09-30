@@ -119,7 +119,7 @@ module R18n
         end
         
         @translation_types[name] = options[:type]
-        call = options[:no_params] ? 'call' : 'call(*params)'
+        params = options[:no_params] ? '' : ', *params'
         
         class_eval <<-EOS, __FILE__, __LINE__
           def #{name}(*params)
@@ -127,7 +127,7 @@ module R18n
             R18n.get.locales.each do |locale|
               code = locale.code
               next unless unlocalized.has_key? code
-              result = method(unlocalized[code]).#{call}
+              result = send unlocalized[code]#{params}
               next unless result
               
               path = "\#{self.class.name}##{name}"
@@ -154,7 +154,7 @@ module R18n
               R18n.get.locales.each do |locale|
                 code = locale.code
                 next unless unlocalized.has_key? code
-                return method(unlocalized[code]).call(*params)
+                return send unlocalized[code], *params
               end
             end
           EOS
