@@ -135,10 +135,12 @@ module R18n
               if type
                 return R18n::Filters.process(R18n::Filters.enabled,
                          type, result, locale, path, params)
-              else
+              elsif result.is_a? String
                 result = TranslatedString.new(result, locale, path)
                 return R18n::Filters.process_string(R18n::Filters.enabled,
                          result, path, params)
+              else
+                return result
               end
             end
             

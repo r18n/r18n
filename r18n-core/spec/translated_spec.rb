@@ -121,4 +121,16 @@ describe R18n::Translated do
     virtual.no_method.should == 'no_method_en'
   end
   
+  it "should return original type of result" do
+    @user_class.class_eval do
+      translation :name
+      def name_en
+        :ivan
+      end
+    end
+    user = @user_class.new
+    
+    user.name.should == :ivan
+  end
+  
 end
