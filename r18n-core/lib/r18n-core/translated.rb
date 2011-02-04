@@ -162,6 +162,12 @@ module R18n
           EOS
         end
       end
+      
+      # Return array of methods to find +unlocalized_getters+ or
+      # +unlocalized_setters+.
+      def unlocalized_methods
+        self.instance_methods
+      end
 
       # Return Hash of locale code to getter method for proxy +method+. If you
       # didn’t set map in +translation+ option +methods+, it will be detect
@@ -170,7 +176,7 @@ module R18n
         matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)$')
         unless @unlocalized_getters.has_key? method
           @unlocalized_getters[method] = {}
-          self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
+          self.unlocalized_methods.reject { |i| not i =~ matcher }.each do |i|
             @unlocalized_getters[method][i.to_s.match(matcher)[1]] = i.to_s
           end
         end
@@ -184,7 +190,7 @@ module R18n
         matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)=$')
         unless @unlocalized_setters.has_key? method
           @unlocalized_setters[method] = {}
-          self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
+          self.unlocalized_methods.reject { |i| not i =~ matcher }.each do |i|
             @unlocalized_setters[method][i.to_s.match(matcher)[1]] = i.to_s
           end
         end

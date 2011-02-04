@@ -1,7 +1,7 @@
 =begin
-R18n support for Rails.
+ActiveRecord fix mixin to R18n::Translated.
 
-Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+Copyright (C) 2011 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -17,19 +17,16 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'pathname'
-require 'r18n-core'
-require 'r18n-core/translated'
-require 'r18n-rails-api'
-
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails'
-require dir + 'helpers'
-require dir + 'controller'
-require dir + 'translated'
-
-R18n::Filters.off(:untranslated)
-R18n::Filters.on(:untranslated_html)
-
-ActionController::Base.helper(R18n::Rails::Helpers)
-ActionController::Base.send(:include, R18n::Rails::Controller)
-ActionController::Base.send(:before_filter, :set_r18n)
+module R18n
+  module Translated
+    module Base
+      def unlocalized_methods
+        if ancestors.include? ActiveRecord::Base
+          column_names + column_names.map { |i| i + '=' } + instance_methods
+        else
+          instance_methods
+        end
+      end
+    end
+  end
+end

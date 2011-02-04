@@ -81,6 +81,11 @@ describe 'R18n for Rails', :type => :controller do
       end
     end
     
+    Post.unlocalized_getters(:title).should == { 'ru' => 'title_ru',
+                                                 'en' => 'title_en' }
+    Post.unlocalized_setters(:title).should == { 'ru' => 'title_ru=',
+                                                 'en' => 'title_en=' }
+    
     @post = Post.new
     @post.title_en = 'Record'
     
@@ -91,9 +96,6 @@ describe 'R18n for Rails', :type => :controller do
     @post.title_ru.should == 'Запись'
     @post.title_en.should == 'Record'
     @post.title.should == 'Запись'
-    
-    Post.unlocalized_getters(:title).should == { 'ru' => 'title_ru',
-                                                 'en' => 'title_en' }
   end
   
 end
