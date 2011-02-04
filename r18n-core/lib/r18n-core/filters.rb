@@ -280,7 +280,7 @@ module R18n
   end
   
   Filters.add('textile', :redcloth, :passive => true) do |content, config|
-    require 'redcloth'
+    R18n::Utils.use_syck { require 'redcloth' }
     ::RedCloth.new(content).to_html
   end
 end

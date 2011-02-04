@@ -37,3 +37,7 @@ class CounterLoader
     @available.hash
   end
 end
+
+if not ENV['test_syck'] and '1.8.' != RUBY_VERSION[0..3]
+  YAML::ENGINE.yamler = 'psych'
+end

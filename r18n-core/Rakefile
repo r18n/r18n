@@ -19,6 +19,11 @@ Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_files = Dir['spec/**/*_spec.rb'].sort
 end
 
+task :spec_syck do
+  ENV['test_syck'] = '1'
+  sh "#{RUBY} -S rake spec", :verbose => false
+end
+
 Spec::Rake::SpecTask.new('rcov') do |t|
   t.spec_opts = ['--colour']
   t.spec_files = Dir['spec/**/*_spec.rb'].sort

@@ -1,7 +1,7 @@
-ok: OK
-save: Сақтау
-cancel: Болдырмау
-'yes': Иә
-'no': Жоқ
-exit: Шығу
-delete: Алыстату
+ok: 'OK'
+save: 'Сақтау'
+cancel: 'Болдырмау'
+'yes': 'Иә'
+'no': 'Жоқ'
+exit: 'Шығу'
+delete: 'Алыстату'

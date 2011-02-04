@@ -39,6 +39,11 @@ module R18n
       # Create new loader for +dir+ with YAML translations.
       def initialize(dir)
         @dir = File.expand_path(dir)
+        @private_type_class = if '1.8.' == RUBY_VERSION[0..3]
+          ::YAML::PrivateType
+        else
+          ::Syck::PrivateType
+        end
       end
       
       # Array of locales, which has translations in +dir+.
@@ -50,6 +55,17 @@ module R18n
       
       # Return Hash with translations for +locale+.
       def load(locale)
+        if '1.8.' != RUBY_VERSION[0..3] and 'psych' == ::YAML::ENGINE.yamler
+          Filters.by_type.keys.each do |type|
+            next unless type.is_a? String
+            # Yeah, I add R18n’s types to global, send me patch if you really
+            # use YAML types too ;).
+            Psych.add_domain_type('yaml.org,2002', type) do |full_type, value|
+              Typed.new(type, value)
+            end
+          end
+        end
+        
         translations = {}
         Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |file_name|
           Utils.deep_merge!(translations, ::YAML::load_file(file_name))
@@ -72,7 +88,7 @@ module R18n
         R18n::Utils.hash_map(a_hash) do |key, value|
           [key,
            case value
-             when ::YAML::PrivateType
+             when @private_type_class
                Typed.new(value.type_id, value.value)
              when Hash
                transform(value)

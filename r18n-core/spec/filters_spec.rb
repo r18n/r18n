@@ -28,12 +28,15 @@ describe R18n::Filters do
     filter.should be_enabled
     
     R18n::Filters.defined.should have_key(:my_filter)
+    
+    @i18n.reload!
     @i18n.my_filter.should == 'value'
     @i18n.my_tree_filter.should == {'name' => 'value'}
   end
   
   it "should add filter for several types" do
     filter = R18n::Filters.add(['my', 'your']) { |i, config| i + '1' }
+    @i18n.reload!
     @i18n.my_filter.should   == 'value1'
     @i18n.your_filter.should == 'another1'
   end

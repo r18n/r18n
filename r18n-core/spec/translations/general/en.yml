@@ -10,21 +10,21 @@ in:
 only:
   english: Only in English
 
-sum: !!proc |x, y| x + y
+sum: !!proc "|x, y| x + y"
 
 comments: !!pl
-  0: no comments for %2
-  1: one comment for %2
-  n: %1 comments for %2
+  0: "no comments for %2"
+  1: "one comment for %2"
+  n: "%1 comments for %2"
 
 files: !!pl
-  1: 1 file
-  n: %1 files
+  1: "1 file"
+  n: "%1 files"
 
 your_filter:  !!your another
 my_filter:  !!my value
 my_tree_filter: !!my
-    name: value
+  name: value
 
 html: !!escape
   <script>true && false</script>
@@ -33,8 +33,8 @@ no_escape: !!html
   <b>Warning</b>
 
 markdown:
-  simple: !!markdown **Hi!**
-  html: !!markdown **Hi!** <br />
+  simple: !!markdown "**Hi!**"
+  html: !!markdown "**Hi!** <br />"
 
 textile:
   simple: !!textile _Hi!_
