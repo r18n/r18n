@@ -216,6 +216,10 @@ to send e-mail for English admin on error with French user:
    You can use <tt>R18n::Translated</tt> mixin for any Ruby class, not only for
    ActiveRecord models.
 
+8. Download translations for Rails system messages (validation, etc) from
+   https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale and
+   put them to <tt>config/locales/</tt> (because them use Rails I18n format).
+
 == License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
