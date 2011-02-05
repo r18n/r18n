@@ -40,6 +40,11 @@ module R18n
       # +reload!+, +init_translations+ and +translations+ methods.
       def initialize(backend = ::I18n::Backend::Simple.new)
         @backend = backend
+        @private_type_class = if '1.8.' == RUBY_VERSION[0..3]
+          ::YAML::PrivateType
+        else
+          ::Syck::PrivateType
+        end
       end
       
       # Array of locales, which has translations in +I18n.load_path+.
@@ -87,7 +92,7 @@ module R18n
           else
             R18n::Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
           end
-        elsif value.is_a? ::YAML::PrivateType
+        elsif value.is_a? @private_type_class
           Typed.new(value.type_id, value.value)
         else
           value

@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'yaml'
+require 'syck' if '1.8.' != RUBY_VERSION[0..3]
 
 module R18n
   module Loader
