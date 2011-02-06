@@ -1,3 +1,11 @@
+== 0.4.9 (Kazan)
+* Add support for Psych YAML parser (thanks for Ravil Bayramgalin).
+* Fix ActiveRecord support in Translated.
+* Fix Translated to return non-string values.
+* Fix human time localization.
+* Add Bulgarian locale (by Mitko Kostov).
+* Add Australian English locale (by Dave Sag).
+
 == 0.4.8 (En ni to)
 * Fix support for Ruby 1.9.2.
 * Fix caching issue (by Viktors Rotanovs).
