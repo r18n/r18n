@@ -4,8 +4,10 @@ require 'rubygems'
 gem 'rbench'
 require 'rbench'
 
+YAML::ENGINE.yamler = 'psych' if 'psych' == ARGV.first
+
 require 'pathname'
-dir = Pathname.new(__FILE__).dirname
+dir = Pathname.new(__FILE__).dirname.expand_path
 
 begin
   require dir + '../r18n-core/lib/r18n-core'
