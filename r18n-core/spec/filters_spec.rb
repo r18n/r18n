@@ -156,6 +156,10 @@ describe R18n::Filters do
     @i18n.files.should     == { 1 => '1 file', 'n' => '%1 files' }
     @i18n.files('').should == { 1 => '1 file', 'n' => '%1 files' }
   end
+  
+  it "should convert first float parameter to number" do
+    @i18n.files(1.2).should == '1 file'
+  end
 
   it "should pluralize translation without locale" do
     i18n = R18n::I18n.new('no-LC', DIR)

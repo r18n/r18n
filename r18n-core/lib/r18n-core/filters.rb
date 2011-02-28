@@ -226,6 +226,7 @@ module R18n
   end
   
   Filters.add('pl', :pluralization) do |content, config, param|
+    param = param.to_i if param.is_a? Float
     if param.is_a? Numeric
       type = config[:locale].pluralize(param)
       type = 'n' if not content.has_key? type
