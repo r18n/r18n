@@ -1,3 +1,4 @@
+#encoding: utf-8
 module R18n
   class Locales::En < Locale
     set :title => 'Svenska',
