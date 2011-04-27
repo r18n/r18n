@@ -6,7 +6,7 @@ module R18n
         
         :wday_names => %w{söndag måndag tisdag onsdag torsdag fredag
                           lördag},
-        :wday_abbrs => %w{sön mon tis ons tor fre lör},
+        :wday_abbrs => %w{sön mån tis ons tor fre lör},
         
         :month_names => %w{januari februari mars april maj juni juli augusti
                            september october november december},
