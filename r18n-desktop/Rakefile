@@ -36,7 +36,7 @@ end
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
-  rdoc.title = 'R18n Desktop Documentation'
+  rdoc.title = "R18n #{R18n::VERSION} Desktop Documentation"
   rdoc.rdoc_dir = 'doc'
   rdoc.options << '-c utf-8'
   rdoc.options << '--all'
