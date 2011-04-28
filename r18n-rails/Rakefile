@@ -1,7 +1,13 @@
 # encoding: utf-8
 require 'rubygems'
-require 'rake/gempackagetask'
-gem 'rspec'
+
+begin
+  require 'bundler'
+  Bundler::GemHelper.install_tasks
+rescue LoadError
+  puts "Bundler not available. Install it with: gem install bundler"
+end
+
 require 'spec/rake/spectask'
 begin
   require 'hanna/rdoctask'
@@ -30,13 +36,3 @@ Rake::RDocTask.new do |rdoc|
   rdoc.options << '--all'
 end
 
-spec = eval(File.read('r18n-rails.gemspec'))
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-desc 'Install as a gem'
-task :install => [:package] do
-  sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
-  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
-end
