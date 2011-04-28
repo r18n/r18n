@@ -1,10 +1,10 @@
 require '../r18n-core/lib/r18n-core/version'
-require 'rake'
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = 'r18n-desktop'
-  s.version = R18n::VERSION
+  s.version = R18n::VERSION.dup
+  s.date = Time.now.strftime('%Y-%m-%d')
   s.summary = 'A i18n tool to translate your Ruby desktop application.'
   s.description = <<-EOF
     A i18n tool to translate your desktop application in several languages.
@@ -15,18 +15,19 @@ Gem::Specification.new do |s|
     Rails, Sinatra, Merb and desktop applications.
   EOF
   
-  s.files = FileList[
-    'lib/**/*',
-    'LICENSE',
-    'README.rdoc']
-  s.test_files = FileList[
-    'spec/**/*']
+  s.files            = `git ls-files`.split("\n")
+  s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
   s.require_path = 'lib'
   s.has_rdoc = true
   
-  s.add_dependency 'r18n-core', R18n::VERSION
-  
+  s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
+  s.add_development_dependency(%q<bundler>, [">= 1.0.10"])
+  s.add_development_dependency(%q<rspec-core>, [">= 0"])
+  s.add_development_dependency(%q<rspec-expectations>, [">= 0"])
+  s.add_development_dependency(%q<rspec-mocks>, [">= 0"])
+  s.add_development_dependency(%q<rcov>, [">= 0"])
+
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'
   s.homepage = 'http://r18n.rubyforge.org/'
