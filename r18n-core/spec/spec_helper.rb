@@ -12,7 +12,7 @@ DIR = TRANSLATIONS + 'general' unless defined? DIR
 TWO = TRANSLATIONS + 'two' unless defined? TWO
 EXT = R18n::Loader::YAML.new(TRANSLATIONS + 'extension') unless defined? EXT
 
-Spec::Runner.configure do |config|
+RSpec::Runner.configure do |config|
   config.before { R18n.cache.clear }
 end
 

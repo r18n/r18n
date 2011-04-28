@@ -2,8 +2,11 @@
 nbproject
 *~
 
-doc
-pkg
-coverage
-log
+doc/
+pkg/
+coverage/
+log/
 *.sqlite3
+
+*.sw?
+Gemfile.lock
