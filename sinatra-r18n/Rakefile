@@ -42,7 +42,7 @@ end
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
-  rdoc.title = 'Sinatra R18n Documentation'
+  rdoc.title = "Sinatra R18n #{R18n::VERSION} Documentation"
   rdoc.rdoc_dir = 'doc'
   rdoc.options << '-c utf-8'
   rdoc.options << '--all'
