@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'pp'
-gem 'i18n'
+require 'i18n'
 
 require File.join(File.dirname(__FILE__), '../lib/r18n-rails-api')
 
