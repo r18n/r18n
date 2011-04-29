@@ -1,8 +1,7 @@
 # encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
-describe 'R18n for Rails', :type => :controller do
-  controller_name :test
+describe TestController, :type => :controller do
   integrate_views
   
   it 'should use default locale' do

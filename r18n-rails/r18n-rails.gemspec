@@ -23,9 +23,9 @@ Gem::Specification.new do |s|
   
   s.add_dependency 'r18n-rails-api', ["= #{R18n::VERSION}"]
   s.add_development_dependency(%q<bundler>, [">= 1.0.10"])
-  s.add_development_dependency(%q<rails>, ["~> 2.3.8"])
-  s.add_development_dependency(%q<rspec>, ["~> 1.3.2"])
-  s.add_development_dependency(%q<rspec-rails>, ["~> 1.3.4"])
+  s.add_development_dependency(%q<rails>, [">= 3"])
+  s.add_development_dependency(%q<rspec>, [">= 2"])
+  s.add_development_dependency(%q<rspec-rails>, [">= 2"])
   s.add_development_dependency(%q<rcov>, [">= 0"])
   
   s.author = 'Andrey "A.I." Sitnik'

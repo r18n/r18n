@@ -18,13 +18,20 @@ end
 PKG_NAME = 'r18n-rails'
 require '../r18n-core/lib/r18n-core/version'
 
-task :default => :spec
+begin
+  require 'rspec/core/rake_task'
 
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.libs << '../r18n-core/lib'
-  t.libs << '../r18n-rails-api/lib'
-  t.spec_opts = ['--format', 'specdoc', '--colour']
-  t.spec_files = Dir['spec/**/*_spec.rb'].sort
+  RSpec::Core::RakeTask.new
+
+  RSpec::Core::RakeTask.new('rcov') do |t|
+    t.rcov = true
+    t.ruby_opts = '-w'
+    t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
+  end
+
+  task :default => :spec
+rescue LoadError
+  $stderr.puts "RSpec 2 is not available. Please install it: gem install rspec-core rspec-expectations rspec-mocks"
 end
 
 Rake::RDocTask.new do |rdoc|
