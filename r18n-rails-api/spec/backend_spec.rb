@@ -56,11 +56,11 @@ describe R18n::Backend do
     lambda {
       I18n.backend.translate(:en, :missed)
     }.should raise_error(::I18n::MissingTranslationData)
-    I18n.t(:missed).should == 'translation missing: en, missed'
+    I18n.t(:missed).should == 'translation missing: en.missed'
   end
   
   it "should reload translations" do
-    I18n.t(:other).should == 'translation missing: en, other'
+    I18n.t(:other).should == 'translation missing: en.other'
     I18n.load_path << OTHER
     I18n.reload!
     I18n.t(:other).should == 'Other'
