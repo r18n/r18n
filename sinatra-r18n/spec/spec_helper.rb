@@ -1,14 +1,25 @@
 # encoding: utf-8
-require 'pp'
+
+ENV['RACK_ENV'] = 'test'
+
 require 'rubygems'
-gem 'sinatra'
+require 'bundler/setup'
+require 'pp'
+require 'sinatra'
 
 require File.join(File.dirname(__FILE__), 'app/app')
 
-require 'spec/interop/test'
-gem 'rack-test'
+# require 'spec/interop/test'
 require 'rack/test'
-Test::Unit::TestCase.send(:include, Rack::Test::Methods)
-Test::Unit::TestCase.send(:define_method, :app) { Sinatra::Application }
+
+
+
+module RSpecMixinExample
+  include Rack::Test::Methods
+  def app(); Sinatra::Application; end
+end
+
+RSpec.configure { |c| c.include RSpecMixinExample }
 
 set :environment, :test
+set :root, File.join(File.dirname(__FILE__), 'app')
