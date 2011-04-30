@@ -12,8 +12,6 @@ require File.join(File.dirname(__FILE__), 'app/app')
 # require 'spec/interop/test'
 require 'rack/test'
 
-
-
 module RSpecMixinExample
   include Rack::Test::Methods
   def app(); Sinatra::Application; end

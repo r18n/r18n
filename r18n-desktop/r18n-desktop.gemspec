@@ -20,17 +20,19 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
   s.require_path = 'lib'
   s.has_rdoc = true
-  
-  s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
-  s.add_development_dependency(%q<bundler>, [">= 1.0.10"])
-  s.add_development_dependency(%q<rspec-core>, [">= 0"])
-  s.add_development_dependency(%q<rspec-expectations>, [">= 0"])
-  s.add_development_dependency(%q<rspec-mocks>, [">= 0"])
-  s.add_development_dependency(%q<rcov>, [">= 0"])
 
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'
   s.homepage = 'http://r18n.rubyforge.org/'
   s.rubyforge_project = 'r18n-desktop'
+  
+  s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
+  
+  s.add_development_dependency "bundler", [">= 1.0.10"]
+  s.add_development_dependency "hanna", [">= 0"]
+  s.add_development_dependency "rake", [">= 0"]
+  s.add_development_dependency "rspec-core", [">= 0"]
+  s.add_development_dependency "rspec-expectations", [">= 0"]
+  s.add_development_dependency "rspec-mocks", [">= 0"]
+  s.add_development_dependency "rcov", [">= 0"]
 end
-
