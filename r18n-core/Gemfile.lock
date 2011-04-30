@@ -1,0 +1,40 @@
+PATH
+  remote: .
+  specs:
+    r18n-core (0.4.9)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    RedCloth (4.2.7)
+    diff-lcs (1.1.2)
+    haml (2.2.24)
+    hanna (0.1.12)
+      haml (~> 2.2.8)
+      rake (~> 0.8.2)
+      rdoc (~> 2.3.0)
+    maruku (0.6.0)
+      syntax (>= 1.0.0)
+    rake (0.8.7)
+    rcov (0.9.9)
+    rdoc (2.3.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
+    syntax (1.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  RedCloth
+  bundler (>= 1.0.10)
+  hanna
+  maruku
+  r18n-core!
+  rake
+  rcov
+  rspec-core
+  rspec-expectations
+  rspec-mocks

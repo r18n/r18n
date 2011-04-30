@@ -1,6 +1,7 @@
 *.DS_Store
 nbproject
 *~
+*.sw?
 
 doc/
 pkg/
@@ -8,6 +9,4 @@ coverage/
 log/
 *.sqlite3
 
-*.sw?
-Gemfile.lock
 .bundle
