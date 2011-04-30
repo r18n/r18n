@@ -10,3 +10,4 @@ log/
 
 *.sw?
 Gemfile.lock
+.bundle
