@@ -7,7 +7,7 @@ GEMS = %w[ r18n-core r18n-desktop sinatra-r18n r18n-rails-api r18n-rails ].freez
 task :default => :spec
 
 def rake(task)
-  sh "rake #{task}", :verbose => false
+  sh "#{RUBY} -S rake #{task}", :verbose => false
 end
 
 def each_rake(task)
