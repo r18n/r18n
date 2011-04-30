@@ -37,4 +37,9 @@ Rake::RDocTask.new do |rdoc|
   rdoc.options << '--all'
 end
 
+task :clobber_package do
+  rm_r 'pkg' rescue nil
+end
+task :clobber => [:clobber_package]
+
 task :default => :spec
