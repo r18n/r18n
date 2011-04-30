@@ -1,4 +1,6 @@
 class TestController < ApplicationController
+  layout false
+  
   def locales
     render :text => R18n.get.locales.map { |i| i.code }.join(', ')
   end
