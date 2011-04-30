@@ -2,7 +2,7 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe TestController, :type => :controller do
-  integrate_views
+  render_views
   
   it 'should use default locale' do
     get :locales
