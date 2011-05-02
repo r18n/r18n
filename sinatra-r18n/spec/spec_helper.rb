@@ -2,14 +2,11 @@
 
 ENV['RACK_ENV'] = 'test'
 
-require 'rubygems'
 require 'bundler/setup'
 require 'pp'
-require 'sinatra'
 
 require File.join(File.dirname(__FILE__), 'app/app')
 
-# require 'spec/interop/test'
 require 'rack/test'
 
 module RSpecMixinExample
