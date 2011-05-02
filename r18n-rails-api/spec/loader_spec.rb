@@ -19,8 +19,7 @@ describe R18n::Loader::Rails do
     @loader.load(EN).should == {
       'users' => R18n::Typed.new('pl', {
         0 => 'Zero', 1 => 'One', 2 => 'Few', 'n' => 'Many', 'other' => 'Other'
-       }),
-       'typed' => R18n::Typed.new('type', 'value')
+       })
     }
   end
   

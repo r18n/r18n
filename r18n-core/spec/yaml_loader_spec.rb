@@ -2,6 +2,14 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Loader::YAML do
+  before :all do
+    R18n::Filters.add('my', :my) { |i| i }
+  end
+  
+  after :all do
+    R18n::Filters.delete(:my)
+  end
+  
   before do
     @loader = R18n::Loader::YAML.new(DIR)
   end
