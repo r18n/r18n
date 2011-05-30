@@ -69,7 +69,7 @@ module R18n
         
         translations = {}
         Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |file_name|
-          Utils.deep_merge!(translations, ::YAML::load_file(file_name))
+          Utils.deep_merge!(translations, ::YAML::load_file(file_name) || {})
         end
         transform(translations)
       end
