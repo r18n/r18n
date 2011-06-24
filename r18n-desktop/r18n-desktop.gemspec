@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   
   s.add_development_dependency "bundler", [">= 1.0.10"]
   s.add_development_dependency "hanna", [">= 0"]
-  s.add_development_dependency "rake", [">= 0"]
+  s.add_development_dependency "rake", [">= 0", "!= 0.9.0"]
   s.add_development_dependency "rspec-core", [">= 0"]
   s.add_development_dependency "rspec-expectations", [">= 0"]
   s.add_development_dependency "rspec-mocks", [">= 0"]
