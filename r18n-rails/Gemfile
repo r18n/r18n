@@ -4,4 +4,6 @@ group :test do
   gem 'sqlite3'
 end
 
+gem 'psych', :platforms => :mri_19, :group => [ :test, :development ]
+
 gemspec

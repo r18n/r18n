@@ -52,6 +52,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.16)
     polyglot (0.3.1)
+    psych (1.2.0)
     r18n-core (0.4.9)
     r18n-rails-api (0.4.9)
       i18n
@@ -102,9 +103,10 @@ PLATFORMS
 DEPENDENCIES
   bundler (>= 1.0.10)
   hanna
+  psych
   r18n-rails!
   rails (>= 3)
-  rake
+  rake (!= 0.9.0, >= 0)
   rcov
   rspec (>= 2)
   rspec-rails (>= 2)

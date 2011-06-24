@@ -14,6 +14,7 @@ GEM
       haml (~> 2.2.8)
       rake (~> 0.8.2)
       rdoc (~> 2.3.0)
+    psych (1.2.0)
     r18n-core (0.4.9)
     rack (1.2.2)
     rack-test (0.5.7)
@@ -36,8 +37,9 @@ PLATFORMS
 DEPENDENCIES
   bundler (>= 1.0.10)
   hanna
+  psych
   rack-test
-  rake
+  rake (!= 0.9.0, >= 0)
   rcov
   rspec-core
   rspec-expectations

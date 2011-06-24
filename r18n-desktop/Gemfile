@@ -1,3 +1,5 @@
 source :rubygems
 
+gem 'psych', :platforms => :mri_19, :group => [ :test, :development ]
+
 gemspec
