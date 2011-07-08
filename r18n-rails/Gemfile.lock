@@ -4,6 +4,11 @@ PATH
     r18n-rails (0.4.9)
       r18n-rails-api (= 0.4.9)
 
+PATH
+  remote: ../r18n-core/
+  specs:
+    r18n-core (0.4.9)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -53,7 +58,6 @@ GEM
     mime-types (1.16)
     polyglot (0.3.1)
     psych (1.2.0)
-    r18n-core (0.4.9)
     r18n-rails-api (0.4.9)
       i18n
       r18n-core (= 0.4.9)
@@ -104,9 +108,11 @@ DEPENDENCIES
   bundler (>= 1.0.10)
   hanna
   psych
+  r18n-core!
   r18n-rails!
+  r18n-rails-api!
   rails (>= 3)
-  rake (!= 0.9.0, >= 0)
+  rake (>= 0, != 0.9.0)
   rcov
   rspec (>= 2)
   rspec-rails (>= 2)

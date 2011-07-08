@@ -5,6 +5,11 @@ PATH
       r18n-core (= 0.4.9)
       sinatra (>= 0.9)
 
+PATH
+  remote: ../r18n-core/
+  specs:
+    r18n-core (0.4.9)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -15,7 +20,6 @@ GEM
       rake (~> 0.8.2)
       rdoc (~> 2.3.0)
     psych (1.2.0)
-    r18n-core (0.4.9)
     rack (1.2.2)
     rack-test (0.5.7)
       rack (>= 1.0)
@@ -38,8 +42,9 @@ DEPENDENCIES
   bundler (>= 1.0.10)
   hanna
   psych
+  r18n-core!
   rack-test
-  rake (!= 0.9.0, >= 0)
+  rake (>= 0, != 0.9.0)
   rcov
   rspec-core
   rspec-expectations

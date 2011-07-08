@@ -4,6 +4,11 @@ PATH
     r18n-desktop (0.4.9)
       r18n-core (= 0.4.9)
 
+PATH
+  remote: ../r18n-core/
+  specs:
+    r18n-core (0.4.9)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -14,7 +19,6 @@ GEM
       rake (~> 0.8.2)
       rdoc (~> 2.3.0)
     psych (1.2.0)
-    r18n-core (0.4.9)
     rake (0.8.7)
     rcov (0.9.9)
     rdoc (2.3.0)
@@ -30,8 +34,9 @@ DEPENDENCIES
   bundler (>= 1.0.10)
   hanna
   psych
+  r18n-core!
   r18n-desktop!
-  rake (!= 0.9.0, >= 0)
+  rake (>= 0, != 0.9.0)
   rcov
   rspec-core
   rspec-expectations

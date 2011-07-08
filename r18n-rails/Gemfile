@@ -6,4 +6,7 @@ end
 
 gem 'psych', :platforms => :mri_19, :group => [ :test, :development ]
 
+gem 'r18n-core', :path => '../r18n-core/'
+gem 'r18n-rails-api', :path => '../r18n-core/'
+
 gemspec

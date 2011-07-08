@@ -5,6 +5,11 @@ PATH
       i18n
       r18n-core (= 0.4.9)
 
+PATH
+  remote: ../r18n-core/
+  specs:
+    r18n-core (0.4.9)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -16,7 +21,6 @@ GEM
       rdoc (~> 2.3.0)
     i18n (0.5.0)
     psych (1.2.0)
-    r18n-core (0.4.9)
     rake (0.8.7)
     rcov (0.9.9)
     rdoc (2.3.0)
@@ -32,8 +36,9 @@ DEPENDENCIES
   bundler (>= 1.0.10)
   hanna
   psych
+  r18n-core!
   r18n-rails-api!
-  rake (!= 0.9.0, >= 0)
+  rake (>= 0, != 0.9.0)
   rcov
   rspec-core
   rspec-expectations
