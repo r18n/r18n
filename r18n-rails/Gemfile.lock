@@ -1,13 +1,20 @@
 PATH
   remote: .
   specs:
-    r18n-rails (0.4.9)
-      r18n-rails-api (= 0.4.9)
+    r18n-rails (0.4.10)
+      r18n-rails-api (= 0.4.10)
 
 PATH
   remote: ../r18n-core/
   specs:
-    r18n-core (0.4.9)
+    r18n-core (0.4.10)
+
+PATH
+  remote: ../r18n-rails-api/
+  specs:
+    r18n-rails-api (0.4.10)
+      i18n
+      r18n-core (= 0.4.10)
 
 GEM
   remote: http://rubygems.org/
@@ -58,9 +65,6 @@ GEM
     mime-types (1.16)
     polyglot (0.3.1)
     psych (1.2.0)
-    r18n-rails-api (0.4.9)
-      i18n
-      r18n-core (= 0.4.9)
     rack (1.2.2)
     rack-mount (0.6.14)
       rack (>= 1.0.0)

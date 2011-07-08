@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    sinatra-r18n (0.4.9)
-      r18n-core (= 0.4.9)
+    sinatra-r18n (0.4.10)
+      r18n-core (= 0.4.10)
       sinatra (>= 0.9)
 
 PATH
   remote: ../r18n-core/
   specs:
-    r18n-core (0.4.9)
+    r18n-core (0.4.10)
 
 GEM
   remote: http://rubygems.org/
