@@ -1,3 +1,11 @@
+== 0.4.10 (Kvantum)
+* Add R18n.set(locales, places), R18n.t and R18n.l shortcuts.
+* Convert float to number on pluralization.
+* Fix loading empty translation file.
+* Add Portuguese locale.
+* Add Dutch locale (by Sander Heilbron).
+* Add Swedish locale (by Magnus Hörberg).
+
 == 0.4.9 (Kazan)
 * Add support for Psych YAML parser (thanks for Ravil Bayramgalin).
 * Fix ActiveRecord support in Translated.
