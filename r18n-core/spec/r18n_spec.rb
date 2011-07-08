@@ -94,7 +94,13 @@ describe R18n do
                   :c => 2 }
   end
   
-  it "should have helpers" do
+  it "should have l and t methods" do
+    R18n.set R18n::I18n.new('en')
+    t.yes.should == 'Yes'
+    l(Time.at(0).utc).should == '01/01/1970 00:00'
+  end
+  
+  it "should have helpers mixin" do
     obj = R18n::I18n.new 'en'
     R18n.set(obj)
     

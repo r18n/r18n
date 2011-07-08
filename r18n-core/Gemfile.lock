@@ -35,7 +35,7 @@ DEPENDENCIES
   maruku
   psych
   r18n-core!
-  rake (!= 0.9.0, >= 0)
+  rake (>= 0, != 0.9.0)
   rcov
   rspec-core
   rspec-expectations

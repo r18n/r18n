@@ -37,7 +37,7 @@ require dir + 'helpers'
 
 module R18n
   class << self
-
+    
     # Set I18n object globally.
     def set(i18n = nil, &block)
       if block_given?
@@ -73,6 +73,16 @@ module R18n
     # Get the current thread.
     def thread
       Thread.current
+    end
+    
+    # Translate message. Alias for <tt>R18n.get.t</tt>.
+    def t(*params)
+      get.t(*params)
+    end
+    
+    # Localize object. Alias for <tt>R18n.get.l</tt>.
+    def l(*params)
+      get.l(*params)
     end
 
     # Default loader class, which will be used if you didn’t send loader to
