@@ -27,6 +27,13 @@ describe R18n do
     
     R18n.get.should == i18n
   end
+  
+  it "shuld create I18n object by shortcut" do
+    R18n.set('en', DIR)
+    R18n.get.should be_a(R18n::I18n)
+    R18n.get.locales.should == [R18n::Locale.load('en')]
+    R18n.get.translation_places.should == [R18n::Loader::YAML.new(DIR)]
+  end
 
   it "should store I18n via thread_set" do
     i18n = R18n::I18n.new('en')
@@ -95,7 +102,7 @@ describe R18n do
   end
   
   it "should have l and t methods" do
-    R18n.set R18n::I18n.new('en')
+    R18n.set('en')
     t.yes.should == 'Yes'
     l(Time.at(0).utc).should == '01/01/1970 00:00'
   end

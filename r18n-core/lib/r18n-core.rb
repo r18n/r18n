@@ -39,12 +39,14 @@ module R18n
   class << self
     
     # Set I18n object globally.
-    def set(i18n = nil, &block)
+    def set(i18n = nil, dir = nil, &block)
       if block_given?
         @setter = block
         @i18n = nil
-      else
+      elsif i18n.is_a? I18n
         @i18n = i18n
+      else
+        @i18n = I18n.new(i18n, dir)
       end
     end
 

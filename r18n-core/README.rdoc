@@ -86,7 +86,7 @@ need to create loader object with 2 methods: +available+ and +load+:
     end
   end
   
-  R18n.set R18n::I18n.new(user_locales, DBLoader.new)
+  R18n.set(user_locales, DBLoader.new)
 
 You can also set a list of different translation locations or set extension
 locations which will be only used with application translation (useful for
@@ -152,7 +152,7 @@ If you develop you own plugin or want to use only core gem, you will need to
 create an I18n object and by using <tt>R18n.set</tt> or, for the current thread,
 by using <tt>R18n.thread_set</tt>:
 
-  R18n.set(R18n::I18n.new('en', 'path/to/translations'))
+  R18n.set('en', 'path/to/translations')
   
 You can add helpers to access the current R18n object:
 
@@ -425,13 +425,13 @@ translation you must create loader class with 2 methods:
 
 Pass its instance to <tt>R18n::I18n.new</tt>:
 
-  R18n.set R18n::I18n.new('en', MyLoader.new(loader_param))
+  R18n.set('en', MyLoader.new(loader_param))
 
 You can set your default loader and pass it to <tt>R18n::I18n.new</tt> as the
 only constructor argument:
 
   R18n.default_loader = MyLoader
-  R18n.set R18n::I18n.new('en', loader_param)
+  R18n.set('en', loader_param)
 
 If you want to load a translation with some type for filter, use
 <tt>R18n::Typed</tt> struct:

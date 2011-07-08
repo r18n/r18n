@@ -11,7 +11,7 @@ describe R18n::Translated do
       def name_ru?; end
       def name_ru!; end
     end
-    R18n.set(R18n::I18n.new('en'))
+    R18n.set('en')
   end
   
   it "should save methods map" do
@@ -36,7 +36,7 @@ describe R18n::Translated do
     user.name = 'John'
     user.name.should == 'John'
     
-    R18n.set(R18n::I18n.new('ru'))
+    R18n.set('ru')
     user.name.should == 'John'
     user.name = 'Джон'
     user.name.should == 'Джон'
@@ -59,7 +59,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    R18n.set(R18n::I18n.new(['no-LC', 'ru', 'en']))
+    R18n.set(['no-LC', 'ru', 'en'])
     user.name_ru = 'Иван'
     user.name.locale.should == R18n::Locale.load('ru')
   end
@@ -68,7 +68,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    R18n.set(R18n::I18n.new('no-LC'))
+    R18n.set('no-LC')
     user.name_en = 'John'
     user.name.locale.should == R18n::Locale.load('en')
   end

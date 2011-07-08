@@ -34,7 +34,7 @@ RBench.run(1000) do
   report 'cold load' do
     r18n {
       R18n.cache = {}
-      R18n.set R18n::I18n.new(%w{ru fr en}, dir + 'r18n')
+      R18n.set(%w{ru fr en}, dir + 'r18n')
       R18n.get.available_locales
     }
     i18n {
@@ -50,7 +50,7 @@ RBench.run(1000) do
 
   report 'load' do
     r18n {
-      R18n.set R18n::I18n.new(%w{ru fr en}, dir + 'r18n')
+      R18n.set(%w{ru fr en}, dir + 'r18n')
       R18n.get.available_locales
     }
     i18n {

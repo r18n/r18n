@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module R18n
   # Useful aliases. Set I18n object before use them:
   # 
-  #   R18n.set R18n::I18n.new('en')
+  #   R18n.set('en')
   #   
   #   t.ok               #=> "OK"
   #   l Time.now, :human #=> "now"

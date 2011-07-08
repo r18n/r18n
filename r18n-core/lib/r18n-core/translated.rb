@@ -41,7 +41,7 @@ module R18n
   #   end
   #   
   #   # User know only Russian
-  #   R18n.set(R18n::I18n.new('ru'))
+  #   R18n.set('ru')
   #   
   #   product.title #=> Untranslated
   #   

@@ -88,7 +88,7 @@ describe TestController, :type => :controller do
     @post = Post.new
     @post.title_en = 'Record'
     
-    R18n.set(R18n::I18n.new('ru'))
+    R18n.set('ru')
     @post.title.should == 'Record'
     
     @post.title = 'Запись'

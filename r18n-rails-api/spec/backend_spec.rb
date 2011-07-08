@@ -5,7 +5,7 @@ describe R18n::Backend do
   before do
     I18n.load_path = [GENERAL]
     I18n.backend = R18n::Backend.new
-    R18n.set R18n::I18n.new('en', R18n::Loader::Rails.new)
+    R18n.set('en', R18n::Loader::Rails.new)
   end
   
   it "should return available locales" do

@@ -22,7 +22,7 @@ module R18n
   # R18n backend for Rails I18n. You must set R18n I18n object before use this
   # backend:
   # 
-  #   R18n.set R18n::I18n.new(locales, R18n::Loader::Rails)
+  #   R18n.set locales, R18n::Loader::Rails
   #   
   #   I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
   class Backend
