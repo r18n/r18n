@@ -8,7 +8,7 @@ $width: 35em
   margin: 0
   padding: 0
 body
-  font-family: "Droid Sans", sans-serif
+  font-family: "PT Sans", sans-serif
   line-height: 140%
 #header
   color: white
@@ -38,13 +38,13 @@ body
   li
     a
       padding: 0 0.25em
-      text-shadow: 1px 1px 0 #777
+      text-shadow: 0 1px 1px #333
     a:hover
       text-decoration: underline
   .selected
     a
       background: $red
-      @include linear-gradient(color_stops($red, #880000))
+      @include background(linear-gradient($red, #880000))
 #content
   width: $width
   max-width: 100%
@@ -84,7 +84,7 @@ ol ol li
     right: -3.2em
     @include rotate(45deg)
     background: $red
-    @include linear-gradient(color_stops($red, #a90000))
+    @include background(linear-gradient($red, #a90000))
     color: white
     @include box-shadow(0px, 0px, 1.5ex, #888)
     div
