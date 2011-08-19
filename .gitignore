@@ -1,8 +1,12 @@
 *.DS_Store
 nbproject
 *~
+*.sw?
 
-doc
-pkg
-coverage
-log
+doc/
+pkg/
+coverage/
+log/
+*.sqlite3
+
+.bundle

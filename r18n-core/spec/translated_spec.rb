@@ -1,14 +1,17 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), 'spec_helper')
-require File.join(File.dirname(__FILE__), '..', 'lib', 'r18n-core', 'translated')
+require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('../../lib/r18n-core/translated', __FILE__)
 
 describe R18n::Translated do
   before do
     @user_class = Class.new do
       include R18n::Translated
       attr_accessor :name_ru, :name_en
+      
+      def name_ru?; end
+      def name_ru!; end
     end
-    R18n.set(R18n::I18n.new('en'))
+    R18n.set('en')
   end
   
   it "should save methods map" do
@@ -29,11 +32,11 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    user.name.should be_nil
+    user.name.should_not be_translated
     user.name = 'John'
     user.name.should == 'John'
     
-    R18n.set(R18n::I18n.new('ru'))
+    R18n.set('ru')
     user.name.should == 'John'
     user.name = 'Джон'
     user.name.should == 'Джон'
@@ -56,7 +59,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    R18n.set(R18n::I18n.new(['no-LC', 'ru', 'en']))
+    R18n.set(['no-LC', 'ru', 'en'])
     user.name_ru = 'Иван'
     user.name.locale.should == R18n::Locale.load('ru')
   end
@@ -65,7 +68,7 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
     
-    R18n.set(R18n::I18n.new('no-LC'))
+    R18n.set('no-LC')
     user.name_en = 'John'
     user.name.locale.should == R18n::Locale.load('en')
   end
@@ -103,6 +106,31 @@ describe R18n::Translated do
     obj.no.should be_a(R18n::Untranslated)
     obj.no.translated_path.should == 'SomeUntranslatedClass#'
     obj.no.untranslated_path.should == 'no'
+  end
+  
+  it "should translate virtual methods" do
+    @virtual_class = Class.new do
+      include R18n::Translated
+      translation :no_method, :methods => { :en => :no_method_en }
+      def method_missing(name, *params)
+        name.to_s
+      end
+    end
+    virtual = @virtual_class.new
+    
+    virtual.no_method.should == 'no_method_en'
+  end
+  
+  it "should return original type of result" do
+    @user_class.class_eval do
+      translation :name
+      def name_en
+        :ivan
+      end
+    end
+    user = @user_class.new
+    
+    user.name.should == :ivan
   end
   
 end

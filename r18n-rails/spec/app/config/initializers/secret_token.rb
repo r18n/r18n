@@ -1,0 +1,1 @@
+App::Application.config.secret_token = '148b21759642adc6cf4915d37ad32fa82c8959f68e1fbd3ca562084918afaa0bc158ba00116a24b9fa42aa449cc41ad95cf9545a214626641b6bf81fbc097b2b'

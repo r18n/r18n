@@ -1,15 +1,20 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require File.expand_path('../spec_helper', __FILE__)
 
 describe Sinatra::R18n do
+  before(:all) do
+    Sinatra::R18n.registered(app)
+ 	end
+ 	
   after do
     set :default_locale, 'en'
+    set :environment, :test
   end
   
   it "should translate messages" do
-    get '/ru/posts/1'
+    get '/en/posts/1'
     last_response.should be_ok
-    last_response.body.should == "<h1>Запись 1</h1>\n"
+    last_response.body.should == "<h1>Post 1</h1>\n"
   end
   
   it "should use translations from default locale" do
@@ -41,6 +46,18 @@ describe Sinatra::R18n do
     get '/locales'
     last_response.should be_ok
     last_response.body.should == 'en: English; ru: Русский'
+  end
+  
+  it "should format untranslated string" do
+    get '/untranslated'
+    last_response.should be_ok
+    last_response.body.should == 'post.<span style="color: red">no</span>'
+  end
+  
+  it "should localize objects" do
+    get '/time'
+    last_response.should be_ok
+    last_response.body.should == "01/01/1970 00:00"
   end
   
 end

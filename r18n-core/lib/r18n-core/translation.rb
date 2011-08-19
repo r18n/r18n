@@ -19,23 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'pathname'
-require 'yaml'
 
 module R18n
-  # Translation for interface to i18n support. You can load several locales and
-  # if translation willn’t be found in first, r18n will be search it in next.
-  # Use R18n::I18n.new to load translations.
+  # Struct to containt translation with some type for filter.
+  Typed = Struct.new(:type, :value, :locale, :path)
+  
+  # Translation is container of translated messages.
   #
-  # Translation files use YAML format and has name like en.yml (English) or
-  # en-US.yml (USA English dialect) with language/country code (RFC 3066). In
-  # translation file you can use strings, numbers, floats (any YAML types)
-  # and pluralizable values (<tt>!!pl</tt>). You can use params in string
-  # values, which you can replace in program. Just write <tt>%1</tt>,
-  # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
-  # value.
-  #
-  # You can use filters for some YAML type or for all strings. See R18n::Filters
-  # for details.
+  # You can load several locales and if translation willn’t be found in first,
+  # r18n will be search it in next. Use R18n::I18n.new to load translations.
   #
   # To get translation value use method with same name. If translation name
   # is equal with Object methods (+new+, +to_s+, +methods+) use
@@ -44,9 +36,6 @@ module R18n
   #
   # Translated strings will have +locale+ methods, which return Locale or
   # UnsupportedLocale, if locale file isn’t exists.
-  #
-  # R18n contain translations for common words (such as “OK”, “Cancel”, etc)
-  # for most supported locales. See <tt>base/</tt> dir.
   #
   # == Examples
   # translations/ru.yml
@@ -69,8 +58,6 @@ module R18n
   #
   # example.rb
   #
-  #   locales = [R18n::Locale.load('ru'), R18n::Locale.load('en')]
-  #   i18n = R18n::Translation.load(locales, 'translations/')
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
   #   
@@ -82,83 +69,60 @@ module R18n
   #   
   #   i18n.comments(0)            #=> "no comments"
   #   i18n.comments(10)           #=> "10 comments"
-  #
-  #   i18n.yes    #=> "Yes"
-  #   i18n.ok     #=> "OK"
-  #   i18n.cancel #=> "Cancel"
-  #
-  # == Extension translations
-  # For r18n plugin you can add dir with translations, which will be used with
-  # application translations. For example, DB plugin may place translations for
-  # error messages in extension dir. R18n contain translations for base words as
-  # extension dir too.
   class Translation
-    @@extension_translations = [
-      Pathname(__FILE__).dirname.expand_path + '../../base']
-
-    # Get dirs with extension translations. If application translations with
-    # same locale isn’t exists, extension file willn’t be used.
-    def self.extension_translations
-      @@extension_translations
-    end
-    
-    # Return available translations in +dirs+
-    def self.available(dirs)
-      if dirs.is_a? Array
-        return dirs.inject([]) do |available, i|
-          available |= self.available(i)
-        end
-      end
-      
-      Dir.glob(File.join(dirs, '*.yml')).map do |i|
-        File.basename(i, '.yml')
-      end
-    end
-
-    # Load all available translations for +locales+. +Locales+ must be Locale or
-    # UnsupportedLocale instance or an array them. +Dirs+ may be an array or a
-    # string with path to dir with translations.
-    # 
-    # To load translations use R18n::I18n.new method, which is more usable.
-    def self.load(locales, dirs)
-      dirs = @@extension_translations + Array(dirs)
-      
-      available = self.available(dirs)
-      translations = []
-      locales.each do |locale|
-        next unless available.include? locale.code.downcase
-        translation = {}
-        dirs.each do |dir|
-          file = File.join(dir, "#{locale.code.downcase}.yml")
-          if File.exists? file
-            Utils.deep_merge! translation, YAML::load_file(file)
-          end
-        end
-        translations << translation
-      end
-  
-      self.new(locales, translations)
-    end
-    
-    # Create translation hash for +path+ with messages in +translations+ for
-    # +locales+.
+    # Create translation hash for +path+ with messages in +data+ for +locale+.
     #
     # This is internal a constructor. To load translation use
     # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
-    def initialize(locales, translations, path = '')
-      @locales = locales
-      @translations = translations
+    def initialize(main_locale, path = '', locale = nil, data = {})
       @path = path
+      @data = {}
+      @locale = main_locale
+      merge! data, locale unless data.empty?
     end
     
-    # Short and pretty way to get translation by method name. If translation
-    # has name like object methods (+new+, +to_s+, +methods+) use <tt>[]</tt>
-    # method to access.
-    #
-    # Translation can contain variable part. Just set is as <tt>%1</tt>,
-    # <tt>%2</tt>, etc in translations file and set values as methods params.
-    def method_missing(name, *params)
-      self[name.to_s, *params]
+    # Add another hash with +translations+ for some +locale+. Current data is
+    # more priority, that new one in +translations+.
+    def merge!(translations, locale)
+      translations.each_pair do |name, value|
+        if not @data.has_key? name
+          path = @path.empty? ? name : "#{@path}.#{name}"
+          case value
+          when Hash
+            value = Translation.new(@locale, path, locale, value)
+          when String
+            c = { :locale => locale, :path => path }
+            v = Filters.process_string(Filters.passive_enabled, value, c, [])
+            value = TranslatedString.new(v, locale, path)
+          when Typed
+            value.locale = locale
+            value.path = path
+            unless Filters.passive_enabled[value.type].empty?
+              value = Filters.process(Filters.passive_enabled, value.type,
+                                      value.value, value.locale, value.path, {})
+            end
+          end
+          @data[name] = value
+        elsif @data[name].is_a? Translation
+          @data[name].merge! value, locale
+        end
+      end
+    end
+    
+    # Use untranslated filter to print path.
+    def to_s
+      Filters.process(Filters.enabled, Untranslated, @path, @locale, @path,
+                      [@path, '', @path])
+    end
+    
+    # Return current translation keys.
+    def _keys
+      @data.keys
+    end
+    
+    # Return +default+.
+    def |(default)
+      default
     end
     
     # Return translation with special +name+.
@@ -166,27 +130,20 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
-      path = @path.empty? ? name : "#{@path}.#{name}"
-      
-      @translations.each_with_index do |translation, i|
-        result = translation[name]
-        next unless result
-        
-        if result.is_a? Hash
-          return self.class.new(@locales, @translations.map { |i|
-            i[name] or {}
-          }, path)
-        elsif result.is_a? YAML::PrivateType
-          type = result.type_id
-          result = result.value
-        else
-          type = nil
-        end
-        
-         return Filters.process(result, @locales[i], path, type, params)
+      value = @data[name.to_s]
+      case value
+      when TranslatedString
+        Filters.process_string(Filters.active_enabled, value, @path, params)
+      when Typed
+        Filters.process(Filters.active_enabled, value.type, value.value,
+                        value.locale, value.path, params)
+      when nil
+        translated = @path.empty? ? '' : "#{@path}."
+        Untranslated.new(translated, name.to_s, @locale)
+      else
+        value
       end
-      
-      Untranslated.new(path, name)
     end
+    alias method_missing []
   end
 end

@@ -1,0 +1,22 @@
+menu:
+- index: Why
+- tutorial: Tutorial
+- rails: Rails
+- sinatra: Sinatra
+- desktop: Desktop
+keywords: [r18n, i18n, ruby, l10n, internationalize, localize, translate, datamapper, mongodb, gem]
+locales:
+- Czech
+- Deutsch
+- English
+- Esperanto
+- Spanish
+- French
+- Italian
+- Kazakh
+- Polish
+- Brazilian Portuguese
+- Russian
+- Slovak
+- Thai
+- Chinese

@@ -18,8 +18,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'rubygems'
-gem 'r18n-core', '~>0.1'
 require 'r18n-core'
 
 require 'pathname'
@@ -35,12 +33,12 @@ end
 module R18n
   class << self
     # Get user locale from system environment and load I18n object with locale
-    # information and translations from +translations_dir+. If user set locale
-    # +manual+ put it as last argument.
-    def from_env(translations_dir = nil, manual = nil)
+    # information and translations from +translations_places+. If user set
+    # locale +manual+ put it as last argument.
+    def from_env(translations_places = nil, manual = nil)
       locales = Array(R18n::I18n.system_locale)
       locales.insert(0, manual) if not manual.nil?
-      self.set I18n.new(locales, translations_dir)
+      self.set I18n.new(locales, translations_places)
     end
   end
 end

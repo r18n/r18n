@@ -1,0 +1,46 @@
+# encoding: utf-8
+
+require 'rubygems'
+
+begin
+  require 'bundler'
+  require 'bundler/setup'
+  Bundler::GemHelper.install_tasks
+rescue LoadError
+  puts "Bundler not available. Install it with: gem install bundler"
+end
+
+begin
+  require 'hanna/rdoctask'
+rescue LoadError
+  require 'rake/rdoctask'
+end
+
+PKG_NAME = 'r18n-rails-api'
+require '../r18n-core/lib/r18n-core/version'
+
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new
+
+RSpec::Core::RakeTask.new('rcov') do |t|
+  t.rcov = true
+  t.ruby_opts = '-w'
+  t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
+end
+
+Rake::RDocTask.new do |rdoc|
+  rdoc.main = 'README.rdoc'
+  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
+  rdoc.title = "R18n Rails #{R18n::VERSION} API Documentation"
+  rdoc.rdoc_dir = 'doc'
+  rdoc.options << '-c utf-8'
+  rdoc.options << '--all'
+end
+
+task :clobber_package do
+  rm_r 'pkg' rescue nil
+end
+task :clobber => [:clobber_package]
+
+task :default => :spec

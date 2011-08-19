@@ -1,30 +1,30 @@
 = Sinatra R18n Plugin
 
-Sinatra extension that provides i18n support to translate your web application.
+Sinatra extension which provides i18n support to translate your web application.
 
-It is just a wrap for R18n core library. See R18n documentation for more 
+It is a wrapper for R18n core library. See R18n documentation for more 
 information.
 
 == Features
 
-* It has special support for countries with two official languages. If there
-  isn’t translation in user locale, it will be found in locales, which
-  user may know (not only in default locale). For example, many people in 
-  Belarus can understand Russian, and locale has information about it.
-* It can format numbers and time to the rules of the user locale, translate
-  month and week days name and give other locale information.
-* It has translation for commons words, like “OK”, “Cancel”, etc.
-* It storage translation in rich YAML format. You can put procedures and
-  pluralization (“1 comment”, “5 comments”) or create you own filters.
+* Nice Ruby-style syntax.
+* Filters.
+* Flexible locales.
+* Custom translations loaders.
+* Translation support for any classes.
+* Time and number localization.
+* Several user language support.
 
 == How To
+
 1. Create translations dir <tt>./i18n/</tt>.
-2. Add file with translation in some language. For example
-   <tt>./i18n/en.yml</tt>:
+2. Add file with translation to <tt>./i18n/</tt> with language code in file name
+   (for example, <tt>en.yml</tt> for English or <tt>en-us.yml</tt> USA English
+   dialect). For example, <tt>./i18n/en.yml</tt>:
    
      post:
        friends: Post only for friends
-       tags: Post tags: %1
+       tags: Post tags is %1
      
      comments: !!pl
        0: No comments
@@ -51,33 +51,42 @@ information.
        haml :post
      end
    
-   Or you save locale in session, when user change it:
+   Or save locale in session, when user change it:
    
      before do
-      session[:locale] = params[:locale] if params[:locale]
+       session[:locale] = params[:locale] if params[:locale]
      end
    
-5. Use translation messages in view. For example in HAML:
+5. Use translation messages in views. For example in HAML:
      
-     %p= i18n.post.friends
-     %p= i18n.post.tags(@post.tags.join(', '))
+     %p= t.post.friends
+     %p= t.post.tags(@post.tags.join(', '))
      
-     %h2= i18n.comments(@post.comments.size)
+     %h2= t.comments(@post.comments.size)
    
 6. Print localized time and numbers. For example:
    
-     i18n.l @post.created_at, :human
+     l @post.created_at, :human
    
 7. Print available translations. For example in HAML:
    
      %ul
-       - i18n.translations.each_pair do |locale, title|
+       - r18n.available_locales.each do |locale|
          %li
-           %a{ href: "/#{locale}/" }= title
+           %a{ href: "/#{locale.code}/" }= locale.title
+
+== Configuration
+
+You can change default locale and translations dir:
+
+  set :default_locale, 'ru'
+  set :translations,   './translations'
 
 == License
+
 R18n is licensed under the GNU Lesser General Public License version 3.
 You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
 
 == Author
+
 Andrey “A.I.” Sitnik <andrey@sitnik.ru>

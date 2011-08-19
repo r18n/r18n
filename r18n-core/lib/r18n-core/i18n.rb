@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 require 'date'
+require 'pathname'
 
 module R18n
   # General class to i18n support in your application. It load Translation and
@@ -28,8 +29,30 @@ module R18n
   # translation’s name or <tt>[name]</tt> method. Translations will be also
   # loaded for default locale, +sublocales+ from first in +locales+ and general
   # languages for dialects (it will load +fr+ for +fr_CA+ too).
+  # 
+  # Translations will loaded by loader object, which must have 2 methods:
+  # * <tt>available</tt> – return array of locales of available translations;
+  # * <tt>load(locale)</tt> – return Hash of translation.
+  # If you will use default loader (+R18n.default_loader+) you can pass to I18n
+  # only constructor argument for loader:
+  # 
+  #   R18n::I18n.new('en', R18n::Loader::YAML.new('dir/with/translations'))
+  # 
+  # is a same as:
+  # 
+  #   R18n::I18n.new('en', 'dir/with/translations')
+  # 
+  # In translation file you can use strings, numbers, floats (any YAML types)
+  # and pluralizable values (<tt>!!pl</tt>). You can use params in string
+  # values, which you can replace in program. Just write <tt>%1</tt>,
+  # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
+  # value.
   #
-  # See Translation and Locale documentation.
+  # You can use filters for some YAML type or for all strings. See R18n::Filters
+  # for details.
+  #
+  # R18n contain translations for common words (such as “OK”, “Cancel”, etc)
+  # for most supported locales. See <tt>base/</tt> dir.
   #
   # == Usage
   # translations/ru.yml
@@ -57,6 +80,10 @@ module R18n
   #   i18n.l Time.now, :date   #=> "21.09.2008"
   #   i18n.l Time.now, :time   #=> "22:10"
   #   i18n.l Time.now, '%A'    #=> "Воскресенье"
+  #
+  #   i18n.yes    #=> "Yes"
+  #   i18n.ok     #=> "OK"
+  #   i18n.cancel #=> "Cancel"
   class I18n
     @@default = 'en'
 
@@ -87,27 +114,44 @@ module R18n
       locales.map! { |i| i[0] }
     end
     
+    # Return Array of locales with available translations.
+    def self.available_locales(places)
+      convert_places(places).map { |i| i.available }.flatten.uniq
+    end
+    
+    # Load default loader for elements in +places+ with only constructor
+    # argument.
+    def self.convert_places(places)
+      Array(places).map! do |loader|
+        if loader.respond_to? :available and loader.respond_to? :load
+          loader
+        else
+          R18n.default_loader.new(loader)
+        end
+      end
+    end
+    
     # User locales, ordered by priority
     attr_reader :locales
     
-    # Dirs with translations files
-    attr_reader :translation_dirs
+    # Loaders with translations files
+    attr_reader :translation_places
     
     # First locale with locale file
     attr_reader :locale
     
-    # Create i18n for +locales+ with translations from +translation_dirs+ and
+    # Create i18n for +locales+ with translations from +translation_places+ and
     # locales data. Translations will be also loaded for default locale,
     # +sublocales+ from first in +locales+ and general languages for dialects
     # (it will load +fr+ for +fr_CA+ too).
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
-    # +Translation_dirs+ must be a string with path or array.
-    def initialize(locales, translation_dirs = nil)
-      locales = [locales] if locales.is_a? String
+    # +Translation_places+ must be a string with path or array.
+    def initialize(locales, translation_places = nil)
+      locales = Array(locales)
       
       if not locales.empty? and Locale.exists? locales.first
-        locales += Locale.load(locales.first)['sublocales']
+        locales += Locale.load(locales.first).sublocales
       end
       locales << @@default
       locales.each_with_index do |locale, i|
@@ -115,19 +159,56 @@ module R18n
           locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
         end
       end
-      locales.uniq!
+      locales.map! { |i| i.to_s.downcase }.uniq!
+      @locales_codes = locales
       @locales = locales.map { |i| Locale.load(i) }
       
-      if translation_dirs.nil?
-        @translation_dirs = []
-        @translation = Translation.load(@locales,
-                                        Translation.extension_translations)
+      if translation_places
+        @original_places = translation_places
       else
-        @translation_dirs = translation_dirs
-        @translation = Translation.load(@locales, @translation_dirs)
+        @original_places = R18n.extension_places
+        @locale = @locales.first
       end
       
-      @locale = @locales.first
+      @translation_places = self.class.convert_places(@original_places)
+      
+      key = translation_cache_key
+      if R18n.cache.has_key? key
+        @locale, @translation = *R18n.cache[key]
+      else
+        reload!
+      end
+    end
+    
+    # Return unique key for current locales in translation and places.
+    def translation_cache_key
+      @available_codes ||= @translation_places.inject([]) { |all, i|
+        all + i.available }.uniq.map { |i| i.code.downcase }
+      (@locales_codes & @available_codes).join(',') + '@' +
+        R18n.default_loader.hash.to_s +
+        @translation_places.hash.to_s + R18n.extension_places.hash.to_s
+    end
+    
+    # Reload translations.
+    def reload!
+      @available = @available_codes = nil
+      @translation_places = self.class.convert_places(@original_places)
+      
+      available_in_places = @translation_places.map { |i| [i, i.available] }
+      available_in_extensions = R18n.extension_places.map {|i| [i, i.available]}
+      
+      unless @locale
+        available_in_places.each do |place, available|
+          @locales.each do |locale|
+            if available.include? locale
+              @locale = locale
+              break
+            end
+          end
+          break if @locale
+        end
+      end
+      @locale ||= @locales.first
       unless @locale.supported?
         @locales.each do |locale|
           if locale.supported?
@@ -136,15 +217,31 @@ module R18n
           end
         end
       end
+      
+      @translation = Translation.new @locale
+      @locales.each do |locale|
+        loaded = false
+        available_in_places.each do |place, available|
+          if available.include? locale
+            @translation.merge! place.load(locale), locale
+            loaded = true
+          end
+        end
+        if loaded
+          available_in_extensions.each do |extension, available|
+            if available.include? locale
+              @translation.merge! extension.load(locale), locale
+            end
+          end
+        end
+      end
+      
+      R18n.cache[translation_cache_key] = [@locale, @translation]
     end
     
-    # Return Hash with titles (or code for unsupported locales) for available
-    # translations.
-    def translations
-      Translation.available(@translation_dirs).inject({}) do |all, code|
-        all[code] = Locale.load(code).title
-        all
-      end
+    # Return Array of locales with available translations.
+    def available_locales
+      @available ||= self.class.available_locales(@translation_places)
     end
     
     # Convert +object+ to String, according to the rules of the current locale.
@@ -161,38 +258,13 @@ module R18n
     #   i18n.l Time.now, :human #=> "now"
     #   i18n.l Time.now, :full  #=> "Jule 1st, 2009 12:59"
     def localize(object, format = nil, *params)
-      if object.is_a? Integer
-        locale.format_integer(object)
-      elsif object.is_a? Float
-        locale.format_float(object)
-      elsif object.is_a? Time or object.is_a? DateTime or object.is_a? Date
-        if format.is_a? String
-          locale.strftime(object, format)
-        else
-          if :month == format
-            return locale.data['months']['standalone'][object.month - 1]
-          end
-          type = object.is_a?(Date) ? 'date' : 'time'
-          format = :standard unless format
-          
-          unless [:human, :full, :standard].include? format
-            raise ArgumentError, "Unknown time formatter #{format}"
-          end
-          
-          locale.send "format_#{type}_#{format}", self, object, *params
-        end
-      end
+      locale.localize(object, format, self, *params)
     end
     alias :l :localize
     
-    # Short and pretty way to get translation by method name. If translation
-    # has name like object methods (+new+, +to_s+, +methods+) use <tt>[]</tt>
-    # method to access.
-    #
-    # Translation can contain variable part. Just set is as <tt>%1</tt>,
-    # <tt>%2</tt>, etc in translations file and set values as methods params.
-    def method_missing(name, *params)
-      @translation[name.to_s, *params]
+    # Return translations.
+    def t
+      @translation
     end
     
     # Return translation with special +name+.
@@ -202,5 +274,6 @@ module R18n
     def [](name, *params)
       @translation[name, *params]
     end
+    alias method_missing []
   end
 end

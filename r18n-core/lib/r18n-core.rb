@@ -31,37 +31,76 @@ require dir + 'translated_string'
 require dir + 'untranslated'
 require dir + 'filters'
 require dir + 'translation'
+require dir + 'yaml_loader'
 require dir + 'i18n'
+require dir + 'helpers'
 
 module R18n
   class << self
-    # Set I18n object to current thread.
-    def set(i18n)
-      Thread.current['i18n'] = i18n
-    end
     
+    # Set I18n object globally.
+    def set(i18n = nil, dir = nil, &block)
+      if block_given?
+        @setter = block
+        @i18n = nil
+      elsif i18n.is_a? I18n
+        @i18n = i18n
+      else
+        @i18n = I18n.new(i18n, dir)
+      end
+    end
+
+    # Set I18n object to current thread.
+    def thread_set(i18n = nil, &block)
+      if block_given?
+        Thread.current[:r18n_setter] = block
+        Thread.current[:r18n_i18n] = nil
+      else
+        Thread.current[:r18n_i18n] = i18n
+      end
+    end
+
     # Get I18n object for current thread.
     def get
-      Thread.current['i18n']
+      (thread[:r18n_i18n] ||= ((block = thread[:r18n_setter]) && block.call)) ||
+      (@i18n ||= (@setter && @setter.call))
+    end
+
+    # Delete I18n object from current thread and global variable.
+    def reset
+      thread[:r18n_i18n] = thread[:r18n_setter] = @i18n = @setter = nil
+      self.cache = {}
+    end
+
+    # Get the current thread.
+    def thread
+      Thread.current
     end
     
-    # String, which will be print by untranslated items. You can use special
-    # values:
-    # * <tt>%1</tt> – path to untranslated string.
-    # * <tt>%2</tt> – part in path, that exists in translation.
-    # * <tt>%3</tt> – part in path, that isn’t exists in translation.
-    #
-    # For example, if you have in translation only:
-    #   user:
-    #     login: Login
-    #
-    # And write code:
-    #
-    #   R18n.untranslated = '%2[%3]'
-    #   
-    #   i18n.user.password #=> "user.[password]"
-    attr_accessor :untranslated
+    # Translate message. Alias for <tt>R18n.get.t</tt>.
+    def t(*params)
+      get.t(*params)
+    end
+    
+    # Localize object. Alias for <tt>R18n.get.l</tt>.
+    def l(*params)
+      get.l(*params)
+    end
+
+    # Default loader class, which will be used if you didn’t send loader to
+    # +I18n.new+ (object with +available+ and +load+ methods).
+    attr_accessor :default_loader
+
+    # Loaders with extension translations. If application translations with
+    # same locale isn’t exists, extension file willn’t be used.
+    attr_accessor :extension_places
+    
+    # Hash of hash-like (see Moneta) object to store loaded translations.
+    attr_accessor :cache
   end
   
-  self.untranslated = '%2[%3]'
+  self.default_loader = R18n::Loader::YAML
+  self.extension_places = [
+      Loader::YAML.new(Pathname(__FILE__).dirname.expand_path + '../base')]
+  self.cache = {}
 end

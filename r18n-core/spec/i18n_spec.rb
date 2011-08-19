@@ -1,9 +1,15 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::I18n do
+  before do
+    @extension_places = R18n.extension_places.clone
+  end
+  
   after do
     R18n::I18n.default = 'en'
+    R18n.default_loader = R18n::Loader::YAML
+    R18n.extension_places = @extension_places
   end
 
   it "should parse HTTP_ACCEPT_LANGUAGE" do
@@ -26,19 +32,67 @@ describe R18n::I18n do
     i18n.locales.should == [R18n::Locale.load('ru'),
                             R18n::UnsupportedLocale.new('no-LC'),
                             R18n::UnsupportedLocale.new('no'),
-                            R18n::UnsupportedLocale.new('en')]
+                            R18n::Locale.load('en')]
   end
 
-  it "should return translations dir" do
+  it "should return translations loaders" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translation_dirs.expand_path.to_s.should == DIR.expand_path.to_s
+    i18n.translation_places.should == [R18n::Loader::YAML.new(DIR)]
+  end
+  
+  it "should load translations by loader" do
+    loader = Class.new do
+      def available; [R18n::Locale.load('en')]; end
+      def load(locale); { 'custom' => 'Custom' }; end
+    end
+    R18n::I18n.new('en', loader.new).custom.should == 'Custom'
+  end
+  
+  it "should pass parameters to default loader" do
+    loader = Class.new do
+      def initialize(param); @param = param; end
+      def available; [R18n::Locale.load('en')]; end
+      def load(locale); { 'custom' => @param }; end
+    end
+    R18n.default_loader = loader
+    R18n::I18n.new('en', 'default').custom.should == 'default'
   end
 
   it "should load translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
     i18n.one.should == 'Один'
+    i18n[:one].should == 'Один'
     i18n['one'].should == 'Один'
     i18n.only.english.should == 'Only in English'
+  end
+  
+  it "should load translations from several dirs" do
+    i18n = R18n::I18n.new(['no-LC', 'en'], [TWO, DIR])
+    i18n.in.two.should == 'Two'
+    i18n.in.another.level.should == 'Hierarchical'
+  end
+
+  it "should use extension places" do
+    R18n.extension_places << EXT
+    
+    i18n = R18n::I18n.new('en', DIR)
+    i18n.ext.should == 'Extension'
+    i18n.one.should == 'One'
+  end
+
+  it "shouldn't use extension without app translations with same locale" do
+    R18n.extension_places << EXT
+    
+    i18n = R18n::I18n.new(['no-TR', 'en'], DIR)
+    i18n.ext.should == 'Extension'
+  end
+  
+  it "should ignore case on loading" do
+    i18n = R18n::I18n.new('no-lc', [DIR])
+    i18n.one.should == 'ONE'
+    
+    i18n = R18n::I18n.new('no-LC', [DIR])
+    i18n.one.should == 'ONE'
   end
 
   it "should load default translation" do
@@ -56,13 +110,90 @@ describe R18n::I18n do
   end
 
   it "should return available translations" do
+    R18n::I18n.available_locales(DIR).should =~ [R18n::Locale.load('no-lc'),
+                                                 R18n::Locale.load('ru'),
+                                                 R18n::Locale.load('en')]
     i18n = R18n::I18n.new('en', DIR)
-    i18n.translations.should == { 'no-lc' => 'no-lc', 'ru' => 'Русский',
-                                  'en' => 'English' }
+    i18n.available_locales.should =~ [R18n::Locale.load('no-lc'),
+                                      R18n::Locale.load('ru'),
+                                      R18n::Locale.load('en')]
+  end
+  
+  it "should cache translations" do
+    counter = CounterLoader.new('en')
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n.cache.clear
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 2
+  end
+  
+  it "should cache translations by used locales" do
+    counter = CounterLoader.new('en', 'ru')
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new(['en', 'fr'], counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new(['en', 'ru'], counter)
+    counter.loaded.should == 3
+    
+    R18n::I18n.new(['ru', 'en'], counter)
+    counter.loaded.should == 5
+  end
+  
+  it "should cache translations by places" do
+    counter = CounterLoader.new('en', 'ru')
+    
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 1
+    
+    R18n::I18n.new('en', [counter, DIR])
+    counter.loaded.should == 2
+    
+    R18n.extension_places << EXT
+    R18n::I18n.new('en', counter)
+    counter.loaded.should == 3
+    
+    same = CounterLoader.new('en', 'ru')
+    R18n::I18n.new('en', same)
+    same.loaded.should == 0
+    
+    different = CounterLoader.new('en', 'fr')
+    R18n::I18n.new('en', different)
+    different.loaded.should == 1
+  end
+  
+  it "should reload translations" do
+    loader = Class.new do
+      @@answer = 1
+      def available; [R18n::Locale.load('en')]; end
+      def load(locale); { 'one' => @@answer }; end
+    end
+    
+    i18n = R18n::I18n.new('en', loader.new)
+    i18n.one.should == 1
+    
+    loader.class_eval { @@answer = 2 }
+    i18n.reload!
+    i18n.one.should == 2
+  end
+  
+  it "should return translations" do
+    i18n = R18n::I18n.new('en', DIR)
+    i18n.t.should be_a(R18n::Translation)
+    i18n.t.one.should == 'One'
   end
 
   it "should return first locale with locale file" do
-    i18n = R18n::I18n.new(['no-LC', 'ru', 'en'], DIR)
+    i18n = R18n::I18n.new(['no-TR', 'no-LC', 'ru', 'en'], DIR)
     i18n.locale.should == R18n::Locale.load('no-LC')
     i18n.locale.base.should == R18n::Locale.load('ru')
   end
@@ -80,51 +211,6 @@ describe R18n::I18n do
     i18n.l(time, :full).should == ' 1 января 1970 00:00'
     
     i18n.l(Date.new(0)).should == '01.01.0000'
-  end
-  
-  it "should localize date for human" do
-    i18n = R18n::I18n.new('ru')
-    
-    i18n.l(Date.today + 2, :human).should == 'через 2 дня'
-    i18n.l(Date.today + 1, :human).should == 'завтра'
-    i18n.l(Date.today,     :human).should == 'сегодня'
-    i18n.l(Date.today - 1, :human).should == 'вчера'
-    i18n.l(Date.today - 3, :human).should == '3 дня назад'
-    
-    y2000 = Date.parse('2000-01-08')
-    i18n.l(y2000, :human, Date.parse('2000-01-01')).should == ' 8 января'
-    i18n.l(y2000, :human, Date.parse('1999-01-01')).should == ' 8 января 2000'
-  end
-  
-  it "should localize times for human" do
-    i18n = R18n::I18n.new('ru')
-    minute = 60
-    hour   = 60 * minute
-    day    = 24 * hour
-    zero   = Time.at(0).utc
-    
-    i18n.l( zero + 7 * day,     :human, zero).should == ' 8 января 00:00'
-    i18n.l( zero + 50 * hour,   :human, zero).should == 'через 2 дня 02:00'
-    i18n.l( zero + 25 * hour,   :human, zero).should == 'завтра 01:00'
-    i18n.l( zero + 70 * minute, :human, zero).should == 'через 1 час'
-    i18n.l( zero + 38 * minute, :human, zero).should == 'через 38 минут'
-    i18n.l( zero + 5,           :human, zero).should == 'сейчас'
-    i18n.l( zero - 15,          :human, zero).should == 'сейчас'
-    i18n.l( zero - minute,      :human, zero).should == '1 минуту назад'
-    i18n.l( zero - 2 * hour,    :human, zero).should == '2 часа назад'
-    i18n.l( zero - 13 * hour,   :human, zero).should == 'вчера 11:00'
-    i18n.l( zero - 50 * hour,   :human, zero).should == '3 дня назад 22:00'
-    i18n.l( zero - 9 * day,     :human, zero).should == '23 декабря 1969 00:00'
-  end
-  
-  it "should use standard formatter by default" do
-    R18n::I18n.new('ru').l(Time.at(0).utc).should == '01.01.1970 00:00'
-  end
-  
-  it "should raise error on unknown formatter" do
-    lambda {
-      R18n::I18n.new('ru').l(Time.at(0).utc, :unknown)
-    }.should raise_error(ArgumentError, /formatter/)
   end
 
 end

@@ -1,78 +1,51 @@
 # encoding: utf-8
+
 require 'rubygems'
-require 'rake/gempackagetask'
-gem 'rspec'
-require 'spec/rake/spectask'
+
+begin
+  require 'bundler'
+  require 'bundler/setup'
+  Bundler::GemHelper.install_tasks
+rescue LoadError
+  puts "Bundler not available. Install it with: gem install bundler"
+end
+
 begin
   require 'hanna/rdoctask'
 rescue LoadError
   require 'rake/rdoctask'
 end
 
-PKG_NAME = 'r18n-core'
-require 'lib/r18n-core/version'
+PKG_NAME = 'r18n-core'.freeze
+require File.join(File.dirname(__FILE__), 'lib/r18n-core/version')
 
-task :default => :spec
+require 'rspec/core/rake_task'
 
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_opts = ['--format', 'specdoc', '--colour']
-  t.spec_files = Dir['spec/**/*_spec.rb'].sort
+RSpec::Core::RakeTask.new
+
+task :spec_syck do
+  ENV['test_syck'] = '1'
+  sh "#{RUBY} -S rake spec", :verbose => false
 end
 
-Spec::Rake::SpecTask.new('rcov') do |t|
-  t.spec_opts = ['--colour']
-  t.spec_files = Dir['spec/**/*_spec.rb'].sort
+RSpec::Core::RakeTask.new('rcov') do |t|
   t.rcov = true
+  t.ruby_opts = '-w'
   t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
 end
 
 Rake::RDocTask.new do |rdoc|
   rdoc.main = 'README.rdoc'
   rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'ChangeLog', 'lib/**/*.rb')
-  rdoc.title = 'R18n Documentation'
+  rdoc.title = "R18n #{R18n::VERSION} Documentation"
   rdoc.rdoc_dir = 'doc'
   rdoc.options << '-c utf-8'
   rdoc.options << '--all'
 end
 
-spec = Gem::Specification.new do |s|
-  s.platform = Gem::Platform::RUBY
-  s.name = PKG_NAME
-  s.version = R18n::VERSION
-  s.summary = 'I18n tool to translate your Ruby application.'
-  s.description = <<-EOF
-    R18n is a i18n tool to translate your Ruby application.
-    It can format numbers and time to the rules of the user locale,
-    has translation for common words, storage translation in YAML format with
-    pluralization, procedures and user filters and has special support for
-    countries with two official languages.
-  EOF
-  
-  s.files = FileList[
-    'base/**/*',
-    'lib/**/*',
-    'locales/**/*',
-    'LICENSE',
-    'ChangeLog',
-    'README.rdoc']
-  s.test_files = FileList[
-    'spec/**/*']
-  s.extra_rdoc_files = ['README.rdoc', 'LICENSE', 'ChangeLog']
-  s.require_path = 'lib'
-  s.has_rdoc = true
-  
-  s.author = 'Andrey "A.I." Sitnik'
-  s.email = 'andrey@sitnik.ru'
-  s.homepage = 'http://r18n.rubyforge.org/'
-  s.rubyforge_project = PKG_NAME
+task :clobber_package do
+  rm_r 'pkg' rescue nil
 end
+task :clobber => [:clobber_package]
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-desc 'Install as a gem'
-task :install => [:package] do
-  sudo = RUBY_PLATFORM =~ /win32/ ? '' : 'sudo'
-  sh %{#{sudo} gem install pkg/#{PKG_NAME}-#{R18n::VERSION}}
-end
+task :default => :spec

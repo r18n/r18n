@@ -1,15 +1,108 @@
+== 0.4.10 (Kvantum)
+* Add R18n.set(locales, places), R18n.t and R18n.l shortcuts.
+* Convert float to number on pluralization.
+* Fix loading empty translation file.
+* Add Portuguese locale.
+* Add Dutch locale (by Sander Heilbron).
+* Add Swedish locale (by Magnus Hörberg).
+
+== 0.4.9 (Kazan)
+* Add support for Psych YAML parser (thanks for Ravil Bayramgalin).
+* Fix ActiveRecord support in Translated.
+* Fix Translated to return non-string values.
+* Fix human time localization.
+* Add Bulgarian locale (by Mitko Kostov).
+* Add Australian English locale (by Dave Sag).
+
+== 0.4.8 (En ni to)
+* Fix support for Ruby 1.9.2.
+* Fix caching issue (by Viktors Rotanovs).
+* Add Danish locale (by Hans Czajkowski Jørgensen)
+* Fix Italian locale (by Viktors Rotanovs).
+* Move untranslated filters with html highlight to r18n-core.
+
+== 0.4.7.1 (Kyū)
+* Fix Japanese locale in Ruby 1.9.1.
+
+== 0.4.7 (Mado)
+* Fix autodetect locale in Windows and Ruby 1.9.1 (by Marvin Gülker).
+* Fix autodetect locale in JRuby (by Kővágó, Zoltán).
+* Fix human time format on 60 minutes.
+* Add Hungarian locale (by Kővágó, Zoltán).
+* Add Japanese locale (by hryk).
+* Fix Polish locale (by Piotr Szotkowski).
+
+== 0.4.6 (Trinity)
+* Add support for new interpolation syntax in Rails 3.
+* Add Catalian locale (by Jordi Romero).
+* Add Finish locale (by Laura Guillén).
+* Add British locale (by JP Hastings-Spital).
+* Add Latvian locale (by Iļja Ketris).
+* Fix Spanish (by Jordi Romero), German, French, Esperanto (by Iļja Ketris) and
+  Polish locales.
+* Fix documentation (by Iļja Ketris and felix).
+* Remove RubyGems from plugins requires.
+
+== 0.4.5 (Annual)
+* Filters for several types.
+* Global HTML escaping run before Markdown and Textile formatting.
+* Fix active filters after passive filters.
+* Fix human time formatting for dates with same month days.
+
+== 0.4.4 (Frank)
+* Use before filter to lazy set I18n object in Sinatra extension.
+* Set I18n object to thread (by Simon Hafner).
+* Add to l Rails helper R18n syntax.
+* Add common helpers.
+* Clear cache in R18n.reset.
+* Clean up code and fix bug (by Akzhan Abdulin).
+* Add Thai locale (by Felix Hanley).
+
+== 0.4.3 (Flange)
+* Add R18n style methods to Rails controllers.
+* Fix for non-string translations in Rails I18n.
+* Use default locale from Rails I18n config.
+* Load translations recursively.
+* Add Slovak locale (by Ahmed Al Hafoudh)
+
+== 0.4.2 (EMS)
+* Fixes for Ruby 1.8.6 (by Akzhan Abdulin).
+* Add method to get translation keys.
+
+== 0.4.1 (Lazy Boole)
+* Add passive filters.
+* Receive filter position as option Hash.
+* Fix base translations (by Pavel Kunc).
+
+== 0.4 (D-Day)
+* Rails I18n compatibility.
+* Rewrite a lot of core code to fast and cleanup version.
+* Custom translation loaders.
+* Add reload! method to I18n.
+* Add t and l helpers to Sinatra and desktop plugins.
+* Syntax sugar for default values.
+* Named variables.
+* New locale API.
+* Change API for extension translations.
+
+== 0.3.2 (Pidgin)
+* Print path of untranslated string by filters.
+* Add Italian locale (by Guido De Rosa).
+* Fix Polish locale (by Adrian Pacała).
+* Fix American English locale (by Max Aller).
+
 == 0.3.1 (Yield)
 * Add Chinese locale (by Ilia Zayats).
 * Add Spanish locale (by Andre O Moura).
 * Add Brazilian Portuguese locale (by Andre O Moura).
-* Remove rubygems requires.
+* Remove RubyGems requires.
 
 == 0.3 (Vladivostok)
 * Translated mixin to add i18n support to model or any other class.
 * New cool time formatters.
 * Filters for translations.
 * Add filters to escape HTML, Markdown and Textile syntax.
-* Pluralization and variables is now as filters and can be replaced.
+* Pluralization and variables is now filters and can be replaced.
 * I18n#locales now contain all detected locales, used to load translations,
   instead of just received from user.
 * Bugfix in locale code case.
@@ -17,7 +110,7 @@
 
 == 0.2.3 (Shanghai eclipse)
 * R18n will return path string if translation isn’t exists.
-* Add UnsupportedLocale class for localew without information file.
+* Add UnsupportedLocale class for locale without information file.
 * Load absent locale information from default locale.
 * Add Polish locale (by Tymon Tobolski).
 
@@ -29,7 +122,7 @@
 * Ruby 1.9 compatibility.
 * Add German locale (by Benjamin Meichsner).
 
-== 0.2 (Freedom of language)
+== 0.2 (Freedom of Language)
 * Locale class can be extended for special language (for example, Indian locale
   may has another digits grouping).
 * Load translations from several dirs.
@@ -39,6 +132,6 @@
 == 0.1.1 (Saluto)
 * Loading i18n object without translations.
 * Add output for standalone month name.
-* Dont’t call procedures from translations of it isn’t secure.
+* Don’t call procedures from translations if it isn’t secure.
 * Add Esperanto locale.
 * English locale now contain UK date standards.

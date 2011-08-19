@@ -2,44 +2,99 @@
 # Compile HAML and SASS and copy all files to public/
 
 require 'pathname'
+require 'yaml'
 require 'rubygems'
+
+begin
+  require 'bundler'
+  require 'bundler/setup'
+rescue LoadError
+  puts 'Bundler not available. Install it with: gem install bundler'
+end
+
 require 'haml'
 require 'sass'
+require 'compass'
 
 ROOT    = Pathname.new(__FILE__).dirname.parent.realpath
 PUBLIC  = ROOT.join('public')
 CONTENT = ROOT.join('content')
+LAYOUT  = ROOT.join('layout')
+DOCS    = ROOT.join('docs')
 
-PUBLIC.rmtree if PUBLIC.exist?
+def project_dir(project)
+  ROOT.join('..').join(project).relative_path_from(ROOT)
+end
 
-PUBLIC.mkpath
+def readme(project)
+  output = DOCS.join(project)
+  `rdoc -q -o #{output} #{project_dir(project)}/README.rdoc`
+  File.read output.join("files/__/#{project}/README_rdoc.html")
+end
 
-require ROOT + 'script/filters'
+def pick_up_headers(content)
+  content.gsub('<h3>', '<h2>').gsub('</h3>', '</h2>')
+end
 
-Pathname.glob(CONTENT.join('**/*.haml').to_s) do |haml|
-  content = File.read(haml)
-  file = PUBLIC + haml.relative_path_from(CONTENT).dirname + 
-         haml.basename('.haml')
-  file.dirname.mkpath
-  File.open(file, 'w') do |io|
-    io.write Haml::Engine.new(content, :ugly => true).render
+def format_code(content)
+  content.gsub(/(<pre>[\w\W]*?<\/pre>)/) do |code|
+    code.gsub!(/\n  /, "\n")
+    code.gsub!(/!!([^\s]*)(\s)/, '<span class="type">!!\\1</span>\\2')
+    code.gsub(/(#[^\n]*)\n/) do |comment|
+      if '{' == comment[1..1]
+        comment
+      else
+        "<span class=\"comment\">#{comment[0..-2]}</span>\n"
+      end
+    end
   end
 end
 
-Pathname.glob(CONTENT.join('**/*.sass').to_s) do |sass|
-  content = File.read(sass)
-  css = PUBLIC + sass.relative_path_from(CONTENT).dirname + 
-        (sass.basename('.sass').to_s + '.css')
-  css.dirname.mkpath
-  File.open(css, 'w') do |io|
-    io.write Sass::Engine.new(content, :style => :compressed).render
-  end
+def part(project, title)
+  h2 = Regexp.escape("<h2>#{title}</h2>")
+  format_code(readme(project).match(/#{h2}([\w\W]*?)<h2>/)[1])
 end
 
-Pathname.glob(CONTENT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
-  next if from.directory?
-  next if '.sass' == from.extname or '.haml' == from.extname
-  to = PUBLIC + from.relative_path_from(CONTENT)
-  to.dirname.mkpath
-  to.make_link(from)
+def selected_if_eql(a, b)
+  a == b ? { :class => 'selected' } : {}
 end
+
+def build
+  PUBLIC.rmtree if PUBLIC.exist?
+  PUBLIC.mkpath
+
+  layout = Haml::Engine.new(File.read(LAYOUT + 'layout.haml'), :ugly => true)
+  @config = YAML.load_file(CONTENT.join('config.yml'))
+
+  Pathname.glob(CONTENT.join('**/*.haml').to_s) do |file|
+    @keywords = @config['keywords']
+    @page = file.basename('.haml').to_s
+    @content = Haml::Engine.new(File.read(file)).render(self)
+    html = PUBLIC + file.relative_path_from(CONTENT).dirname + "#{@page}.html"
+    html.dirname.mkpath
+    File.open(html, 'w') { |io| io.write layout.render(self) }
+  end
+
+  Pathname.glob(LAYOUT.join('**/*.sass').to_s) do |sass|
+    content = File.read(sass)
+    css = PUBLIC + sass.relative_path_from(LAYOUT).dirname +
+          (sass.basename('.sass').to_s + '.css')
+    css.dirname.mkpath
+    Compass.configuration.environment = :production
+    File.open(css, 'w') do |io|
+      io.write Sass::Engine.new(content, Compass.sass_engine_options).render
+    end
+  end
+
+  Pathname.glob(LAYOUT.join('**/*').to_s, File::FNM_DOTMATCH) do |from|
+    next if from.directory?
+    next if '.sass' == from.extname or '.haml' == from.extname
+    to = PUBLIC + from.relative_path_from(LAYOUT)
+    to.dirname.mkpath
+    to.make_link(from)
+  end
+
+  DOCS.rmtree if DOCS.exist?
+end
+
+build

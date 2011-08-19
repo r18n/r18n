@@ -1,0 +1,20 @@
+ru:
+  user:
+    login: "Логин"
+    name: "Имя"
+    your_name: "Ваше имя %{name} (%{login})"
+    count:
+      zero: "Нет пользователей"
+      one: "%{count} пользователь"
+      other: "%{count} пользователя"
+      many: "%{count} пользователей"
+
+  users:
+    new:
+      title: "Новый пользователь"
+  
+  date:
+    month_names: [~, января, февраля, марта, апреля, мая, июня, июля, августа, сентября, октября, ноября, декабря]
+  time:
+    formats:
+      default: "%d %B, %Y %H:%M"

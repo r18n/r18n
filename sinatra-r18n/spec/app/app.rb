@@ -8,21 +8,29 @@ get '/:locale/posts/:name' do
 end
 
 get '/:locale/posts/:name/comments' do
-  i18n.post.comments(3).to_s
+  t.post.comments(3).to_s
+end
+
+get '/time' do
+  l Time.at(0).utc
 end
 
 get '/locale' do
-  i18n.locale.title
+  r18n.locale.title
 end
 
 get '/locales' do
-  i18n.translations.map { |i| i.join(': ') }.sort.join('; ')
+  r18n.available_locales.map { |i| "#{i.code}: #{i.title}" }.sort.join('; ')
 end
 
 get '/greater' do
-  i18n.greater
+  t.greater
 end
 
 get '/warning' do
-  i18n.warning
+  t.warning
+end
+
+get '/untranslated' do
+  "#{t.post.no}"
 end

@@ -1,101 +1,143 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Locale do
-
-  it "should check is locale exists" do
-    R18n::Locale.exists?('ru').should be_true
-    R18n::Locale.exists?('no-LC').should be_false
-  end
-
-  it "should load locale" do
-    locale = R18n::Locale.load('ru')
-    locale.code.should == 'ru'
-    locale.title.should == 'Русский'
-    locale.ltr?.should be_true
-  end
-  
-  it "should load locale by Symbol" do
-    R18n::Locale.load(:ru).should == R18n::Locale.load('ru')
-  end
-  
-  it "should use locale's class" do
-    ru = R18n::Locale.load('ru')
-    ru.class.should == R18n::Locales::Ru
-    
-    eo = R18n::Locale.load('eo')
-    eo.class.should == R18n::Locale
-  end
-
-  it "should include locale by +include+ option" do
-    enUS = R18n::Locale.load('en-US')
-    en = R18n::Locale.load('en')
-    enUS.title.should == 'English (US)'
-    en.title.should == 'English'
-    enUS['week'].should == en['week']
-  end
-
-  it "should be equal to another locale with same code" do
-    ru = R18n::Locale.load('ru')
-    en = R18n::Locale.load('en')
-    another_en = R18n::Locale.load('en')
-    en.should_not == ru
-    en.should == another_en
-  end
-
-  it "should print human readable representation" do
-    R18n::Locale.load('ru').inspect.should == 'Locale ru (Русский)'
+  before :all do
+    @ru = R18n::Locale.load('ru')
+    @en = R18n::Locale.load('en')
   end
 
   it "should return all available locales" do
     R18n::Locale.available.class.should == Array
     R18n::Locale.available.should_not be_empty
   end
+  
+  it "should check is locale exists" do
+    R18n::Locale.exists?('ru').should be_true
+    R18n::Locale.exists?('no-LC').should be_false
+  end
+  
+  it "should set locale properties" do
+    locale_class = Class.new(R18n::Locale) do
+      set :one => 1
+      set :two => 2
+    end
+    locale = locale_class.new
+    locale.one.should == 1
+    locale.two.should == 2
+  end
+
+  it "should load locale" do
+    @ru.class.should == R18n::Locales::Ru
+    @ru.code.should  == 'ru'
+    @ru.title.should == 'Русский'
+  end
+  
+  it "should load locale by Symbol" do
+    R18n::Locale.load(:ru).should == R18n::Locale.load('ru')
+  end
+
+  it "should be equal to another locale with same code" do
+    @en.should_not == @ru
+    @en.should == R18n::Locale.load('en')
+  end
+
+  it "should print human readable representation" do
+    @ru.inspect.should == 'Locale ru (Русский)'
+  end
 
   it "should return pluralization type by elements count" do
-    locale = R18n::Locale.load('en')
-    locale.pluralize(0).should == 0
-    locale.pluralize(1).should == 1
-    locale.pluralize(5).should == 'n'
+    @en.pluralize(0).should == 0
+    @en.pluralize(1).should == 1
+    @en.pluralize(5).should == 'n'
   end
 
   it "should use UnsupportedLocale if locale file isn't exists" do
-    supported = R18n::Locale.load('en')
-    supported.should be_supported
+    @en.should be_supported
     
     unsupported = R18n::Locale.load('no-LC')
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
     
-    unsupported.code.should == 'no-LC'
-    unsupported.title.should == 'no-LC'
+    unsupported.code.downcase.should == 'no-lc'
+    unsupported.title.downcase.should == 'no-lc'
     unsupported.ltr?.should be_true
     
-    unsupported['code'].should == 'no-LC'
-    unsupported['title'].should == 'no-LC'
-    unsupported['direction'].should == 'ltr'
-    
     unsupported.pluralize(5).should == 'n'
-    unsupported.inspect.should == 'Unsupported locale no-LC'
+    unsupported.inspect.downcase.should == 'unsupported locale no-lc'
   end
 
   it "should format number in local traditions" do
-    locale = R18n::Locale.load('en')
-    locale.format_integer(-123456789).should == "−123,456,789"
+    @en.localize(-123456789).should == "−123,456,789"
   end
 
   it "should format float in local traditions" do
-    locale = R18n::Locale.load('en')
-    locale.format_float(-12345.67).should == "−12,345.67"
+    @en.localize(-12345.67).should == "−12,345.67"
   end
 
   it "should translate month, week days and am/pm names in strftime" do
-    locale =  R18n::Locale.load('ru')
+    i18n = R18n::I18n.new 'ru'
     time = Time.at(0).utc
     
-    locale.strftime(time, '%a %A').should == 'Чтв Четверг'
-    locale.strftime(time, '%b %B').should == 'янв января'
-    locale.strftime(time, '%H:%M%p').should == '00:00 утра'
+    @ru.localize(time, '%a %A').should == 'Чтв Четверг'
+    @ru.localize(time, '%b %B').should == 'янв января'
+    @ru.localize(time, '%H:%M%p').should == '00:00 утра'
+  end
+  
+  it "should localize date for human" do
+    i18n = R18n::I18n.new('en')
+    
+    @en.localize(Date.today + 2, :human, i18n).should == 'after 2 days'
+    @en.localize(Date.today + 1, :human, i18n).should == 'tomorrow'
+    @en.localize(Date.today,     :human, i18n).should == 'today'
+    @en.localize(Date.today - 1, :human, i18n).should == 'yesterday'
+    @en.localize(Date.today - 3, :human, i18n).should == '3 days ago'
+    
+    y2k = Date.parse('2000-01-08')
+    @en.localize(y2k, :human, i18n, y2k + 8  ).should == '8th of January'
+    @en.localize(y2k, :human, i18n, y2k - 365).should == '8th of January, 2000'
+  end
+  
+  it "should localize times for human" do
+    minute = 60
+    hour   = 60 * minute
+    day    = 24 * hour
+    zero   = Time.at(0).utc
+    p = [:human, R18n::I18n.new('en'), zero]
+    
+    @en.localize( zero + 7  * day,    *p).should == '8th of January 00:00'
+    @en.localize( zero + 50 * hour,   *p).should == 'after 2 days 02:00'
+    @en.localize( zero + 25 * hour,   *p).should == 'tomorrow 01:00'
+    @en.localize( zero + 70 * minute, *p).should == 'after 1 hour'
+    @en.localize( zero + hour,        *p).should == 'after 1 hour'
+    @en.localize( zero + 38 * minute, *p).should == 'after 38 minutes'
+    @en.localize( zero + 5,           *p).should == 'now'
+    @en.localize( zero - 15,          *p).should == 'now'
+    @en.localize( zero - minute,      *p).should == '1 minute ago'
+    @en.localize( zero - hour + 59,   *p).should == '59 minutes ago'
+    @en.localize( zero - 2  * hour,   *p).should == '2 hours ago'
+    @en.localize( zero - 13 * hour,   *p).should == 'yesterday 11:00'
+    @en.localize( zero - 50 * hour,   *p).should == '3 days ago 22:00'
+    
+    @en.localize( zero - 9  * day,  *p).should == '23rd of December, 1969 00:00'
+    @en.localize( zero - 365 * day, *p).should == '1st of January, 1969 00:00'
+  end
+  
+  it "should use standard formatter by default" do
+    @ru.localize(Time.at(0).utc).should == '01.01.1970 00:00'
+  end
+  
+  it "shouldn't localize time without i18n object" do
+    @ru.localize(Time.at(0)).should_not == Time.at(0).to_s
+    @ru.localize(Time.at(0), :full).should_not == Time.at(0).to_s
+    
+    @ru.localize(Time.at(0), :human).should == Time.at(0).to_s
+  end
+  
+  it "should raise error on unknown formatter" do
+    lambda {
+      @ru.localize(Time.at(0).utc, R18n::I18n.new('ru'), :unknown)
+    }.should raise_error(ArgumentError, /formatter/)
   end
 
   it "should delete slashed from locale for security reasons" do
@@ -113,8 +155,12 @@ describe R18n::Locale do
     upcase = R18n::Locale.load('no-LC')
     downcase = R18n::Locale.load('no-lc')
     upcase.should == downcase
-    upcase.code.should == 'no-LC'
+    upcase.code.should == 'no-lc'
     downcase.code.should == 'no-lc'
+  end
+  
+  it "should load locale with underscore" do
+    R18n::Locale.load('no_LC').code.should == 'no-lc'
   end
 
 end

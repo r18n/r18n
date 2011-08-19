@@ -23,24 +23,42 @@ require 'singleton'
 module R18n
   # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
   # you try to access for subtranslations.
+  #
+  # You can set format to print untranslated string by filters. For example:
+  # Disable standart output:
+  # 
+  #   R18n::Filters.off(:untranslated)
+  # 
+  # For development environment:
+  # 
+  #   R18n::Filters.add(R18n::Untranslated, :untranslated_html) do
+  #     |content, config, translated_path, untranslated_path, path|
+  #     "#{translated_path}<span style='color: red'>#{untranslated_path}</span>"
+  #   end
+  # 
+  # For production environment:
+  # 
+  #   R18n::Filters.add(R18n::Untranslated, :hide_untranslated) { '' }
   class Untranslated
-    # Path to translation.
-    attr_reader :path
-    
     # Path, that isn’t in translation.
     attr_reader :untranslated_path
     
     # Path, that exists in translation.
     attr_reader :translated_path
     
-    def initialize(path, untranslated_path)
-      @path = path
+    def initialize(translated_path, untranslated_path, locale)
+      @translated_path = translated_path
       @untranslated_path = untranslated_path
-      @translated_path = path[0...(-untranslated_path.length)]
+      @locale = locale
     end
     
-    def nil?
-      true
+    # Path to translation.
+    def path
+      "#{@translated_path}#{@untranslated_path}"
+    end
+    
+    def translated?
+      false
     end
     
     def method_missing(*params)
@@ -48,17 +66,17 @@ module R18n
     end
     
     def [](*params)
-      Untranslated.new("#{@path}.#{params.first}",
-                       "#{@untranslated_path}.#{params.first}")
+      Untranslated.new(translated_path, "#{@untranslated_path}.#{params.first}",
+                       @locale)
+    end
+    
+    def |(default)
+      default
     end
     
     def to_s
-      if R18n.untranslated.respond_to? :gsub
-        R18n.untranslated.gsub('%1', @path).gsub('%2', @translated_path).
-                          gsub('%3', @untranslated_path)
-      else
-        R18n.untranslated
-      end
+      Filters.process(Filters.enabled, Untranslated, path, @locale, path,
+                      [@translated_path, @untranslated_path, path])
     end
   end
 end

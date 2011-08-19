@@ -41,7 +41,7 @@ module R18n
   #   end
   #   
   #   # User know only Russian
-  #   R18n.set(R18n::I18n.new('ru'))
+  #   R18n.set('ru')
   #   
   #   product.title #=> Untranslated
   #   
@@ -110,33 +110,42 @@ module R18n
       #   translation :desciption, :type => 'markdown'
       def translation(name, options = {})
         if options[:methods]
-          @unlocalized_getters[name] = Hash[
-              options[:methods].map { |l, i| [l.to_s, i.to_s] } ]
+          @unlocalized_getters[name] = R18n::Utils.
+            hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s ] }
           unless options[:no_write]
-            @unlocalized_setters[name] = Hash[
-                options[:methods].map { |l, i| [l.to_s, i.to_s + '='] } ]
+            @unlocalized_setters[name] = R18n::Utils.
+              hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s + '=' ] }
           end
         end
         
         @translation_types[name] = options[:type]
-        call = options[:no_params] ? 'call' : 'call(*params)'
+        params = options[:no_params] ? '' : ', *params'
         
         class_eval <<-EOS, __FILE__, __LINE__
           def #{name}(*params)
-            path = "\#{self.class.name}##{name}"
-            
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
             R18n.get.locales.each do |locale|
               code = locale.code
               next unless unlocalized.has_key? code
-              result = method(unlocalized[code]).#{call}
+              result = send unlocalized[code]#{params}
               next unless result
               
+              path = "\#{self.class.name}##{name}"
               type = self.class.translation_types[#{name.inspect}]
-              return R18n::Filters.process(result, locale, path, type, params)
+              if type
+                return R18n::Filters.process(R18n::Filters.enabled,
+                         type, result, locale, path, params)
+              elsif result.is_a? String
+                result = TranslatedString.new(result, locale, path)
+                return R18n::Filters.process_string(R18n::Filters.enabled,
+                         result, path, params)
+              else
+                return result
+              end
             end
             
-            R18n::Untranslated.new(path, '#{name}')
+            R18n::Untranslated.new("\#{self.class.name}\#", '#{name}',
+                                   R18n.get.locale)
           end
         EOS
         
@@ -147,21 +156,27 @@ module R18n
               R18n.get.locales.each do |locale|
                 code = locale.code
                 next unless unlocalized.has_key? code
-                return method(unlocalized[code]).call(*params)
+                return send unlocalized[code], *params
               end
             end
           EOS
         end
+      end
+      
+      # Return array of methods to find +unlocalized_getters+ or
+      # +unlocalized_setters+.
+      def unlocalized_methods
+        self.instance_methods
       end
 
       # Return Hash of locale code to getter method for proxy +method+. If you
       # didn’t set map in +translation+ option +methods+, it will be detect
       # automatically.
       def unlocalized_getters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(.*[^=])$')
+        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)$')
         unless @unlocalized_getters.has_key? method
           @unlocalized_getters[method] = {}
-          self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
+          self.unlocalized_methods.reject { |i| not i =~ matcher }.each do |i|
             @unlocalized_getters[method][i.to_s.match(matcher)[1]] = i.to_s
           end
         end
@@ -172,10 +187,10 @@ module R18n
       # didn’t set map in +translation+ option +methods+, it will be detect
       # automatically.
       def unlocalized_setters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(.*)=$')
+        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)=$')
         unless @unlocalized_setters.has_key? method
           @unlocalized_setters[method] = {}
-          self.instance_methods.reject { |i| not i =~ matcher }.each do |i|
+          self.unlocalized_methods.reject { |i| not i =~ matcher }.each do |i|
             @unlocalized_setters[method][i.to_s.match(matcher)[1]] = i.to_s
           end
         end

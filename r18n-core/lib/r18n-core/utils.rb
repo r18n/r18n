@@ -21,29 +21,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Common methods for another R18n code.
 module R18n
   module Utils
-    # Recursively hash merge.
-    def self.deep_merge!(a, b)
-      b.each_pair do |name, value|
-        if a[name].is_a? Hash
-          self.deep_merge!(a[name], value)
-        else
-          a[name] = value
-        end
-      end
-      a
-    end
-    
     # Convert Time to Date. Backport from Ruby 1.9.
     def self.to_date(time)
       jd = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)
       Date.new!(Date.send(:jd_to_ajd, jd, 0, 0), 0, Date::ITALY)
     end
     
-    HTML_ENTRIES = { '&'=>'&amp;', '<'=>'&lt;', '>'=>'&gt;' }
+    HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }
     
     # Escape HTML entries (<, >, &). Copy from HAML helper.
     def self.escape_html(content)
       content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
+    end
+
+    # Invokes +block+ once for each key and value of +hash+. Creates a new hash
+    # with the keys and values returned by the +block+.
+    def self.hash_map(hash, &block)
+      result = {}
+      hash.each_pair do |key, val|
+        new_key, new_value = block.call(key, val)
+        result[new_key] = new_value
+      end
+     result
+    end
+  
+    # Recursively hash merge.
+    def self.deep_merge!(a, b)
+      b.each_pair do |key, value|
+        another = a[key]
+        a[key] = if another.is_a?(Hash) && value.is_a?(Hash)
+          deep_merge!(another, value)
+        else
+          value
+        end
+      end
+      a
+    end
+    
+    # Call +block+ with Syck yamler. It used to load RedCloth, which isn’t
+    # support Psych.
+    def self.use_syck(&block)
+      if '1.8.' == RUBY_VERSION[0..3]
+        yield
+      else
+        origin_yamler = YAML::ENGINE.yamler
+        YAML::ENGINE.yamler = 'syck'
+        yield
+        YAML::ENGINE.yamler = origin_yamler
+      end
     end
   end
 end
