@@ -82,6 +82,11 @@ You can change default locale and translations dir:
   set :default_locale, 'ru'
   set :translations,   './translations'
 
+You can also provide an Array of translations directories, which may be
+useful, for instance, in a plugin-based architecture:
+
+  set :translations, Dir.glob('./myplugins/*/i18n')
+
 == License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
