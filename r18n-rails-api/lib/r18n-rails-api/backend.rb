@@ -21,27 +21,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module R18n
   # R18n backend for Rails I18n. You must set R18n I18n object before use this
   # backend:
-  # 
+  #
   #   R18n.set locales, R18n::Loader::Rails
-  #   
+  #
   #   I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
   class Backend
     RESERVED_KEYS = [:scope, :default, :separator]
-    
+
     # Find translation in R18n. It didn’t use +locale+ argument, only current
     # R18n I18n object. Also it doesn’t support Proc and variables in +default+
     # String option.
     def translate(locale, key, options = {})
       return key.map { |k| translate(locale, k, options) } if key.is_a?(Array)
-      
+
       scope, default, separator = options.values_at(*RESERVED_KEYS)
       params = options.reject { |name, value| RESERVED_KEYS.include?(name) }
-      
+
       result = lookup(scope, key, separator, params)
-      
+
       if result.is_a? Untranslated
         options = options.reject { |key, value| key == :default }
-        
+
         Array(default).each do |entry|
           if entry.is_a? Symbol
             value = lookup(scope, entry, separator, params)
@@ -50,13 +50,13 @@ module R18n
             return entry
           end
         end
-        
+
         raise ::I18n::MissingTranslationData.new(locale, key, options)
       else
         result
       end
     end
-    
+
     # Convert +object+ to String, according to the rules of the current 
     # R18n locale. It didn’t use +locale+ argument, only current R18n I18n
     # object. It support Fixnum, Bignum, Float, Time, Date and DateTime.
@@ -72,26 +72,26 @@ module R18n
       end
       R18n.get.localize(object, format)
     end
-    
+
     # Return array of available locales codes.
     def available_locales
       R18n.get.available_locales.map { |i| i.code.to_sym }
     end
-    
+
     # Reload R18n I18n object.
     def reload!
       R18n.get.reload!
     end
-    
+
     protected
-    
+
     # Find translation by <tt>scope.key(params)</tt> in current R18n I18n
     # object.
     def lookup(scope, key, separator, params)
       keys = (Array(scope) + Array(key)).map { |k|
         k.to_s.split(separator || ::I18n.default_separator) }.flatten
       last = keys.pop
-      
+
       result = keys.inject(R18n.get) { |result, key| result[key] }
       result[last, params]
     end

@@ -23,7 +23,7 @@ require 'pathname'
 module R18n
   # Struct to containt translation with some type for filter.
   Typed = Struct.new(:type, :value, :locale, :path)
-  
+
   # Translation is container of translated messages.
   #
   # You can load several locales and if translation willn’t be found in first,
@@ -46,11 +46,11 @@ module R18n
   #
   #   one: One
   #   two: Two
-  #   
+  #
   #   entry:
   #     between: Between %1 and %2
   #   methods: Is %1 method
-  #   
+  #
   #   comments: !!pl
   #     0: no comments
   #     1: one comment
@@ -60,13 +60,13 @@ module R18n
   #
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
-  #   
+  #
   #   i18n.two.locale.code      #=> "en"
   #   i18n.two.locale.ltr?      #=> "ltr"
   #
   #   i18n.entry.between(2, 3)    #=> "between 2 and 3"
   #   i18n['methods', 'object']   #=> "Is object method"
-  #   
+  #
   #   i18n.comments(0)            #=> "no comments"
   #   i18n.comments(10)           #=> "10 comments"
   class Translation
@@ -80,7 +80,7 @@ module R18n
       @locale = main_locale
       merge! data, locale unless data.empty?
     end
-    
+
     # Add another hash with +translations+ for some +locale+. Current data is
     # more priority, that new one in +translations+.
     def merge!(translations, locale)
@@ -108,23 +108,23 @@ module R18n
         end
       end
     end
-    
+
     # Use untranslated filter to print path.
     def to_s
       Filters.process(Filters.enabled, Untranslated, @path, @locale, @path,
                       [@path, '', @path])
     end
-    
+
     # Return current translation keys.
     def _keys
       @data.keys
     end
-    
+
     # Return +default+.
     def |(default)
       default
     end
-    
+
     # Return translation with special +name+.
     #
     # Translation can contain variable part. Just set is as <tt>%1</tt>,

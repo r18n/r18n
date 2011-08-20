@@ -5,11 +5,11 @@ describe R18n::Locales::Sk do
     sk = R18n::Locale.load('Sk')
     sk.pluralize(0).should == 0
     sk.pluralize(1).should == 1
-    
+
     sk.pluralize(2).should == 2
     sk.pluralize(3).should == 2
     sk.pluralize(4).should == 2
-    
+
     sk.pluralize(5).should   == 'n'
     sk.pluralize(21).should  == 'n'
     sk.pluralize(11).should  == 'n'

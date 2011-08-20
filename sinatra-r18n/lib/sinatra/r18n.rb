@@ -27,26 +27,26 @@ module Sinatra #::nodoc::
       app.helpers ::R18n::Helpers
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
-      
+
       app.before do
         ::R18n.set do
           ::R18n::I18n.default = options.default_locale
-          
+
           locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
           if params[:locale]
             locales.insert(0, params[:locale])
           elsif session[:locale]
             locales.insert(0, session[:locale])
           end
-          
+
           ::R18n::I18n.new(locales, options.translations)
         end
       end
-      
+
       ::R18n::Filters.off(:untranslated)
       ::R18n::Filters.on(:untranslated_html)
     end
   end
-  
+
   register R18n
 end

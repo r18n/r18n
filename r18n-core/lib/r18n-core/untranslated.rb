@@ -26,54 +26,54 @@ module R18n
   #
   # You can set format to print untranslated string by filters. For example:
   # Disable standart output:
-  # 
+  #
   #   R18n::Filters.off(:untranslated)
-  # 
+  #
   # For development environment:
-  # 
+  #
   #   R18n::Filters.add(R18n::Untranslated, :untranslated_html) do
   #     |content, config, translated_path, untranslated_path, path|
   #     "#{translated_path}<span style='color: red'>#{untranslated_path}</span>"
   #   end
-  # 
+  #
   # For production environment:
-  # 
+  #
   #   R18n::Filters.add(R18n::Untranslated, :hide_untranslated) { '' }
   class Untranslated
     # Path, that isn’t in translation.
     attr_reader :untranslated_path
-    
+
     # Path, that exists in translation.
     attr_reader :translated_path
-    
+
     def initialize(translated_path, untranslated_path, locale)
       @translated_path = translated_path
       @untranslated_path = untranslated_path
       @locale = locale
     end
-    
+
     # Path to translation.
     def path
       "#{@translated_path}#{@untranslated_path}"
     end
-    
+
     def translated?
       false
     end
-    
+
     def method_missing(*params)
       self[params.first]
     end
-    
+
     def [](*params)
       Untranslated.new(translated_path, "#{@untranslated_path}.#{params.first}",
                        @locale)
     end
-    
+
     def |(default)
       default
     end
-    
+
     def to_s
       Filters.process(Filters.enabled, Untranslated, path, @locale, path,
                       [@translated_path, @untranslated_path, path])

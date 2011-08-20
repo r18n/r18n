@@ -24,7 +24,7 @@ To access translation you can call methods with the same names:
   t.user.edit         #=> "Edit user"
   t.user.name('John') #=> "User name is John"
   t.user.count(5)     #=> "There are 5 users"
-  
+
   t.not.exists | 'default' #=> "default"
   t.not.exists.translated? #=> false
 
@@ -85,7 +85,7 @@ need to create loader object with 2 methods: +available+ and +load+:
       Translation.find(locale).to_hash
     end
   end
-  
+
   R18n.set(user_locales, DBLoader.new)
 
 You can also set a list of different translation locations or set extension
@@ -98,16 +98,16 @@ You can translate any class, including ORM models (ActiveRecord, DataMapper,
 MongoMapper, Mongoid or others):
 
   require 'r18n-core/translated'
-  
+
   class Product < ActiveRecord::Base
     include R18n::Translated
     # Model has two normal properties: title_en and title_ru
     translations :title
   end
-  
+
   # For English users
   product.title #=> "Anthrax"
-  
+
   # For Russian users
   product.title #=> "Сибирская язва"
 
@@ -128,10 +128,10 @@ cultures with two official languages (e.g., exUSSR) it takes the second language
 (e.g., if a translation isn’t available in Kazakh R18n will look for Russian):
 
   i18n = R18n::I18n.new(['kk', 'de'], 'dir/with/translations')
-  
+
   i18n.locales    #=> [Locale kk (Қазақша), Locale de (Deutsch),
                   #    Locale ru (Русский), Locale en (English)]
-  
+
   i18n.kazakh  #=> "Қазақша", main user language
   i18n.deutsch #=> "Deutsch", not in Kazakh, use next user locale
   i18n.russian #=> "Русский", not in kk and de, use Kazakh sublocale
@@ -153,11 +153,11 @@ create an I18n object and by using <tt>R18n.set</tt> or, for the current thread,
 by using <tt>R18n.thread_set</tt>:
 
   R18n.set('en', 'path/to/translations')
-  
+
 You can add helpers to access the current R18n object:
 
   include R18n::Helpers
-  
+
   t.yes              #=> "Yes"
   l Time.now, :human #=> "now"
   r18n.locale.code   #=> "en"
@@ -206,7 +206,7 @@ instance or code string if locale is’t supported in R18n):
   i18n.not.in.english.locale #=> Locale ru (Русский)
 
 You can include parameters in the translated string by specifying arguments:
-  
+
   name: "My name is %1"
 
   t.name('John') #=> "My name is John"
@@ -252,7 +252,7 @@ loaded.
   friendship: !!gender
     f: She adds a friend
     m: He adds a friend
-  
+
   R18n::Filters.add('gender', :user_gender) do |content, config, user|
     if user.female?
       content['f']
@@ -260,9 +260,9 @@ loaded.
       content['m']
     end
   end
-  
+
   t.friendship(anne) #=> "She adds a friend"
-  
+
 To create a filter you pass the following to <tt>R18n::Filters.add</tt>:
 
 * Filter target. YAML type (<tt>!!type</tt>), <tt>String</tt> for all
@@ -365,26 +365,26 @@ You can add i18n support to any classes, including ORM models (ActiveRecord,
 DataMapper, MongoMapper, Mongoid or others):
 
   require 'r18n-core/translated'
-  
+
   class Product
     include DataMapper::Resource
     property :title_ru, String
     property :title_en, String
-    
+
     include R18n::Translated
     translations :title
   end
-  
+
   # For example, user only knows Russian
-  
+
   # Set English (default) title
   product.title_en = "Anthrax"
   product.title #=> "Anthrax"
-  
+
   # Set value for user locale (Russian)
   product.title = "Сибирская язва"
   product.title #=> "Сибирская язва"
-  
+
   product.title_en #=> "Anthrax"
   product.title_ru #=> "Сибирская язва"
 
@@ -403,16 +403,16 @@ To get information about a locale create an R18n::Locale instance:
 You can then get the following from the locale:
 
 * Locale title and RFC 3066 code:
-  
+
     locale.title #=> "English"
     locale.code  #=> "en"
-  
+
 * Language direction (left to right, or right to left for Arabic and Hebrew):
-  
+
     locale.ltr? #=> true
-  
+
 * Week start day (+:monday+ or +:sunday+):
-  
+
     locale.week_start #=> :sunday
 
 === Loaders
@@ -438,7 +438,7 @@ If you want to load a translation with some type for filter, use
 
   # Loader will return something like:
   { 'users' => R18n::Typed.new('pl', { 1 => '1 user', 'n' => '%1 users' }) }
-  
+
   # To use pluralization filter (+pl+ type):
   t.users(5) #=> "5 users"
 

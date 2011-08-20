@@ -23,10 +23,10 @@ module R18n
   class TranslatedString < String
     # String locale
     attr_reader :locale
-    
+
     # Path for this translation.
     attr_reader :path
-    
+
     # Returns a new string object containing a copy of +str+, which translated
     # for +path+ to +locale+
     def initialize(str, locale, path)
@@ -34,12 +34,12 @@ module R18n
       @locale = locale
       @path   = path
     end
-    
+
     # Return self for translated string.
     def |(default)
       self
     end
-    
+
     # Return true for translated strings.
     def translated?
       true

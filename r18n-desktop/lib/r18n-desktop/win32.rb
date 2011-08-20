@@ -38,13 +38,13 @@ module R18n
         dlload 'Kernel32'
         extern 'int GetUserDefaultLangID()'
       end
-      
+
       def self.system_locale
         id = Kernel32.GetUserDefaultLangID()
         WIN32_LOCALES[id]
       end
     end
-    
+
     WIN32_LOCALES = {
       0x0000 => 'en',
       0x007f => 'invariant',
@@ -262,6 +262,6 @@ module R18n
       0x0485 => 'sah_RU',
       0x0478 => 'ii_CN',
       0x046a => 'yo_NG',
-    } 
+    }
   end
 end

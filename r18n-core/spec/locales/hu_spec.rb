@@ -9,7 +9,7 @@ describe R18n::Locales::Hu do
     hu.l(-10000).should == '−10 000'
     hu.l(100000).should ==  '100 000'
   end
-    
+
   it "should use Hungarian time format" do
     hu = R18n::I18n.new('hu')
     hu.l(Time.at(0).utc).should        == '1970. 01. 01., 00:00'

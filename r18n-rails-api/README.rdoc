@@ -38,7 +38,7 @@ example.rb:
 
   I18n.load_path = ['i18n/en.yml']
   i18n = R18n::I18n.new('en', R18n::Loader::Rails)
-  
+
   i18n.posts(:count => 5) #=> "5 posts"
 
 === Backend
@@ -49,7 +49,7 @@ You can use R18n as a backend for Rails I18n:
 
   R18n.set('en', 'path/to/translation')
   I18n.backend = R18n::Backend
-  
+
   I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
   I18n.t :greeting, :name => 'John' #=> "Hi, John"
   I18n.t :users, :count => 5        #=> "5 users"

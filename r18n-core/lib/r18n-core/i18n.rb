@@ -29,19 +29,19 @@ module R18n
   # translation’s name or <tt>[name]</tt> method. Translations will be also
   # loaded for default locale, +sublocales+ from first in +locales+ and general
   # languages for dialects (it will load +fr+ for +fr_CA+ too).
-  # 
+  #
   # Translations will loaded by loader object, which must have 2 methods:
   # * <tt>available</tt> – return array of locales of available translations;
   # * <tt>load(locale)</tt> – return Hash of translation.
   # If you will use default loader (+R18n.default_loader+) you can pass to I18n
   # only constructor argument for loader:
-  # 
+  #
   #   R18n::I18n.new('en', R18n::Loader::YAML.new('dir/with/translations'))
-  # 
+  #
   # is a same as:
-  # 
+  #
   #   R18n::I18n.new('en', 'dir/with/translations')
-  # 
+  #
   # In translation file you can use strings, numbers, floats (any YAML types)
   # and pluralizable values (<tt>!!pl</tt>). You can use params in string
   # values, which you can replace in program. Just write <tt>%1</tt>,
@@ -65,16 +65,16 @@ module R18n
   #   two: Two
   #
   # example.rb
-  # 
+  #
   #   i18n = R18n::I18n.new(['ru', 'en'], 'translations/')
-  #   
+  #
   #   i18n.one   #=> "Один"
   #   i18n.two   #=> "Two"
-  #   
+  #
   #   i18n.locale.title        #=> "Русский"
   #   i18n.locale.code         #=> "ru"
   #   i18n.locale.ltr?         #=> true
-  #   
+  #
   #   i18n.l -11000.5          #=> "−11 000,5"
   #   i18n.l Time.now          #=> "Вск, 21 сен 2008, 22:10:10 MSD"
   #   i18n.l Time.now, :date   #=> "21.09.2008"
@@ -97,7 +97,7 @@ module R18n
     def self.default
       @@default
     end
-    
+
     # Parse HTTP_ACCEPT_LANGUAGE and return array of user locales
     def self.parse_http(str)
       return [] if str.nil?
@@ -113,12 +113,12 @@ module R18n
       locales.sort! { |a, b| b[1] <=> a[1] }
       locales.map! { |i| i[0] }
     end
-    
+
     # Return Array of locales with available translations.
     def self.available_locales(places)
       convert_places(places).map { |i| i.available }.flatten.uniq
     end
-    
+
     # Load default loader for elements in +places+ with only constructor
     # argument.
     def self.convert_places(places)
@@ -130,16 +130,16 @@ module R18n
         end
       end
     end
-    
+
     # User locales, ordered by priority
     attr_reader :locales
-    
+
     # Loaders with translations files
     attr_reader :translation_places
-    
+
     # First locale with locale file
     attr_reader :locale
-    
+
     # Create i18n for +locales+ with translations from +translation_places+ and
     # locales data. Translations will be also loaded for default locale,
     # +sublocales+ from first in +locales+ and general languages for dialects
@@ -149,7 +149,7 @@ module R18n
     # +Translation_places+ must be a string with path or array.
     def initialize(locales, translation_places = nil)
       locales = Array(locales)
-      
+
       if not locales.empty? and Locale.exists? locales.first
         locales += Locale.load(locales.first).sublocales
       end
@@ -162,16 +162,16 @@ module R18n
       locales.map! { |i| i.to_s.downcase }.uniq!
       @locales_codes = locales
       @locales = locales.map { |i| Locale.load(i) }
-      
+
       if translation_places
         @original_places = translation_places
       else
         @original_places = R18n.extension_places
         @locale = @locales.first
       end
-      
+
       @translation_places = self.class.convert_places(@original_places)
-      
+
       key = translation_cache_key
       if R18n.cache.has_key? key
         @locale, @translation = *R18n.cache[key]
@@ -179,7 +179,7 @@ module R18n
         reload!
       end
     end
-    
+
     # Return unique key for current locales in translation and places.
     def translation_cache_key
       @available_codes ||= @translation_places.inject([]) { |all, i|
@@ -188,15 +188,15 @@ module R18n
         R18n.default_loader.hash.to_s +
         @translation_places.hash.to_s + R18n.extension_places.hash.to_s
     end
-    
+
     # Reload translations.
     def reload!
       @available = @available_codes = nil
       @translation_places = self.class.convert_places(@original_places)
-      
+
       available_in_places = @translation_places.map { |i| [i, i.available] }
       available_in_extensions = R18n.extension_places.map {|i| [i, i.available]}
-      
+
       unless @locale
         available_in_places.each do |place, available|
           @locales.each do |locale|
@@ -217,7 +217,7 @@ module R18n
           end
         end
       end
-      
+
       @translation = Translation.new @locale
       @locales.each do |locale|
         loaded = false
@@ -235,15 +235,15 @@ module R18n
           end
         end
       end
-      
+
       R18n.cache[translation_cache_key] = [@locale, @translation]
     end
-    
+
     # Return Array of locales with available translations.
     def available_locales
       @available ||= self.class.available_locales(@translation_places)
     end
-    
+
     # Convert +object+ to String, according to the rules of the current locale.
     # It support Fixnum, Bignum, Float, Time, Date and DateTime.
     #
@@ -261,12 +261,12 @@ module R18n
       locale.localize(object, format, self, *params)
     end
     alias :l :localize
-    
+
     # Return translations.
     def t
       @translation
     end
-    
+
     # Return translation with special +name+.
     #
     # Translation can contain variable part. Just set is as <tt>%1</tt>,

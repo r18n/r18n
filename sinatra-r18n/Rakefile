@@ -3,7 +3,6 @@
 require 'rubygems'
 
 begin
-  require 'bundler'
   require 'bundler/setup'
   Bundler::GemHelper.install_tasks
 rescue LoadError

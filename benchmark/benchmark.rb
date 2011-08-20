@@ -26,7 +26,7 @@ I18n::Backend::Simple.send(:include, I18n::Backend::InterpolationCompiler)
 I18n::Backend::Simple.send(:include, I18n::Backend::Flatten)
 
 RBench.run(1000) do
-  
+
   column :r18n, :title => 'R18n'
   column :i18n, :title => 'Rails I18n'
   column :diff, :title => 'I18n/R18n', :compare => [:i18n, :r18n]
@@ -40,7 +40,7 @@ RBench.run(1000) do
     i18n {
       I18n.reload!
       I18n.available_locales = nil
-      
+
       I18n.load_path = [Dir.glob(dir.join('i18n/*.{yml,rb}').to_s)]
       I18n.locale = :ru
       I18n.fallbacks[:ru] = [:ru, :en]

@@ -24,29 +24,29 @@ module R18n
   class UnsupportedLocale
     # Locale, to get data and pluralization for unsupported locale.
     attr_accessor :base
-    
+
     # Create object for unsupported locale with +code+ and load other locale
     # data from +base+ locale.
     def initialize(code, base = nil)
       @code = code
       @base = Locale.load(I18n.default) if @code != I18n.default
     end
-    
+
     # Is locale has information file. In this class always return false.
     def supported?
       false
     end
-    
+
     # Human readable locale code and title.
     def inspect
       "Unsupported locale #{@code}"
     end
-    
+
     # Locale RFC 3066 code.
     def code
       @code
     end
-    
+
     # Locale code as title.
     def title
       @code
@@ -56,7 +56,7 @@ module R18n
     def ==(locale)
       @code.downcase == locale.code.downcase
     end
-    
+
     #  Proxy to default locale object.
     def method_missing(name, *params)
       @base.send(name, *params)

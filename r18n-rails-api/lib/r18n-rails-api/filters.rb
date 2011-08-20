@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 # Filter to use Rails named variables:
-# 
+#
 #   name: "My name is %{name}"
-# 
+#
 #   i18n.name(name: 'Ivan') #=> "My name is Ivan"
 R18n::Filters.add(String, :named_variables) do |content, config, params|
   if params.is_a? Hash

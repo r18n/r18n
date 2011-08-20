@@ -56,7 +56,7 @@ module R18n
   # <tt>locales/</tt> dir.
   class Locale
     LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
-    
+
     @@loaded = {}
 
     # Codes of all available locales.
@@ -75,7 +75,7 @@ module R18n
     def self.load(code)
       original = code.to_s.gsub(/[^-_a-zA-Z]/, '')
       code = original.gsub('_', '-').downcase
-      
+
       @@loaded[code] ||= begin
         if exists? code
           require LOCALES_DIR + "#{code}.rb"
@@ -86,15 +86,15 @@ module R18n
         end
       end
     end
-    
+
     # Set locale +properties+. Locale class will have methods for each propetry
     # name, which return propetry value:
-    # 
+    #
     #   class R18n::Locales::En < R18n::Locale
     #     set :title => 'English',
     #         :code  => 'en'
     #   end
-    #   
+    #
     #   locale = R18n::Locales::En.new
     #   locale.title #=> "English"
     #   locale.code  #=> "en"
@@ -103,12 +103,12 @@ module R18n
         define_method(key) { value }
       end
     end
-    
+
     # Locale RFC 3066 code.
     def code
       self.class.name.split('::').last.downcase
     end
-    
+
     set :sublocales => %w{en},
         :week_start => :monday,
         :time_am => 'AM',
@@ -116,10 +116,10 @@ module R18n
         :time_format => ' %H:%M',
         :full_format => '%e %B',
         :year_format => '_ %Y'
-    
+
     def month_standalone; month_names; end
     def month_abbrs;      month_names; end
-    
+
     # Is locale has left-to-right write direction.
     def ltr?; true; end
 
@@ -127,7 +127,7 @@ module R18n
     def ==(locale)
       self.class == locale.class
     end
-    
+
     # Is locale has information file. In this class always return true.
     def supported?
       true
@@ -137,7 +137,7 @@ module R18n
     def inspect
       "Locale #{code} (#{title})"
     end
-    
+
     # Convert +object+ to String. It support Fixnum, Bignum, Float, Time, Date
     # and DateTime.
     #
@@ -155,39 +155,39 @@ module R18n
         return strftime(obj, format) if format.is_a? String
         return month_standalone[obj.month - 1] if :month == format
         return obj.to_s if :human == format and not params.first.is_a? I18n
-        
+
         type = obj.is_a?(Date) ? 'date' : 'time'
         format = :standard unless format
-        
+
         unless [:human, :full, :standard].include? format
           raise ArgumentError, "Unknown time formatter #{format}"
         end
-          
+
         send "format_#{type}_#{format}", obj, *params
       else
         obj.to_s
       end
     end
-    
+
     # Returns the integer in String form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_integer(integer)
       str = integer.to_s
       str[0] = '−' if 0 > integer # Real typographic minus
       group = number_group
-      
+
       str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
         match + group
       end
     end
-    
+
     # Returns the float in String form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_float(float)
       decimal = number_decimal
       self.format_integer(float.to_i) + decimal + float.to_s.split('.').last
     end
-    
+
     # Same that <tt>Time.strftime</tt>, but translate months and week days
     # names. In +time+ you can use Time, DateTime or Date object. In +format+
     # you can use standard +strftime+ format.
@@ -211,12 +211,12 @@ module R18n
       end
       time.strftime(translated)
     end
-    
+
     # Format +time+ without date. For example, “12:59”.
     def format_time(time)
       strftime(time, time_format)
     end
-    
+
     # Format +time+ in human usable form. For example “5 minutes ago” or
     # “yesterday”. In +now+ you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale’s class.
@@ -240,18 +240,18 @@ module R18n
         end
       end
     end
-    
+
     # Format +time+ in compact form. For example, “12/31/09 12:59”.
     def format_time_standard(time, *params)
       format_date_standard(time) + format_time(time)
     end
-    
+
     # Format +time+ in most official form. For example, “December 31st, 2009
     # 12:59”. For special cases you can replace it in locale’s class.
     def format_time_full(time, *params)
       format_date_full(time) + format_time(time)
     end
-    
+
     # Format +date+ in human usable form. For example “5 days ago” or
     # “yesterday”. In +now+ you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale’s class.
@@ -272,12 +272,12 @@ module R18n
         format_date_full(date, date.year != now.year)
       end
     end
-    
+
     # Format +date+ in compact form. For example, “12/31/09”.
     def format_date_standard(date, *params)
       strftime(date, date_format)
     end
-    
+
     # Format +date+ in most official form. For example, “December 31st, 2009”.
     # For special cases you can replace it in locale’s class. If +year+ is false
     # date will be without year.
@@ -300,6 +300,6 @@ module R18n
       end
     end
   end
-  
+
   module Locales; end
 end

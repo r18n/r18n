@@ -20,9 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module R18n
   # Useful aliases. Set I18n object before use them:
-  # 
+  #
   #   R18n.set('en')
-  #   
+  #
   #   t.ok               #=> "OK"
   #   l Time.now, :human #=> "now"
   #   r18n.locale.code   #=> "en"
@@ -32,12 +32,12 @@ module R18n
       R18n.get
     end
     alias i18n r18n
-    
+
     # Translate message. Alias for <tt>r18n.t</tt>.
     def t(*params)
       R18n.get.t(*params)
     end
-    
+
     # Localize object. Alias for <tt>r18n.l</tt>.
     def l(*params)
       R18n.get.l(*params)

@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'sinatra', [">= 0.9"]
   s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
-  
+
   s.add_development_dependency "bundler", [">= 1.0.10"]
   s.add_development_dependency "hanna", [">= 0"]
   s.add_development_dependency "rake", [">= 0", "!= 0.9.0"]

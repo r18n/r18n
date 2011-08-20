@@ -21,50 +21,50 @@ information.
 2. Add file with translation to <tt>./i18n/</tt> with language code in file name
    (for example, <tt>en.yml</tt> for English or <tt>en-us.yml</tt> USA English
    dialect). For example, <tt>./i18n/en.yml</tt>:
-   
+
      file:
        add: Add file
        delete: Delete file %1
-    
+
      files: !!pl
        0: No files
        1: One file
        n: %1 files
-   
+
 3. Add R18n to your application:
-   
+
      require 'r18n-desktop'
-   
+
 4. Load I18n object:
-   
+
      R18n.from_env 'i18n/'
-   
+
    User can set the locale manually:
-   
+
      R18n.from_env 'i18n/', manual_locale
 
 5. Include mixin to use helpers:
-   
+
      include R18n::Helpers
-      
+
 6. Use translation messages to user. For example:
-   
+
      t.file.add            #=> "Add file"
      t.file.delete('Test') #=> "Delete file Test"
      t.files(1)            #=> "One file"
      t.files(12)           #=> "12 files"
-     
+
      l -12000.5          #=> "−12,000.5"
      l Time.now          #=> "08/09/2009 21:41"
      l Time.now, :human  #=> "now"
      l Time.now, :full   #=> "August 9th, 2009 21:41"
-     
+
      # Base translation
      t.ok     #=> "OK"
      t.cancel #=> "Cancel"
 
 7. You can print user locale or available locales:
-   
+
      "Your locale: " + r18n.locale.title
      "Select another: " + r18n.available_locales.map { |i| i.title }.join(', ')
 

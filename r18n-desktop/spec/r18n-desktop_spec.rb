@@ -19,7 +19,7 @@ describe "r18n-desktop" do
     r18n.class.should == R18n::I18n
     r18n.locale.should_not be_empty if String == r18n.locale.class
     R18n.get.should == r18n
-  end    
+  end
 
   it "should load i18n from system environment using specified order" do
     R18n.from_env(nil, 'en')

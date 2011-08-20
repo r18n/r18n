@@ -26,9 +26,9 @@ module R18n
       jd = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)
       Date.new!(Date.send(:jd_to_ajd, jd, 0, 0), 0, Date::ITALY)
     end
-    
+
     HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }
-    
+
     # Escape HTML entries (<, >, &). Copy from HAML helper.
     def self.escape_html(content)
       content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
@@ -44,7 +44,7 @@ module R18n
       end
      result
     end
-  
+
     # Recursively hash merge.
     def self.deep_merge!(a, b)
       b.each_pair do |key, value|
@@ -57,7 +57,7 @@ module R18n
       end
       a
     end
-    
+
     # Call +block+ with Syck yamler. It used to load RedCloth, which isn’t
     # support Psych.
     def self.use_syck(&block)

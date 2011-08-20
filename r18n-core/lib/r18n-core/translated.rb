@@ -21,43 +21,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 module R18n
   # Module to add i18n support to any class. It will be useful for ORM or
   # R18n plugin with out-of-box i18n support.
-  # 
+  #
   # Module can add proxy-methods to find translation in object methods. For
   # example, if you class have +title_en+ and +title_ru+ methods, you can add
   # proxy-method +title+, which will use +title_ru+ for Russian users and
   # +title_en+ for English:
-  # 
+  #
   #   require 'r18n-core/translated'
-  #   
+  #
   #   class Product
   #     include DataMapper::Resource
   #     property :title_ru, String
   #     property :title_en, String
   #     property :desciption_ru, String
   #     property :desciption_en, String
-  #     
+  #
   #     include R18n::Translated
   #     translations :title, :desciption
   #   end
-  #   
+  #
   #   # User know only Russian
   #   R18n.set('ru')
-  #   
+  #
   #   product.title #=> Untranslated
-  #   
+  #
   #   # Set value to English (default) title
   #   product.title_en = "Anthrax"
   #   product.title #=> "Anthrax"
   #   product.title.locale #=> Locale en (English)
-  #   
+  #
   #   # Set value to title on user locale (Russian)
   #   product.title = "Сибирская язва"
   #   product.title #=> "Сибирская язва"
   #   product.title.locale #=> Locale ru (Russian)
-  #   
+  #
   #   product.title_en #=> "Anthrax"
   #   product.title_ru #=> "Сибирская язва"
-  # 
+  #
   # Proxy-method support all funtion from I18n: global and type filters,
   # pluralization, variables. It also return TranslatedString or Untranslated.
   #
@@ -67,7 +67,7 @@ module R18n
   # must call <tt>i18n</tt> helper in Sinatra before use models.
   #
   # See R18n::Translated::Base for class method documentation.
-  # 
+  #
   # == Options
   # You can set option for proxy-method as Hash with keys;
   # * +type+ – YAML type for filters. For example, "markdown" or "escape_html".
@@ -75,9 +75,9 @@ module R18n
   # * +no_params+ – set it to true if you proxy-method must send it parameters
   #   only to filters.
   # * +no_write+ – set it to true if you don’t want to create proxy-setters.
-  # 
+  #
   # Method +translation+ will be more useful for options:
-  # 
+  #
   #   translation :title, :methods => {:ru => :russian, :en => :english}
   module Translated
     class << self
@@ -88,12 +88,12 @@ module R18n
         base.instance_variable_set '@translation_types', {}
       end
     end
-    
+
     # Module with class methods, which be added after R18n::Translated include.
     module Base
       # Hash of translation method names to it type for filters.
       attr_reader :translation_types
-      
+
       # Add several proxy +methods+. See R18n::Translated for description.
       # It’s more compact, that +translation+.
       # 
@@ -103,7 +103,7 @@ module R18n
           translation(*method)
         end
       end
-      
+
       # Add proxy-method +name+. See R18n::Translated for description.
       # It’s more useful to set options.
       # 
@@ -117,10 +117,10 @@ module R18n
               hash_map(options[:methods]) { |l, i| [ l.to_s, i.to_s + '=' ] }
           end
         end
-        
+
         @translation_types[name] = options[:type]
         params = options[:no_params] ? '' : ', *params'
-        
+
         class_eval <<-EOS, __FILE__, __LINE__
           def #{name}(*params)
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
@@ -129,7 +129,7 @@ module R18n
               next unless unlocalized.has_key? code
               result = send unlocalized[code]#{params}
               next unless result
-              
+
               path = "\#{self.class.name}##{name}"
               type = self.class.translation_types[#{name.inspect}]
               if type
@@ -143,12 +143,12 @@ module R18n
                 return result
               end
             end
-            
+
             R18n::Untranslated.new("\#{self.class.name}\#", '#{name}',
                                    R18n.get.locale)
           end
         EOS
-        
+
         unless options[:no_write]
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(*params)
@@ -162,7 +162,7 @@ module R18n
           EOS
         end
       end
-      
+
       # Return array of methods to find +unlocalized_getters+ or
       # +unlocalized_setters+.
       def unlocalized_methods
@@ -182,7 +182,7 @@ module R18n
         end
         @unlocalized_getters[method]
       end
-      
+
       # Return Hash of locale code to setter method for proxy +method+. If you
       # didn’t set map in +translation+ option +methods+, it will be detect
       # automatically.

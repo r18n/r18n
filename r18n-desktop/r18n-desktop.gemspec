@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
     user language support, agnostic core package with out-of-box support for
     Rails, Sinatra, Merb and desktop applications.
   EOF
-  
+
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
@@ -25,9 +25,9 @@ Gem::Specification.new do |s|
   s.email = 'andrey@sitnik.ru'
   s.homepage = 'http://r18n.rubyforge.org/'
   s.rubyforge_project = 'r18n-desktop'
-  
+
   s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
-  
+
   s.add_development_dependency "bundler", [">= 1.0.10"]
   s.add_development_dependency "hanna", [">= 0"]
   s.add_development_dependency "rake", [">= 0", "!= 0.9.0"]

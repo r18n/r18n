@@ -37,7 +37,7 @@ require dir + 'helpers'
 
 module R18n
   class << self
-    
+
     # Set I18n object globally.
     def set(i18n = nil, dir = nil, &block)
       if block_given?
@@ -76,12 +76,12 @@ module R18n
     def thread
       Thread.current
     end
-    
+
     # Translate message. Alias for <tt>R18n.get.t</tt>.
     def t(*params)
       get.t(*params)
     end
-    
+
     # Localize object. Alias for <tt>R18n.get.l</tt>.
     def l(*params)
       get.l(*params)
@@ -94,11 +94,11 @@ module R18n
     # Loaders with extension translations. If application translations with
     # same locale isn’t exists, extension file willn’t be used.
     attr_accessor :extension_places
-    
+
     # Hash of hash-like (see Moneta) object to store loaded translations.
     attr_accessor :cache
   end
-  
+
   self.default_loader = R18n::Loader::YAML
   self.extension_places = [
       Loader::YAML.new(Pathname(__FILE__).dirname.expand_path + '../base')]

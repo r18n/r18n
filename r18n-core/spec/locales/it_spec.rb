@@ -1,6 +1,6 @@
 # encoding: utf-8
 require File.expand_path('../../spec_helper', __FILE__)
- 
+
 describe R18n::Locales::It do
   it "should format Italian date" do
     italian = R18n::I18n.new('it')

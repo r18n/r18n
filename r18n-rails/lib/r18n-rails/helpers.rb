@@ -30,7 +30,7 @@ module R18n
       def r18n
         R18n.get
       end
-      
+
       # Extend +t+ helper to use also R18n syntax.
       # 
       #   t 'user.name' # Rails I18n style
@@ -43,7 +43,7 @@ module R18n
         end
       end
       alias :translate :t
-      
+
       # Extend +l+ helper to use also R18n syntax.
       # 
       #   l Time.now                    # Rails I18n default format

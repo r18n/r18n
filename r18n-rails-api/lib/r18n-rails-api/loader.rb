@@ -23,9 +23,9 @@ require 'i18n'
 module R18n
   module Loader
     # Loader for translations in Rails I18n format:
-    # 
+    #
     #   R18n::I18n.new('en', R18n::Loader::Rails.new)
-    # 
+    #
     # It use Rails I18n backend to load translations. By default, simple
     # backend will be used, by you can change it, if use extended backend
     # (for example, with ActiveRecord storage):
@@ -35,7 +35,7 @@ module R18n
     class Rails
       PLURAL_KEYS = { :zero  => 0, :one => 1, :few => 2, :many => 'n',
                       :other => 'other' }
-      
+
       # Create new loader for some +backend+ from Rails I18n. Backend must have
       # +reload!+, +init_translations+ and +translations+ methods.
       def initialize(backend = ::I18n::Backend::Simple.new)
@@ -46,19 +46,19 @@ module R18n
           ::Syck::PrivateType
         end
       end
-      
+
       # Array of locales, which has translations in +I18n.load_path+.
       def available
         reload!
         @translations.keys.map { |code| R18n::Locale.load(code) }
       end
-      
+
       # Return Hash with translations for +locale+.
       def load(locale)
         reload!
         @translations[locale.code.downcase]
       end
-      
+
       # Reload backend if <tt>I18n.load_path</tt> is changed.
       def reload!
         return if @last_path == ::I18n.load_path
@@ -67,19 +67,19 @@ module R18n
         @backend.send(:init_translations)
         @translations = transform @backend.send(:translations)
       end
-    
+
       # Return hash for object and <tt>I18n.load_path</tt>.
       def hash
         super + ::I18n.load_path.hash
       end
-      
+
       # Is another +loader+ is also load Rails translations.
       def ==(loader)
         self.class == loader.class
       end
-      
+
       protected
-      
+
       # Change pluralization and keys to R18n format.
       def transform(value)
         if value.is_a? Hash
