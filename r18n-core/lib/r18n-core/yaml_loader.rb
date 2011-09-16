@@ -40,7 +40,9 @@ module R18n
       # Create new loader for +dir+ with YAML translations.
       def initialize(dir)
         @dir = File.expand_path(dir)
-        @private_type_class = if '1.8.' == RUBY_VERSION[0..3]
+        @private_type_class = if defined?(JRUBY_VERSION)
+          ::YAML::Yecht::PrivateType
+        elsif '1.8.' == RUBY_VERSION[0..3]
           ::YAML::PrivateType
         else
           ::Syck::PrivateType
