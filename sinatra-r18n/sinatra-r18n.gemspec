@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
   s.require_path = 'lib'
-  s.has_rdoc = true
 
   s.author = 'Andrey "A.I." Sitnik'
   s.email = 'andrey@sitnik.ru'
