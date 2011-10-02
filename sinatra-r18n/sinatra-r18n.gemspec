@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://r18n.rubyforge.org/'
   s.rubyforge_project = 'sinatra-r18n'
 
-  s.add_dependency 'sinatra', [">= 0.9"]
+  s.add_dependency 'sinatra', [">= 1.3"]
   s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
 
   s.add_development_dependency "bundler", [">= 1.0.10"]

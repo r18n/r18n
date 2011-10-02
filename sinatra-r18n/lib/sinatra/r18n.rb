@@ -30,7 +30,7 @@ module Sinatra #::nodoc::
 
       app.before do
         ::R18n.set do
-          ::R18n::I18n.default = options.default_locale
+          ::R18n::I18n.default = settings.default_locale
 
           locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
           if params[:locale]
@@ -39,7 +39,7 @@ module Sinatra #::nodoc::
             locales.insert(0, session[:locale])
           end
 
-          ::R18n::I18n.new(locales, options.translations)
+          ::R18n::I18n.new(locales, settings.translations)
         end
       end
 
