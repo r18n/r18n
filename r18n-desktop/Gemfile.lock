@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    r18n-desktop (0.4.10)
-      r18n-core (= 0.4.10)
+    r18n-desktop (0.4.11)
+      r18n-core (= 0.4.11)
 
 PATH
   remote: ../r18n-core/
   specs:
-    r18n-core (0.4.10)
+    r18n-core (0.4.11)
 
 GEM
   remote: http://rubygems.org/

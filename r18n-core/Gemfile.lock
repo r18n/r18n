@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    r18n-core (0.4.10)
+    r18n-core (0.4.11)
 
 GEM
   remote: http://rubygems.org/
