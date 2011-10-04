@@ -78,7 +78,7 @@ module R18n
 
       @@loaded[code] ||= begin
         if exists? code
-          require LOCALES_DIR + "#{code}.rb"
+          require LOCALES_DIR.join("#{code}.rb").to_s
           name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
           eval('R18n::Locales::' + name).new
         else
