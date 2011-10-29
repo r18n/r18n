@@ -116,7 +116,7 @@ DEPENDENCIES
   r18n-rails!
   r18n-rails-api!
   rails (>= 3)
-  rake (>= 0, != 0.9.0)
+  rake (!= 0.9.0, >= 0)
   rcov
   rspec (>= 2)
   rspec-rails (>= 2)
