@@ -21,7 +21,7 @@ module R18n
   module Translated
     module Base
       def unlocalized_methods
-        if ancestors.include? ActiveRecord::Base
+        if defined? ActiveRecord and ancestors.include? ActiveRecord::Base
           column_names + column_names.map { |i| i + '=' } + instance_methods
         else
           instance_methods
