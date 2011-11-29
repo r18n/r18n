@@ -1,6 +1,6 @@
 # encoding: utf-8
 module R18n
-  class Locales::Ua < Locale
+  class Locales::Uk < Locale
     set :title => 'Українська',
 
         :wday_names => %w{Неділя Понеділок Вівторок Середа Четвер П'ятниця
