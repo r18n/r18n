@@ -23,17 +23,17 @@ $KCODE = 'u' if '1.8.' == RUBY_VERSION[0..3]
 require 'pathname'
 
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n-core'
-require dir + 'version'
-require dir + 'utils'
-require dir + 'locale'
-require dir + 'unsupported_locale'
-require dir + 'translated_string'
-require dir + 'untranslated'
-require dir + 'filters'
-require dir + 'translation'
-require dir + 'yaml_loader'
-require dir + 'i18n'
-require dir + 'helpers'
+require dir.join('version').to_s
+require dir.join('utils').to_s
+require dir.join('locale').to_s
+require dir.join('unsupported_locale').to_s
+require dir.join('translated_string').to_s
+require dir.join('untranslated').to_s
+require dir.join('filters').to_s
+require dir.join('translation').to_s
+require dir.join('yaml_loader').to_s
+require dir.join('i18n').to_s
+require dir.join('helpers').to_s
 
 module R18n
   class << self

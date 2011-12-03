@@ -4,8 +4,8 @@ require 'pp'
 
 dir = Pathname(__FILE__).dirname
 
-require dir + '../lib/r18n-core'
-Pathname.glob(dir.join('../locales/*.rb').to_s) { |locale| require locale }
+require dir.join('../lib/r18n-core').to_s
+Dir.glob(dir.join('../locales/*.rb').to_s) { |locale| require locale }
 
 TRANSLATIONS = dir + 'translations' unless defined? TRANSLATIONS
 DIR = TRANSLATIONS + 'general' unless defined? DIR
