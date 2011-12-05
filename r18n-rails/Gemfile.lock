@@ -1,20 +1,20 @@
 PATH
   remote: .
   specs:
-    r18n-rails (0.4.11)
-      r18n-rails-api (= 0.4.11)
+    r18n-rails (0.4.12)
+      r18n-rails-api (= 0.4.12)
 
 PATH
   remote: ../r18n-core/
   specs:
-    r18n-core (0.4.11)
+    r18n-core (0.4.12)
 
 PATH
   remote: ../r18n-rails-api/
   specs:
-    r18n-rails-api (0.4.11)
+    r18n-rails-api (0.4.12)
       i18n
-      r18n-core (= 0.4.11)
+      r18n-core (= 0.4.12)
 
 GEM
   remote: http://rubygems.org/
@@ -116,7 +116,7 @@ DEPENDENCIES
   r18n-rails!
   r18n-rails-api!
   rails (>= 3)
-  rake (!= 0.9.0, >= 0)
+  rake (>= 0, != 0.9.0)
   rcov
   rspec (>= 2)
   rspec-rails (>= 2)
