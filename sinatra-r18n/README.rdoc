@@ -70,10 +70,10 @@ information.
    
 7. Print available translations. For example in HAML:
    
-     %ul
-       - r18n.available_locales.each do |locale|
-         %li
-           %a{ href: "/#{locale.code}/" }= locale.title
+      %ul
+         - r18n.available_locales.each do |locale|
+		      %li
+			      %a{:href => locale.code}= locale.title
 
 == Configuration
 
