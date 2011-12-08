@@ -21,7 +21,7 @@ information.
 2. Add file with translation to <tt>./i18n/</tt> with language code in file name
    (for example, <tt>en.yml</tt> for English or <tt>en-us.yml</tt> USA English
    dialect). For example, <tt>./i18n/en.yml</tt>:
-   
+
      post:
        friends: Post only for friends
        tags: Post tags is %1
@@ -73,7 +73,7 @@ information.
      %ul
        - r18n.available_locales.each do |locale|
          %li
-           %a{ href: "/#{locale.code}/" }= locale.title
+           %a( href="/#{locale.code}/" )= locale.title
 
 == Configuration
 
