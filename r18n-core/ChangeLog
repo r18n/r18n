@@ -1,3 +1,7 @@
+== 0.4.13 (Sti)
+* Fix Pathname to String error in r18n-desktop.
+* Add Norwegian locale (by Oddmund Strømme).
+
 == 0.4.12 (Шлях)
 * Fix Pathname to String convertion error.
 * Fix model translation for non-ActiveRecord (by Szymon Przybył).
