@@ -27,13 +27,9 @@ RSpec::Core::RakeTask.new('rcov') do |t|
   t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
 end
 
-Rake::RDocTask.new do |rdoc|
-  rdoc.main = 'README.rdoc'
-  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'lib/**/*.rb')
-  rdoc.title = "R18n #{R18n::VERSION} Desktop Documentation"
-  rdoc.rdoc_dir = 'doc'
-  rdoc.options << '-c utf-8'
-  rdoc.options << '--all'
+require 'yard'
+YARD::Rake::YardocTask.new do |yard|
+  yard.options << "--title='R18n Desktop #{R18n::VERSION}'"
 end
 
 task :clobber_package do

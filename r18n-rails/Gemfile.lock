@@ -51,11 +51,6 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    haml (2.2.24)
-    hanna (0.1.12)
-      haml (~> 2.2.8)
-      rake (~> 0.8.2)
-      rdoc (~> 2.3.0)
     i18n (0.5.0)
     mail (2.2.19)
       activesupport (>= 2.3.6)
@@ -85,7 +80,6 @@ GEM
       thor (~> 0.14.4)
     rake (0.8.7)
     rcov (0.9.9)
-    rdoc (2.3.0)
     rspec (2.5.0)
       rspec-core (~> 2.5.0)
       rspec-expectations (~> 2.5.0)
@@ -104,13 +98,13 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.27)
+    yard (0.7.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bundler (>= 1.0.10)
-  hanna
   psych
   r18n-core!
   r18n-rails!
@@ -121,3 +115,4 @@ DEPENDENCIES
   rspec (>= 2)
   rspec-rails (>= 2)
   sqlite3
+  yard

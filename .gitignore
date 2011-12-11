@@ -2,6 +2,7 @@
 nbproject
 *~
 *.sw?
+.yardoc/
 
 doc/
 pkg/

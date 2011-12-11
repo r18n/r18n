@@ -9,12 +9,6 @@ rescue LoadError
   puts "Bundler not available. Install it with: gem install bundler"
 end
 
-begin
-  require 'hanna/rdoctask'
-rescue LoadError
-  require 'rake/rdoctask'
-end
-
 PKG_NAME = 'r18n-core'.freeze
 require File.join(File.dirname(__FILE__), 'lib/r18n-core/version')
 
@@ -33,13 +27,9 @@ RSpec::Core::RakeTask.new('rcov') do |t|
   t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
 end
 
-Rake::RDocTask.new do |rdoc|
-  rdoc.main = 'README.rdoc'
-  rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'ChangeLog', 'lib/**/*.rb')
-  rdoc.title = "R18n #{R18n::VERSION} Documentation"
-  rdoc.rdoc_dir = 'doc'
-  rdoc.options << '-c utf-8'
-  rdoc.options << '--all'
+require 'yard'
+YARD::Rake::YardocTask.new do |yard|
+  yard.options << "--title='R18n #{R18n::VERSION}'"
 end
 
 task :clobber_package do

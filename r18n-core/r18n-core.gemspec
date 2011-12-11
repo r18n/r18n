@@ -24,13 +24,13 @@ Gem::Specification.new do |s|
   s.homepage = 'http://r18n.rubyforge.org/'
   s.rubyforge_project = 'r18n-core'
 
-  s.add_development_dependency "bundler", [">= 1.0.10"]
-  s.add_development_dependency "hanna", [">= 0"]
-  s.add_development_dependency "rake", [">= 0", "!= 0.9.0"]
-  s.add_development_dependency "rspec-core", [">= 0"]
+  s.add_development_dependency "bundler",            [">= 1.0.10"]
+  s.add_development_dependency "yard",               [">= 0"]
+  s.add_development_dependency "rake",               [">= 0", "!= 0.9.0"]
+  s.add_development_dependency "rspec-core",         [">= 0"]
   s.add_development_dependency "rspec-expectations", [">= 0"]
-  s.add_development_dependency "rspec-mocks", [">= 0"]
-  s.add_development_dependency "rcov", [">= 0"]
-  s.add_development_dependency "maruku", [">= 0"]
-  s.add_development_dependency "RedCloth", [">= 0"]
+  s.add_development_dependency "rspec-mocks",        [">= 0"]
+  s.add_development_dependency "rcov",               [">= 0"]
+  s.add_development_dependency "maruku",             [">= 0"]
+  s.add_development_dependency "RedCloth",           [">= 0"]
 end

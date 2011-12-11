@@ -13,26 +13,20 @@ GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.2)
-    haml (2.2.24)
-    hanna (0.1.12)
-      haml (~> 2.2.8)
-      rake (~> 0.8.2)
-      rdoc (~> 2.3.0)
     psych (1.2.0)
     rake (0.8.7)
     rcov (0.9.9)
-    rdoc (2.3.0)
     rspec-core (2.5.1)
     rspec-expectations (2.5.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.5.0)
+    yard (0.7.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bundler (>= 1.0.10)
-  hanna
   psych
   r18n-core!
   r18n-desktop!
@@ -41,3 +35,4 @@ DEPENDENCIES
   rspec-core
   rspec-expectations
   rspec-mocks
+  yard
