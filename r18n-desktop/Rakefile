@@ -20,9 +20,12 @@ YARD::Rake::YardocTask.new do |yard|
   yard.options << "--title='R18n Desktop #{R18n::VERSION}'"
 end
 
+task :clobber_doc do
+  rm_r 'doc' rescue nil
+end
 task :clobber_package do
   rm_r 'pkg' rescue nil
 end
-task :clobber => [:clobber_package]
+task :clobber => [:clobber_package, :clobber_doc]
 
 task :default => :spec
