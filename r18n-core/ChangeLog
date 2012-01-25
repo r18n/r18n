@@ -1,3 +1,8 @@
+== 0.4.14 (üç)
+* Fix support for Ruby 1.9.3.
+* Added Turkish locale (by Ahmet Özkaya).
+* Fix Swedish locale (by Pär Wieslander).
+
 == 0.4.13 (Sti)
 * Fix Pathname to String error in r18n-desktop.
 * Add Norwegian locale (by Oddmund Strømme).
