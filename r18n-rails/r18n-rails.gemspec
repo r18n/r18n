@@ -33,6 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rails",       [">= 3"]
   s.add_development_dependency "rspec",       [">= 2"]
   s.add_development_dependency "rspec-rails", [">= 2"]
-  s.add_development_dependency "rcov",        [">= 0"]
 end
 

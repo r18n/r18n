@@ -33,5 +33,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-core",         [">= 0"]
   s.add_development_dependency "rspec-expectations", [">= 0"]
   s.add_development_dependency "rspec-mocks",        [">= 0"]
-  s.add_development_dependency "rcov",               [">= 0"]
 end

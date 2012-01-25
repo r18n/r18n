@@ -8,24 +8,12 @@ rescue LoadError
   puts "Bundler not available. Install it with: gem install bundler"
 end
 
-begin
-  require 'hanna/rdoctask'
-rescue LoadError
-  require 'rake/rdoctask'
-end
-
 PKG_NAME = 'r18n-desktop'
 require '../r18n-core/lib/r18n-core/version'
 
 require 'rspec/core/rake_task'
 
 RSpec::Core::RakeTask.new
-
-RSpec::Core::RakeTask.new('rcov') do |t|
-  t.rcov = true
-  t.ruby_opts = '-w'
-  t.rcov_opts = ['--text-summary', '--charset UTF-8', '-x gem']
-end
 
 require 'yard'
 YARD::Rake::YardocTask.new do |yard|
