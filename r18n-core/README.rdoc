@@ -200,7 +200,7 @@ it in sublocales or in another locale, which the user also can accept:
 
   t.not.in.english #=> "В английском нет"
 
-The translated string has a +locale+ method for determining its locale (Locale 
+The translated string has a +locale+ method for determining its locale (Locale
 instance or code string if locale is’t supported in R18n):
 
   i18n.not.in.english.locale #=> Locale ru (Русский)

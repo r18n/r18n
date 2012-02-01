@@ -96,7 +96,7 @@ module R18n
 
       # Add several proxy +methods+. See R18n::Translated for description.
       # It’s more compact, that +translation+.
-      # 
+      #
       #   translations :title, :keywords, [:desciption, {:type => 'markdown'}]
       def translations(*methods)
         methods.each do |method|
@@ -106,7 +106,7 @@ module R18n
 
       # Add proxy-method +name+. See R18n::Translated for description.
       # It’s more useful to set options.
-      # 
+      #
       #   translation :desciption, :type => 'markdown'
       def translation(name, options = {})
         if options[:methods]

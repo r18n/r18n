@@ -24,7 +24,7 @@ module R18n
       # * <tt>r18n.available_locales</tt> – available application translations.
       # * <tt>r18n.locales</tt> – List of user locales
       # * <tt>r18n.reload!</tt> – Reload R18n translations
-      # 
+      #
       # You can get translations by <tt>r18n.user.name</tt>, but +t+ helper is
       # more beautiful, short and also support R18n syntax.
       def r18n
@@ -32,7 +32,7 @@ module R18n
       end
 
       # Extend +t+ helper to use also R18n syntax.
-      # 
+      #
       #   t 'user.name' # Rails I18n style
       #   t.user.name   # R18n style
       def t(*params)
@@ -45,7 +45,7 @@ module R18n
       alias :translate :t
 
       # Extend +l+ helper to use also R18n syntax.
-      # 
+      #
       #   l Time.now                    # Rails I18n default format
       #   l Time.now, :format => :short # Rails I18n style
       #   l Time.now, :human            # R18n style
