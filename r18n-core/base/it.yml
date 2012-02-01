@@ -5,7 +5,7 @@ cancel: 'Annulla'
 'no': 'No'
 exit: 'Esci'
 delete: 'Cancella'
- 
+
 human_time:
   after_days: !!pl
     1: 'dopo %1 giorno'
