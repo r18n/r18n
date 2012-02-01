@@ -2,7 +2,7 @@
 
 A tool to translate your desktop application to several languages.
 
-It is just a wrapper for R18n core library. See R18n documentation for more 
+It is just a wrapper for R18n core library. See R18n documentation for more
 information.
 
 == Features

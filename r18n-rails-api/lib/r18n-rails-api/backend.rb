@@ -57,10 +57,10 @@ module R18n
       end
     end
 
-    # Convert +object+ to String, according to the rules of the current 
+    # Convert +object+ to String, according to the rules of the current
     # R18n locale. It didn’t use +locale+ argument, only current R18n I18n
     # object. It support Fixnum, Bignum, Float, Time, Date and DateTime.
-    # 
+    #
     # Support Rails I18n (+:default+, +:short+, +:long+, +:long_ordinal+,
     # +:only_day+ and +:only_second+) and R18n (+:full+, +:human+, +:standard+
     # and +:month+) time formatters.

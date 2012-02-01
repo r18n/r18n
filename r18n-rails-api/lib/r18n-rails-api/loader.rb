@@ -29,7 +29,7 @@ module R18n
     # It use Rails I18n backend to load translations. By default, simple
     # backend will be used, by you can change it, if use extended backend
     # (for example, with ActiveRecord storage):
-    # 
+    #
     #   R18n::I18n.new('en',
     #                  R18n::Loader::Rails.new(I18n::Backend::ActiveRecord.new))
     class Rails

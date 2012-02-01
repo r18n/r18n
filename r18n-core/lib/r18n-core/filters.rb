@@ -41,7 +41,7 @@ module R18n
   #   end
   #
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
-  # 
+  #
   # Use String class as type to add global filter for all translated strings:
   #
   #   R18n::Filters.add(String, :escape_html) do |content, config, params|
@@ -138,10 +138,10 @@ module R18n
       # Add new filter for +type+ with +name+ and return filter object. You
       # can use String class as +type+ to add global filter for all translated
       # string.
-      # 
+      #
       # Filter content will be sent to +block+ as first argument, struct with
       # config as second and filters parameters will be in next arguments.
-      # 
+      #
       # Options:
       # * +position+ – change order on processing several filters for same type.
       #    Note that passive filters will be always run before active.
