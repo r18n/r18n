@@ -27,8 +27,6 @@ module R18n
   # proxy-method +title+, which will use +title_ru+ for Russian users and
   # +title_en+ for English:
   #
-  #   require 'r18n-core/translated'
-  #
   #   class Product
   #     include DataMapper::Resource
   #     property :title_ru, String
@@ -61,10 +59,9 @@ module R18n
   # Proxy-method support all funtion from I18n: global and type filters,
   # pluralization, variables. It also return TranslatedString or Untranslated.
   #
-  # Note, you must set your I18n object by <tt>R18n.set</tt> and don’t forget
-  # to require <tt>'r18n-core/translated'</tt>. R18n plugins (sinatra-r18n,
-  # r18-desktop) set I18n object by <tt>R18n.set</tt> automatically, but you
-  # must call <tt>i18n</tt> helper in Sinatra before use models.
+  # Note, you must set your I18n object by <tt>R18n.set</tt>.
+  # R18n plugins (sinatra-r18n, r18-desktop) set I18n object by
+  # <tt>R18n.set</tt> automatically.
   #
   # See R18n::Translated::Base for class method documentation.
   #

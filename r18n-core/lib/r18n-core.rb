@@ -37,6 +37,8 @@ require dir.join('i18n').to_s
 require dir.join('helpers').to_s
 
 module R18n
+  autoload :Translated, 'r18n-core/translated'
+
   class << self
 
     # Set I18n object globally.

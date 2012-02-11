@@ -97,8 +97,6 @@ plugins).
 You can translate any class, including ORM models (ActiveRecord, DataMapper,
 MongoMapper, Mongoid or others):
 
-  require 'r18n-core/translated'
-
   class Product < ActiveRecord::Base
     include R18n::Translated
     # Model has two normal properties: title_en and title_ru
@@ -363,8 +361,6 @@ and <tt>:standard</tt> (the default):
 
 You can add i18n support to any classes, including ORM models (ActiveRecord,
 DataMapper, MongoMapper, Mongoid or others):
-
-  require 'r18n-core/translated'
 
   class Product
     include DataMapper::Resource

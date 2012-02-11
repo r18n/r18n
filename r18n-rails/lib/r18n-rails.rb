@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'pathname'
 require 'r18n-core'
-require 'r18n-core/translated'
 require 'r18n-rails-api'
 
 dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails'
