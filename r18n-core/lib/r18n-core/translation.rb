@@ -76,7 +76,7 @@ module R18n
       @data    = {}
       @locale  = locale
       @path    = path
-      @filters = options[:filters] || EmptyFilterList.instance
+      @filters = options[:filters] || GlobalFilterList.instance
 
       merge! options[:translations], options[:locale] if options[:translations]
     end

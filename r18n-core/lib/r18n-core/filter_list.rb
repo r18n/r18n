@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
 module R18n
-  # Superclass for +EmptyFilterList+ and +CustomFilterList+ with filters 
+  # Superclass for +GlobalFilterList+ and +CustomFilterList+ with filters
   # processing.
   class FilterList
     # Process +value+ by filters in +enabled+.
@@ -59,14 +59,26 @@ module R18n
         all(type)
       end
     end
+
+    # List of enable passive filters.
+    def passive(type)
+      []
+    end
+
+    # List of enable active filters.
+    def active(type)
+      []
+    end
+
+    # List of enable filters.
+    def all(type)
+      []
+    end
   end
 
   # Filter list for I18n object with only global filters.
-  class EmptyFilterList < FilterList
+  class GlobalFilterList < FilterList
     include Singleton
-
-    def initialize
-    end
 
     def passive(type)
       Filters.passive_enabled[type]

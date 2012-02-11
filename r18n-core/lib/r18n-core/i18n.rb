@@ -176,7 +176,7 @@ module R18n
         @filters = CustomFilterList.new(options[:on_filters],
                                         options[:off_filters])
       else
-        @filters = EmptyFilterList.instance
+        @filters = GlobalFilterList.instance
       end
 
       key = translation_cache_key
