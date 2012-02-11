@@ -73,6 +73,11 @@ module R18n
   #   R18n::Filters.on(:no_space)
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
   #   R18n::Filters.delete(:no_space)
+  #
+  # You can enabled/disabled filters only for special I18n object:
+  #
+  #   R18n::I18n.new('en', nil, :on_filters  => [:untranslated_html, :no_space],
+  #                             :off_filters => :untranslated )
   module Filters
     class << self
       # Hash of filter names to Filters.
@@ -89,33 +94,6 @@ module R18n
 
       # Hash of types to enabled passive and active filters.
       attr_accessor :enabled
-
-      # Process +value+ by filters in +enabled+.
-      def process(enabled, type, value, locale, path, params)
-        config = { :locale => locale, :path => path }
-
-        enabled[type].each do |filter|
-          value = filter.call(value, config, *params)
-        end
-
-        if value.is_a? String
-          value = TranslatedString.new(value, locale, path)
-          process_string(enabled, value, config, params)
-        else
-          value
-        end
-      end
-
-      # Process +value+ by global filters in +enabled+.
-      def process_string(enabled, value, config, params)
-        if config.is_a? String
-          config = { :locale => value.locale, :path => config }
-        end
-        enabled[String].each do |f|
-          value = f.call(value, config, *params)
-        end
-        value
-      end
 
       # Rebuild +active_enabled+ and +passive_enabled+ for +type+.
       def rebuild_enabled!(type)

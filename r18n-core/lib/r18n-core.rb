@@ -30,6 +30,7 @@ require dir.join('unsupported_locale').to_s
 require dir.join('translated_string').to_s
 require dir.join('untranslated').to_s
 require dir.join('filters').to_s
+require dir.join('filter_list').to_s
 require dir.join('translation').to_s
 require dir.join('yaml_loader').to_s
 require dir.join('i18n').to_s

@@ -46,10 +46,11 @@ module R18n
     # Path, that exists in translation.
     attr_reader :translated_path
 
-    def initialize(translated_path, untranslated_path, locale)
-      @translated_path = translated_path
+    def initialize(translated_path, untranslated_path, locale, filters)
+      @translated_path   = translated_path
       @untranslated_path = untranslated_path
-      @locale = locale
+      @locale            = locale
+      @filters           = filters
     end
 
     # Path to translation.
@@ -67,7 +68,7 @@ module R18n
 
     def [](*params)
       Untranslated.new(translated_path, "#{@untranslated_path}.#{params.first}",
-                       @locale)
+                       @locale, @filters)
     end
 
     def |(default)
@@ -75,7 +76,7 @@ module R18n
     end
 
     def to_s
-      Filters.process(Filters.enabled, Untranslated, path, @locale, path,
+      @filters.process(:all, Untranslated, path, @locale, path,
                       [@translated_path, @untranslated_path, path])
     end
   end

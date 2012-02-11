@@ -133,19 +133,19 @@ module R18n
               path = "\#{self.class.name}##{name}"
               type = self.class.translation_types[#{name.inspect}]
               if type
-                return R18n::Filters.process(R18n::Filters.enabled,
-                         type, result, locale, path, params)
+                return R18n.get.filter_list.process(:all, type, result, locale,
+                                                    path, params)
               elsif result.is_a? String
                 result = TranslatedString.new(result, locale, path)
-                return R18n::Filters.process_string(R18n::Filters.enabled,
-                         result, path, params)
+                return R18n.get.filter_list.process_string(:all, result, path,
+                                                           params)
               else
                 return result
               end
             end
 
             R18n::Untranslated.new("\#{self.class.name}\#", '#{name}',
-                                   R18n.get.locale)
+                                   R18n.get.locale, R18n.get.filter_list)
           end
         EOS
 

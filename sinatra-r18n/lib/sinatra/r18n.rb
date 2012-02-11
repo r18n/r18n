@@ -39,12 +39,10 @@ module Sinatra #::nodoc::
             locales.insert(0, session[:locale])
           end
 
-          ::R18n::I18n.new(locales, settings.translations)
+          ::R18n::I18n.new(locales, settings.translations,
+            :off_filters => :untranslated, :on_filters => :untranslated_html)
         end
       end
-
-      ::R18n::Filters.off(:untranslated)
-      ::R18n::Filters.on(:untranslated_html)
     end
   end
 

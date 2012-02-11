@@ -147,7 +147,7 @@ module R18n
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
     # +Translation_places+ must be a string with path or array.
-    def initialize(locales, translation_places = nil)
+    def initialize(locales, translation_places = nil, options = {})
       locales = Array(locales)
 
       if not locales.empty? and Locale.exists? locales.first
@@ -172,6 +172,13 @@ module R18n
 
       @translation_places = self.class.convert_places(@original_places)
 
+      if options[:on_filters] or options[:off_filters]
+        @filters = CustomFilterList.new(options[:on_filters],
+                                        options[:off_filters])
+      else
+        @filters = EmptyFilterList.instance
+      end
+
       key = translation_cache_key
       if R18n.cache.has_key? key
         @locale, @translation = *R18n.cache[key]
@@ -180,13 +187,20 @@ module R18n
       end
     end
 
+    # Return custom filters list
+    def filter_list
+      @filters
+    end
+
     # Return unique key for current locales in translation and places.
     def translation_cache_key
       @available_codes ||= @translation_places.inject([]) { |all, i|
         all + i.available }.uniq.map { |i| i.code.downcase }
       (@locales_codes & @available_codes).join(',') + '@' +
+        @filters.hash.to_s +
         R18n.default_loader.hash.to_s +
-        @translation_places.hash.to_s + R18n.extension_places.hash.to_s
+        @translation_places.hash.to_s +
+        R18n.extension_places.hash.to_s
     end
 
     # Reload translations.
@@ -218,7 +232,7 @@ module R18n
         end
       end
 
-      @translation = Translation.new @locale
+      @translation = Translation.new(@locale, '', :filters => @filters)
       @locales.each do |locale|
         loaded = false
         available_in_places.each do |place, available|

@@ -202,6 +202,15 @@ describe R18n::Filters do
     @i18n['<b>'].to_s.should == '<span style="color: red">&lt;b&gt;</span>'
   end
 
+  it "should allow to set custom filters" do
+    R18n::Filters.add(R18n::Untranslated, :a) { |v, c| "a #{v}" }
+    R18n::Filters.off(:a)
+
+    html = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
+                                     :on_filters  => [:untranslated_html, :a])
+    html.in.not.to_s.should == 'a in.<span style="color: red">not</span>'
+  end
+
   it "should have filter for escape HTML" do
     @i18n.html.should == '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;'
   end

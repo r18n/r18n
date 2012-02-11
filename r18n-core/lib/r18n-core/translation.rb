@@ -70,15 +70,15 @@ module R18n
   #   i18n.comments(0)            #=> "no comments"
   #   i18n.comments(10)           #=> "10 comments"
   class Translation
-    # Create translation hash for +path+ with messages in +data+ for +locale+.
-    #
     # This is internal a constructor. To load translation use
-    # <tt>R18n::Translation.load(locales, translations_dir)</tt>.
-    def initialize(main_locale, path = '', locale = nil, data = {})
-      @path = path
-      @data = {}
-      @locale = main_locale
-      merge! data, locale unless data.empty?
+    # <tt>R18n::I18n.new(locales, translations_dir)</tt>.
+    def initialize(locale, path = '', options = {})
+      @data    = {}
+      @locale  = locale
+      @path    = path
+      @filters = options[:filters] || EmptyFilterList.instance
+
+      merge! options[:translations], options[:locale] if options[:translations]
     end
 
     # Add another hash with +translations+ for some +locale+. Current data is
@@ -89,17 +89,18 @@ module R18n
           path = @path.empty? ? name : "#{@path}.#{name}"
           case value
           when Hash
-            value = Translation.new(@locale, path, locale, value)
+            value = Translation.new(@locale, path,
+              :locale => locale, :translations => value, :filters => @filters)
           when String
             c = { :locale => locale, :path => path }
-            v = Filters.process_string(Filters.passive_enabled, value, c, [])
+            v = @filters.process_string(:passive, value, c, [])
             value = TranslatedString.new(v, locale, path)
           when Typed
             value.locale = locale
             value.path = path
-            unless Filters.passive_enabled[value.type].empty?
-              value = Filters.process(Filters.passive_enabled, value.type,
-                                      value.value, value.locale, value.path, {})
+            unless @filters.passive(value.type).empty?
+              value = @filters.process(:passive, value.type, value.value,
+                                       value.locale, value.path, {})
             end
           end
           @data[name] = value
@@ -111,7 +112,7 @@ module R18n
 
     # Use untranslated filter to print path.
     def to_s
-      Filters.process(Filters.enabled, Untranslated, @path, @locale, @path,
+      @filters.process(:all, Untranslated, @path, @locale, @path,
                       [@path, '', @path])
     end
 
@@ -133,13 +134,13 @@ module R18n
       value = @data[name.to_s]
       case value
       when TranslatedString
-        Filters.process_string(Filters.active_enabled, value, @path, params)
+        @filters.process_string(:active, value, @path, params)
       when Typed
-        Filters.process(Filters.active_enabled, value.type, value.value,
-                        value.locale, value.path, params)
+        @filters.process(:active, value.type, value.value, value.locale,
+                         value.path, params)
       when nil
         translated = @path.empty? ? '' : "#{@path}."
-        Untranslated.new(translated, name.to_s, @locale)
+        Untranslated.new(translated, name.to_s, @locale, @filters)
       else
         value
       end
