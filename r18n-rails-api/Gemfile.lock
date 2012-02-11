@@ -1,14 +1,14 @@
 PATH
+  remote: ../r18n-core/
+  specs:
+    r18n-core (0.4.14)
+
+PATH
   remote: .
   specs:
     r18n-rails-api (0.4.14)
       i18n
       r18n-core (= 0.4.14)
-
-PATH
-  remote: ../r18n-core/
-  specs:
-    r18n-core (0.4.14)
 
 GEM
   remote: http://rubygems.org/
@@ -21,7 +21,7 @@ GEM
     rspec-expectations (2.8.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.8.0)
-    yard (0.7.4)
+    yard (0.7.5)
 
 PLATFORMS
   ruby

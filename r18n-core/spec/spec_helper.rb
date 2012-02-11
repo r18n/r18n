@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'rubygems'
 require 'pp'
 
 dir = Pathname(__FILE__).dirname

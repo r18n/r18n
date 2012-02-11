@@ -1,10 +1,7 @@
 # encoding: utf-8
-
-ENV['RACK_ENV'] = 'test'
-
-require 'bundler/setup'
 require 'pp'
 
+ENV['RACK_ENV'] = 'test'
 require File.join(File.dirname(__FILE__), 'app/app')
 
 require 'rack/test'

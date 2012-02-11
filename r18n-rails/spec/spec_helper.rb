@@ -1,9 +1,8 @@
-require 'rubygems'
+require 'pp'
 
 ENV['RAILS_ENV'] ||= 'test'
-require 'pp'
-require File.expand_path(File.join(File.dirname(__FILE__), 'app/config/environment'))
+dir = File.dirname(__FILE__)
+require File.expand_path(File.join(dir, 'app/config/environment'))
+require File.expand_path(File.join(dir, '../lib/r18n-rails'))
 
-require 'rspec'
 require 'rspec/rails'
-
