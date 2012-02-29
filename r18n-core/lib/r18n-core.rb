@@ -41,7 +41,8 @@ module R18n
 
   class << self
 
-    # Set I18n object globally.
+    # Set I18n object globally. You can miss translation +places+, it will be
+    # taken from <tt>R18n.default_places</tt>.
     def set(i18n = nil, places = R18n.default_places, &block)
       if block_given?
         @setter = block
@@ -90,7 +91,8 @@ module R18n
       get.l(*params)
     end
 
-    # Return Array of locales with available translations.
+    # Return Array of locales with available translations. You can miss
+    # translation +places+, it will be taken from <tt>R18n.default_places</tt>.
     def available_locales(places = R18n.default_places)
       R18n::I18n.convert_places(places).map { |i| i.available }.flatten.uniq
     end
