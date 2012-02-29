@@ -166,22 +166,54 @@ i18n.english #=> "English", not in any user locales, use default
 R18n has an agnostic core package and plugins with out-of-box support for
 Sinatra, Merb and desktop applications.
 
+## Quick Demo
+
+`i18n/en.yml`:
+
+```yaml
+user:
+  edit: Edit user
+  name: User name is %1
+  count: !!pl
+    1: There is 1 user
+    n: There are %1 users
+```
+
+`example.rb`:
+
+```ruby
+# Setup R18n
+R18n.default_places = './i18n/'
+R18n.set('en')
+include R18n::Helpers
+
+# Use R18n
+t.user.edit         #=> "Edit user"
+t.user.name('John') #=> "User name is John"
+t.user.count(5)     #=> "There are 5 users"
+
+t.not.exists | 'default' #=> "default"
+t.not.exists.translated? #=> false
+
+l Time.now         #=> "03/01/2010 18:54"
+l Time.now, :human #=> "now"
+l Time.now, :full  #=> "3rd of January, 2010 18:54"
+```
+
 ## Usage
 
 To add i18n support to your app, you can use the particular plugin for your
 environment: `r18n-rails`, `sinatra-r18n` or `r18n-desktop`.
 
 If you develop you own plugin or want to use only core gem, you will need to
-set default translation places and set current locales by `R18n.set`:
+set default translation places and current locale:
 
 ```ruby
 R18n.default_places = 'path/to/translations'
 R18n.set('en')
 ```
 
-To set locale only for current thread use `R18n.thread_set`.
-
-You can add helpers to access the current R18n object:
+You can add helpers to fast access the R18n or use `R18n.get`:
 
 ```ruby
 include R18n::Helpers
@@ -190,6 +222,8 @@ t.yes              #=> "Yes"
 l Time.now, :human #=> "now"
 r18n.locale.code   #=> "en"
 ```
+
+To set locale only for current thread use `R18n.thread_set`.
 
 ### Translation
 

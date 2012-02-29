@@ -17,7 +17,7 @@ For special How To see the plugins directory for your environment.
 * Time and number localization.
 * Several user languages support.
 
-## Small Example
+## Quick Demo
 
 `i18n/en.yml`:
 
@@ -33,6 +33,12 @@ user:
 `example.rb`:
 
 ```ruby
+# Setup R18n (or just use out-of-box `r18n-rails` or `sinatra-r18n` gem)
+R18n.default_places = './i18n/'
+R18n.set('en')
+include R18n::Helpers
+
+# Use R18n
 t.user.edit         #=> "Edit user"
 t.user.name('John') #=> "User name is John"
 t.user.count(5)     #=> "There are 5 users"
