@@ -8,6 +8,5 @@ doc/
 pkg/
 coverage/
 log/
-*.sqlite3
 
 .bundle
