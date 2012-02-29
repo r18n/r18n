@@ -41,7 +41,7 @@ module Sinatra
             locales.insert(0, session[:locale])
           end
 
-          ::R18n::I18n.new(locales, settings.translations,
+          ::R18n::I18n.new(locales, ::R18n.default_places,
             :off_filters => :untranslated, :on_filters => :untranslated_html)
         end
       end

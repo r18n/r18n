@@ -38,9 +38,7 @@ module R18n
             locales.insert(0, session[:locale])
           end
 
-          places = [::Rails.root.join('app/i18n'), R18n::Loader::Rails.new]
-
-          R18n::I18n.new(locales, places,
+          R18n::I18n.new(locales, R18n.default_places,
             :off_filters => :untranslated, :on_filters => :untranslated_html)
         end
 
