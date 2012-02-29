@@ -93,7 +93,7 @@ t.user.count(5) #=> "5 пользователей"
 ### Loaders
 
 R18n can load translations from anywhere, not just from YAML files. You just
-need to create loader object with 2 methods: +available+ and +load+:
+need to create loader object with 2 methods: `available` and `load`:
 
 ```ruby
 class DBLoader
@@ -251,7 +251,7 @@ it in sublocales or in another locale, which the user also can accept:
 t.not.in.english #=> "В английском нет"
 ```
 
-The translated string has a +locale+ method for determining its locale (Locale
+The translated string has a `locale` method for determining its locale (Locale
 instance or code string if locale is’t supported in R18n):
 
 ```ruby
@@ -517,7 +517,7 @@ You can then get the following from the locale:
     locale.ltr? #=> true
     ```
 
-* Week start day (+:monday+ or +:sunday+):
+* Week start day (`:monday` or `:sunday`):
 
     ```ruby
     locale.week_start #=> :sunday
@@ -556,7 +556,7 @@ If you want to load a translation with some type for filter, use
 # Loader will return something like:
 { 'users' => R18n::Typed.new('pl', { 1 => '1 user', 'n' => '%1 users' }) }
 
-# To use pluralization filter (+pl+ type):
+# To use pluralization filter ("pl" type):
 t.users(5) #=> "5 users"
 ```
 
@@ -581,7 +581,7 @@ simple:
   values.
   * If your country has alternate languages (for example, in exUSSR countries
     most people also know Russian), add
-    <tt>sublocales %{<i>another_locale</i> en}</tt>.
+    <tt>sublocales %w{<i>another_locale</i> en}</tt>.
 * Create in `base/` file <tt><i>code</i>.yml</tt>  for your language and
   translate the base messages. Just copy file from language, which you know,
   and rewrite values.
