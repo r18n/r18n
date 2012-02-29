@@ -14,13 +14,13 @@ Gem::Specification.new do |s|
     Rails, Sinatra, Merb and desktop applications.
   EOF
 
-  s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.extra_rdoc_files = ['README.rdoc', 'LICENSE', 'ChangeLog']
-  s.require_path = 'lib'
+  s.files            = `git ls-files`.split("\n")
+  s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.extra_rdoc_files = ['README.md', 'LICENSE', 'ChangeLog']
+  s.require_path     = 'lib'
 
-  s.author = 'Andrey "A.I." Sitnik'
-  s.email = 'andrey@sitnik.ru'
+  s.author   = 'Andrey "A.I." Sitnik'
+  s.email    = 'andrey@sitnik.ru'
   s.homepage = 'http://r18n.rubyforge.org/'
   s.rubyforge_project = 'r18n-core'
 
@@ -32,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-mocks",        [">= 0"]
   s.add_development_dependency "maruku",             [">= 0"]
   s.add_development_dependency "RedCloth",           [">= 0"]
+  s.add_development_dependency "redcarpet",          [">= 0"]
 end

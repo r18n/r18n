@@ -21,9 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require 'sinatra/base'
 require 'r18n-core'
 
-module Sinatra #::nodoc::
-  module R18n #::nodoc::
-    def self.registered(app) #::nodoc::
+module Sinatra
+  module R18n
+    def self.registered(app)
       app.helpers ::R18n::Helpers
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }

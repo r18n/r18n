@@ -17,11 +17,11 @@ Gem::Specification.new do |s|
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.extra_rdoc_files = ['README.rdoc', 'LICENSE']
-  s.require_path = 'lib'
+  s.extra_rdoc_files = ['README.md', 'LICENSE']
+  s.require_path     = 'lib'
 
-  s.author = 'Andrey "A.I." Sitnik'
-  s.email = 'andrey@sitnik.ru'
+  s.author   = 'Andrey "A.I." Sitnik'
+  s.email    = 'andrey@sitnik.ru'
   s.homepage = 'http://r18n.rubyforge.org/'
   s.rubyforge_project = 'r18n-desktop'
 
@@ -33,4 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-core",         [">= 0"]
   s.add_development_dependency "rspec-expectations", [">= 0"]
   s.add_development_dependency "rspec-mocks",        [">= 0"]
+  s.add_development_dependency "redcarpet",          [">= 0"]
 end
