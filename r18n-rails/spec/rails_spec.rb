@@ -97,4 +97,11 @@ describe TestController, :type => :controller do
     @post.title.should == 'Запись'
   end
 
+  it "should set default places" do
+    R18n.default_places.should == [Rails.root.join('app/i18n'),
+                                   R18n::Loader::Rails.new]
+    R18n.set('en')
+    R18n.get.user.name.should == 'Name'
+  end
+
 end

@@ -64,7 +64,7 @@ describe Sinatra::R18n do
     R18n.default_places.should ==
       Pathname(__FILE__).dirname.expand_path.join('app/i18n/').to_s
     R18n.set('en')
-    R18n.get.t.post.title(1).should == 'Post 1'
+    R18n.get.post.title(1).should == 'Post 1'
   end
 
 end

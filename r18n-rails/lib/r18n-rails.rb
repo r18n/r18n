@@ -26,6 +26,8 @@ require dir + 'helpers'
 require dir + 'controller'
 require dir + 'translated'
 
+R18n.default_places { [Rails.root.join('app/i18n'), R18n::Loader::Rails.new] }
+
 ActionController::Base.helper(R18n::Rails::Helpers)
 ActionController::Base.send(:include, R18n::Rails::Controller)
 ActionController::Base.send(:before_filter, :set_r18n)
