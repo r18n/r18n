@@ -57,17 +57,19 @@ module R18n
     # Set I18n object to current thread.
     def thread_set(i18n = nil, &block)
       if block_given?
-        Thread.current[:r18n_setter] = block
-        Thread.current[:r18n_i18n] = nil
+        thread[:r18n_setter] = block
+        thread[:r18n_i18n]   = nil
       else
-        Thread.current[:r18n_i18n] = i18n
+        thread[:r18n_i18n] = i18n
       end
     end
 
     # Get I18n object for current thread.
     def get
-      (thread[:r18n_i18n] ||= ((block = thread[:r18n_setter]) && block.call)) ||
-      (@i18n ||= (@setter && @setter.call))
+      thread[:r18n_i18n] ||
+      (thread[:r18n_setter] && thread_set(thread[:r18n_setter].call)) ||
+      @i18n ||
+      (@setter && set(@setter.call))
     end
 
     # Delete I18n object from current thread and global variable.

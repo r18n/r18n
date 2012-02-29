@@ -36,31 +36,28 @@ describe R18n do
     R18n.get.translation_places.should == [R18n::Loader::YAML.new(DIR)]
   end
 
-  it "should store I18n via thread_set" do
-    i18n = R18n::I18n.new('en')
-    R18n.thread_set(i18n)
-    R18n.get.should == i18n
-
-    R18n.reset
-    R18n.get.should be_nil
+  it "should allow to return I18n arguments in setter block" do
+    R18n.set { 'en' }
+    R18n.get.locales.should == [R18n::Locale.load('en')]
   end
 
   it "should reset I18n objects and cache" do
     R18n.cache[:a] = 1
-    R18n.thread_set(R18n::I18n.new('en'))
+    R18n.set('en')
+    R18n.thread_set('en')
 
     R18n.reset
     R18n.get.should be_nil
     R18n.cache.should be_empty
   end
 
-  it "should thread_set setter to I18n" do
+  it "should store I18n via thread_set" do
     i18n = R18n::I18n.new('en')
     R18n.thread_set(i18n)
+    R18n.get.should == i18n
 
     i18n = R18n::I18n.new('ru')
     R18n.thread_set { i18n }
-
     R18n.get.should == i18n
   end
 
