@@ -113,13 +113,19 @@ describe R18n do
     l(Time.at(0).utc).should == '01/01/1970 00:00'
   end
 
+  it "should return available translations" do
+    R18n.available_locales(DIR).should =~ [R18n::Locale.load('no-lc'),
+                                           R18n::Locale.load('ru'),
+                                           R18n::Locale.load('en')]
+  end
+
   it "should use default places" do
     R18n.default_places = DIR
     R18n.set('en')
     t.one.should == 'One'
-    R18n::I18n.available_locales.should =~ [R18n::Locale.load('ru'),
-                                            R18n::Locale.load('en'),
-                                            R18n::Locale.load('no-lc')]
+    R18n.available_locales.should =~ [R18n::Locale.load('ru'),
+                                      R18n::Locale.load('en'),
+                                      R18n::Locale.load('no-lc')]
   end
 
   it "should set default places by block" do

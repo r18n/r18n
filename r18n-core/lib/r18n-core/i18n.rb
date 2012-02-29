@@ -114,11 +114,6 @@ module R18n
       locales.map! { |i| i[0] }
     end
 
-    # Return Array of locales with available translations.
-    def self.available_locales(places = R18n.default_places)
-      convert_places(places).map { |i| i.available }.flatten.uniq
-    end
-
     # Load default loader for elements in +places+ with only constructor
     # argument.
     def self.convert_places(places)
@@ -254,7 +249,7 @@ module R18n
 
     # Return Array of locales with available translations.
     def available_locales
-      @available ||= self.class.available_locales(@translation_places)
+      @available ||= R18n.available_locales(@translation_places)
     end
 
     # Convert +object+ to String, according to the rules of the current locale.

@@ -90,8 +90,12 @@ module R18n
       get.l(*params)
     end
 
-    # Default places for <tt>R18n.set</tt> and
-    # <tt>R18n::I18n.available_locales</tt>.
+    # Return Array of locales with available translations.
+    def available_locales(places = R18n.default_places)
+      R18n::I18n.convert_places(places).map { |i| i.available }.flatten.uniq
+    end
+
+    # Default places for <tt>R18n.set</tt> and <tt>R18n.available_locales</tt>.
     #
     # You can set block to calculate places dynamically:
     #   R18n.default_places { settings.i18n_places }
