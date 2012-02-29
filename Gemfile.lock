@@ -10,6 +10,12 @@ PATH
       i18n
       r18n-core (= 0.4.14)
 
+PATH
+  remote: r18n-rails/
+  specs:
+    r18n-rails (0.4.14)
+      r18n-rails-api (= 0.4.14)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -125,6 +131,7 @@ DEPENDENCIES
   i18n
   maruku
   r18n-core!
+  r18n-rails!
   r18n-rails-api!
   rails
   rake

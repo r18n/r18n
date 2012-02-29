@@ -27,11 +27,23 @@ def each_rake(task)
 end
 
 require 'rspec/core/rake_task'
-GEMS.each do |gem|
-  RSpec::Core::RakeTask.new("spec_#{gem}") do |task|
-    task.pattern = "./#{gem}/spec{,/*/**}/*_spec.rb"
+
+class SubgemSpecTask < RSpec::Core::RakeTask
+  attr_accessor :gem
+
+  def initialize(gem)
+    @gem = gem
+    super("spec_#{@gem}")
+  end
+
+  def desc(text); end # Monkey  patch to hide task desc
+
+  def pattern
+    "#{@gem}/spec{,/*/**}/*_spec.rb"
   end
 end
+
+GEMS.each { |gem| SubgemSpecTask.new(gem) }
 
 desc 'Run all specs'
 task :spec => (GEMS.map { |i| "spec_#{i}" })
@@ -41,13 +53,14 @@ task :release => [:clobber, :gemfile, :build] do
   each_gem { sh 'gem push `ls pkg/*`' }
 end
 
-task :build do
-  each_rake 'build'
-end
-
+desc 'Remove all generated files'
 task :clobber do
   rm_r 'log' if File.exists? 'log'
   each_rake 'clobber'
+end
+
+task :build do
+  each_rake 'build'
 end
 
 task :gemfile do
