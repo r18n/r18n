@@ -28,6 +28,8 @@ module Sinatra #::nodoc::
       app.set :default_locale, 'en'
       app.set :translations, Proc.new { File.join(app.root, 'i18n/') }
 
+      ::R18n.default_places { settings.translations }
+
       app.before do
         ::R18n.set do
           ::R18n::I18n.default = settings.default_locale

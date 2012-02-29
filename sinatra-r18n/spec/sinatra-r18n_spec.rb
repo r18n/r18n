@@ -60,4 +60,11 @@ describe Sinatra::R18n do
     last_response.body.should == "01/01/1970 00:00"
   end
 
+  it "should set default places" do
+    R18n.default_places.should ==
+      Pathname(__FILE__).dirname.expand_path.join('app/i18n/').to_s
+    R18n.set('en')
+    R18n.get.t.post.title(1).should == 'Post 1'
+  end
+
 end
