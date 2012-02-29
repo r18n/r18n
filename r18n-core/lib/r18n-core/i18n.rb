@@ -115,7 +115,7 @@ module R18n
     end
 
     # Return Array of locales with available translations.
-    def self.available_locales(places)
+    def self.available_locales(places = R18n.default_places)
       convert_places(places).map { |i| i.available }.flatten.uniq
     end
 
@@ -147,7 +147,7 @@ module R18n
     #
     # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
     # +Translation_places+ must be a string with path or array.
-    def initialize(locales, translation_places = nil, options = {})
+    def initialize(locales, translation_places = nil, opts = {})
       locales = Array(locales)
 
       if not locales.empty? and Locale.exists? locales.first
@@ -172,9 +172,8 @@ module R18n
 
       @translation_places = self.class.convert_places(@original_places)
 
-      if options[:on_filters] or options[:off_filters]
-        @filters = CustomFilterList.new(options[:on_filters],
-                                        options[:off_filters])
+      if opts[:on_filters] or opts[:off_filters]
+        @filters = CustomFilterList.new(opts[:on_filters], opts[:off_filters])
       else
         @filters = GlobalFilterList.instance
       end

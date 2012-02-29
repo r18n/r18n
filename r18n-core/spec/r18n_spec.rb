@@ -6,6 +6,7 @@ describe R18n do
 
   after do
     R18n.default_loader = R18n::Loader::YAML
+    R18n.default_places = nil
     R18n.reset
   end
 
@@ -89,16 +90,11 @@ describe R18n do
   end
 
   it "should merge hash recursively" do
-    a = { :a => 1,
-          :b => {:ba => 1, :bb => 1},
-          :c => 1 }
-    b = { :b => {:bb => 2, :bc => 2},
-          :c => 2 }
+    a = { :a => 1, :b => {:ba => 1, :bb => 1}, :c => 1 }
+    b = {          :b => {:bb => 2, :bc => 2}, :c => 2 }
 
     R18n::Utils.deep_merge!(a, b)
-    a.should == { :a => 1,
-                  :b => { :ba => 1, :bb => 2, :bc => 2 },
-                  :c => 2 }
+    a.should == { :a => 1, :b => { :ba => 1, :bb => 2, :bc => 2 }, :c => 2 }
   end
 
   it "should have l and t methods" do
@@ -108,13 +104,33 @@ describe R18n do
   end
 
   it "should have helpers mixin" do
-    obj = R18n::I18n.new 'en'
+    obj = R18n::I18n.new('en')
     R18n.set(obj)
 
-    r18n.should == obj
-    i18n.should == obj
+    r18n.should  == obj
+    i18n.should  == obj
     t.yes.should == 'Yes'
     l(Time.at(0).utc).should == '01/01/1970 00:00'
+  end
+
+  it "should use default places" do
+    R18n.default_places = DIR
+    R18n.set('en')
+    t.one.should == 'One'
+    R18n::I18n.available_locales.should =~ [R18n::Locale.load('ru'),
+                                            R18n::Locale.load('en'),
+                                            R18n::Locale.load('no-lc')]
+  end
+
+  it "should set default places by block" do
+    R18n.default_places { DIR }
+    R18n.default_places.should == DIR
+  end
+
+  it "should allow to ignore default places" do
+    R18n.default_places = DIR
+    i18n = R18n::I18n.new('en', nil)
+    i18n.one.should_not be_translated
   end
 
 end

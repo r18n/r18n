@@ -42,14 +42,14 @@ module R18n
   class << self
 
     # Set I18n object globally.
-    def set(i18n = nil, dir = nil, &block)
+    def set(i18n = nil, places = R18n.default_places, &block)
       if block_given?
         @setter = block
-        @i18n = nil
+        @i18n   = nil
       elsif i18n.is_a? I18n
         @i18n = i18n
       else
-        @i18n = I18n.new(i18n, dir)
+        @i18n = I18n.new(i18n, places)
       end
     end
 
@@ -90,6 +90,23 @@ module R18n
       get.l(*params)
     end
 
+    # Default places for <tt>R18n.set</tt> and
+    # <tt>R18n::I18n.available_locales</tt>.
+    #
+    # You can set block to calculate places dynamically:
+    #   R18n.default_places { settings.i18n_places }
+    attr_accessor :default_places
+
+    def default_places(&block)
+      if block_given?
+        @default_places = block
+      elsif @default_places.is_a? Proc
+        @default_places.call
+      else
+        @default_places
+      end
+    end
+
     # Default loader class, which will be used if you didn’t send loader to
     # +I18n.new+ (object with +available+ and +load+ methods).
     attr_accessor :default_loader
@@ -102,8 +119,9 @@ module R18n
     attr_accessor :cache
   end
 
-  self.default_loader = R18n::Loader::YAML
-  self.extension_places = [
-      Loader::YAML.new(Pathname(__FILE__).dirname.expand_path + '../base')]
-  self.cache = {}
+  dir = Pathname(__FILE__).dirname.expand_path
+  self.default_loader   = R18n::Loader::YAML
+  self.default_places   = nil
+  self.extension_places = [Loader::YAML.new(dir + '../base')]
+  self.cache            = {}
 end
