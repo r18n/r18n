@@ -49,7 +49,7 @@ desc 'Run all specs'
 task :spec => (GEMS.map { |i| "spec_#{i}" })
 
 desc 'Release to rubygems'
-task :release => [:clobber, :gemfile, :build] do
+task :release => [:clobber, :build] do
   each_gem { sh 'gem push `ls pkg/*`' }
 end
 
@@ -61,8 +61,4 @@ end
 
 task :build do
   each_rake 'build'
-end
-
-task :gemfile do
-  each_gem { sh 'bundle install' }
 end

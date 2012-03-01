@@ -1,7 +1,0 @@
-source :rubygems
-
-gem 'psych', :group => :development, :platforms => :mri_19
-
-gem 'r18n-core', :path => '../r18n-core/'
-
-gemspec
