@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
     user language support, agnostic core package with out-of-box support for
-    Rails, Sinatra, Merb and desktop applications.
+    Rails, Sinatra and desktop applications.
   EOF
 
   s.files            = `git ls-files`.split("\n")

@@ -9,11 +9,12 @@ information.
 
 * Nice Ruby-style syntax.
 * Filters.
+* Model Translation (or any Ruby object).
+* Autodetect user locales.
 * Flexible locales.
-* Custom translations loaders.
-* Translation support for any classes.
-* Time and number localization.
-* Several user languages support.
+* Total flexibility.
+
+See full features in [main README](https://github.com/ai/r18n/blob/master/README.md).
 
 ## How To
 
