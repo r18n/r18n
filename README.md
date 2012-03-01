@@ -7,16 +7,6 @@ environments (Rails, Sinatra, Merb, desktop).
 For more feature descriptions and a tutorial see the `r18n-core/` directory.
 For special How To see the plugins directory for your environment.
 
-## R18n Features
-
-* Nice Ruby-style syntax.
-* Filters.
-* Flexible locales.
-* Custom translation loaders.
-* Translation support for any class.
-* Time and number localization.
-* Several user languages support.
-
 ## Quick Demo
 
 `i18n/en.yml`:
@@ -36,6 +26,7 @@ user:
 # Setup R18n (or just use out-of-box `r18n-rails` or `sinatra-r18n` gem)
 R18n.default_places = './i18n/'
 R18n.set('en')
+
 include R18n::Helpers
 
 # Use R18n
@@ -50,3 +41,15 @@ l Time.now         #=> "03/01/2010 18:54"
 l Time.now, :human #=> "now"
 l Time.now, :full  #=> "3rd of January, 2010 18:54"
 ```
+
+## R18n Features
+
+* Nice Ruby-style syntax.
+* Filters.
+* Model Translation (or any Ruby object).
+* Flexible locales.
+* Custom translation loaders.
+* Time and number localization.
+* Several user languages support.
+
+See `r18n-rails/README.md` to benefits from `Rails I18n`.

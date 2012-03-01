@@ -185,6 +185,7 @@ user:
 # Setup R18n
 R18n.default_places = './i18n/'
 R18n.set('en')
+
 include R18n::Helpers
 
 # Use R18n
@@ -213,13 +214,15 @@ R18n.default_places = 'path/to/translations'
 R18n.set('en')
 ```
 
-You can add helpers to fast access the R18n or use `R18n.get`:
+You can use `R18n.t` to get translations and `R18n.l` to localize times and
+numbers. But more useful is to add helpers to fast access the R18n:
 
 ```ruby
 include R18n::Helpers
 
 t.yes              #=> "Yes"
 l Time.now, :human #=> "now"
+
 r18n.locale.code   #=> "en"
 ```
 
