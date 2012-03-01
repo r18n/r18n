@@ -1,12 +1,13 @@
 source :rubygems
 
 group :test do
-  gem 'sqlite3'
+  gem 'sqlite3',      :platform => [:ruby, :mswin, :mingw]
+  gem 'jdbc-sqlite3', :platform => :jruby
 end
 
-gem 'psych', :platforms => :mri_19, :group => [ :test, :development ]
+gem 'psych', :platforms => :mri_19, :group => [:test, :development]
 
-gem 'r18n-core', :path => '../r18n-core/'
+gem 'r18n-core',      :path => '../r18n-core/'
 gem 'r18n-rails-api', :path => '../r18n-rails-api/'
 
 gemspec

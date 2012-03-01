@@ -127,6 +127,7 @@ PLATFORMS
 DEPENDENCIES
   RedCloth
   i18n
+  jdbc-sqlite3
   maruku
   r18n-core!
   r18n-rails!

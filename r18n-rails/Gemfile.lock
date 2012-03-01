@@ -119,6 +119,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (>= 1.0.10)
+  jdbc-sqlite3
   psych
   r18n-core!
   r18n-rails!
