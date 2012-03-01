@@ -233,7 +233,7 @@ describe R18n::Filters do
   end
 
   it "should have Markdown filter" do
-    @i18n.markdown.simple.should == '<p><strong>Hi!</strong></p>'
+    @i18n.markdown.simple.should == "<p><strong>Hi!</strong></p>\n"
   end
 
   it "should have Textile filter" do
@@ -241,12 +241,12 @@ describe R18n::Filters do
   end
 
   it "should HTML escape before Markdown and Textile filters" do
-    @i18n.markdown.html.should == '<p><strong>Hi!</strong> <br /></p>'
+    @i18n.markdown.html.should == "<p><strong>Hi!</strong> <br /></p>\n"
     @i18n.textile.html.should  == '<p><em>Hi!</em><br /></p>'
 
     R18n::Filters.on(:global_escape_html)
     @i18n.reload!
-    @i18n.markdown.html.should == '<p><strong>Hi!</strong> &#60;br /&#62;</p>'
+    @i18n.markdown.html.should == "<p><strong>Hi!</strong> &lt;br /&gt;</p>\n"
     @i18n.textile.html.should  == '<p><em>Hi!</em>&lt;br /&gt;</p>'
   end
 

@@ -253,9 +253,9 @@ module R18n
   end
   Filters.off(:global_escape_html)
 
-  Filters.add('markdown', :maruku, :passive => true) do |content, config|
-    require 'maruku'
-    ::Maruku.new(content).to_html
+  Filters.add('markdown', :kramdown, :passive => true) do |content, config|
+    require 'kramdown'
+    ::Kramdown::Document.new(content).to_html
   end
 
   Filters.add('textile', :redcloth, :passive => true) do |content, config|

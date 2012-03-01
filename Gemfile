@@ -3,7 +3,7 @@ source :rubygems
 gem 'rspec'
 gem 'rake'
 
-gem 'maruku'
+gem 'kramdown'
 gem 'RedCloth'
 gem 'sinatra'
 gem 'i18n'

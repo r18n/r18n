@@ -240,7 +240,7 @@ t.warning #=> "<b>Warning</b>"
 
 #### Markdown
 
-To use Markdown in your translations you must install the Maruku gem:
+To use Markdown in your translations you must install the Kramdown gem:
 
 ```yaml
 hi: !!markdown

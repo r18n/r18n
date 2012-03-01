@@ -15,7 +15,7 @@ RSpec.configure do |config|
   config.before { R18n.cache.clear }
 end
 
-gem 'maruku'
+gem 'kramdown'
 gem 'RedCloth'
 
 class CounterLoader
