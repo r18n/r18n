@@ -22,7 +22,8 @@ YARD::Rake::YardocTask.new do |yard|
 end
 
 task :clobber_doc do
-  rm_r 'doc' rescue nil
+  rm_r 'doc'     rescue nil
+  rm_r '.yardoc' rescue nil
 end
 task :clobber_package do
   rm_r 'pkg' rescue nil
