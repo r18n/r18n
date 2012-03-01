@@ -59,9 +59,9 @@ module R18n
   # Proxy-method support all funtion from I18n: global and type filters,
   # pluralization, variables. It also return TranslatedString or Untranslated.
   #
-  # Note, you must set your I18n object by <tt>R18n.set</tt>.
-  # R18n plugins (sinatra-r18n, r18-desktop) set I18n object by
-  # <tt>R18n.set</tt> automatically.
+  # By default it use <tt>R18n.get</tt> to get I18n object (so, you must set it
+  # before use model), but you can overwrite object +r18n+ method to change
+  # default logic.
   #
   # See R18n::Translated::Base for class method documentation.
   #
@@ -84,6 +84,12 @@ module R18n
         base.instance_variable_set '@unlocalized_setters', {}
         base.instance_variable_set '@translation_types', {}
       end
+    end
+
+    # Access to I18n object. By default return global I18n object from
+    # <tt>R18n.get</tt>.
+    def r18n
+      R18n.get
     end
 
     # Module with class methods, which be added after R18n::Translated include.
@@ -121,7 +127,7 @@ module R18n
         class_eval <<-EOS, __FILE__, __LINE__
           def #{name}(*params)
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
-            R18n.get.locales.each do |locale|
+            r18n.locales.each do |locale|
               code = locale.code
               next unless unlocalized.has_key? code
               result = send unlocalized[code]#{params}
@@ -130,11 +136,11 @@ module R18n
               path = "\#{self.class.name}##{name}"
               type = self.class.translation_types[#{name.inspect}]
               if type
-                return R18n.get.filter_list.process(:all, type, result, locale,
+                return r18n.filter_list.process(:all, type, result, locale,
                                                     path, params)
               elsif result.is_a? String
                 result = TranslatedString.new(result, locale, path)
-                return R18n.get.filter_list.process_string(:all, result, path,
+                return r18n.filter_list.process_string(:all, result, path,
                                                            params)
               else
                 return result
@@ -142,7 +148,7 @@ module R18n
             end
 
             R18n::Untranslated.new("\#{self.class.name}\#", '#{name}',
-                                   R18n.get.locale, R18n.get.filter_list)
+                                   r18n.locale, r18n.filter_list)
           end
         EOS
 
@@ -150,7 +156,7 @@ module R18n
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(*params)
               unlocalized = self.class.unlocalized_setters(#{name.inspect})
-              R18n.get.locales.each do |locale|
+              r18n.locales.each do |locale|
                 code = locale.code
                 next unless unlocalized.has_key? code
                 return send unlocalized[code], *params

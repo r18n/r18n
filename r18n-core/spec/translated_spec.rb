@@ -132,4 +132,19 @@ describe R18n::Translated do
     user.name.should == :ivan
   end
 
+  it "should allow to change I18n object" do
+    @user_class.class_eval do
+      translation :name
+      attr_accessor :r18n
+    end
+    user = @user_class.new
+    user.name_ru = 'Иван'
+    user.name_en = 'John'
+
+    user.r18n = R18n::I18n.new('ru')
+    user.name.should == 'Иван'
+    user.r18n = R18n::I18n.new('en')
+    user.name.should == 'John'
+  end
+
 end
