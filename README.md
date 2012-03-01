@@ -1,11 +1,8 @@
 # R18n
 
 R18n is an i18n tool to translate your Ruby application into several languages.
-It contains a core gem and out-of-box wrapper plugins for frameworks or
+It contains a core gem and out-of-box wrapper plugins for frameworks or
 environments (Rails, Sinatra, Merb, desktop).
-
-For more feature descriptions and a tutorial see the `r18n-core/` directory.
-For special How To see the plugins directory for your environment.
 
 ## Quick Demo
 
@@ -53,9 +50,9 @@ l Time.now, :full  #=> "3rd of January, 2010 18:54"
 
 ### Ruby-style Syntax
 
-You can use more compact, explicit and ruby-style syntax.
+R18n use compact, explicit and ruby-style syntax.
 
-R18n for translations uses compact YAML with types:
+Translations store in YAML with types:
 
 ```yaml
 user:
@@ -84,13 +81,13 @@ hash index or use Rails I18n API in `r18n-rails`:
 t[:methods] #=> "Methods"
 ```
 
-If you use `r18n-rails` plugin, you will have full compatibility for Rails I18n
+If you use `r18n-rails` plugin, you will have full compatibility with Rails I18n
 syntax.
 
 ### Filters
 
 You can add filters for some YAML type. For example, we add custom filter to
-return different translation depend on user gender (it’s actual for some languages).
+return different translation depend on user gender (it’s actual for some languages).
 
 ```yaml
 log:
@@ -111,13 +108,13 @@ R18n already has filters for HTML escaping, Textile, Markdown and lambdas:
 
 ```yaml
 hi: !!markdown
-  **Hi**, people!
+  Hi, **people**!
 greater: !!escape
   1 < 2 is true
 ```
 
 ```ruby
-i18n.hi      #=> "<p><strong>Hi</strong>, people!</p>"
+i18n.hi      #=> "<p>Hi, <strong>people!</strong></p>"
 i18n.greater #=> "1 &lt; 2 is true"
 ```
 
@@ -126,41 +123,44 @@ translation can’t be founded.
 
 ### Model Translation
 
-You can translate any class, including ORM models (ActiveRecord, DataMapper,
-MongoMapper, Mongoid or others):
+You can translate any class, including ORM models (ActiveRecord, Mongoid,
+MongoMapper, DataMapper or others):
 
-```
+```ruby
 class Product < ActiveRecord::Base
   include R18n::Translated
   # Model has two normal properties: title_en and title_ru
   translations :title
 end
 
-# For English users
+R18n.set('en') # English
 product.title #=> "Anthrax"
 
-# For Russian users
+R18n.set('ru') # Russian
 product.title #=> "Сибирская язва"
+```
 
 ### Autodetect User Locales
+
 R18n has an agnostic core package and plugins with standard support for
-Sinatra and desktop applications. So you common cases you can use out-of-box
+Sinatra and desktop applications. So for common cases you can use out-of-box
 gems with user locale autodetect. For special cases you can use core gem and
 hack everything, that you want (see “Total flexibility” section).
 
 R18n automatically generate fallbacks for current user, based on
-user locales list from `HTTP_ACCEPT_LANGUAGE`, locale info (in some countries
+user locales list from `HTTP_ACCEPT_LANGUAGE`, locale info (in some countries
 people know several languages), and default locale. For example, if user know
-Kazakh and German, R18n will try find translations in: Kazakh → German →
+Kazakh and German, R18n will try find translations in: Kazakh → German →
 Russian (second language in Kazakhstan) → English (default locale).
 
-### Flexible locales
+### Flexible Locales
 
 R18n store separated business translations and locale information. So all 
 locales (pluralization rules, time and number localization,
-some base translations) ship with core gem and can be used out-of-box:
+some base translations) ship with core gem and can be used out-of-box:
 
-For example, Russian has built-in pluralization without any lambdas in YAML:
+For example, Russian has built-in different pluralization without any lambdas
+in YAML:
 
 ```
 t.user.count(1) #=> "1 пользователь"
@@ -168,7 +168,7 @@ t.user.count(2) #=> "2 пользователя"
 t.user.count(5) #=> "5 пользователей"
 ```
 
-Locales are simple Ruby classes, so they can be very flexible. For example,
+Locales are simple Ruby classes, so they are very flexible. For example,
 R18n ship with very perfection `full` time formatter:
 
 ```ruby
@@ -181,20 +181,20 @@ l Time.now, :full         #=> "1er décembre 2011 12:00"
 l Time.now + 1.day, :full #=> "2 décembre 2011 12:00"
 ```
 
-Years in Thailand are now counted in the Buddhist Era. It’s very easy for R18n:
+Years in Thailand are counted in the Buddhist Era. It’s very easy for R18n:
 
 ```ruby
 R18n.set('th')
 R18n.l Time.now, :full #=> "1 พฤศจิกายน, 2554 12:00"
 ```
 
-### Total flexibility
+### Total Flexibility
 
 R18n is very flexible and agnostic. For example, Rails I18n compatibility level
 is just few filters and custom loader.
 
 Translation variables and pluralization (“1 comment”, “5 comments”) are filters
-too, so you can disable, replace or cascade them. For example, you can use the
+too, so you can disable, replace or cascade them. For example, you can use the
 “named variables filter” from the `r18n-rails-api` gem:
 
 ```yaml
@@ -215,7 +215,7 @@ end
 ```
 
 R18n can load translations from anywhere, not just from YAML files. You just
-need to create loader object with 2 methods: `available` and `load`:
+need to create loader object with 2 methods: `available` and `load`:
 
 ```ruby
 class DBLoader
