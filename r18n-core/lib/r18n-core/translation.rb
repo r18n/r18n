@@ -117,7 +117,7 @@ module R18n
     end
 
     # Return current translation keys.
-    def _keys
+    def translation_keys
       @data.keys
     end
 

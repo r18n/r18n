@@ -333,7 +333,7 @@ t.not.exists | 'default' #=> "default"
 You can query the translation keys:
 
 ```ruby
-t.counties._keys.each do |county|
+t.counties.translation_keys.each do |county|
   puts t.counties[county]
 end
 ```

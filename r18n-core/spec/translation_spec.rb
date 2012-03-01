@@ -38,7 +38,7 @@ describe R18n::Translation do
 
   it "should return translation keys" do
     i18n = R18n::I18n.new('en', [DIR, TWO])
-    i18n.in._keys.should =~ ['another', 'two']
+    i18n.in.translation_keys.should =~ ['another', 'two']
   end
 
   it "should return string with locale info" do
