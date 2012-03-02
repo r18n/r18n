@@ -11,7 +11,7 @@ module R18n
 
         :month_names => %w{januar februar mars april mai juni juli august
                            september oktober november desember},
-        :month_abbrs => %w{jan feb mar apr mai jun jul aug okt nov des},
+        :month_abbrs => %w{jan feb mar apr mai jun jul aug sep okt nov des},
 
         :date_format => '%d.%m.%Y',
         :full_format => '%e. %B %Y',
