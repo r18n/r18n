@@ -32,4 +32,4 @@ ActionController::Base.helper(R18n::Rails::Helpers)
 ActionController::Base.send(:include, R18n::Rails::Controller)
 ActionController::Base.send(:before_filter, :set_r18n)
 
-ActionMailer::Base.helper(R18n::Rails::Helpers)
+ActionMailer::Base.helper(R18n::Rails::Helpers) if defined? ActionMailer
