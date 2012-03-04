@@ -15,5 +15,11 @@ module App
     config.action_view.javascript_expansions[:defaults] = []
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
+
+    def config.database_configuration
+      sqlite = { 'adapter' => 'sqlite3', 'database' => ':memory:' }
+      sqlite['adapter'] = 'jdbcsqlite3' if RUBY_PLATFORM == 'java'
+      { 'development' => sqlite, 'test' => sqlite, 'production' => sqlite }
+    end
   end
 end
