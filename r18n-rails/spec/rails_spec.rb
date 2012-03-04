@@ -104,4 +104,9 @@ describe TestController, :type => :controller do
     R18n.get.user.name.should == 'Name'
   end
 
+  it "should translate mails" do
+    email = TestMailer.test.deliver
+    email.encoded.should =~ /Name\r\nName\r\nName\r\n$/
+  end
+
 end
