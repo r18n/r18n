@@ -127,8 +127,8 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
+  activerecord-jdbcsqlite3-adapter
   i18n
-  jdbc-sqlite3
   kramdown
   r18n-core!
   r18n-rails!

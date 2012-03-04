@@ -10,8 +10,8 @@ gem 'i18n'
 gem 'rails'
 gem 'rspec-rails'
 
-gem 'sqlite3',      :platform => [:ruby, :mswin, :mingw]
-gem 'jdbc-sqlite3', :platform => :jruby
+gem 'sqlite3',                          :platform => [:ruby, :mswin, :mingw]
+gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
 
 gem 'r18n-core',      :path => 'r18n-core/'
 gem 'r18n-rails-api', :path => 'r18n-rails-api/'
