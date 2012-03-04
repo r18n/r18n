@@ -20,4 +20,5 @@ gem 'r18n-rails',     :path => 'r18n-rails/'
 group :development do
   gem 'yard'
   gem 'redcarpet'
+  gem 'rbench'
 end

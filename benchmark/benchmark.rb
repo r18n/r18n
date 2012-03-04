@@ -1,24 +1,22 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 require 'rubygems'
-gem 'rbench'
-require 'rbench'
+
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts "Bundler not available. Install it with: gem install bundler"
+end
 
 YAML::ENGINE.yamler = 'psych' if 'psych' == ARGV.first
 
 require 'pathname'
 dir = Pathname.new(__FILE__).dirname.expand_path
 
-begin
-  require dir + '../r18n-core/lib/r18n-core'
-rescue LoadError
-  puts "ERROR: Can't load edge R18n. Use from gem."
-  gem 'r18n-core'
-  require 'r18n-core'
-end
-
-gem 'i18n'
 require 'i18n'
+require 'rbench'
+require 'r18n-core'
 
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
 I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
