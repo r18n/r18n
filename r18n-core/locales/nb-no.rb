@@ -2,7 +2,6 @@
 module R18n
   class Locales::NbNo < Locale
     set :title => 'Norsk', #Bokmål
-        :code  => 'nb-NO',
         :sublocales => %w{no nn-NO},
 
         :week_start => :monday,

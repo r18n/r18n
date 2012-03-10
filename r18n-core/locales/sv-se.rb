@@ -2,7 +2,6 @@
 module R18n
   class Locales::SvSe < Locale
     set :title => 'Svenska',
-        :code  => 'sv-SE',
         :sublocales => %w{sv},
 
         :wday_names => %w{söndag måndag tisdag onsdag torsdag fredag

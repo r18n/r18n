@@ -76,12 +76,17 @@ describe R18n::Locale do
   end
 
   it "should translate month, week days and am/pm names in strftime" do
-    i18n = R18n::I18n.new 'ru'
+    i18n = R18n::I18n.new('ru')
     time = Time.at(0).utc
 
     @ru.localize(time, '%a %A').should == 'Чтв Четверг'
     @ru.localize(time, '%b %B').should == 'янв января'
     @ru.localize(time, '%H:%M%p').should == '00:00 утра'
+  end
+
+  it "should generate locale code by locale class name" do
+    R18n::Locale.load('ru').code.should == 'ru'
+    R18n::Locale.load('zh-CN').code.should == 'zh-CN'
   end
 
   it "should localize date for human" do

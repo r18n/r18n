@@ -42,6 +42,5 @@ module R18n
     def format_time_full(time, *params)
       format_date_full(time) + ', ' + format_time(time)
     end
-
   end
 end

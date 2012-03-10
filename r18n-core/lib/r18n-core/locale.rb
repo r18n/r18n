@@ -106,7 +106,9 @@ module R18n
 
     # Locale RFC 3066 code.
     def code
-      self.class.name.split('::').last.downcase
+      name = self.class.name.split('::').last
+      lang, culture = name.match(/([A-Z][a-z]+)([A-Z]\w+)?/).captures
+      lang.downcase + (culture ? '-' + culture.upcase : '')
     end
 
     set :sublocales => %w{en},
