@@ -17,7 +17,7 @@ module R18n
       :year_format => '_, %Y',
 
       :number_decimal => ".",
-      :number_group =>   ","
+      :number_group   => ","
 
     def strftime(time, format)
       year = (time.year + 543).to_s

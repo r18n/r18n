@@ -2,7 +2,6 @@
 module R18n
   class Locales::Pt < R18n::Locale
     set :title => 'Português',
-        :code =>  'pt',
 
         :wday_names => %w{domingo segunda-feira terça-feira quarta-feira
                           quinta-feira sexta-feira sábado},

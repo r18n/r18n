@@ -2,6 +2,7 @@
 module R18n
   class Locales::ZhCn < R18n::Locale
     set :title => '简体中文',
+        :code  => 'zh-CN',
         :sublocales => %w{zh}
   end
 end

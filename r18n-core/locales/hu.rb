@@ -17,7 +17,7 @@ module R18n
         :time_format => '%H:%M',
 
         :number_decimal => ",",
-        :number_group =>   " "
+        :number_group   => " "
 
     def format_integer(integer)
       str = integer.to_s
