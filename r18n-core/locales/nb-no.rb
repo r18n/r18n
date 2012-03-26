@@ -2,7 +2,7 @@
 module R18n
   class Locales::NbNo < Locale
     set :title => 'Norsk', #Bokmål
-        :sublocales => %w{no nn-NO},
+        :sublocales => %w{no nn-NO en},
 
         :week_start => :monday,
         :wday_names => %w{søndag mandag tirsdag onsdag torsdag fredag lørdag},
