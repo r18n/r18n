@@ -10,3 +10,6 @@ coverage/
 log/
 
 .bundle
+
+*sublime*
+!.gitignore
