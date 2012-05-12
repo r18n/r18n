@@ -97,7 +97,7 @@ log:
 ```
 
 ```ruby
-R18n::Filters.add(:gender) do |translation, config, user|
+R18n::Filters.add('gender') do |translation, config, user|
   translation[user.gender]
 end
 

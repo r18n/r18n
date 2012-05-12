@@ -94,7 +94,7 @@ describe TestController, :type => :controller do
     @post.title = 'Запись'
     @post.title_ru.should == 'Запись'
     @post.title_en.should == 'Record'
-    @post.title.should == 'Запись'
+    @post.title.should    == 'Запись'
   end
 
   it "should set default places" do
@@ -107,6 +107,19 @@ describe TestController, :type => :controller do
   it "should translate mails" do
     email = TestMailer.test.deliver
     email.encoded.should =~ /Name\r\nName\r\nName\r\n$/
+  end
+
+  it "should reload filters from app directory" do
+    get :filter, :locale => 'en'
+    response.should be_success
+    response.body.should == 'Rails'
+    R18n::Rails::Filters.loaded.should == [:rails_custom_filter]
+
+    R18n::Filters.defined[:rails_custom_filter].block = proc { 'No' }
+    get :filter, :locale => 'en'
+
+    response.should be_success
+    response.body.should == 'Rails'
   end
 
 end

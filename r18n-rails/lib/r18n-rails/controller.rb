@@ -44,6 +44,11 @@ module R18n
 
         ::I18n.backend = R18n::Backend.new
       end
+
+      # Reload filters from ruby files in `app/i18n`.
+      def reload_r18n_filters
+        R18n::Rails::Filters.reload!
+      end
     end
   end
 end

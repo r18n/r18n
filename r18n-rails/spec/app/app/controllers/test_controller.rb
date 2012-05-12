@@ -36,4 +36,8 @@ class TestController < ApplicationController
   def human_time
     render :text => l(Time.now, :human)
   end
+
+  def filter
+    render :text => t.ruby
+  end
 end

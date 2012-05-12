@@ -250,4 +250,10 @@ describe R18n::Filters do
     @i18n.textile.html.should  == '<p><em>Hi!</em>&lt;br /&gt;</p>'
   end
 
+  it "should allow to listen filters adding" do
+    R18n::Filters.listen {
+      R18n::Filters.add(String, :a) { }
+    }.should == [R18n::Filters.defined[:a]]
+  end
+
 end

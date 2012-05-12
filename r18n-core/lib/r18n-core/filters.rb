@@ -152,6 +152,7 @@ module R18n
           rebuild_enabled! type
         end
 
+        @new_filter_listener.call(filter) if @new_filter_listener
         filter
       end
 
@@ -183,6 +184,15 @@ module R18n
 
         filter.enabled = true
         filter.types.each { |type| rebuild_enabled! type }
+      end
+
+      # Return filters, which be added inside +block+.
+      def listen(&block)
+        filters = []
+        @new_filter_listener = proc { |i| filters << i }
+        yield
+        @new_filter_listener = nil
+        filters
       end
     end
 

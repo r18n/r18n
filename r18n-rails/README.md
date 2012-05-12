@@ -123,6 +123,26 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
 8. Download translations for Rails system messages (validation, etc) from
    https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale and
    put them to `config/locales/` (because them use Rails I18n format).
+9. Add your own translations filters to `app/i18n/filters.rb`:
+
+     ```ruby
+    R18n::Filters.add('gender') do |translation, config, user|
+      translation[user.gender]
+    end
+     ```
+   And use in translations:
+
+     ```yaml
+    log:
+      signup: !!gender
+        male: Он зарегистрировался
+        female: Она зарегистрировалась
+     ```
+   and application:
+
+     ```ruby
+    t.log.signup(user)
+     ```
 
 ## License
 
