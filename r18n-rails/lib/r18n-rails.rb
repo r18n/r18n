@@ -37,3 +37,7 @@ unless Rails.env.production?
 end
 
 ActionMailer::Base.helper(R18n::Rails::Helpers) if defined? ActionMailer
+
+ActiveSupport.on_load(:after_initialize) do
+  R18n.set(I18n.default_locale.to_s)
+end
