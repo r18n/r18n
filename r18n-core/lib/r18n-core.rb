@@ -99,7 +99,8 @@ module R18n
     #   - R18n.available_locales.each do |locale|
     #     - R18n.change(locale).t.language_title
     def change(locale)
-      R18n::I18n.new([locale] + get.locales.map { |i| i.code })
+      exists = get ? get.locales.map { |i| i.code } : []
+      R18n::I18n.new([locale] + exists)
     end
 
     # Return Array of locales with available translations. You can miss
