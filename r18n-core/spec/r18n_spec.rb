@@ -61,6 +61,12 @@ describe R18n do
     R18n.get.should == i18n
   end
 
+  it "should allow to temporary change locale" do
+    R18n.set('ru')
+    R18n.change('en').locales.should == [R18n::Locale.load('en'),
+                                         R18n::Locale.load('ru')]
+  end
+
   it "should store default loader class" do
     R18n.default_loader.should == R18n::Loader::YAML
     R18n.default_loader = Class

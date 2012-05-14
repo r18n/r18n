@@ -93,6 +93,15 @@ module R18n
       get.l(*params)
     end
 
+    # Return I18n object for +locale+. Useful to temporary change locale,
+    # for example, to show text in locales list:
+    #
+    #   - R18n.available_locales.each do |locale|
+    #     - R18n.change(locale).t.language_title
+    def change(locale)
+      R18n::I18n.new([locale] + get.locales.map { |i| i.code })
+    end
+
     # Return Array of locales with available translations. You can miss
     # translation +places+, it will be taken from <tt>R18n.default_places</tt>.
     def available_locales(places = R18n.default_places)
