@@ -62,13 +62,18 @@ describe R18n do
   end
 
   it "should allow to temporary change locale" do
+    R18n.default_places = DIR
     R18n.change('en').locales.should == [R18n::Locale.load('en')]
+    R18n.change('en').should have(1).translation_places
+    R18n.change('en').translation_places.first.dir.should == DIR.to_s
   end
 
   it "should allow to temporary change current locales" do
     R18n.set('ru')
     R18n.change('en').locales.should == [R18n::Locale.load('en'),
                                          R18n::Locale.load('ru')]
+    R18n.change('en').translation_places.should == R18n.get.translation_places
+    R18n.get.locale.code.should.should == 'ru'
   end
 
   it "should store default loader class" do
