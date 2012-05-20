@@ -97,10 +97,9 @@ module R18n
             value = TranslatedString.new(v, locale, path)
           when Typed
             value.locale = locale
-            value.path = path
+            value.path   = path
             unless @filters.passive(value.type).empty?
-              value = @filters.process(:passive, value.type, value.value,
-                                       value.locale, value.path, {})
+              value = @filters.process_typed(:passive, value, { })
             end
           end
           @data[name] = value
@@ -136,8 +135,7 @@ module R18n
       when TranslatedString
         @filters.process_string(:active, value, @path, params)
       when Typed
-        @filters.process(:active, value.type, value.value, value.locale,
-                         value.path, params)
+        @filters.process_typed(:active, value, params)
       when nil
         translated = @path.empty? ? '' : "#{@path}."
         Untranslated.new(translated, name.to_s, @locale, @filters)

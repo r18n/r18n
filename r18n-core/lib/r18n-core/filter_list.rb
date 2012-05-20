@@ -38,6 +38,16 @@ module R18n
       end
     end
 
+    # Shortcut ot process `R18n::Typed`.
+    def process_typed(filters_type, typed_value, params)
+      process(filters_type,
+              typed_value.type,
+              typed_value.value,
+              typed_value.locale,
+              typed_value.path,
+              params)
+    end
+
     # Process +value+ by global filters in +enabled+.
     def process_string(filters_type, value, config, params)
       if config.is_a? String
