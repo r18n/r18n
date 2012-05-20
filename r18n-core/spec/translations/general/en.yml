@@ -31,6 +31,7 @@ html: !!escape
 greater: 1 < 2 is %1
 no_escape: !!html
   <b>Warning</b>
+escape_params: <b>%1</b>
 
 markdown:
   simple: !!markdown "**Hi!**"

@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'pp'
 require 'i18n'
+require 'active_support'
 
 require File.join(File.dirname(__FILE__), '../lib/r18n-rails-api')
 

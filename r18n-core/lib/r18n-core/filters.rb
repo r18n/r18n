@@ -227,7 +227,11 @@ module R18n
   Filters.add(String, :variables) do |content, config, *params|
     content = content.clone
     params.each_with_index do |param, i|
-      content.gsub! "%#{i+1}", config[:locale].localize(param)
+      param = config[:locale].localize(param)
+      if defined? ActiveSupport::SafeBuffer
+        param = ActiveSupport::SafeBuffer.new + param
+      end
+      content.gsub! "%#{i+1}", param
     end
     content
   end

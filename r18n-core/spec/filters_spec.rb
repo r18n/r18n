@@ -256,4 +256,10 @@ describe R18n::Filters do
     }.should == [R18n::Filters.defined[:a]]
   end
 
+  it "should escape variables if ActiveSupport is loaded" do
+    @i18n.escape_params('<br>').should == '<b><br></b>'
+    require 'active_support'
+    @i18n.escape_params('<br>').should == '<b>&lt;br&gt;</b>'
+  end
+
 end

@@ -26,9 +26,12 @@ R18n::Filters.add(String, :named_variables) do |content, config, params|
   if params.is_a? Hash
     content = content.clone
     params.each_pair do |name, value|
-      v = config[:locale].localize(value)
-      content.gsub! "%{#{name}}", v
-      content.gsub! "{{#{name}}}", v
+      value = config[:locale].localize(value)
+      if defined? ActiveSupport::SafeBuffer
+        value = ActiveSupport::SafeBuffer.new + value
+      end
+      content.gsub! "%{#{name}}",  value
+      content.gsub! "{{#{name}}}", value
     end
   end
   content
