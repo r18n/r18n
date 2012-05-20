@@ -246,12 +246,14 @@ module R18n
   Filters.off(:untranslated_bash)
 
   Filters.add(Untranslated, :untranslated_html) do |v, c, transl, untransl|
-    text = Utils.escape_html(transl) <<
-      '<span style="color: red">[' << Utils.escape_html(untransl) << ']</span>'
-    if text.respond_to?(:html_safe)
-      text.html_safe
+    if defined? ActiveSupport::SafeBuffer
+      transl <<
+        '<span style="color: red">['.html_safe <<
+          untransl <<
+        ']</span>'.html_safe
     else
-      text
+      Utils.escape_html(transl) <<
+      '<span style="color: red">[' << Utils.escape_html(untransl) << ']</span>'
     end
   end
   Filters.off(:untranslated_html)

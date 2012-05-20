@@ -147,7 +147,7 @@ describe R18n::Filters do
     @i18n.comments(1, 'article').should == 'one comment for article'
     @i18n.comments(5, 'article').should == '5 comments for article'
 
-    @i18n.files(0).should == '0 files'
+    @i18n.files(0).should    == '0 files'
     @i18n.files(-5.5).should == '−5.5 files'
     @i18n.files(5000).should == '5,000 files'
   end
@@ -260,6 +260,15 @@ describe R18n::Filters do
     @i18n.escape_params('<br>').should == '<b><br></b>'
     require 'active_support'
     @i18n.escape_params('<br>').should == '<b>&lt;br&gt;</b>'
+  end
+
+  it "should use SafeBuffer if it is loaded" do
+    require 'active_support'
+
+    R18n::Filters.on(:global_escape_html)
+    @i18n.reload!
+
+    @i18n.greater('<b>'.html_safe).should == '1 &lt; 2 is <b>'
   end
 
 end

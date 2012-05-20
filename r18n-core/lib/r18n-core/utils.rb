@@ -35,7 +35,11 @@ module R18n
 
     # Escape HTML entries (<, >, &). Copy from HAML helper.
     def self.escape_html(content)
-      content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
+      if defined? ActiveSupport::SafeBuffer
+        ActiveSupport::SafeBuffer.new + content
+      else
+        content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
+      end
     end
 
     # Invokes +block+ once for each key and value of +hash+. Creates a new hash
