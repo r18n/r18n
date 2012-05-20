@@ -42,7 +42,7 @@ ActiveSupport.on_load(:after_initialize) do
   env = ENV['LANG']
   env = env.split('.').first if env
   locale = env || I18n.default_locale.to_s
-  if defined? Rails::Console
+  if defined? Rails::Console and not defined? Wirble
     i18n   = R18n::I18n.new(locale, R18n.default_places,
                             :off_filters => :untranslated,
                             :on_filters  => :untranslated_bash)
