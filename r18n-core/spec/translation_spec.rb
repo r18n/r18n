@@ -15,6 +15,18 @@ describe R18n::Translation do
     (i18n.one | 'default').should == 'One'
   end
 
+  it "should return html escaped string" do
+    klass = Class.new(R18n::TranslatedString) do
+      def html_safe
+        '2'
+      end
+    end
+    str = klass.new('1', nil, nil)
+
+    str.should be_html_safe
+    str.html_safe.should == '2'
+  end
+
   it "should load use hierarchical translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
     i18n.in.another.level.should == 'Иерархический'

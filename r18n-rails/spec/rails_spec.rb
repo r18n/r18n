@@ -50,7 +50,7 @@ describe TestController, :type => :controller do
   it 'should format untranslated' do
     get :untranslated
     response.should be_success
-    response.body.should == 'user.<span style="color: red">not.exists</span>'
+    response.body.should == 'user.<span style="color: red">[not.exists]</span>'
   end
 
   it "should add methods to controller" do
@@ -120,6 +120,13 @@ describe TestController, :type => :controller do
 
     response.should be_success
     response.body.should == 'Rails'
+  end
+
+  it "should escape html inside R18n" do
+    get :safe, :locale => 'en'
+    response.should be_success
+    response.body.should ==
+      "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
   end
 
 end

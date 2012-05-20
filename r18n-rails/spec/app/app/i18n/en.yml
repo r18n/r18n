@@ -2,3 +2,5 @@ r18n:
   translations: supported
 ruby: !!rails
   Ruby
+html:
+  <b>

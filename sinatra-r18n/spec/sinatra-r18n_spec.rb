@@ -51,7 +51,7 @@ describe Sinatra::R18n do
   it "should format untranslated string" do
     get '/untranslated'
     last_response.should be_ok
-    last_response.body.should == 'post.<span style="color: red">no</span>'
+    last_response.body.should == 'post.<span style="color: red">[no]</span>'
   end
 
   it "should localize objects" do

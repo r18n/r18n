@@ -44,5 +44,19 @@ module R18n
     def translated?
       true
     end
+
+    # Mark translated string as html safe, because R18n has own escape system.
+    def html_safe?
+      true
+    end
+
+    # Override to_s to make string html safe if `html_safe` method is defined.
+    def to_s
+      if respond_to? :html_safe
+        html_safe
+      else
+        self
+      end
+    end
   end
 end
