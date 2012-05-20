@@ -236,6 +236,11 @@ module R18n
     "#{translated}[#{untranslated}]"
   end
 
+  Filters.add(Untranslated, :untranslated_bash) do |v, c, transl, untransl|
+    "#{transl}\e[0;31m[#{untransl}]\e[0m"
+  end
+  Filters.off(:untranslated_bash)
+
   Filters.add(Untranslated, :untranslated_html) do |v, c, transl, untransl|
     text = Utils.escape_html(transl) <<
       '<span style="color: red">[' << Utils.escape_html(untransl) << ']</span>'
