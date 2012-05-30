@@ -172,7 +172,8 @@ describe R18n::Filters do
   end
 
   it "should format untranslated" do
-    @i18n.in.not.to_s.should == 'in.[not]'
+    @i18n.in.not.to_s.should   == 'in.[not]'
+    @i18n.in.not.to_str.should == 'in.[not]'
 
     R18n::Filters.off(:untranslated)
     @i18n.in.not.to_s.should == 'in.not'

@@ -79,5 +79,7 @@ module R18n
       @filters.process(:all, Untranslated, path, @locale, path,
                       [@translated_path, @untranslated_path, path])
     end
+
+    alias :to_str :to_s
   end
 end
