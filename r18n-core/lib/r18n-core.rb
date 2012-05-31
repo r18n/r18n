@@ -99,6 +99,7 @@ module R18n
     #   - R18n.available_locales.each do |locale|
     #     - R18n.change(locale).t.language_title
     def change(locale)
+      locale = locale.code if locale.is_a? Locale
       exists = get ? get.locales.map { |i| i.code } : []
       places = get ? get.translation_places : R18n.default_places
       R18n::I18n.new([locale] + exists, places)
