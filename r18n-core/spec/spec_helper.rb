@@ -23,7 +23,7 @@ class CounterLoader
   attr_reader :loaded
 
   def initialize(*available)
-    @available = available.map { |i| R18n::Locale.load(i) }
+    @available = available.map { |i| R18n.locale(i) }
     @loaded = 0
   end
 

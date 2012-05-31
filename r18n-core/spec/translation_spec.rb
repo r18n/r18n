@@ -56,11 +56,11 @@ describe R18n::Translation do
   it "should return string with locale info" do
     i18n = R18n::I18n.new(['no-LC', 'en'], DIR)
     i18n.one.locale.should == R18n::UnsupportedLocale.new('no-LC')
-    i18n.two.locale.should == R18n::Locale.load('en')
+    i18n.two.locale.should == R18n.locale('en')
   end
 
   it "should filter typed data" do
-    en = R18n::Locale.load('en')
+    en = R18n.locale('en')
     translation = R18n::Translation.new(en, '', :locale => en, :translations =>
       { 'count' => R18n::Typed.new('pl', { 1 => 'one', 'n' => 'many' }) })
 

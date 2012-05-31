@@ -2,7 +2,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Pl do
   it "should use Polish pluralization" do
-    pl = R18n::Locale.load 'pl'
+    pl = R18n.locale('pl')
     pl.pluralize(0).should == 0
     pl.pluralize(1).should == 1
 

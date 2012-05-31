@@ -53,7 +53,7 @@ module R18n
       def available
         Dir.glob(File.join(@dir, '**/*.yml')).
           map { |i| File.basename(i, '.yml') }.uniq.
-          map { |i| R18n::Locale.load(i) }
+          map { |i| R18n.locale(i) }
       end
 
       # Return Hash with translations for +locale+.

@@ -3,8 +3,8 @@ require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Locale do
   before :all do
-    @ru = R18n::Locale.load('ru')
-    @en = R18n::Locale.load('en')
+    @ru = R18n.locale('ru')
+    @en = R18n.locale('en')
   end
 
   it "should return all available locales" do
@@ -34,12 +34,12 @@ describe R18n::Locale do
   end
 
   it "should load locale by Symbol" do
-    R18n::Locale.load(:ru).should == R18n::Locale.load('ru')
+    R18n.locale(:ru).should == R18n.locale('ru')
   end
 
   it "should be equal to another locale with same code" do
     @en.should_not == @ru
-    @en.should == R18n::Locale.load('en')
+    @en.should == R18n.locale('en')
   end
 
   it "should print human readable representation" do
@@ -55,7 +55,7 @@ describe R18n::Locale do
   it "should use UnsupportedLocale if locale file isn't exists" do
     @en.should be_supported
 
-    unsupported = R18n::Locale.load('no-LC')
+    unsupported = R18n.locale('no-LC')
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
 
@@ -85,8 +85,8 @@ describe R18n::Locale do
   end
 
   it "should generate locale code by locale class name" do
-    R18n::Locale.load('ru').code.should == 'ru'
-    R18n::Locale.load('zh-CN').code.should == 'zh-CN'
+    R18n.locale('ru').code.should    == 'ru'
+    R18n.locale('zh-CN').code.should == 'zh-CN'
   end
 
   it "should localize date for human" do
@@ -146,26 +146,26 @@ describe R18n::Locale do
   end
 
   it "should delete slashed from locale for security reasons" do
-    locale = R18n::Locale.load('../spec/translations/general/en')
+    locale = R18n.locale('../spec/translations/general/en')
     locale.should be_a(R18n::UnsupportedLocale)
   end
 
   it "should ignore code case in locales" do
-    upcase = R18n::Locale.load('RU')
-    downcase = R18n::Locale.load('ru')
+    upcase   = R18n.locale('RU')
+    downcase = R18n.locale('ru')
     upcase.should == downcase
-    upcase.code.should == 'ru'
+    upcase.code.should   == 'ru'
     downcase.code.should == 'ru'
 
-    upcase = R18n::Locale.load('no-LC')
-    downcase = R18n::Locale.load('no-lc')
+    upcase   = R18n.locale('no-LC')
+    downcase = R18n.locale('no-lc')
     upcase.should == downcase
-    upcase.code.should == 'no-lc'
+    upcase.code.should   == 'no-lc'
     downcase.code.should == 'no-lc'
   end
 
   it "should load locale with underscore" do
-    R18n::Locale.load('no_LC').code.should == 'no-lc'
+    R18n.locale('no_LC').code.should == 'no-lc'
   end
 
 end

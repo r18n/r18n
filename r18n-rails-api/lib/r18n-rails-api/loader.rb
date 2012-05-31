@@ -50,7 +50,7 @@ module R18n
       # Array of locales, which has translations in +I18n.load_path+.
       def available
         reload!
-        @translations.keys.map { |code| R18n::Locale.load(code) }
+        @translations.keys.map { |code| R18n.locale(code) }
       end
 
       # Return Hash with translations for +locale+.

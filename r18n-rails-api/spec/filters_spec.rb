@@ -2,12 +2,9 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe 'Rails filters' do
-  before :all do
-    @en = R18n::Locale.load('en')
-  end
 
   it "should use named variables" do
-    i18n = R18n::Translation.new(@en, '', :locale => @en,
+    i18n = R18n::Translation.new(EN, '', :locale => EN,
       :translations => { 'echo' => 'Value is %{value}' })
 
     i18n.echo(:value => 'R18n').should == 'Value is R18n'
@@ -18,13 +15,13 @@ describe 'Rails filters' do
   end
 
   it "should use old variables syntax" do
-    i18n = R18n::Translation.new(@en, '', :locale => @en,
+    i18n = R18n::Translation.new(EN, '', :locale => EN,
       :translations => { 'echo' => 'Value is {{value}}' })
     i18n.echo(:value => 'Old').should == 'Value is Old'
   end
 
   it "should pluralize by variable %{count}" do
-    i18n = R18n::Translation.new(@en, '', :locale => @en,
+    i18n = R18n::Translation.new(EN, '', :locale => EN,
       :translations => {
         'users' => R18n::Typed.new('pl', {
           0 => 'no users',

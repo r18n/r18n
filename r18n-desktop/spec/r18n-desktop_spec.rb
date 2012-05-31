@@ -23,7 +23,7 @@ describe "r18n-desktop" do
 
   it "should load i18n from system environment using specified order" do
     R18n.from_env(nil, 'en')
-    r18n.locale.should == R18n::Locale.load('en')
+    r18n.locale.should == R18n.locale('en')
     R18n.get.should == r18n
   end
 

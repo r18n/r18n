@@ -32,13 +32,13 @@ describe R18n do
   it "shuld create I18n object by shortcut" do
     R18n.set('en', DIR)
     R18n.get.should be_a(R18n::I18n)
-    R18n.get.locales.should == [R18n::Locale.load('en')]
+    R18n.get.locales.should == [R18n.locale('en')]
     R18n.get.translation_places.should == [R18n::Loader::YAML.new(DIR)]
   end
 
   it "should allow to return I18n arguments in setter block" do
     R18n.set { 'en' }
-    R18n.get.locales.should == [R18n::Locale.load('en')]
+    R18n.get.locales.should == [R18n.locale('en')]
   end
 
   it "should reset I18n objects and cache" do
@@ -63,22 +63,25 @@ describe R18n do
 
   it "should allow to temporary change locale" do
     R18n.default_places = DIR
-    R18n.change('en').locales.should == [R18n::Locale.load('en')]
+    R18n.change('en').locales.should == [R18n.locale('en')]
     R18n.change('en').should have(1).translation_places
     R18n.change('en').translation_places.first.dir.should == DIR.to_s
   end
 
   it "should allow to temporary change current locales" do
     R18n.set('ru')
-    R18n.change('en').locales.should == [R18n::Locale.load('en'),
-                                         R18n::Locale.load('ru')]
+    R18n.change('en').locales.should == [R18n.locale('en'), R18n.locale('ru')]
     R18n.change('en').translation_places.should == R18n.get.translation_places
     R18n.get.locale.code.should.should == 'ru'
   end
 
   it "should allow to get Locale to temporary change" do
     R18n.set('ru')
-    R18n.change(R18n::Locale.load('en')).locale.code.should == 'en'
+    R18n.change(R18n.locale('en')).locale.code.should == 'en'
+  end
+
+  it "should have shortcut to load locale" do
+    R18n.locale('ru').should == R18n::Locale.load('ru')
   end
 
   it "should store default loader class" do
@@ -131,18 +134,18 @@ describe R18n do
   end
 
   it "should return available translations" do
-    R18n.available_locales(DIR).should =~ [R18n::Locale.load('no-lc'),
-                                           R18n::Locale.load('ru'),
-                                           R18n::Locale.load('en')]
+    R18n.available_locales(DIR).should =~ [R18n.locale('no-lc'),
+                                           R18n.locale('ru'),
+                                           R18n.locale('en')]
   end
 
   it "should use default places" do
     R18n.default_places = DIR
     R18n.set('en')
     t.one.should == 'One'
-    R18n.available_locales.should =~ [R18n::Locale.load('ru'),
-                                      R18n::Locale.load('en'),
-                                      R18n::Locale.load('no-lc')]
+    R18n.available_locales.should =~ [R18n.locale('ru'),
+                                      R18n.locale('en'),
+                                      R18n.locale('no-lc')]
   end
 
   it "should set default places by block" do

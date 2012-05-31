@@ -351,7 +351,7 @@ at <andrey@sitnik.ru>.
 To get information about a locale create an `R18n::Locale` instance:
 
 ```ruby
-locale = R18n::Locale.load('en')
+locale = R18n.locale('en')
 ```
 
 You can then get the following from the locale:

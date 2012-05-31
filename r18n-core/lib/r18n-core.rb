@@ -105,6 +105,12 @@ module R18n
       R18n::I18n.new([locale] + exists, places)
     end
 
+    # Return Locale object by locale code. It’s shortcut for
+    # <tt>R18n::Locale.load(code)</tt>.
+    def locale(code)
+      R18n::Locale.load(code)
+    end
+
     # Return Array of locales with available translations. You can miss
     # translation +places+, it will be taken from <tt>R18n.default_places</tt>.
     def available_locales(places = R18n.default_places)

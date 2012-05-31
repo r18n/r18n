@@ -2,7 +2,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Cs do
   it "should use Czech pluralization" do
-    cs = R18n::Locale.load('cs')
+    cs = R18n.locale('cs')
     cs.pluralize(0).should == 0
     cs.pluralize(1).should == 1
 

@@ -50,7 +50,7 @@ describe R18n::Translated do
     obj = ::SomeTranslatedClass.new
 
     obj.name.should be_a(R18n::TranslatedString)
-    obj.name.locale.should == R18n::Locale.load('en')
+    obj.name.locale.should == R18n.locale('en')
     obj.name.path.should == 'SomeTranslatedClass#name'
   end
 
@@ -60,7 +60,7 @@ describe R18n::Translated do
 
     R18n.set(['no-LC', 'ru', 'en'])
     user.name_ru = 'Иван'
-    user.name.locale.should == R18n::Locale.load('ru')
+    user.name.locale.should == R18n.locale('ru')
   end
 
   it "should use default locale" do
@@ -69,7 +69,7 @@ describe R18n::Translated do
 
     R18n.set('no-LC')
     user.name_en = 'John'
-    user.name.locale.should == R18n::Locale.load('en')
+    user.name.locale.should == R18n.locale('en')
   end
 
   it "should use filters" do

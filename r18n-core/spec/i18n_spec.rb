@@ -26,13 +26,13 @@ describe R18n::I18n do
 
   it "should load locales" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.locales.should == [R18n::Locale.load('en')]
+    i18n.locales.should == [R18n.locale('en')]
 
     i18n = R18n::I18n.new(['ru', 'no-LC'], DIR)
-    i18n.locales.should == [R18n::Locale.load('ru'),
+    i18n.locales.should == [R18n.locale('ru'),
                             R18n::UnsupportedLocale.new('no-LC'),
                             R18n::UnsupportedLocale.new('no'),
-                            R18n::Locale.load('en')]
+                            R18n.locale('en')]
   end
 
   it "should return translations loaders" do
@@ -42,7 +42,7 @@ describe R18n::I18n do
 
   it "should load translations by loader" do
     loader = Class.new do
-      def available; [R18n::Locale.load('en')]; end
+      def available; [R18n.locale('en')]; end
       def load(locale); { 'custom' => 'Custom' }; end
     end
     R18n::I18n.new('en', loader.new).custom.should == 'Custom'
@@ -51,7 +51,7 @@ describe R18n::I18n do
   it "should pass parameters to default loader" do
     loader = Class.new do
       def initialize(param); @param = param; end
-      def available; [R18n::Locale.load('en')]; end
+      def available; [R18n.locale('en')]; end
       def load(locale); { 'custom' => @param }; end
     end
     R18n.default_loader = loader
@@ -111,9 +111,9 @@ describe R18n::I18n do
 
   it "should return available translations" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.available_locales.should =~ [R18n::Locale.load('no-lc'),
-                                      R18n::Locale.load('ru'),
-                                      R18n::Locale.load('en')]
+    i18n.available_locales.should =~ [R18n.locale('no-lc'),
+                                      R18n.locale('ru'),
+                                      R18n.locale('en')]
   end
 
   it "should cache translations" do
@@ -171,7 +171,7 @@ describe R18n::I18n do
   it "should reload translations" do
     loader = Class.new do
       @@answer = 1
-      def available; [R18n::Locale.load('en')]; end
+      def available; [R18n.locale('en')]; end
       def load(locale); { 'one' => @@answer }; end
     end
 
@@ -191,21 +191,21 @@ describe R18n::I18n do
 
   it "should return first locale with locale file" do
     i18n = R18n::I18n.new(['no-TR', 'no-LC', 'ru', 'en'], DIR)
-    i18n.locale.should == R18n::Locale.load('no-LC')
-    i18n.locale.base.should == R18n::Locale.load('ru')
+    i18n.locale.should      == R18n.locale('no-LC')
+    i18n.locale.base.should == R18n.locale('ru')
   end
 
   it "should localize objects" do
     i18n = R18n::I18n.new('ru')
 
     i18n.l(-123456789).should == '−123 456 789'
-    i18n.l(-12345.67).should == '−12 345,67'
+    i18n.l(-12345.67).should  == '−12 345,67'
 
     time = Time.at(0).utc
-    i18n.l(time, '%A').should == 'Четверг'
-    i18n.l(time, :month).should == 'Январь'
+    i18n.l(time, '%A').should      == 'Четверг'
+    i18n.l(time, :month).should    == 'Январь'
     i18n.l(time, :standard).should == '01.01.1970 00:00'
-    i18n.l(time, :full).should == ' 1 января 1970 00:00'
+    i18n.l(time, :full).should     == ' 1 января 1970 00:00'
 
     i18n.l(Date.new(0)).should == '01.01.0000'
   end

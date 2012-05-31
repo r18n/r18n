@@ -38,7 +38,7 @@ module R18n
   #
   # Get Russian locale and print it information
   #
-  #   ru = R18n::Locale.load('ru')
+  #   ru = R18n.locale('ru')
   #   ru.title #=> "Русский"
   #   ru.code  #=> "ru"
   #   ru.ltr?  #=> true
