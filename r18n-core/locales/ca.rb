@@ -2,6 +2,7 @@
 module R18n
   class Locales::Ca < Locale
     set :title => 'Català',
+        :sublocales => %w{es en},
 
         :wday_names => %w{diumenge dilluns dimarts dimecres dijous divendres
                           dissabte},
