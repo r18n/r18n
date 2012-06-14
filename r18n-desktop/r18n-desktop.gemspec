@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.author   = 'Andrey "A.I." Sitnik'
   s.email    = 'andrey@sitnik.ru'
-  s.homepage = 'http://r18n.rubyforge.org/'
+  s.homepage = 'https://github.com/ai/r18n'
   s.rubyforge_project = 'r18n-desktop'
 
   s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]

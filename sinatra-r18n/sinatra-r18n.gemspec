@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
 
   s.author   = 'Andrey "A.I." Sitnik'
   s.email    = 'andrey@sitnik.ru'
-  s.homepage = 'http://r18n.rubyforge.org/'
+  s.homepage = 'https://github.com/ai/r18n'
   s.rubyforge_project = 'sinatra-r18n'
 
   s.add_dependency 'sinatra', [">= 1.3"]

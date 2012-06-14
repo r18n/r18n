@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.author   = 'Andrey "A.I." Sitnik'
   s.email    = 'andrey@sitnik.ru'
-  s.homepage = 'http://r18n.rubyforge.org/'
+  s.homepage = 'https://github.com/ai/r18n'
   s.rubyforge_project = 'r18n-core'
 
   s.add_development_dependency "bundler",            [">= 1.0.10"]
