@@ -26,6 +26,8 @@ if /cygwin|mingw|win32/ =~ RUBY_PLATFORM
   require dir.join('win32').to_s
 elsif /java/ =~ RUBY_PLATFORM
   require dir.join('java').to_s
+elsif /darwin/ =~ RUBY_PLATFORM
+  require dir.join('osx').to_s
 else
   require dir.join('posix').to_s
 end
