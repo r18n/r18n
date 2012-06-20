@@ -1,6 +1,6 @@
 # encoding: utf-8
 module R18n
-  class Locales::De < Locale
+  class Locales::Mn < Locale
     set :title => 'Монгол',
 
         :wday_names => ['ням гариг', 'даваа гариг', 'мягмар гариг', 'лхагва гариг', 'пүрэв гариг', 'баасан гариг',
