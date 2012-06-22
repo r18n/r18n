@@ -121,6 +121,7 @@ module R18n
 
     def month_standalone; month_names; end
     def month_abbrs;      month_names; end
+    def wday_abbrs;       wday_names;  end
 
     # Is locale has left-to-right write direction.
     def ltr?; true; end
