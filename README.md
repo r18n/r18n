@@ -39,6 +39,17 @@ l Time.now, :human #=> "now"
 l Time.now, :full  #=> "3rd of January, 2010 18:54"
 ```
 
+### Examples
+
+For Rails, Sinatra or desktop examples, see plugins documentations:
+* [r18n-rails] for Ruby on Rails,
+* [sinatra-r18n] for Sinatra,
+* [r18n-desktop] for shell/desktop applications.
+
+[r18n-rails]: https://github.com/ai/r18n/tree/master/r18n-rails
+[sinatra-r18n]: https://github.com/ai/r18n/tree/master/sinatra-r18n
+[r18n-desktop]: https://github.com/ai/r18n/tree/master/r18n-desktop
+
 ## R18n Features
 
 * Nice Ruby-style syntax.
