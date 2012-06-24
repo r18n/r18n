@@ -254,6 +254,20 @@ hi: !!markdown
 t.hi #=> "<p><strong>Hi</strong>, people!</p>"
 ```
 
+If you can’t use Kramdown you can redefine Markdown filter
+to use your own parser:
+
+```ruby
+# Disable standard Markdown filter
+Filters.off(:kramdown)
+# Add new filter for !!markdown YAML type
+Filters.add('markdown', :passive => true) do |content, config|
+  require 'redcarpet'
+  markdown = ::Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+  markdown.render(content)
+end
+```
+
 #### Textile
 
 To use Textile in your translations you must install the RedCloth gem:
