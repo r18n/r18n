@@ -1,3 +1,24 @@
+== 1.0.0 (Bangkok)
+* Add R18n.default_places.
+* Rails SafeBuffer support.
+* Allow in Rails app to put filters to app/i18n reload them in development.
+* Move R18n::I18n.available_locales to R18n.available_locales.
+* Rename _keys to translation_keys.
+* Use Kramdown instead of Maruku for Markdown.
+* Allow to use R18n for Rails without mailer.
+* Allow to overwrite I18n object for models.
+* Autoload R18n::Translated.
+* Set default locale to R18n on Rails start to easy use in Rails console.
+* Use env language in Rails console.
+* Mark untranslated part as red in Rails console.
+* Allow to temporary change locale by R18n.change.
+* Add R18n.locale shortcut.
+* Allow return from setter block locale code, instead of I18n object.
+* Allow to set custom filters for I18n object.
+* Add Galician locale (by Eduard Giménez).
+* Add Traditional Chinese and Simplified Chinese (by Francis Chong).
+* Fix Norsk locale (by Peter Haza).
+
 == 0.4.14 (üç)
 * Fix support for Ruby 1.9.3.
 * Added Turkish locale (by Ahmet Özkaya).
