@@ -107,6 +107,8 @@ log:
     female: Она зарегистрировалась
 ```
 
+In Rails application you can define filter in reloaded `app/i18n/filters.rb`:
+
 ```ruby
 R18n::Filters.add('gender') do |translation, config, user|
   translation[user.gender]

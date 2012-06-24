@@ -204,6 +204,9 @@ The filter will receive at least two arguments:
 * A Hash with translation `locale` and `path`.
 * Parameters from translation request will be in the remaining arguments.
 
+In Rails application put your filters to `app/i18n/filters.rb`, it will be
+automatically reloaded in development.
+
 #### HTML Escape
 
 R18n contains 2 filters to escape HTML entities: by YAML type and global. If you
