@@ -94,15 +94,8 @@ information.
 You can change default locale and translations dir:
 
 ```ruby
-set :default_locale, 'ru'
-set :translations,   './translations'
-```
-
-You can also provide an Array of translations directories, which may be
-useful, for instance, in a plugin-based architecture:
-
-```ruby
-set :translations, Dir.glob('./myplugins/*/i18n')
+R18n::I18n.default = 'ru'
+R18n.default_places { './translations' }
 ```
 
 # License

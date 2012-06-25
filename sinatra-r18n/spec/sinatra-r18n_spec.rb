@@ -37,7 +37,7 @@ describe Sinatra::R18n do
   end
 
   it "should use locale from session" do
-    get '/locale', {}, { 'rack.session' => { :locale => 'ru' } }
+    get '/locale', { }, { 'rack.session' => { :locale => 'ru' } }
     last_response.should be_ok
     last_response.body.should == 'Русский'
   end
