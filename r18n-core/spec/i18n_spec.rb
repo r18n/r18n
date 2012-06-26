@@ -125,7 +125,7 @@ describe R18n::I18n do
     R18n::I18n.new('en', counter)
     counter.loaded.should == 1
 
-    R18n.cache.clear
+    R18n.clear_cache!
     R18n::I18n.new('en', counter)
     counter.loaded.should == 2
   end

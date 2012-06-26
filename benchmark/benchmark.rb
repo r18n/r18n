@@ -31,7 +31,7 @@ RBench.run(1000) do
 
   report 'cold load' do
     r18n {
-      R18n.cache = {}
+      R18n.clear_cache!
       R18n.set(%w{ru fr en}, dir + 'r18n')
       R18n.get.available_locales
     }

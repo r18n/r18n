@@ -7,7 +7,7 @@ describe R18n do
   after do
     R18n.default_loader = R18n::Loader::YAML
     R18n.default_places = nil
-    R18n.reset
+    R18n.reset!
   end
 
   it "should store I18n" do
@@ -15,7 +15,7 @@ describe R18n do
     R18n.set(i18n)
     R18n.get.should == i18n
 
-    R18n.reset
+    R18n.reset!
     R18n.get.should be_nil
   end
 
@@ -41,12 +41,18 @@ describe R18n do
     R18n.get.locales.should == [R18n.locale('en')]
   end
 
+  it "should clear cache" do
+    R18n.cache[:a] = 1
+    R18n.clear_cache!
+    R18n.cache.should be_empty
+  end
+
   it "should reset I18n objects and cache" do
     R18n.cache[:a] = 1
     R18n.set('en')
     R18n.thread_set('en')
 
-    R18n.reset
+    R18n.reset!
     R18n.get.should be_nil
     R18n.cache.should be_empty
   end
@@ -96,8 +102,8 @@ describe R18n do
     R18n.cache = { 1 => 2 }
     R18n.cache.should == { 1 => 2 }
 
-    R18n.cache.clear
-    R18n.cache.should == {}
+    R18n.clear_cache!
+    R18n.cache.should == { }
   end
 
   it "should convert Time to Date" do

@@ -12,7 +12,7 @@ TWO = TRANSLATIONS + 'two'     unless defined? TWO
 EXT = R18n::Loader::YAML.new(TRANSLATIONS + 'extension') unless defined? EXT
 
 RSpec.configure do |config|
-  config.before { R18n.cache.clear }
+  config.before { R18n.clear_cache! }
 end
 
 gem 'kramdown'

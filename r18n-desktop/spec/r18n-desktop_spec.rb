@@ -5,7 +5,7 @@ describe "r18n-desktop" do
   include R18n::Helpers
 
   before(:each) do
-    R18n.reset
+    R18n.reset!
   end
 
   it "should return array of system locales" do

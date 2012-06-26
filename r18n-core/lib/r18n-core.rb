@@ -72,11 +72,17 @@ module R18n
       (@setter && set(@setter.call))
     end
 
-    # Delete I18n object from current thread and global variable.
-    def reset
-      thread[:r18n_i18n] = thread[:r18n_setter] = @i18n = @setter = nil
-      self.cache = {}
+    # Clean translations cache.
+    def clear_cache!
+      self.cache = { }
     end
+
+    # Delete I18n object from current thread and global variable.
+    def reset!
+      thread[:r18n_i18n] = thread[:r18n_setter] = @i18n = @setter = nil
+      clear_cache!
+    end
+    alias :reset :reset!
 
     # Get the current thread.
     def thread
@@ -149,5 +155,5 @@ module R18n
   self.default_loader   = R18n::Loader::YAML
   self.default_places   = nil
   self.extension_places = [Loader::YAML.new(dir + '../base')]
-  self.cache            = {}
+  self.clear_cache!
 end
