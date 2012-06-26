@@ -38,8 +38,9 @@ module R18n
     # information and translations from +translations_places+. If user set
     # locale +manual+ put it as last argument.
     def from_env(translations_places = nil, manual = nil)
-      locales = Array(R18n::I18n.system_locale)
-      locales.insert(0, manual) if not manual.nil?
+      locales  = Array(R18n::I18n.system_locale)
+      locales.insert(0, ENV['LANG']) unless ENV['LANG'].nil?
+      locales.insert(0, manual)      unless manual.nil?
       self.set I18n.new(locales, translations_places)
     end
   end
