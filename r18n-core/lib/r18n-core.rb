@@ -36,6 +36,8 @@ require dir.join('yaml_loader').to_s
 require dir.join('i18n').to_s
 require dir.join('helpers').to_s
 
+require 'yecht' if RUBY_PLATFORM == 'java'
+
 module R18n
   autoload :Translated, 'r18n-core/translated'
 
