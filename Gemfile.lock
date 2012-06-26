@@ -20,6 +20,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     RedCloth (4.2.9)
+    RedCloth (4.2.9-java)
     actionmailer (3.2.6)
       actionpack (= 3.2.6)
       mail (~> 2.4.4)
@@ -41,6 +42,10 @@ GEM
       activesupport (= 3.2.6)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
+    activerecord-jdbc-adapter (1.2.2)
+    activerecord-jdbcsqlite3-adapter (1.2.2)
+      activerecord-jdbc-adapter (~> 1.2.2)
+      jdbc-sqlite3 (~> 3.7.2)
     activeresource (3.2.6)
       activemodel (= 3.2.6)
       activesupport (= 3.2.6)
@@ -53,8 +58,10 @@ GEM
     erubis (2.7.0)
     hike (1.2.1)
     i18n (0.6.0)
+    jdbc-sqlite3 (3.7.2)
     journey (1.0.4)
     json (1.7.3)
+    json (1.7.3-java)
     kramdown (0.13.7)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -123,6 +130,7 @@ GEM
     yard (0.8.2.1)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES

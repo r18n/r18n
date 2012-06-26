@@ -69,7 +69,10 @@ module R18n
     # Call +block+ with Syck yamler. It used to load RedCloth, which isn’t
     # support Psych.
     def self.use_syck(&block)
-      if '1.8.' == RUBY_VERSION[0..3]
+      if RUBY_PLATFORM == 'java' && defined?(YAML::ENGINE)
+        YAML::ENGINE.yamler = 'psych'
+        yield
+      elsif '1.8.' == RUBY_VERSION[0..3]
         yield
       else
         origin_yamler = YAML::ENGINE.yamler

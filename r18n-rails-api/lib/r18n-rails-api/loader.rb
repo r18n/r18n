@@ -40,7 +40,7 @@ module R18n
       # +reload!+, +init_translations+ and +translations+ methods.
       def initialize(backend = ::I18n::Backend::Simple.new)
         @backend = backend
-        @private_type_class = if '1.8.' == RUBY_VERSION[0..3]
+        @private_type_class = if ('1.8.' == RUBY_VERSION[0..3] || RUBY_PLATFORM == 'java')
           ::YAML::PrivateType
         else
           ::Syck::PrivateType
