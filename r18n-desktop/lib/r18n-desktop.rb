@@ -39,8 +39,8 @@ module R18n
     # locale +manual+ put it as last argument.
     def from_env(translations_places = nil, manual = nil)
       locales  = Array(R18n::I18n.system_locale)
-      locales.insert(0, ENV['LANG']) unless ENV['LANG'].nil?
-      locales.insert(0, manual)      unless manual.nil?
+      locales.insert(0, ENV['LANG']) if ENV['LANG']
+      locales.insert(0, manual)      if manual
       self.set I18n.new(locales, translations_places)
     end
   end
