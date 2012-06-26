@@ -147,10 +147,10 @@ class Product < ActiveRecord::Base
 end
 
 R18n.set('en') # English
-product.title #=> "Anthrax"
+product.title  #=> "Anthrax"
 
 R18n.set('ru') # Russian
-product.title #=> "Сибирская язва"
+product.title  #=> "Сибирская язва"
 ```
 
 ### Autodetect User Locales
@@ -175,7 +175,7 @@ some base translations) ship with core gem and can be used out-of-box:
 For example, Russian has built-in different pluralization without any lambdas
 in YAML:
 
-```
+```ruby
 t.user.count(1) #=> "1 пользователь"
 t.user.count(2) #=> "2 пользователя"
 t.user.count(5) #=> "5 пользователей"
@@ -185,11 +185,11 @@ Locales are simple Ruby classes, so they are very flexible. For example,
 R18n ship with very perfection `full` time formatter:
 
 ```ruby
-R18n.set('en') # English
+R18n.set('en')            # English
 l Time.now, :full         #=> "1st of December, 2011 12:00"
 l Time.now + 1.day, :full #=> "2nd of December, 2011 12:00"
 
-R18n.set('fr') # French
+R18n.set('fr')            # French
 l Time.now, :full         #=> "1er décembre 2011 12:00"
 l Time.now + 1.day, :full #=> "2 décembre 2011 12:00"
 ```
@@ -244,12 +244,10 @@ R18n.default_places = DBLoader.new
 R18n.set('en') # Load English messages from DB
 ```
 
-Also you can use several I18n object in program. For example, to communicate
-with user and log system journal for admins:
+Also you can use several I18n object in program. For example, to load different
+translations for plugin:
 
 ```ruby
-puts I18n.t :error # Show error in French
-
-admin_i18n = R18n::I18n.new(ADMIN_LOCALES)
-logger.debug(admin_i18n.errors[error])
+plugin_i18n = R18n::I18n.new(locales, plugin_i18n_places)
+plugin_i18n.t.message.hellow
 ```
