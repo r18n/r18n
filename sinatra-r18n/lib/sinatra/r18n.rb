@@ -31,6 +31,8 @@ module Sinatra
       ::R18n.default_places { File.join(app.root, 'i18n/') }
 
       app.before do
+        ::R18n.clear_cache! if development?
+
         ::R18n.set do
           if settings.default_locale
             ::R18n::I18n.default = settings.default_locale
