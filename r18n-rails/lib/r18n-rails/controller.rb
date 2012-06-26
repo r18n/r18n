@@ -45,8 +45,10 @@ module R18n
         ::I18n.backend = R18n::Backend.new
       end
 
-      # Reload filters from ruby files in `app/i18n`.
-      def reload_r18n_filters
+      # Clean cache and reload filters from ruby files in `app/i18n`.
+      # Used only for development.
+      def reload_r18n
+        R18n.clear_cache!
         R18n::Rails::Filters.reload!
       end
     end

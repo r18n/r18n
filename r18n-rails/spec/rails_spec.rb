@@ -4,6 +4,10 @@ require File.expand_path('../spec_helper', __FILE__)
 describe TestController, :type => :controller do
   render_views
 
+  before do
+    ActionController::Base.send(:before_filter, :reload_r18n)
+  end
+
   it 'should use default locale' do
     get :locales
     response.should be_success
