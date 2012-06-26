@@ -1,6 +1,6 @@
 # encoding: utf-8
 module R18n
-  class Locales::Pl < R18n::Locale
+  class Locales::Pl < Locale
     set :title => 'Polski',
 
         :wday_names => %w{niedziela poniedziałek wtorek środa czwartek piątek

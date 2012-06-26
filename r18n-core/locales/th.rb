@@ -1,6 +1,6 @@
 # encoding: utf-8
 module R18n
-  class Locales::Th < R18n::Locale
+  class Locales::Th < Locale
     set :title => 'ภาษาไทย',
 
       :wday_names => %w{วันอาทิตย์ วันจันทร์ วันอังคาร วันพุธ วันพฤหัสบดี วันศุกร์ วันวัน

@@ -1,6 +1,6 @@
 # encoding: utf-8
 module R18n
-  class Locales::Zh < R18n::Locale
+  class Locales::Zh < Locale
     set :title => '中文',
 
         :wday_names => %w{星期日 星期一 星期二 星期三 星期四 星期五 星期六},
