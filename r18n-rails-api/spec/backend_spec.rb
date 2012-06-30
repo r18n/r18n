@@ -68,4 +68,9 @@ describe R18n::Backend do
     I18n.t(:other).should == 'Other'
   end
 
+  it "should return plain classes" do
+    I18n.t('in.another.level').class.should == String
+    I18n.t('in.another').class.should == Hash
+  end
+
 end

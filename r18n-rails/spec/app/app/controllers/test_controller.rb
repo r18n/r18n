@@ -40,4 +40,8 @@ class TestController < ApplicationController
   def filter
     render :text => t.ruby
   end
+
+  def buildin
+    render
+  end
 end

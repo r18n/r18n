@@ -53,7 +53,13 @@ module R18n
 
         raise ::I18n::MissingTranslationData.new(locale, key, options)
       else
-        result
+        if result.is_a? TranslatedString
+          String.new(result)
+        elsif result.is_a? Translation
+          result.to_hash
+        else
+          result
+        end
       end
     end
 

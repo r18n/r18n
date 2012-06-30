@@ -133,4 +133,11 @@ describe TestController, :type => :controller do
       "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
   end
 
+
+  it "should work with Rails build-in herlpers" do
+    get :buildin, :locale => 'en'
+    response.should be_success
+    response.body.should == "$1000.00\n"
+  end
+
 end
