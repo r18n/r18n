@@ -116,8 +116,18 @@ module R18n
     end
 
     # Return current translation keys.
+    #
+    # Deprecated. Use <tt>to_hash.keys</tt>.
     def translation_keys
-      @data.keys
+      to_hash.keys
+    end
+
+    # Return hash of current translation node.
+    def to_hash
+      Utils.hash_map(@data) do |key, node|
+        node = node.to_hash if hode.is_a? Translation
+        [key, node]
+      end
     end
 
     # Return +default+.

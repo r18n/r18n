@@ -84,6 +84,8 @@ module R18n
       thread[:r18n_i18n] = thread[:r18n_setter] = @i18n = @setter = nil
       clear_cache!
     end
+
+    # Deprecated.
     alias :reset :reset!
 
     # Get the current thread.

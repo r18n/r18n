@@ -68,4 +68,13 @@ describe R18n::Translation do
     translation.count(5).should == 'many'
   end
 
+  it "should return hash of translations" do
+    i18n = R18n::I18n.new('en', DIR)
+    i18n.comments.to_hash.should == {
+       0  => "no comments for %2",
+       1  => "one comment for %2",
+      "n" => "%1 comments for %2"
+    }
+  end
+
 end
