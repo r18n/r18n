@@ -1,3 +1,12 @@
+== 1.0.1 (Phuket Town)
+* Fix translation reloading in Rails and Sinatra.
+* Use global R18n settings for Sinatra extension.
+* Allow to override desktop autodetect by LANG environment on all platforms.
+* Add support for JRuby in 1.9 mode.
+* Rename R18n.reset to R18n.reset! and add R18n.clear_cache!.
+* Fix Sinatra with loaded ActiveSupport.
+* Add Mongolian locale (by Elias Klughammer).
+
 == 1.0.0 (Bangkok)
 * Add R18n.default_places.
 * Rails SafeBuffer support.

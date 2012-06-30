@@ -1,20 +1,20 @@
 PATH
   remote: r18n-core/
   specs:
-    r18n-core (1.0.0)
+    r18n-core (1.0.1)
 
 PATH
   remote: r18n-rails-api/
   specs:
-    r18n-rails-api (1.0.0)
+    r18n-rails-api (1.0.1)
       i18n
-      r18n-core (= 1.0.0)
+      r18n-core (= 1.0.1)
 
 PATH
   remote: r18n-rails/
   specs:
-    r18n-rails (1.0.0)
-      r18n-rails-api (= 1.0.0)
+    r18n-rails (1.0.1)
+      r18n-rails-api (= 1.0.1)
 
 GEM
   remote: http://rubygems.org/
