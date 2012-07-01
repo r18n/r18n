@@ -73,4 +73,14 @@ describe R18n::Backend do
     I18n.t('in.another').class.should == Hash
   end
 
+  it "should correct detect untranslated, whem path is deeper than string" do
+    lambda {
+      I18n.t('in.another.level.deeper')
+    }.should raise_error(::I18n::MissingTranslationData)
+
+    lambda {
+      I18n.t('in.another.level.go.deeper')
+    }.should raise_error(::I18n::MissingTranslationData)
+  end
+
 end

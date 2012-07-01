@@ -98,7 +98,15 @@ module R18n
         k.to_s.split(separator || ::I18n.default_separator) }.flatten
       last = keys.pop
 
-      result = keys.inject(R18n.get) { |result, key| result[key] }
+      result = keys.inject(R18n.get) do |node, key|
+        if node.is_a? TranslatedString
+          node.call(key)
+        else
+          node[key]
+        end
+      end
+
+      return result.call(last) if result.is_a? TranslatedString
       result[last, params]
     end
   end
