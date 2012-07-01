@@ -112,7 +112,7 @@ module R18n
         result.to_hash
       elsif result.is_a? UnpluralizetedHash
         Utils.hash_map(result) do |key, value|
-          [R18n::Loader::Rails::PLURAL_KEYS.key(key), value]
+          [Loader::Rails::PLURAL_KEYS.find { |k, v| v == key }.first, value]
         end
       else
         result
