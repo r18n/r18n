@@ -77,4 +77,14 @@ describe R18n::Translation do
     }
   end
 
+  it "should return untranslated, when we go deeper string" do
+    en = R18n.locale('en')
+    translation = R18n::Translation.new(en, '',
+      :locale => en, :translations => { 'a' => 'A' })
+
+    translation.a.b.should be_a(R18n::Untranslated)
+    translation.a.b.translated_path.should   == 'a.'
+    translation.a.b.untranslated_path.should == 'b'
+  end
+
 end

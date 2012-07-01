@@ -29,10 +29,11 @@ module R18n
 
     # Returns a new string object containing a copy of +str+, which translated
     # for +path+ to +locale+
-    def initialize(str, locale, path)
+    def initialize(str, locale, path, filters = nil)
       super(str)
-      @locale = locale
-      @path   = path
+      @filters = filters
+      @locale  = locale
+      @path    = path
     end
 
     # Return self for translated string.
@@ -55,8 +56,14 @@ module R18n
       if respond_to? :html_safe
         html_safe
       else
-        self
+        String.new(self)
       end
+    end
+
+    # Return untranslated, when user try to go deeper in translation.
+    def method_missing(name, *params)
+      translated = @path.empty? ? '' : "#{@path}."
+      Untranslated.new(translated, name.to_s, @locale, @filters)
     end
   end
 end
