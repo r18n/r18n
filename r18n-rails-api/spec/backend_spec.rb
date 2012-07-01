@@ -73,6 +73,10 @@ describe R18n::Backend do
     I18n.t('in.another').class.should == Hash
   end
 
+  it "should return correct unpluralized hash" do
+    I18n.t(:users).should == { :one => '1 user', :many => '%{count} users' }
+  end
+
   it "should correct detect untranslated, whem path is deeper than string" do
     lambda {
       I18n.t('in.another.level.deeper')

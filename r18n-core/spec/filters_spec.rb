@@ -153,8 +153,9 @@ describe R18n::Filters do
   end
 
   it "shouldn't pluralize without first numeric parameter" do
-    @i18n.files.should     == { 1 => '1 file', 'n' => '%1 files' }
-    @i18n.files('').should == { 1 => '1 file', 'n' => '%1 files' }
+    @i18n.files.should       == { 1 => '1 file', 'n' => '%1 files' }
+    @i18n.files('').should   == { 1 => '1 file', 'n' => '%1 files' }
+    @i18n.files.class.should == R18n::UnpluralizetedHash
   end
 
   it "should convert first float parameter to number" do

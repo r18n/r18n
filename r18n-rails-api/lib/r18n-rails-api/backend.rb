@@ -110,6 +110,10 @@ module R18n
         result.to_s
       elsif result.is_a? Translation
         result.to_hash
+      elsif result.is_a? UnpluralizetedHash
+        Utils.hash_map(result) do |key, value|
+          [R18n::Loader::Rails::PLURAL_KEYS.key(key), value]
+        end
       else
         result
       end
