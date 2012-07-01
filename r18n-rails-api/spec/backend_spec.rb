@@ -69,7 +69,7 @@ describe R18n::Backend do
   end
 
   it "should return plain classes" do
-    I18n.t('in.another.level').class.should == String
+    I18n.t('in.another.level').class.should == ActiveSupport::SafeBuffer
     I18n.t('in.another').class.should == Hash
   end
 

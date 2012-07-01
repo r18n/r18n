@@ -45,7 +45,7 @@ module R18n
         Array(default).each do |entry|
           if entry.is_a? Symbol
             value = lookup(scope, entry, separator, params)
-            return value if value.translated?
+            return value unless value.is_a? Untranslated
           else
             return entry
           end
@@ -53,13 +53,7 @@ module R18n
 
         raise ::I18n::MissingTranslationData.new(locale, key, options)
       else
-        if result.is_a? TranslatedString
-          String.new(result)
-        elsif result.is_a? Translation
-          result.to_hash
-        else
-          result
-        end
+        result
       end
     end
 
@@ -106,8 +100,19 @@ module R18n
         end
       end
 
-      return result.call(last) if result.is_a? TranslatedString
-      result[last, params]
+      result = if result.is_a? TranslatedString
+        result.call(last)
+      else
+        result[last, params]
+      end
+
+      if result.is_a? TranslatedString
+        result.to_s
+      elsif result.is_a? Translation
+        result.to_hash
+      else
+        result
+      end
     end
   end
 end
