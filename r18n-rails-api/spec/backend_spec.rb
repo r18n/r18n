@@ -32,9 +32,9 @@ describe R18n::Backend do
   end
 
   it "should use pluralization and variables" do
-    I18n.t(:users, :count => 0).should == '0 users'
-    I18n.t(:users, :count => 1).should == '1 user'
-    I18n.t(:users, :count => 5).should == '5 users'
+    I18n.t('in.users', :count => 0).should == '0 users'
+    I18n.t('in.users', :count => 1).should == '1 user'
+    I18n.t('in.users', :count => 5).should == '5 users'
   end
 
   it "should use another separator" do
@@ -74,7 +74,7 @@ describe R18n::Backend do
   end
 
   it "should return correct unpluralized hash" do
-    I18n.t(:users).should == { :one => '1 user', :many => '%{count} users' }
+    I18n.t('in.users').should == { :one => '1 user', :many => '%{count} users' }
   end
 
   it "should correct detect untranslated, whem path is deeper than string" do
