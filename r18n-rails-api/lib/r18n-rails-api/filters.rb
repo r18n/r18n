@@ -37,12 +37,30 @@ R18n::Filters.add(String, :named_variables) do |content, config, params|
   content
 end
 
+module R18n
+  # Class to mark unpluralized translation and convert Rails plural keys
+  class RailsUnpluralizetedTranslation < UnpluralizetedTranslation
+    def [](name, *params)
+      result = super
+      if result.is_a? Untranslated
+        fixed = super(RailsPlural.to_r18n(name), *params)
+        result = fixed unless fixed.is_a? Untranslated
+      end
+      result
+    end
+  end
+end
+
 # Pluralization by named variable <tt>%{count}</tt>.
 R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
   if param.is_a? Hash and param.has_key? :count
+    hash = content.to_hash
     type = config[:locale].pluralize(param[:count])
-    type = 'n' if not content.has_key? type
-    content[type]
+    type = 'n' if not hash.has_key? type
+    hash[type]
+  elsif content.is_a? R18n::UnpluralizetedTranslation
+    R18n::RailsUnpluralizetedTranslation.new(config[:locale], config[:path],
+        :locale => config[:locale], :translations => content.to_hash)
   else
     content
   end

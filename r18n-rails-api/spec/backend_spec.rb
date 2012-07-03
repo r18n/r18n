@@ -97,4 +97,8 @@ describe R18n::Backend do
     }.should raise_error(::I18n::MissingTranslationData)
   end
 
+  it "should work deeper pluralization" do
+    I18n.t('in.users.many', :count => 5).should == '5 users'
+  end
+
 end

@@ -213,8 +213,8 @@ module R18n
     eval("proc { #{content} }").call(*params)
   end
 
-  # Hash to mark unpluralized translation. Used in Rails I18n backend.
-  class UnpluralizetedHash < ::Hash
+  # Class to mark unpluralized translation.
+  class UnpluralizetedTranslation < Translation
   end
 
   Filters.add('pl', :pluralization) do |content, config, param|
@@ -224,7 +224,8 @@ module R18n
       type = 'n' if not content.has_key? type
       content[type]
     else
-      UnpluralizetedHash[content]
+      UnpluralizetedTranslation.new(config[:locale], config[:path],
+        :locale => config[:locale], :translations => content)
     end
   end
 

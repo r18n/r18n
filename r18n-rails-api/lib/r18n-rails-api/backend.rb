@@ -108,12 +108,12 @@ module R18n
 
       if result.is_a? TranslatedString
         result.to_s
+      elsif result.is_a? UnpluralizetedTranslation
+        Utils.hash_map(result.to_hash) do |key, value|
+          [RailsPlural.from_r18n(key), value]
+        end
       elsif result.is_a? Translation
         result.to_hash
-      elsif result.is_a? UnpluralizetedHash
-        Utils.hash_map(result) do |key, value|
-          [Loader::Rails::PLURAL_KEYS.find { |k, v| v == key }.first, value]
-        end
       else
         result
       end

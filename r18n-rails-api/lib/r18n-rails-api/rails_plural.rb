@@ -1,5 +1,6 @@
+# encoding: utf-8
 =begin
-Rails I18n compatibility for R18n.
+Converter between R18n and Rails I18n plural keys.
 
 Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 
@@ -17,11 +18,22 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'pathname'
-require 'r18n-core'
+module R18n
+  # Converter between R18n and Rails I18n plural keys.
+  class RailsPlural
+    # Check, that +key+ is Rails plural key.
+    def self.is_rails?(k)
+      [:zero, :one, :few, :many, :other].include? k
+    end
 
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails-api'
-require dir + 'rails_plural'
-require dir + 'filters'
-require dir + 'loader'
-require dir + 'backend'
+    # Convert Rails I18n plural key to R18n.
+    def self.to_r18n(k)
+      { :zero  => 0, :one => 1, :few => 2, :many => 'n', :other => 'other' }[k]
+    end
+
+    # Convert R18n plural key to Rails I18n.
+    def self.from_r18n(k)
+      { 0 => :zero, 1 => :one, 2 => :few, 'n' => :many, 'other' => :other }[k]
+    end
+  end
+end

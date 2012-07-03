@@ -33,9 +33,6 @@ module R18n
     #   R18n::I18n.new('en',
     #                  R18n::Loader::Rails.new(I18n::Backend::ActiveRecord.new))
     class Rails
-      PLURAL_KEYS = { :zero  => 0, :one => 1, :few => 2, :many => 'n',
-                      :other => 'other' }
-
       # Create new loader for some +backend+ from Rails I18n. Backend must have
       # +reload!+, +init_translations+ and +translations+ methods.
       def initialize(backend = ::I18n::Backend::Simple.new)
@@ -85,12 +82,12 @@ module R18n
         if value.is_a? Hash
           if value.empty?
             value
-          elsif value.keys.inject(true) { |a, i| a and PLURAL_KEYS.include? i }
-            R18n::Typed.new('pl', R18n::Utils.hash_map(value) { |k, v|
-              [PLURAL_KEYS[k], transform(v)]
+          elsif value.keys.inject(true) { |a, i| a and RailsPlural.is_rails? i }
+            Typed.new('pl', R18n::Utils.hash_map(value) { |k, v|
+              [RailsPlural.to_r18n(k), transform(v)]
             })
           else
-            R18n::Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
+            Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
           end
         elsif value.is_a? @private_type_class
           Typed.new(value.type_id, value.value)
