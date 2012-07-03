@@ -2,7 +2,7 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Loader::Rails do
-  before :all do
+  before do
     I18n.load_path = [SIMPLE]
     @loader = R18n::Loader::Rails.new
   end
@@ -18,7 +18,16 @@ describe R18n::Loader::Rails do
   it "should change pluralization" do
     @loader.load(EN).should == {
       'users' => R18n::Typed.new('pl', {
-        0 => 'Zero', 1 => 'One', 2 => 'Few', 'n' => 'Many', 'other' => 'Other'
+        0 => 'Zero', 1 => 'One', 2 => 'Few', 'n' => 'Other'
+       })
+    }
+  end
+
+  it "should change Russian pluralization" do
+    I18n.load_path = [PL]
+    @loader.load(RU).should == {
+      'users' => R18n::Typed.new('pl', {
+        0 => 'Ноль', 1 => 'Один', 2 => 'Несколько', 'n' => 'Много'
        })
     }
   end

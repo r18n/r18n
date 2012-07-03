@@ -28,12 +28,12 @@ module R18n
 
     # Convert Rails I18n plural key to R18n.
     def self.to_r18n(k)
-      { :zero  => 0, :one => 1, :few => 2, :many => 'n', :other => 'other' }[k]
+      { :zero  => 0, :one => 1, :few => 2, :many => 'n', :other => 'n' }[k]
     end
 
     # Convert R18n plural key to Rails I18n.
     def self.from_r18n(k)
-      { 0 => :zero, 1 => :one, 2 => :few, 'n' => :many, 'other' => :other }[k]
+      { 0 => :zero, 1 => :one, 2 => :few, 'n' => :other }[k]
     end
   end
 end

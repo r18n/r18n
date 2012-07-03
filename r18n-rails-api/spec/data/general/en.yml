@@ -16,6 +16,6 @@ en:
       level: Hierarchical
     default: Default
 
-    users:
-      one: 1 user
-      many: "%{count} users"
+  users:
+    one: 1 user
+    other: "%{count} users"
