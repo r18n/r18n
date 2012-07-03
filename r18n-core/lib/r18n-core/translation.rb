@@ -146,7 +146,8 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
-      value = @data[name.to_s]
+      name = name.to_s if not name.is_a? String and not name.is_a? Fixnum
+      value = @data[name]
       case value
       when TranslatedString
         @filters.process_string(:active, value, @path, params)
@@ -154,7 +155,7 @@ module R18n
         @filters.process_typed(:active, value, params)
       when nil
         translated = @path.empty? ? '' : "#{@path}."
-        Untranslated.new(translated, name.to_s, @locale, @filters)
+        Untranslated.new(translated, name, @locale, @filters)
       else
         value
       end
