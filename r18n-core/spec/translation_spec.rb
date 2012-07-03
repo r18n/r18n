@@ -87,4 +87,19 @@ describe R18n::Translation do
     translation.a.b.untranslated_path.should == 'b'
   end
 
+  it "should inspect translation" do
+    en = R18n.locale('en')
+
+    translation = R18n::Translation.new(en, 'a',
+      :locale => en, :translations => { 'a' => 'A' })
+    translation.inspect.should == 'Translation `a` for en {"a"=>"A"}'
+
+    translation = R18n::Translation.new(en, '',
+      :locale => en, :translations => { 'a' => 'A' })
+    translation.inspect.should == 'Translation root for en {"a"=>"A"}'
+
+    translation = R18n::Translation.new(en, '')
+    translation.inspect.should == 'Translation root for en {}'
+  end
+
 end

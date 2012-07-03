@@ -115,6 +115,12 @@ module R18n
                       [@path, '', @path])
     end
 
+    # Override inspect to easy debug.
+    def inspect
+      path = @path.empty? ? 'root' : "`#{@path}`"
+      "Translation #{path} for #{@locale.code} #{@data.inspect}"
+    end
+
     # Return current translation keys.
     #
     # Deprecated. Use <tt>to_hash.keys</tt>.
