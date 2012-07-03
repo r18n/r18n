@@ -60,10 +60,16 @@ module R18n
       end
     end
 
+    # Return untranslated for deeper node `key`. It is in separated methods to
+    # be used in R18n I18n backend.
+    def get_untranslated(key)
+      translated = @path.empty? ? '' : "#{@path}."
+      Untranslated.new(translated, key, @locale, @filters)
+    end
+
     # Return untranslated, when user try to go deeper in translation.
     def method_missing(name, *params)
-      translated = @path.empty? ? '' : "#{@path}."
-      Untranslated.new(translated, name.to_s, @locale, @filters)
+      get_untranslated(name.to_s)
     end
   end
 end

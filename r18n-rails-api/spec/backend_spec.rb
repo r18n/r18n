@@ -92,7 +92,9 @@ describe R18n::Backend do
   end
 
   it "should not call object methods" do
-    I18n.t('in.another.level.to_sym').should == 'Hierarchical'
+    lambda {
+      I18n.t('in.another.level.to_sym')
+    }.should raise_error(::I18n::MissingTranslationData)
   end
 
 end

@@ -94,24 +94,16 @@ module R18n
 
       result = keys.inject(R18n.get.t) do |node, key|
         if node.is_a? TranslatedString
-          if node.respond_to? key
-            node
-          else
-            node.send(key)
-          end
+          node.get_untranslated(key)
         else
           node[key]
         end
       end
 
-      result = if result.is_a? Translation
-        result[last, params]
+      result = if result.is_a? TranslatedString
+        result.get_untranslated(key)
       else
-        if result.respond_to? last
-          result
-        else
-          result.send(last)
-        end
+        result[last, params]
       end
 
       if result.is_a? TranslatedString
