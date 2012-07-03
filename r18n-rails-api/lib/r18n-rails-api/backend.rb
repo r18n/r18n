@@ -90,11 +90,15 @@ module R18n
     def lookup(scope, key, separator, params)
       keys = (Array(scope) + Array(key)).map { |k|
         k.to_s.split(separator || ::I18n.default_separator) }.flatten
-      last = keys.pop
+      last = keys.pop.to_sym
 
       result = keys.inject(R18n.get.t) do |node, key|
         if node.is_a? TranslatedString
-          node.call(key)
+          if node.respond_to? key
+            node
+          else
+            node.send(key)
+          end
         else
           node[key]
         end
@@ -103,7 +107,11 @@ module R18n
       result = if result.is_a? Translation
         result[last, params]
       else
-        result.call(last)
+        if result.respond_to? last
+          result
+        else
+          result.send(last)
+        end
       end
 
       if result.is_a? TranslatedString

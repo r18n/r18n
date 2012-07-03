@@ -87,4 +87,12 @@ describe R18n::Backend do
     }.should raise_error(::I18n::MissingTranslationData)
   end
 
+  it "should not call String methods" do
+    I18n.t('in.another').class.should == Hash
+  end
+
+  it "should not call object methods" do
+    I18n.t('in.another.level.to_sym').should == 'Hierarchical'
+  end
+
 end
