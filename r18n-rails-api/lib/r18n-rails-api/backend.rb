@@ -85,6 +85,31 @@ module R18n
 
     protected
 
+    def format_value(result)
+      if result.is_a? TranslatedString
+        result.to_s
+      elsif result.is_a? UnpluralizetedTranslation
+        Utils.hash_map(result.to_hash) do |key, value|
+          [RailsPlural.from_r18n(key), value]
+        end
+      elsif result.is_a? Translation
+        translation_to_hash(result)
+      else
+        result
+      end
+    end
+
+    def translation_to_hash(translation)
+      Utils.hash_map(translation.to_hash) do |key, value|
+        value = if value.is_a? Hash
+          translation_to_hash(value)
+        else
+          format_value(value)
+        end
+        [key.to_sym, value]
+      end
+    end
+
     # Find translation by <tt>scope.key(params)</tt> in current R18n I18n
     # object.
     def lookup(scope, key, separator, params)
@@ -106,17 +131,7 @@ module R18n
         result[last, params]
       end
 
-      if result.is_a? TranslatedString
-        result.to_s
-      elsif result.is_a? UnpluralizetedTranslation
-        Utils.hash_map(result.to_hash) do |key, value|
-          [RailsPlural.from_r18n(key), value]
-        end
-      elsif result.is_a? Translation
-        result.to_hash
-      else
-        result
-      end
+      format_value(result)
     end
   end
 end

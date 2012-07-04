@@ -101,4 +101,11 @@ describe R18n::Backend do
     I18n.t('users.other', :count => 5).should == '5 users'
   end
 
+  it "should return hash with symbols keys" do
+    I18n.t('in').should == {
+      :another => { :level => 'Hierarchical' },
+      :default => 'Default'
+    }
+  end
+
 end

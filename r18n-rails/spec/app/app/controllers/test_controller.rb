@@ -41,7 +41,7 @@ class TestController < ApplicationController
     render :text => t.ruby
   end
 
-  def buildin
+  def format
     render
   end
 end

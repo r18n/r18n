@@ -135,9 +135,9 @@ describe TestController, :type => :controller do
 
 
   it "should work with Rails build-in herlpers" do
-    get :buildin, :locale => 'en'
+    get :format
     response.should be_success
-    response.body.should == "$1000.00\n"
+    response.body.should == "1 000.00 руб.\n"
   end
 
 end
