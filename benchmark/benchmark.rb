@@ -23,6 +23,12 @@ I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
 I18n::Backend::Simple.send(:include, I18n::Backend::InterpolationCompiler)
 I18n::Backend::Simple.send(:include, I18n::Backend::Flatten)
 
+class Array
+  def nitems
+    count {|i| !i.nil?}
+  end
+end
+
 RBench.run(1000) do
 
   column :r18n, :title => 'R18n'
@@ -82,7 +88,7 @@ RBench.run(1000) do
     r18n {
       R18n.get.user.count(51)
     }
-    i18n { 
+    i18n {
       I18n.t :'user.count', :count => 51
     }
   end
