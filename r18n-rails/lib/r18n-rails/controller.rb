@@ -41,8 +41,6 @@ module R18n
           R18n::I18n.new(locales, R18n.default_places,
             :off_filters => :untranslated, :on_filters => :untranslated_html)
         end
-
-        ::I18n.backend = R18n::Backend.new
       end
 
       # Clean cache and reload filters from ruby files in `app/i18n`.

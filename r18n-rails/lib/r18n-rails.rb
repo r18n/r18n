@@ -50,4 +50,6 @@ ActiveSupport.on_load(:after_initialize) do
   else
     R18n.set(locale)
   end
+
+  I18n.backend = R18n::Backend.new
 end
