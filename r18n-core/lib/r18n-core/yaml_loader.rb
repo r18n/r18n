@@ -91,7 +91,11 @@ module R18n
         R18n::Utils.hash_map(a_hash) do |key, value|
           value = case value
           when @private_type_class
-            Typed.new(value.type_id, value.value)
+            v = value.value
+            if v.respond_to?(:force_encoding) and v.encoding != __ENCODING__
+              v = v.force_encoding(__ENCODING__)
+            end
+            Typed.new(value.type_id, v)
           when Hash
             transform(value)
           else
