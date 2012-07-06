@@ -48,6 +48,7 @@ module R18n
       def reload_r18n
         R18n.clear_cache!
         R18n::Rails::Filters.reload!
+        R18n.get.try(:reload!)
       end
     end
   end
