@@ -89,14 +89,15 @@ module R18n
       # Wrap YAML private types to Typed.
       def transform(a_hash)
         R18n::Utils.hash_map(a_hash) do |key, value|
-          [key,
-           case value
-             when @private_type_class
-               Typed.new(value.type_id, value.value)
-             when Hash
-               transform(value)
-             else value
-           end]
+          value = case value
+          when @private_type_class
+            Typed.new(value.type_id, value.value)
+          when Hash
+            transform(value)
+          else
+            value
+          end
+          [key, value]
         end
       end
     end
