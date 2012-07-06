@@ -18,7 +18,7 @@ RSpec::Core::RakeTask.new
 
 task :spec_syck do
   ENV['test_syck'] = '1'
-  sh "#{RUBY} -S rake spec", :verbose => false
+  Rake::Task['spec'].execute
 end
 
 require 'yard'
