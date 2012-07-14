@@ -2,7 +2,7 @@
 
 R18n is an i18n tool to translate your Ruby application into several languages.
 It contains a core gem and out-of-box wrapper plugins for frameworks or
-environments (Rails, Sinatra, Merb, desktop).
+environments (Rails, Sinatra, desktop).
 
 ## Quick Demo
 
