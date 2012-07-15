@@ -1,3 +1,13 @@
+== 1.1.0 (Leipzig)
+* A lot of fixes in Rails I18n compatibility (thanks for Stephan Schubert).
+* Return Untranslted, when user try to call another translation key on
+  already translated string.
+* Add Translation#to_hash to get raw translation.
+* Add Translation#inspect to easy debug.
+* Return translation, when pluralization filter didn’t get count.
+* Set R18n backend on Rails plugin init, to use it in console.
+* Allow to use Fixnum in translation keys.
+
 == 1.0.1 (Phuket Town)
 * Fix translation reloading in Rails and Sinatra.
 * Use global R18n settings for Sinatra extension.
