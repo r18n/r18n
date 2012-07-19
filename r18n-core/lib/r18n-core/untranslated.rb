@@ -18,8 +18,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'singleton'
-
 module R18n
   # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
   # you try to access for subtranslations.
