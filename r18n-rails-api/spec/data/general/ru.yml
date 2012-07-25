@@ -1,0 +1,4 @@
+ru:
+  date:
+    formats:
+      default: "%d.%m.%Y"

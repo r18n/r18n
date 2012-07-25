@@ -9,7 +9,7 @@ describe R18n::Backend do
   end
 
   it "should return available locales" do
-    I18n.available_locales.should =~ [:en]
+    I18n.available_locales.should =~ [:en, :ru]
   end
 
   it "should localize objects" do
@@ -106,6 +106,14 @@ describe R18n::Backend do
       :another => { :level => 'Hierarchical' },
       :default => 'Default'
     }
+  end
+
+  it "should change locale in place" do
+    I18n.load_path << PL
+    I18n.t('users', :count => 5).should == '5 users'
+    I18n.t('users', :count => 5, :locale => :ru).should == 'Много'
+
+    I18n.l(Date.parse('1970-01-01'), :locale => :ru).should == '01.01.1970'
   end
 
 end

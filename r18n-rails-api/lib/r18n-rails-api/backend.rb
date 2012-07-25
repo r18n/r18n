@@ -37,14 +37,14 @@ module R18n
       scope, default, separator = options.values_at(*RESERVED_KEYS)
       params = options.reject { |name, value| RESERVED_KEYS.include?(name) }
 
-      result = lookup(scope, key, separator, params)
+      result = lookup(locale, scope, key, separator, params)
 
       if result.is_a? Untranslated
         options = options.reject { |key, value| key == :default }
 
         Array(default).each do |entry|
           if entry.is_a? Symbol
-            value = lookup(scope, entry, separator, params)
+            value = lookup(locale, scope, entry, separator, params)
             return value unless value.is_a? Untranslated
           else
             return entry
@@ -65,12 +65,13 @@ module R18n
     # +:only_day+ and +:only_second+) and R18n (+:full+, +:human+, +:standard+
     # and +:month+) time formatters.
     def localize(locale, object, format = :default, options = {})
+      i18n = get_i18n(locale)
       if format.is_a? Symbol
-        key = format
+        key  = format
         type = object.respond_to?(:sec) ? 'time' : 'date'
-        format = R18n.get[type].formats[key] | format
+        format = i18n[type].formats[key] | format
       end
-      R18n.get.localize(object, format)
+      i18n.localize(object, format)
     end
 
     # Return array of available locales codes.
@@ -84,6 +85,12 @@ module R18n
     end
 
     protected
+
+    def get_i18n(locale)
+      i18n = R18n.get
+      i18n = R18n.change(locale.to_s) if i18n.locale.code != locale.to_s
+      i18n
+    end
 
     def format_value(result)
       if result.is_a? TranslatedString
@@ -112,12 +119,12 @@ module R18n
 
     # Find translation by <tt>scope.key(params)</tt> in current R18n I18n
     # object.
-    def lookup(scope, key, separator, params)
+    def lookup(locale, scope, key, separator, params)
       keys = (Array(scope) + Array(key)).map { |k|
         k.to_s.split(separator || ::I18n.default_separator) }.flatten
       last = keys.pop.to_sym
 
-      result = keys.inject(R18n.get.t) do |node, key|
+      result = keys.inject(get_i18n(locale).t) do |node, key|
         if node.is_a? TranslatedString
           node.get_untranslated(key)
         else
