@@ -38,8 +38,10 @@ module R18n
             locales.insert(0, session[:locale])
           end
 
-          R18n::I18n.new(locales, R18n.default_places,
+          i18n = R18n::I18n.new(locales, R18n.default_places,
             :off_filters => :untranslated, :on_filters => :untranslated_html)
+          ::I18n.locale = i18n.locale.code.to_sym
+          i18n
         end
       end
 
