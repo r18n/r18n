@@ -153,5 +153,8 @@ module R18n
       enabled += @on_by_type[type]
     end
 
+    def hash
+      [@on, @off].hash
+    end
   end
 end

@@ -130,6 +130,16 @@ describe R18n::I18n do
     counter.loaded.should == 2
   end
 
+  it "shouldn't clear cache when custom filters are specified" do
+    counter = CounterLoader.new('en')
+
+    R18n::I18n.new('en', counter, :off_filters => :untranslated, :on_filters => :untranslated_html)
+    counter.loaded.should == 1
+
+    R18n::I18n.new('en', counter, :off_filters => :untranslated, :on_filters => :untranslated_html)
+    counter.loaded.should == 1
+  end
+
   it "should cache translations by used locales" do
     counter = CounterLoader.new('en', 'ru')
 
