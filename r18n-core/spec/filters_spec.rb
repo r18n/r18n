@@ -173,6 +173,10 @@ describe R18n::Filters do
     @i18n.params(-1, 2).should == 'Is −1 between −1 and 2?'
   end
 
+  it "should substitute '%2' as param but not value of second param" do
+    @i18n.params('%2 FIRST', 'SECOND').should == 'Is %2 FIRST between %2 FIRST and SECOND?'
+  end
+
   it "should format untranslated" do
     @i18n.in.not.to_s.should   == 'in.[not]'
     @i18n.in.not.to_str.should == 'in.[not]'
