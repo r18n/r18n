@@ -233,7 +233,7 @@ module R18n
     cached_params = []
     content = content.clone
     content.gsub!(/\%\d/) do |key|
-      i = key[1,].to_i
+      i = key[1..-1].to_i
       unless cached_params.include? i - 1
         param = config[:locale].localize(params[i - 1])
         if defined? ActiveSupport::SafeBuffer
