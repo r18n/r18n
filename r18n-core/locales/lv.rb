@@ -3,19 +3,21 @@ module R18n
   class Locales::Lv < Locale
     set :title => 'Latviešu',
 
+        :week_start => :monday,
         :wday_names => %w{Svētdiena Pirmdiena Otrdiena Trešdiena Ceturtdiena
-                          Piektiena Sestdiena},
+                          Piektdiena Sestdiena},
         :wday_abbrs => %w{Sv P O T C P S},
 
-        :month_names => %w{janvāris februāris marts aprīlis maijs jūnijs jūlijs
-                           augusts septembris oktobris novembris decembris},
+        :month_names => %w{janvārī februārī martā aprīlī maijā jūnijā jūlijā
+                           augustā septembrī oktobrī novembrī decembrī},
         :month_abbrs => %w{jan feb mar apr mai jūn jūl aug sep okt nov dec},
-        :month_standalone => %w{Janvāris Februāris Marts Aprīlis Maijs Jūnijs
-                                Jūlijs Augusts Septembris Oktobris Novembris
-                                Decembris},
+        :month_standalone => %w{janvāris februāris marts aprīlis maijs jūnijs
+                                jūlijs augusts septembris oktobris novembris
+                                decembris},
 
-        :date_format => '%d.%m.%Y',
-        :year_format => '_, %Y',
+        :date_format => '%d.%m.%Y.',
+        :full_format => '%e.%B',
+        :year_format => '%Y.gada _',
 
         :number_decimal => ",",
         :number_group   => " "
