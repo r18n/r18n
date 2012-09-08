@@ -32,11 +32,10 @@ require dir.join('untranslated').to_s
 require dir.join('translation').to_s
 require dir.join('filters').to_s
 require dir.join('filter_list').to_s
+require dir.join('yaml_methods').to_s
 require dir.join('yaml_loader').to_s
 require dir.join('i18n').to_s
 require dir.join('helpers').to_s
-
-require 'yecht' if RUBY_PLATFORM == 'java'
 
 module R18n
   autoload :Translated, 'r18n-core/translated'

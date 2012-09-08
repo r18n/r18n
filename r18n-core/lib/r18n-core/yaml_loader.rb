@@ -18,9 +18,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'yaml'
-require 'syck' if '1.8.' != RUBY_VERSION[0..3] and RUBY_PLATFORM != 'java'
-
 module R18n
   module Loader
     # Loader for translations in YAML format. Them should have name like
@@ -34,19 +31,15 @@ module R18n
     #
     #   R18n::I18n.new('en', 'dir/with/translations')
     class YAML
+      include ::R18n::YamlMethods
+
       # Dir with translations.
       attr_reader :dir
 
       # Create new loader for +dir+ with YAML translations.
       def initialize(dir)
         @dir = File.expand_path(dir)
-        @private_type_class = if defined?(JRUBY_VERSION)
-          ::YAML::Yecht::PrivateType
-        elsif '1.8.' == RUBY_VERSION[0..3]
-          ::YAML::PrivateType
-        else
-          ::Syck::PrivateType
-        end
+        detect_yaml_private_type
       end
 
       # Array of locales, which has translations in +dir+.
@@ -58,16 +51,7 @@ module R18n
 
       # Return Hash with translations for +locale+.
       def load(locale)
-        if '1.8.' != RUBY_VERSION[0..3] and 'psych' == ::YAML::ENGINE.yamler
-          Filters.by_type.keys.each do |type|
-            next unless type.is_a? String
-            # Yeah, I add R18n’s types to global, send me patch if you really
-            # use YAML types too ;).
-            Psych.add_domain_type('yaml.org,2002', type) do |full_type, value|
-              Typed.new(type, value)
-            end
-          end
-        end
+        initialize_types
 
         translations = {}
         Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |i|
@@ -89,17 +73,14 @@ module R18n
       # Wrap YAML private types to Typed.
       def transform(a_hash)
         R18n::Utils.hash_map(a_hash) do |key, value|
-          value = case value
-          when @private_type_class
+          if value.is_a? Hash
+            value = transform(value)
+          elsif @private_type_class and value.is_a? @private_type_class
             v = value.value
             if v.respond_to?(:force_encoding) and v.encoding != __ENCODING__
               v = v.force_encoding(__ENCODING__)
             end
-            Typed.new(value.type_id, v)
-          when Hash
-            transform(value)
-          else
-            value
+            value = Typed.new(value.type_id, v)
           end
           [key, value]
         end

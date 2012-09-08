@@ -33,15 +33,13 @@ module R18n
     #   R18n::I18n.new('en',
     #                  R18n::Loader::Rails.new(I18n::Backend::ActiveRecord.new))
     class Rails
+      include ::R18n::YamlMethods
+
       # Create new loader for some +backend+ from Rails I18n. Backend must have
       # +reload!+, +init_translations+ and +translations+ methods.
       def initialize(backend = ::I18n::Backend::Simple.new)
         @backend = backend
-        if ('1.8.' == RUBY_VERSION[0..3] || RUBY_PLATFORM == 'java')
-          @private_type_class = ::YAML::PrivateType
-        else
-          @private_type_class = ::Syck::PrivateType
-        end
+        detect_yaml_private_type
       end
 
       # Array of locales, which has translations in +I18n.load_path+.
@@ -52,6 +50,7 @@ module R18n
 
       # Return Hash with translations for +locale+.
       def load(locale)
+        initialize_types
         reload!
         @translations[locale.code.downcase]
       end
@@ -89,7 +88,7 @@ module R18n
           else
             Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
           end
-        elsif value.is_a? @private_type_class
+        elsif @private_type_class and value.is_a? @private_type_class
           Typed.new(value.type_id, value.value)
         else
           value
