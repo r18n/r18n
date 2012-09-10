@@ -1,3 +1,11 @@
+== 1.1.1 (Dunhuang)
+* Don’t change YAML parser in Ruby 1.9.
+* Allow to change locale by argument in R18n Rails backend.
+* Set also Rails I18n locale in Rails autodetect filter.
+* Fix caching with custom filters (by Anton Onyshchenko).
+* Fix translation variables  with “%1” text inside (by Taras Kunch).
+* Fix Latvian locale (by Aleksandrs Ļedovskis).
+
 == 1.1.0 (Leipzig)
 * A lot of fixes in Rails I18n compatibility (thanks for Stephan Schubert).
 * Return Untranslted, when user try to call another translation key on
