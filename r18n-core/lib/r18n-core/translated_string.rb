@@ -60,6 +60,11 @@ module R18n
       end
     end
 
+    # Override marshal_dump to avoid Marshalizing filter procs
+    def marshal_dump
+      self.to_str
+    end
+
     # Return untranslated for deeper node `key`. It is in separated methods to
     # be used in R18n I18n backend.
     def get_untranslated(key)
