@@ -62,12 +62,12 @@ module R18n
 
     # Override marshal_dump to avoid Marshalizing filter procs
     def _dump(limit)
-      [self.to_str,@locale,@path].join(":")
+      [self.to_str,@locale.code,@path].join(":")
     end
 
     def self._load(str)
       arr = str.split(":")
-      new arr[0], arr[1], arr[2]
+      new arr[0], R18n::Locale.load(arr[1]), arr[2]
     end
 
     # Return untranslated for deeper node `key`. It is in separated methods to
