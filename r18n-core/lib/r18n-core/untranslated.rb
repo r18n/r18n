@@ -44,6 +44,9 @@ module R18n
     # Path, that exists in translation.
     attr_reader :translated_path
 
+    # Main locale, where string was try to find
+    attr_reader :locale
+
     def initialize(translated_path, untranslated_path, locale, filters)
       @translated_path   = translated_path
       @untranslated_path = untranslated_path
@@ -60,8 +63,24 @@ module R18n
       false
     end
 
-    def method_missing(*params)
-      self[params.first]
+    # Override marshal_dump to avoid Marshalizing filter procs
+    def _dump(limit)
+      [@locale.code, @translated_path, @untranslated_path].join(":")
+    end
+
+    # Load object from Marshalizing.
+    def self._load(str)
+      arr = str.split(":", 3)
+      new arr[1], arr[2], R18n.locale(arr[0]), GlobalFilterList.instance
+    end
+
+    def method_missing(name, *params)
+      # It is need to fix some hack in specs
+      if name == :to_ary
+        raise NoMethodError, "undefined method `to_ary' for #{to_s}"
+      end
+
+      self[name]
     end
 
     def [](*params)
@@ -79,5 +98,14 @@ module R18n
     end
 
     alias :to_str :to_s
+
+    # Is another locale has same code.
+    def ==(untrsl)
+      return false unless untrsl.is_a? Untranslated
+      return false unless locale            == untrsl.locale
+      return false unless translated_path   == untrsl.translated_path
+      return false unless untranslated_path == untrsl.untranslated_path
+      true
+    end
   end
 end

@@ -8,6 +8,10 @@ describe R18n::Translation do
     i18n.not.exists.should be_a(R18n::Untranslated)
     i18n.not.exists.should_not be_translated
     (i18n.not.exists | 'default').should == 'default'
+    i18n.not.exists.locale.should == R18n.locale('en')
+
+    i18n.not.exists.should == i18n.not.exists
+    i18n.not.exists.should_not == i18n.not.exists2
 
     (i18n.in | 'default').should == 'default'
 

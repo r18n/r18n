@@ -223,12 +223,14 @@ describe R18n::I18n do
   it "should return marshalizable values" do
     i18n    = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
                                         :on_filters  => :untranslated_html)
-    marsh   = Marshal.dump(i18n.t.one)
-    demarsh = Marshal.load(marsh)
+    demarsh = Marshal.load(Marshal.dump(i18n.t.one))
 
     i18n.t.one.should        == demarsh
     i18n.t.one.path.should   == demarsh.path
     i18n.t.one.locale.should == demarsh.locale
+
+    demarsh = Marshal.load(Marshal.dump(i18n.t.no_translation))
+    i18n.t.no_translation.should == demarsh
   end
 
 end
