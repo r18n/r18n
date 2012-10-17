@@ -220,8 +220,7 @@ describe R18n::I18n do
     i18n.l(Date.new(0)).should == '01.01.0000'
   end
 
-  it "should return marshalizable values",
-     :ruby => lambda { |v| '1.8.' != v[0..3] } do
+  it "should return marshalizable values", :not_ruby => 1.8 do
     i18n    = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
                                         :on_filters  => :untranslated_html)
     demarsh = Marshal.load(Marshal.dump(i18n.t.one))
