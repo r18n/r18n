@@ -221,7 +221,8 @@ describe R18n::I18n do
   end
 
   it "should return marshalizable values" do
-    i18n    = R18n::I18n.new('en', DIR)
+    i18n    = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
+                                        :on_filters  => :untranslated_html)
     marsh   = Marshal.dump(i18n.t.one)
     demarsh = Marshal.load(marsh)
 
