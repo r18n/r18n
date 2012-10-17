@@ -68,7 +68,7 @@ module R18n
     # Load object from Marshalizing.
     def self._load(str)
       arr = str.split(":", 3)
-      new arr[2], R18n.locale(arr[1]), arr[0]
+      new arr[2], R18n.locale(arr[0]), arr[1]
     end
 
     # Return untranslated for deeper node `key`. It is in separated methods to

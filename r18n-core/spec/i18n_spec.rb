@@ -220,4 +220,14 @@ describe R18n::I18n do
     i18n.l(Date.new(0)).should == '01.01.0000'
   end
 
+  it "should return marshalizable values" do
+    i18n    = R18n::I18n.new('en', DIR)
+    marsh   = Marshal.dump(i18n.t.one)
+    demarsh = Marshal.load(marsh)
+
+    i18n.t.one.should        == demarsh
+    i18n.t.one.path.should   == demarsh.path
+    i18n.t.one.locale.should == demarsh.locale
+  end
+
 end
