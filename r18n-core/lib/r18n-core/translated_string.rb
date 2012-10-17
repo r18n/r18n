@@ -60,6 +60,16 @@ module R18n
       end
     end
 
+    # Override marshal_dump to avoid Marshalizing filter procs
+    def _dump(limit)
+      [self.to_str,@locale.code,@path].join(":")
+    end
+
+    def self._load(str)
+      arr = str.split(":")
+      new arr[0], R18n::Locale.load(arr[1]), arr[2]
+    end
+
     # Return untranslated for deeper node `key`. It is in separated methods to
     # be used in R18n I18n backend.
     def get_untranslated(key)
