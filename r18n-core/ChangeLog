@@ -1,3 +1,8 @@
+== 1.1.2 (Marshal)
+* Fix translation and untranslated marshalizing (by silentshade).
+* Allow to compare untranslated strings.
+* Fix untranslated strings output in tests.
+
 == 1.1.1 (Dunhuang)
 * Don’t change YAML parser in Ruby 1.9.
 * Allow to change locale by argument in R18n Rails backend.
