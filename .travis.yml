@@ -6,4 +6,4 @@ rvm:
   - jruby-18mode
   - jruby-19mode
   - rbx-18mode
-  - 2.0.0-preview1
+  - ruby-2.0.0-preview1
