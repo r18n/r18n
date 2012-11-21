@@ -191,9 +191,9 @@ module R18n
       @available_codes ||= @translation_places.inject([]) { |all, i|
         all + i.available }.uniq.map { |i| i.code.downcase }
       (@locales_codes & @available_codes).join(',') + '@' +
-        @filters.hash.to_s +
-        R18n.default_loader.hash.to_s +
-        @translation_places.hash.to_s +
+        @filters.hash.to_s + '_' +
+        R18n.default_loader.hash.to_s + '_' +
+        @translation_places.hash.to_s + '_' +
         R18n.extension_places.hash.to_s
     end
 
