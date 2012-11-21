@@ -1,6 +1,8 @@
 class TestController < ApplicationController
   layout false
 
+  before_filter :reload_r18n, :only => :filter
+
   def locales
     render :text => R18n.get.locales.map { |i| i.code }.join(', ')
   end
@@ -24,8 +26,7 @@ class TestController < ApplicationController
   end
 
   def controller
-    render :text => "#{t('user.name')}" + "#{t.user.name}" +
-                    "#{r18n.t.user.name}"
+    render :text => "#{t.user.name} #{r18n.t.user.name} #{t('user.name')}"
   end
 
   def time

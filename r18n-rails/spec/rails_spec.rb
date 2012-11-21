@@ -4,10 +4,6 @@ require File.expand_path('../spec_helper', __FILE__)
 describe TestController, :type => :controller do
   render_views
 
-  before do
-    ActionController::Base.send(:before_filter, :reload_r18n)
-  end
-
   it 'should use default locale' do
     get :locales
     response.should be_success
@@ -60,7 +56,7 @@ describe TestController, :type => :controller do
   it "should add methods to controller" do
     get :controller, :locale => 'en'
     response.should be_success
-    response.body.should == "NameNameName"
+    response.body.should == "Name Name Name"
   end
 
   it "should localize time by Rails I18n" do
@@ -138,6 +134,23 @@ describe TestController, :type => :controller do
     get :format
     response.should be_success
     response.body.should == "1 000.1 руб.\n"
+  end
+
+  it "should cache I18n object" do
+    R18n.clear_cache!
+
+    get :translations
+    R18n.cache.keys.length.should == 1
+
+    get :translations
+    R18n.cache.keys.length.should == 1
+
+    get :translations
+    request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
+    R18n.cache.keys.length.should == 1
+
+    get :translations, :locale => 'en'
+    R18n.cache.keys.length.should == 2
   end
 
 end

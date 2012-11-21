@@ -66,7 +66,7 @@ module R18n
 
       # Return hash for object and <tt>I18n.load_path</tt>.
       def hash
-        super + ::I18n.load_path.hash
+        ::I18n.load_path.hash
       end
 
       # Is another +loader+ is also load Rails translations.
