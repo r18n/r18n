@@ -27,7 +27,7 @@ module R18n
         when 1; "#{n}st"
         when 2; "#{n}nd"
         when 3; "#{n}rd"
-        else "#{n}th"
+        else    "#{n}th"
         end
       end
     end
