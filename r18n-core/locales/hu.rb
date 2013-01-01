@@ -35,11 +35,11 @@ module R18n
     end
 
     def format_time_standard(time, *params)
-      format_date_standard(time) + ', ' + format_time(time)
+      format_date_standard(time) + ',' + format_time(time)
     end
 
     def format_time_full(time, *params)
-      format_date_full(time) + ', ' + format_time(time)
+      format_date_full(time) + ',' + format_time(time)
     end
   end
 end
