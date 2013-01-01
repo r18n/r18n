@@ -14,7 +14,6 @@ module R18n
         :date_format => '%Y. %m. %d.',
         :full_format => '%B %e.',
         :year_format => '%Y. _',
-        :time_format => '%H:%M',
 
         :number_decimal => ",",
         :number_group   => " "
