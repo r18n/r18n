@@ -84,9 +84,9 @@ describe R18n::Translation do
     translation = R18n::Translation.new(en, '',
       :locale => en, :translations => { 'a' => 'A' })
 
-    translation.a.b.should be_a(R18n::Untranslated)
-    translation.a.b.translated_path.should   == 'a.'
-    translation.a.b.untranslated_path.should == 'b'
+    translation.a.no_tr.should be_a(R18n::Untranslated)
+    translation.a.no_tr.translated_path.should   == 'a.'
+    translation.a.no_tr.untranslated_path.should == 'no_tr'
   end
 
   it "should inspect translation" do
