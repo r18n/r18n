@@ -164,7 +164,7 @@ describe R18n::Filters do
   end
 
   it "should pluralize translation without locale" do
-    i18n = R18n::I18n.new('no-LC', DIR)
+    i18n = R18n::I18n.new('nolocale', DIR)
     i18n.entries(1).should == 'ONE'
     i18n.entries(5).should == 'N'
   end

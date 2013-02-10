@@ -58,8 +58,8 @@ describe R18n::Translation do
   end
 
   it "should return string with locale info" do
-    i18n = R18n::I18n.new(['no-LC', 'en'], DIR)
-    i18n.one.locale.should == R18n::UnsupportedLocale.new('no-LC')
+    i18n = R18n::I18n.new(['nolocale', 'en'], DIR)
+    i18n.one.locale.should == R18n::UnsupportedLocale.new('nolocale')
     i18n.two.locale.should == R18n.locale('en')
   end
 

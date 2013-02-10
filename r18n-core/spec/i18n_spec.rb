@@ -28,10 +28,10 @@ describe R18n::I18n do
     i18n = R18n::I18n.new('en', DIR)
     i18n.locales.should == [R18n.locale('en')]
 
-    i18n = R18n::I18n.new(['ru', 'no-LC'], DIR)
+    i18n = R18n::I18n.new(['ru', 'nolocale-DL'], DIR)
     i18n.locales.should == [R18n.locale('ru'),
-                            R18n::UnsupportedLocale.new('no-LC'),
-                            R18n::UnsupportedLocale.new('no'),
+                            R18n::UnsupportedLocale.new('nolocale-DL'),
+                            R18n::UnsupportedLocale.new('nolocale'),
                             R18n.locale('en')]
   end
 
@@ -60,14 +60,14 @@ describe R18n::I18n do
 
   it "should load translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
-    i18n.one.should == 'Один'
-    i18n[:one].should == 'Один'
+    i18n.one.should    == 'Один'
+    i18n[:one].should  == 'Один'
     i18n['one'].should == 'Один'
     i18n.only.english.should == 'Only in English'
   end
 
   it "should load translations from several dirs" do
-    i18n = R18n::I18n.new(['no-LC', 'en'], [TWO, DIR])
+    i18n = R18n::I18n.new(['nolocale', 'en'], [TWO, DIR])
     i18n.in.two.should == 'Two'
     i18n.in.another.level.should == 'Hierarchical'
   end
@@ -83,26 +83,26 @@ describe R18n::I18n do
   it "shouldn't use extension without app translations with same locale" do
     R18n.extension_places << EXT
 
-    i18n = R18n::I18n.new(['no-TR', 'en'], DIR)
+    i18n = R18n::I18n.new(['notransl', 'en'], DIR)
     i18n.ext.should == 'Extension'
   end
 
   it "should ignore case on loading" do
-    i18n = R18n::I18n.new('no-lc', [DIR])
+    i18n = R18n::I18n.new('nolocale', [DIR])
     i18n.one.should == 'ONE'
 
-    i18n = R18n::I18n.new('no-LC', [DIR])
+    i18n = R18n::I18n.new('nolocale', [DIR])
     i18n.one.should == 'ONE'
   end
 
   it "should load default translation" do
-    i18n = R18n::I18n.new('no-LC', DIR)
+    i18n = R18n::I18n.new('nolocale', DIR)
     i18n.one.should == 'ONE'
     i18n.two.should == 'Two'
   end
 
   it "should load sublocales for first locale" do
-    R18n::I18n.default = 'no-TR'
+    R18n::I18n.default = 'notransl'
 
     i18n = R18n::I18n.new('ru', DIR)
     i18n.one.should == 'Один'
@@ -111,7 +111,7 @@ describe R18n::I18n do
 
   it "should return available translations" do
     i18n = R18n::I18n.new('en', DIR)
-    i18n.available_locales.should =~ [R18n.locale('no-lc'),
+    i18n.available_locales.should =~ [R18n.locale('nolocale'),
                                       R18n.locale('ru'),
                                       R18n.locale('en')]
   end
@@ -204,8 +204,8 @@ describe R18n::I18n do
   end
 
   it "should return first locale with locale file" do
-    i18n = R18n::I18n.new(['no-TR', 'no-LC', 'ru', 'en'], DIR)
-    i18n.locale.should      == R18n.locale('no-LC')
+    i18n = R18n::I18n.new(['notransl', 'nolocale', 'ru', 'en'], DIR)
+    i18n.locale.should      == R18n.locale('nolocale')
     i18n.locale.base.should == R18n.locale('ru')
   end
 

@@ -140,7 +140,7 @@ describe R18n do
   end
 
   it "should return available translations" do
-    R18n.available_locales(DIR).should =~ [R18n.locale('no-lc'),
+    R18n.available_locales(DIR).should =~ [R18n.locale('nolocale'),
                                            R18n.locale('ru'),
                                            R18n.locale('en')]
   end
@@ -151,7 +151,7 @@ describe R18n do
     t.one.should == 'One'
     R18n.available_locales.should =~ [R18n.locale('ru'),
                                       R18n.locale('en'),
-                                      R18n.locale('no-lc')]
+                                      R18n.locale('nolocale')]
   end
 
   it "should set default places by block" do

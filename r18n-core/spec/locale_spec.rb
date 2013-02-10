@@ -14,7 +14,7 @@ describe R18n::Locale do
 
   it "should check is locale exists" do
     R18n::Locale.exists?('ru').should be_true
-    R18n::Locale.exists?('no-LC').should be_false
+    R18n::Locale.exists?('nolocale').should be_false
   end
 
   it "should set locale properties" do
@@ -55,16 +55,16 @@ describe R18n::Locale do
   it "should use UnsupportedLocale if locale file isn't exists" do
     @en.should be_supported
 
-    unsupported = R18n.locale('no-LC')
+    unsupported = R18n.locale('nolocale-DL')
     unsupported.should_not be_supported
     unsupported.should be_a(R18n::UnsupportedLocale)
 
-    unsupported.code.downcase.should == 'no-lc'
-    unsupported.title.downcase.should == 'no-lc'
+    unsupported.code.downcase.should  == 'nolocale-dl'
+    unsupported.title.downcase.should == 'nolocale-dl'
     unsupported.ltr?.should be_true
 
     unsupported.pluralize(5).should == 'n'
-    unsupported.inspect.downcase.should == 'unsupported locale no-lc'
+    unsupported.inspect.downcase.should == 'unsupported locale nolocale-dl'
   end
 
   it "should format number in local traditions" do
@@ -157,15 +157,15 @@ describe R18n::Locale do
     upcase.code.should   == 'ru'
     downcase.code.should == 'ru'
 
-    upcase   = R18n.locale('no-LC')
-    downcase = R18n.locale('no-lc')
+    upcase   = R18n.locale('nolocale')
+    downcase = R18n.locale('nolocale')
     upcase.should == downcase
-    upcase.code.should   == 'no-lc'
-    downcase.code.should == 'no-lc'
+    upcase.code.should   == 'nolocale'
+    downcase.code.should == 'nolocale'
   end
 
   it "should load locale with underscore" do
-    R18n.locale('no_LC').code.should == 'no-lc'
+    R18n.locale('nolocale-DL').code.should == 'nolocale-dl'
   end
 
 end

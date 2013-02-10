@@ -26,13 +26,15 @@ describe R18n::Loader::YAML do
   it "should return all available translations" do
     @loader.available.should =~ [R18n.locale('ru'),
                                  R18n.locale('en'),
-                                 R18n.locale('no-lc')]
+                                 R18n.locale('nolocale')]
   end
 
   it "should load translation" do
     @loader.load(R18n.locale('ru')).should == {
-      'one' => 'Один', 'in' => {'another' => {'level' => 'Иерархический'}},
-      'typed' => R18n::Typed.new('my', 'value') }
+      'one'   => 'Один',
+      'in'    => { 'another' => { 'level' => 'Иерархический' } },
+      'typed' => R18n::Typed.new('my', 'value')
+    }
   end
 
   it "should return hash by dir" do
@@ -44,8 +46,8 @@ describe R18n::Loader::YAML do
     loader.available.should =~ [R18n.locale('ru'),
                                 R18n.locale('en'),
                                 R18n.locale('fr'),
-                                R18n.locale('no-tr'),
-                                R18n.locale('no-lc')]
+                                R18n.locale('notransl'),
+                                R18n.locale('nolocale')]
 
     translation = loader.load(R18n.locale('en'))
     translation['two'].should       == 'Two'
