@@ -182,15 +182,17 @@ describe R18n::I18n do
 
   it "should reload translations" do
     loader = Class.new do
-      @@answer = 1
       def available; [R18n.locale('en')]; end
-      def load(locale); { 'one' => @@answer }; end
+      def load(locale);
+        @answer ||= 0
+        @answer  += 1
+        { 'one' => @answer }
+      end
     end
 
     i18n = R18n::I18n.new('en', loader.new)
     i18n.one.should == 1
 
-    loader.class_eval { @@answer = 2 }
     i18n.reload!
     i18n.one.should == 2
   end
