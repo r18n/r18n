@@ -1,8 +1,8 @@
 #encoding: utf-8
 module R18n
-  class Locales::NbNo < Locale
+  class Locales::Nb < Locale
     set :title => 'Norsk', #Bokmål
-        :sublocales => %w{no nn-NO en},
+        :sublocales => %w{no nn en},
 
         :week_start => :monday,
         :wday_names => %w{søndag mandag tirsdag onsdag torsdag fredag lørdag},
@@ -16,6 +16,6 @@ module R18n
         :full_format => '%e. %B %Y',
 
         :number_decimal => ",",
-        :number_group =>   " "
+        :number_group   => " "
   end
 end
