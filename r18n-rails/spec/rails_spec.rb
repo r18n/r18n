@@ -133,7 +133,7 @@ describe TestController, :type => :controller do
   it "should work with Rails build-in herlpers" do
     get :format
     response.should be_success
-    response.body.should == "1 000.1 руб.\n"
+    response.body.should == "1 000,1 руб.\n"
   end
 
   it "should cache I18n object" do
