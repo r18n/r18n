@@ -9,8 +9,6 @@ rescue LoadError
   puts "Bundler not available. Install it with: gem install bundler"
 end
 
-YAML::ENGINE.yamler = 'psych' if 'psych' == ARGV.first
-
 require 'pathname'
 dir = Pathname.new(__FILE__).dirname.expand_path
 

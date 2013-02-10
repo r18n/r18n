@@ -37,10 +37,6 @@ class CounterLoader
   end
 end
 
-if '1.8.' != RUBY_VERSION[0..3]
-  YAML::ENGINE.yamler = ENV['test_syck'] ? 'syck' : 'psych'
-end
-
 RSpec.configure do |c|
   c.filter_run_excluding :not_ruby => lambda { |version|
     RUBY_VERSION.to_s.start_with? version.to_s

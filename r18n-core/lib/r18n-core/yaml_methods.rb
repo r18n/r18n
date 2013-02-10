@@ -49,6 +49,5 @@ module R18n
         end
       end
     end
-
   end
 end

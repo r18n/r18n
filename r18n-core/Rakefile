@@ -16,11 +16,6 @@ require 'rspec/core/rake_task'
 
 RSpec::Core::RakeTask.new
 
-task :spec_syck do
-  ENV['test_syck'] = '1'
-  Rake::Task['spec'].execute
-end
-
 require 'yard'
 YARD::Rake::YardocTask.new do |yard|
   yard.options << "--title='R18n #{R18n::VERSION}'"
