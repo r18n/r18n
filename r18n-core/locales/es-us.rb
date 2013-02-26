@@ -9,8 +9,8 @@ module R18n::Locales
 
         :time_format => ' %I:%M %p',
         :date_format => '%m/%d/%Y',
-               
+
         :number_decimal => ".",
         :number_group => ","
-  end  
+  end
 end
