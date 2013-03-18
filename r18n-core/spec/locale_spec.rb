@@ -1,5 +1,6 @@
 # encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
+require 'bigdecimal'
 
 describe R18n::Locale do
   before :all do
@@ -73,6 +74,7 @@ describe R18n::Locale do
 
   it "should format float in local traditions" do
     @en.localize(-12345.67).should == "−12,345.67"
+    @en.localize(BigDecimal.new("-12345.67")).should == "−12,345.67"
   end
 
   it "should translate month, week days and am/pm names in strftime" do
