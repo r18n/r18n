@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'pathname'
 require 'singleton'
+require 'bigdecimal'
 
 module R18n
   # Information about locale (language, country and other special variant
@@ -152,8 +153,8 @@ module R18n
       case obj
       when Integer
         format_integer(obj)
-      when Float
-        format_float(obj)
+      when Float, BigDecimal
+        format_float(obj.to_f)
       when Time, DateTime, Date
         return strftime(obj, format) if format.is_a? String
         return month_standalone[obj.month - 1] if :month == format
