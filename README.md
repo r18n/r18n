@@ -98,7 +98,8 @@ syntax.
 ### Filters
 
 You can add filters for some YAML type. For example, we add custom filter to
-return different translation depend on user gender (it’s actual for some languages).
+return different translation depend on user gender
+(it’s actual for some languages).
 
 ```yaml
 log:
@@ -168,7 +169,7 @@ Russian (second language in Kazakhstan) → English (default locale).
 
 ### Flexible Locales
 
-R18n store separated business translations and locale information. So all 
+R18n store separated business translations and locale information. So all
 locales (pluralization rules, time and number localization,
 some base translations) ship with core gem and can be used out-of-box:
 
