@@ -252,3 +252,10 @@ translations for plugin:
 plugin_i18n = R18n::I18n.new(locales, plugin_i18n_places)
 plugin_i18n.t.message.hellow
 ```
+
+## Services
+
+* [WebTranslateIt] – web service to translate your app. It allow your customer
+  without programming skills help you with translations.
+
+[WebTranslateIt]: https://webtranslateit.com/
