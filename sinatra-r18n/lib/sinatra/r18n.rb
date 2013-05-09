@@ -33,7 +33,7 @@ module Sinatra
       app.before do
         ::R18n.clear_cache! if self.class.development?
 
-        ::R18n.set do
+        ::R18n.thread_set do
           if settings.default_locale
             ::R18n::I18n.default = settings.default_locale
           end
