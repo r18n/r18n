@@ -1,3 +1,8 @@
+== 1.1.5 (Hilo)
+* Fix Sinatra plugin under multithreaded web-server (by Viktors Rotanovs).
+* Fix BigDecimal localizing (by François Beausoleil).
+* Add American American Spanish locale (by renemarcelo).
+
 == 1.1.4 (Bokmål)
 * Add Norwegian “no” locale as gateway to Bokmål or Nynorsk.
 * Fix Norwegian Bokmål locale code.
