@@ -48,7 +48,7 @@ GEMS.each { |gem| SubgemSpecTask.new(gem) }
 desc 'Run all specs'
 task :spec => (GEMS.map { |i| "spec_#{i}" })
 
-desc 'Release to rubygems'
+desc 'Push gems to rubygems'
 task :release => [:clobber, :build] do
   each_gem { sh 'gem push `ls pkg/*`' }
 end
@@ -59,6 +59,7 @@ task :clobber do
   each_rake 'clobber'
 end
 
+desc 'Build gem files'
 task :build do
   each_rake 'build'
 end
