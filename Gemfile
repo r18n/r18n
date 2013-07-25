@@ -19,6 +19,6 @@ gem 'r18n-rails',     :path => 'r18n-rails/',     :require => false
 
 group :development do
   gem 'yard',      :require => false
-  gem 'redcarpet', :require => false
+  gem 'redcarpet', :require => false, :platform => [:ruby, :mswin, :mingw]
   gem 'rbench',    :require => false
 end
