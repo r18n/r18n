@@ -257,7 +257,8 @@ plugin_i18n.t.message.hellow
 
 * [WebTranslateIt] – web service to translate your app. It allow your customer
   without programming skills help you with translations.
-* [Localeapp] – Locale helps content owners and translators work together, so Rails developers are free to write more code.
+* [Localeapp] – Locale helps content owners and translators work together,
+  so Rails developers are free to write more code.
 
 [WebTranslateIt]: https://webtranslateit.com/
 [Localeapp]: http://www.localeapp.com/
