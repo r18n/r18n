@@ -2,5 +2,5 @@ language: ruby
 bundler_args: --without development
 rvm:
   - 1.9.3
-  - ruby-head
+  - 2.0.0
   - jruby-19mode
