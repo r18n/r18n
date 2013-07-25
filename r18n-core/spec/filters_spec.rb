@@ -42,7 +42,7 @@ describe R18n::Filters do
   end
 
   it "should use passive filters" do
-    filter = mock()
+    filter = double()
     filter.should_receive(:process).twice.and_return(1)
 
     R18n::Filters.add('my', :passive, :passive => true) { filter.process }

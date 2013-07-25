@@ -28,7 +28,7 @@ describe "r18n-desktop" do
   end
 
   it "allow to overide autodetect by LANG environment" do
-    R18n::I18n.stub!(:system_locale).and_return('ru')
+    R18n::I18n.stub(:system_locale).and_return('ru')
     ENV['LANG'] = 'en'
     R18n.from_env
     r18n.locale.should == R18n.locale('en')

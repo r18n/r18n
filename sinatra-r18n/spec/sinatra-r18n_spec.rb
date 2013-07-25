@@ -7,8 +7,8 @@ describe Sinatra::R18n do
  	end
 
   after do
-    set :default_locale, 'en'
-    set :environment, :test
+    app.set :default_locale, 'en'
+    app.set :environment, :test
   end
 
   it "should translate messages" do
@@ -24,7 +24,7 @@ describe Sinatra::R18n do
   end
 
   it "should use default locale" do
-    set :default_locale, 'ru'
+    app.set :default_locale, 'ru'
     get '/locale'
     last_response.should be_ok
     last_response.body.should == 'Русский'
