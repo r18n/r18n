@@ -46,7 +46,7 @@ module R18n
       def available
         Dir.glob(File.join(@dir, '**/*.yml')).
           map { |i| File.basename(i, '.yml') }.uniq.
-          map { |i| R18n.locale(i) }
+          map { |i| R18n.locale(i) }.uniq
       end
 
       # Return Hash with translations for +locale+.
@@ -54,7 +54,7 @@ module R18n
         initialize_types
 
         translations = {}
-        Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |i|
+        Dir.glob(File.join(@dir, "**/#{locale.code.downcase}*.yml")).each do |i|
           Utils.deep_merge!(translations, ::YAML::load_file(i) || {})
         end
         transform(translations)

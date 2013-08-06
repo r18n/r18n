@@ -6,9 +6,10 @@ dir = Pathname(__FILE__).dirname
 require dir.join('../lib/r18n-core').to_s
 Dir.glob(dir.join('../locales/*.rb').to_s) { |locale| require locale }
 
-TRANSLATIONS = dir + 'translations' unless defined? TRANSLATIONS
-DIR = TRANSLATIONS + 'general' unless defined? DIR
-TWO = TRANSLATIONS + 'two'     unless defined? TWO
+TRANSLATIONS = dir + 'translations'                      unless defined? TRANSLATIONS
+DIR = TRANSLATIONS + 'general'                           unless defined? DIR
+TWO = TRANSLATIONS + 'two'                               unless defined? TWO
+COMPOUND = TRANSLATIONS + 'compound'                     unless defined? COMPOUND
 EXT = R18n::Loader::YAML.new(TRANSLATIONS + 'extension') unless defined? EXT
 
 RSpec.configure do |config|
