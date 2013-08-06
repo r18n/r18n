@@ -114,6 +114,17 @@ This gives you a DRY way to write yur views.
 If you use `r18n-rails` plugin, you will have full compatibility with Rails I18n
 syntax.
 
+### Multiple Translation Files per locale
+
+You might wish to break up your translations into multiple YML files.  In which case simply name them
+
+```ruby
+en.yml
+en-about.yml
+```
+
+`R18n`'s `YAML` loader will load them all and merge them under the 'en' locale.
+
 ### Filters
 
 You can add filters for some YAML type. For example, we add custom filter to
