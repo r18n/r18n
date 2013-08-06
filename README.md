@@ -98,8 +98,9 @@ You can also access the raw translation keys programatically, for example, assum
 country:
   au: Australia
   sg: Singapore
+```
 
-  and
+  and associated `haml` template
 
 ```haml
 %select#locale
