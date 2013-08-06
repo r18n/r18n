@@ -92,6 +92,24 @@ hash index or use Rails I18n API in `r18n-rails`:
 t[:methods] #=> "Methods"
 ```
 
+You can also access the raw translation keys programatically, for example, assuming translation keys like
+
+```yml
+country:
+  au: Australia
+  sg: Singapore
+
+  and
+
+```haml
+%select#locale
+  %option(value='') choose…
+  -for cc in t.country.translation_keys
+    %option{value: cc}=t.country[cc]
+```
+
+This gives you a DRY way to write yur views.
+
 If you use `r18n-rails` plugin, you will have full compatibility with Rails I18n
 syntax.
 
