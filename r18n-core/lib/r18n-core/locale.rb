@@ -76,10 +76,19 @@ module R18n
     def self.load(code)
       original = code.to_s.gsub(/[^-_a-zA-Z]/, '')
       code = original.gsub('_', '-').downcase
-
+      filename = code
+      if code.size > 5
+        if code[0..4].include?('-') && !code.include?('auutf-')
+          code = code[0..4]
+          if ! exists? code
+            # must be en-about not en-AU-about
+            code = code[0..1]
+          end
+        end
+      end
       @@loaded[code] ||= begin
         if exists? code
-          require LOCALES_DIR.join("#{code}.rb").to_s
+          require LOCALES_DIR.join("#{filename}.rb").to_s
           name = code.gsub(/[\w\d]+/) { |i| i.capitalize }.gsub('-', '')
           eval('R18n::Locales::' + name).new
         else

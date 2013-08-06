@@ -54,6 +54,8 @@ describe R18n::Loader::YAML do
     translation['in']['two'].should == 'Two'
     translation['ext'].should       == 'Extension'
     translation['deep'].should      == 'Deep one'
+    translation['about'].should     == 'About'
+    translation['compound'].should  == 'Compound'
   end
 
 end
