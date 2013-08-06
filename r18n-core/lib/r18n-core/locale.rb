@@ -79,7 +79,6 @@ module R18n
       filename = code
       if code.size > 5
         if code[0..4].include?('-') && !code.include?('auutf-')
-          puts "****** long code name #{code}"
           code = code[0..4]
           if ! exists? code
             # must be en-about not en-AU-about
