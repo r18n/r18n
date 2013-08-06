@@ -92,7 +92,7 @@ hash index or use Rails I18n API in `r18n-rails`:
 t[:methods] #=> "Methods"
 ```
 
-### Programatic transation key access
+### Programatic Translation Key access
 
 You can access the raw translation keys programatically, for example, assuming translation keys like
 
