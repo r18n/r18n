@@ -429,6 +429,12 @@ If you want to load a translation with some type for filter, use
 t.users(5) #=> "5 users"
 ```
 
+You can also set several loaders to merge translations from different sources:
+
+```ruby
+R18n.default_places = [MyLoader.new, DBLoader.new, 'path/to/yaml']
+```
+
 ### Extension Translations
 
 For r18n plugin you can add loaders with translations, which will be used with

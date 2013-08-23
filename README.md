@@ -245,6 +245,12 @@ R18n.default_places = DBLoader.new
 R18n.set('en') # Load English messages from DB
 ```
 
+You can also set several loaders to merge translations from different sources:
+
+```ruby
+R18n.default_places = [DBLoader.new, 'path/to/yaml']
+```
+
 Also you can use several I18n object in program. For example, to load different
 translations for plugin:
 
