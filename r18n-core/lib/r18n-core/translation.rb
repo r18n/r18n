@@ -150,7 +150,8 @@ module R18n
       value = @data[name]
       case value
       when TranslatedString
-        @filters.process_string(:active, value, @path, params)
+        path = @path.empty? ? name : "#{@path}.#{name}"
+        @filters.process_string(:active, value, path, params)
       when Typed
         @filters.process_typed(:active, value, params)
       when nil

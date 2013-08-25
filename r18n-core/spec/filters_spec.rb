@@ -121,6 +121,14 @@ describe R18n::Filters do
     @i18n.my_filter[:unknown_value].should be_nil
   end
 
+  it "should set path in config" do
+    R18n::Filters.add(String) do |i, config|
+      config[:path]
+    end
+
+    @i18n.in.another.level.should == 'in.another.level'
+  end
+
   it "should use one config for cascade filters" do
     R18n::Filters.add('my') { |content, config| config[:new_secret] ? 2 : 1 }
     @i18n.my_filter.should == 1
