@@ -129,6 +129,14 @@ describe R18n::Filters do
     @i18n.in.another.level.should == 'in.another.level'
   end
 
+  it "should return translated string after filters" do
+    R18n::Filters.add(String) { |i, config| i + '1' }
+
+    @i18n.one.should be_a(R18n::TranslatedString)
+    @i18n.one.path.should   == 'one'
+    @i18n.one.locale.should == R18n.locale('en')
+  end
+
   it "should use one config for cascade filters" do
     R18n::Filters.add('my') { |content, config| config[:new_secret] ? 2 : 1 }
     @i18n.my_filter.should == 1

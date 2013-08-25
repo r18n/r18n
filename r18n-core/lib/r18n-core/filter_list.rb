@@ -56,7 +56,12 @@ module R18n
       enabled(filters_type, String).each do |f|
         value = f.call(value, config, *params)
       end
-      value
+
+      if value.class == String
+        TranslatedString.new(value, config[:locale], config[:path])
+      else
+        value
+      end
     end
 
     # Array of enabled filters with +filters_type+ for +type+.
