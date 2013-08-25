@@ -1,3 +1,7 @@
+== 1.1.6 (Vitebsk)
+* Return TranslatedString after global String filters.
+* Fix path in global String filters.
+
 == 1.1.5 (Hilo)
 * Fix Sinatra plugin under multithreaded web-server (by Viktors Rotanovs).
 * Fix BigDecimal localizing (by François Beausoleil).
