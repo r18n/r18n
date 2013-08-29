@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.author   = 'Andrey "A.I." Sitnik'
   s.email    = 'andrey@sitnik.ru'
   s.homepage = 'https://github.com/ai/r18n/tree/master/sinatra-r18n'
+  s.license  = 'LGPL-3'
 
   s.add_dependency 'sinatra', [">= 1.3"]
   s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
