@@ -127,6 +127,8 @@ module R18n
         class_eval <<-EOS, __FILE__, __LINE__
           def #{name}(*params)
             unlocalized = self.class.unlocalized_getters(#{name.inspect})
+            result = nil
+
             r18n.locales.each do |locale|
               code = locale.code
               next unless unlocalized.has_key? code
@@ -147,8 +149,7 @@ module R18n
               end
             end
 
-            R18n::Untranslated.new("\#{self.class.name}\#", '#{name}',
-                                   r18n.locale, r18n.filter_list)
+            result
           end
         EOS
 

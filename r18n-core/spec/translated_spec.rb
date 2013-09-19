@@ -31,7 +31,6 @@ describe R18n::Translated do
     @user_class.translation :name
     user = @user_class.new
 
-    user.name.should_not be_translated
     user.name = 'John'
     user.name.should == 'John'
 
@@ -94,19 +93,6 @@ describe R18n::Translated do
     user.params(1, 2).should == '1 2'
   end
 
-  it "should return Untranslated when can't find translation" do
-    class ::SomeUntranslatedClass
-      include R18n::Translated
-
-      translation :no
-    end
-    obj = ::SomeUntranslatedClass.new
-
-    obj.no.should be_a(R18n::Untranslated)
-    obj.no.translated_path.should == 'SomeUntranslatedClass#'
-    obj.no.untranslated_path.should == 'no'
-  end
-
   it "should translate virtual methods" do
     @virtual_class = Class.new do
       include R18n::Translated
@@ -130,6 +116,18 @@ describe R18n::Translated do
     user = @user_class.new
 
     user.name.should == :ivan
+  end
+
+  it "should return nil" do
+    @user_class.class_eval do
+      translation :name
+      def name_en
+        nil
+      end
+    end
+    user = @user_class.new
+
+    user.name.should be_nil
   end
 
   it "should allow to change I18n object" do
