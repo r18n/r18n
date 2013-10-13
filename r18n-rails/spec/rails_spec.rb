@@ -129,7 +129,6 @@ describe TestController, :type => :controller do
       "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
   end
 
-
   it "should work with Rails build-in herlpers" do
     get :format
     response.should be_success
@@ -151,6 +150,10 @@ describe TestController, :type => :controller do
 
     get :translations, :locale => 'en'
     R18n.cache.keys.length.should == 2
+  end
+
+  it 'should parameterize strigns' do
+    'One two три'.parameterize.should == 'one-two'
   end
 
 end

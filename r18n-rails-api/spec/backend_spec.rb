@@ -116,4 +116,8 @@ describe R18n::Backend do
     I18n.l(Date.parse('1970-01-01'), :locale => :ru).should == '01.01.1970'
   end
 
+  it "should have transliterate method" do
+    I18n.transliterate('café').should == 'cafe'
+  end
+
 end

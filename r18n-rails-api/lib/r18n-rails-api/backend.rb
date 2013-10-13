@@ -18,6 +18,8 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
+require 'i18n/backend/transliterator'
+
 module R18n
   # R18n backend for Rails I18n. You must set R18n I18n object before use this
   # backend:
@@ -26,6 +28,8 @@ module R18n
   #
   #   I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
   class Backend
+    include ::I18n::Backend::Transliterator
+
     RESERVED_KEYS = [:scope, :default, :separator]
 
     # Find translation in R18n. It didn’t use +locale+ argument, only current
@@ -42,7 +46,10 @@ module R18n
       if result.is_a? Untranslated
         options = options.reject { |key, value| key == :default }
 
-        Array(default).each do |entry|
+        default = []        if default.nil?
+        default = [default] unless default.is_a? Array
+
+        default.each do |entry|
           if entry.is_a? Symbol
             value = lookup(locale, scope, entry, separator, params)
             return value unless value.is_a? Untranslated
