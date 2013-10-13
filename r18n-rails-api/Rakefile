@@ -10,4 +10,4 @@ task :default => :spec
 task :clobber_package do
   rm_r 'pkg' rescue nil
 end
-task :clobber => [:clobber_package
+task :clobber => [:clobber_package]
