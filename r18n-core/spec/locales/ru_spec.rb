@@ -1,7 +1,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Ru do
-  it "should use Russian pluralization" do
+  it "uses Russian pluralization" do
     ru = R18n.locale('ru')
     ru.pluralize(0).should == 0
 

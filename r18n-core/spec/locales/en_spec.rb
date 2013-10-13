@@ -1,7 +1,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::En do
-  it "should format English date" do
+  it "formats English date" do
     en = R18n::I18n.new('en')
     en.l(Date.parse('2009-05-01'), :full).should ==  '1st of May, 2009'
     en.l(Date.parse('2009-05-02'), :full).should ==  '2nd of May, 2009'

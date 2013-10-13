@@ -13,13 +13,13 @@ describe R18n::Translated do
     R18n.set('en')
   end
 
-  it "should save methods map" do
+  it "saves methods map" do
     @user_class.translation :name, :methods => { :ru => :name_ru }
     @user_class.unlocalized_getters(:name).should == { 'ru' => 'name_ru' }
     @user_class.unlocalized_setters(:name).should == { 'ru' => 'name_ru=' }
   end
 
-  it "should autodetect methods map" do
+  it "autodetects methods map" do
     @user_class.translation :name
     @user_class.unlocalized_getters(:name).should == {
         'en' => 'name_en', 'ru' => 'name_ru' }
@@ -27,7 +27,7 @@ describe R18n::Translated do
         'en' => 'name_en=', 'ru' => 'name_ru=' }
   end
 
-  it "should translate methods" do
+  it "translates methods" do
     @user_class.translation :name
     user = @user_class.new
 
@@ -40,7 +40,7 @@ describe R18n::Translated do
     user.name.should == 'Джон'
   end
 
-  it "should return TranslatedString" do
+  it "returns TranslatedString" do
     class ::SomeTranslatedClass
       include R18n::Translated
       def name_en; 'John'; end
@@ -53,7 +53,7 @@ describe R18n::Translated do
     obj.name.path.should == 'SomeTranslatedClass#name'
   end
 
-  it "should search translation by locales priority" do
+  it "searchs translation by locales priority" do
     @user_class.translation :name
     user = @user_class.new
 
@@ -62,7 +62,7 @@ describe R18n::Translated do
     user.name.locale.should == R18n.locale('ru')
   end
 
-  it "should use default locale" do
+  it "uses default locale" do
     @user_class.translation :name
     user = @user_class.new
 
@@ -71,7 +71,7 @@ describe R18n::Translated do
     user.name.locale.should == R18n.locale('en')
   end
 
-  it "should use filters" do
+  it "uses filters" do
     @user_class.class_eval do
       def age_en; {1 => '%1 year', 'n' => '%1 years'} end
       translation :age, :type => 'pl', :no_params => true
@@ -81,7 +81,7 @@ describe R18n::Translated do
     user.age(20).should == '20 years'
   end
 
-  it "should send params to method if user want it" do
+  it "sends params to method if user want it" do
     @user_class.class_eval do
       def no_params_en(*params) params.join(' '); end
       def params_en(*params)    params.join(' '); end
@@ -93,7 +93,7 @@ describe R18n::Translated do
     user.params(1, 2).should == '1 2'
   end
 
-  it "should translate virtual methods" do
+  it "translates virtual methods" do
     @virtual_class = Class.new do
       include R18n::Translated
       translation :no_method, :methods => { :en => :no_method_en }
@@ -106,7 +106,7 @@ describe R18n::Translated do
     virtual.no_method.should == 'no_method_en'
   end
 
-  it "should return original type of result" do
+  it "returns original type of result" do
     @user_class.class_eval do
       translation :name
       def name_en
@@ -118,7 +118,7 @@ describe R18n::Translated do
     user.name.should == :ivan
   end
 
-  it "should return nil" do
+  it "returns nil" do
     @user_class.class_eval do
       translation :name
       def name_en
@@ -130,7 +130,7 @@ describe R18n::Translated do
     user.name.should be_nil
   end
 
-  it "should allow to change I18n object" do
+  it "allows to change I18n object" do
     @user_class.class_eval do
       translation :name
       attr_accessor :r18n

@@ -8,11 +8,11 @@ describe R18n::Backend do
     R18n.set('en', R18n::Loader::Rails.new)
   end
 
-  it "should return available locales" do
+  it "returns available locales" do
     I18n.available_locales.should =~ [:en, :ru]
   end
 
-  it "should localize objects" do
+  it "localizes objects" do
     time = Time.at(0).utc
     date = Date.parse('1970-01-01')
 
@@ -25,34 +25,34 @@ describe R18n::Backend do
     I18n.l(-5000.5).should == '−5,000.5'
   end
 
-  it "should translate by key and scope" do
+  it "translates by key and scope" do
     I18n.t('in.another.level').should               == 'Hierarchical'
     I18n.t(:level, :scope => 'in.another').should   == 'Hierarchical'
     I18n.t(:'another.level', :scope => 'in').should == 'Hierarchical'
   end
 
-  it "should use pluralization and variables" do
+  it "uses pluralization and variables" do
     I18n.t('users', :count => 0).should == '0 users'
     I18n.t('users', :count => 1).should == '1 user'
     I18n.t('users', :count => 5).should == '5 users'
   end
 
-  it "should use another separator" do
+  it "uses another separator" do
     I18n.t('in/another/level', :separator => '/').should == 'Hierarchical'
   end
 
-  it "should translate array" do
+  it "translates array" do
     I18n.t(['in.another.level', 'in.default']).should == ['Hierarchical',
                                                           'Default']
   end
 
-  it "should use default value" do
+  it "uses default value" do
     I18n.t(:missed, :default => 'Default').should == 'Default'
     I18n.t(:missed, :default => :default, :scope => :in).should == 'Default'
     I18n.t(:missed, :default => [:also_no, :'in.default']).should == 'Default'
   end
 
-  it "should raise error on no translation" do
+  it "raises error on no translation" do
     lambda {
       I18n.backend.translate(:en, :missed)
     }.should raise_error(::I18n::MissingTranslationData)
@@ -61,23 +61,23 @@ describe R18n::Backend do
     }.should raise_error(::I18n::MissingTranslationData)
   end
 
-  it "should reload translations" do
+  it "reloads translations" do
     lambda { I18n.t(:other) }.should raise_error(::I18n::MissingTranslationData)
     I18n.load_path << OTHER
     I18n.reload!
     I18n.t(:other).should == 'Other'
   end
 
-  it "should return plain classes" do
+  it "returns plain classes" do
     I18n.t('in.another.level').class.should == ActiveSupport::SafeBuffer
     I18n.t('in.another').class.should == Hash
   end
 
-  it "should return correct unpluralized hash" do
+  it "returns correct unpluralized hash" do
     I18n.t('users').should == { :one => '1 user', :other => '%{count} users' }
   end
 
-  it "should correct detect untranslated, whem path is deeper than string" do
+  it "corrects detect untranslated, whem path is deeper than string" do
     lambda {
       I18n.t('in.another.level.deeper')
     }.should raise_error(::I18n::MissingTranslationData)
@@ -87,28 +87,28 @@ describe R18n::Backend do
     }.should raise_error(::I18n::MissingTranslationData)
   end
 
-  it "should not call String methods" do
+  it "doesn't call String methods" do
     I18n.t('in.another').class.should == Hash
   end
 
-  it "should not call object methods" do
+  it "doesn't call object methods" do
     lambda {
       I18n.t('in.another.level.to_sym')
     }.should raise_error(::I18n::MissingTranslationData)
   end
 
-  it "should work deeper pluralization" do
+  it "works deeper pluralization" do
     I18n.t('users.other', :count => 5).should == '5 users'
   end
 
-  it "should return hash with symbols keys" do
+  it "returns hash with symbols keys" do
     I18n.t('in').should == {
       :another => { :level => 'Hierarchical' },
       :default => 'Default'
     }
   end
 
-  it "should change locale in place" do
+  it "changes locale in place" do
     I18n.load_path << PL
     I18n.t('users', :count => 5).should == '5 users'
     I18n.t('users', :count => 5, :locale => :ru).should == 'Много'
@@ -116,7 +116,7 @@ describe R18n::Backend do
     I18n.l(Date.parse('1970-01-01'), :locale => :ru).should == '01.01.1970'
   end
 
-  it "should have transliterate method" do
+  it "has transliterate method" do
     I18n.transliterate('café').should == 'cafe'
   end
 

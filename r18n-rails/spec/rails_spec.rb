@@ -4,74 +4,74 @@ require File.expand_path('../spec_helper', __FILE__)
 describe TestController, :type => :controller do
   render_views
 
-  it 'should use default locale' do
+  it "uses default locale" do
     get :locales
     response.should be_success
     response.body.should == 'ru'
   end
 
-  it 'should get locale from param' do
+  it "gets locale from param" do
     get :locales, :locale => 'ru'
     response.should be_success
     response.body.should == 'ru, en'
   end
 
-  it 'should get locale from session' do
+  it "gets locale from session" do
     get :locales, {}, { :locale => 'ru' }
     response.should be_success
     response.body.should == 'ru, en'
   end
 
-  it 'should get locales from http' do
+  it "gets locales from http" do
     request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
     get :locales
     response.should be_success
     response.body.should == 'ru, fr, en'
   end
 
-  it 'should load translations' do
+  it "loads translations" do
     get :translations, :locale => 'en'
     response.should be_success
     response.body.should == 'R18n: supported. Rails I18n: supported'
   end
 
-  it 'should return available translations' do
+  it "returns available translations" do
     get :available
     response.should be_success
     response.body.should == 'en ru'
   end
 
-  it 'should add helpers' do
+  it "adds helpers" do
     get :helpers, :locale => 'en'
     response.should be_success
     response.body.should == "Name\nName\nName\nName\n"
   end
 
-  it 'should format untranslated' do
+  it "formats untranslated" do
     get :untranslated
     response.should be_success
     response.body.should == 'user.<span style="color: red">[not.exists]</span>'
   end
 
-  it "should add methods to controller" do
+  it "adds methods to controller" do
     get :controller, :locale => 'en'
     response.should be_success
     response.body.should == "Name Name Name"
   end
 
-  it "should localize time by Rails I18n" do
+  it "localizes time by Rails I18n" do
     get :time, :locale => 'en'
     response.should be_success
     response.body.should == "Thu, 01 Jan 1970 00:00:00 +0000\n01 Jan 00:00"
   end
 
-  it "should localize time by R18n" do
+  it "localizes time by R18n" do
     get :human_time, :locale => 'en'
     response.should be_success
     response.body.should == "now"
   end
 
-  it "should translate models" do
+  it "translates models" do
     ActiveRecord::Schema.verbose = false
     ActiveRecord::Schema.define(:version => 20091218130034) do
       create_table "posts", :force => true do |t|
@@ -97,19 +97,19 @@ describe TestController, :type => :controller do
     @post.title.should    == 'Запись'
   end
 
-  it "should set default places" do
+  it "sets default places" do
     R18n.default_places.should == [Rails.root.join('app/i18n'),
                                    R18n::Loader::Rails.new]
     R18n.set('en')
     R18n.get.user.name.should == 'Name'
   end
 
-  it "should translate mails" do
+  it "translates mails" do
     email = TestMailer.test.deliver
     email.encoded.should =~ /Name\r\nName\r\nName\r\n$/
   end
 
-  it "should reload filters from app directory" do
+  it "reloads filters from app directory" do
     get :filter, :locale => 'en'
     response.should be_success
     response.body.should == 'Rails'
@@ -122,20 +122,20 @@ describe TestController, :type => :controller do
     response.body.should == 'Rails'
   end
 
-  it "should escape html inside R18n" do
+  it "escapes html inside R18n" do
     get :safe, :locale => 'en'
     response.should be_success
     response.body.should ==
       "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
   end
 
-  it "should work with Rails build-in herlpers" do
+  it "works with Rails build-in herlpers" do
     get :format
     response.should be_success
     response.body.should == "1 000,1 руб.\n"
   end
 
-  it "should cache I18n object" do
+  it "caches I18n object" do
     R18n.clear_cache!
 
     get :translations
@@ -152,7 +152,7 @@ describe TestController, :type => :controller do
     R18n.cache.keys.length.should == 2
   end
 
-  it 'should parameterize strigns' do
+  it "parameterizes strigns" do
     'One two три'.parameterize.should == 'one-two'
   end
 

@@ -1,7 +1,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Sk do
-  it "should use Slovak pluralization" do
+  it "uses Slovak pluralization" do
     sk = R18n.locale('Sk')
     sk.pluralize(0).should == 0
     sk.pluralize(1).should == 1

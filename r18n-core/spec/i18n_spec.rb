@@ -12,19 +12,19 @@ describe R18n::I18n do
     R18n.extension_places = @extension_places
   end
 
-  it "should parse HTTP_ACCEPT_LANGUAGE" do
+  it "parses HTTP_ACCEPT_LANGUAGE" do
     R18n::I18n.parse_http(nil).should == []
     R18n::I18n.parse_http('').should == []
     R18n::I18n.parse_http('ru,en;q=0.9').should == ['ru', 'en']
     R18n::I18n.parse_http('ru;q=0.8,en;q=0.9').should == ['en', 'ru']
   end
 
-  it "should has default locale" do
+  it "has default locale" do
     R18n::I18n.default = 'ru'
     R18n::I18n.default.should == 'ru'
   end
 
-  it "should load locales" do
+  it "loads locales" do
     i18n = R18n::I18n.new('en', DIR)
     i18n.locales.should == [R18n.locale('en')]
 
@@ -35,12 +35,12 @@ describe R18n::I18n do
                             R18n.locale('en')]
   end
 
-  it "should return translations loaders" do
+  it "returns translations loaders" do
     i18n = R18n::I18n.new('en', DIR)
     i18n.translation_places.should == [R18n::Loader::YAML.new(DIR)]
   end
 
-  it "should load translations by loader" do
+  it "loads translations by loader" do
     loader = Class.new do
       def available; [R18n.locale('en')]; end
       def load(locale); { 'custom' => 'Custom' }; end
@@ -48,7 +48,7 @@ describe R18n::I18n do
     R18n::I18n.new('en', loader.new).custom.should == 'Custom'
   end
 
-  it "should pass parameters to default loader" do
+  it "passes parameters to default loader" do
     loader = Class.new do
       def initialize(param); @param = param; end
       def available; [R18n.locale('en')]; end
@@ -58,7 +58,7 @@ describe R18n::I18n do
     R18n::I18n.new('en', 'default').custom.should == 'default'
   end
 
-  it "should load translations" do
+  it "loads translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
     i18n.one.should    == 'Один'
     i18n[:one].should  == 'Один'
@@ -66,13 +66,13 @@ describe R18n::I18n do
     i18n.only.english.should == 'Only in English'
   end
 
-  it "should load translations from several dirs" do
+  it "loads translations from several dirs" do
     i18n = R18n::I18n.new(['nolocale', 'en'], [TWO, DIR])
     i18n.in.two.should == 'Two'
     i18n.in.another.level.should == 'Hierarchical'
   end
 
-  it "should use extension places" do
+  it "uses extension places" do
     R18n.extension_places << EXT
 
     i18n = R18n::I18n.new('en', DIR)
@@ -80,14 +80,14 @@ describe R18n::I18n do
     i18n.one.should == 'One'
   end
 
-  it "shouldn't use extension without app translations with same locale" do
+  it "doesn't use extension without app translations with same locale" do
     R18n.extension_places << EXT
 
     i18n = R18n::I18n.new(['notransl', 'en'], DIR)
     i18n.ext.should == 'Extension'
   end
 
-  it "should ignore case on loading" do
+  it "ignores case on loading" do
     i18n = R18n::I18n.new('nolocale', [DIR])
     i18n.one.should == 'ONE'
 
@@ -95,13 +95,13 @@ describe R18n::I18n do
     i18n.one.should == 'ONE'
   end
 
-  it "should load default translation" do
+  it "loads default translation" do
     i18n = R18n::I18n.new('nolocale', DIR)
     i18n.one.should == 'ONE'
     i18n.two.should == 'Two'
   end
 
-  it "should load sublocales for first locale" do
+  it "loads sublocales for first locale" do
     R18n::I18n.default = 'notransl'
 
     i18n = R18n::I18n.new('ru', DIR)
@@ -109,14 +109,14 @@ describe R18n::I18n do
     i18n.two.should == 'Two'
   end
 
-  it "should return available translations" do
+  it "returns available translations" do
     i18n = R18n::I18n.new('en', DIR)
     i18n.available_locales.should =~ [R18n.locale('nolocale'),
                                       R18n.locale('ru'),
                                       R18n.locale('en')]
   end
 
-  it "should cache translations" do
+  it "caches translations" do
     counter = CounterLoader.new('en')
 
     R18n::I18n.new('en', counter)
@@ -130,7 +130,7 @@ describe R18n::I18n do
     counter.loaded.should == 2
   end
 
-  it "shouldn't clear cache when custom filters are specified" do
+  it "doesn't clear cache when custom filters are specified" do
     counter = CounterLoader.new('en')
 
     R18n::I18n.new('en', counter, :off_filters => :untranslated,
@@ -142,7 +142,7 @@ describe R18n::I18n do
     counter.loaded.should == 1
   end
 
-  it "should cache translations by used locales" do
+  it "caches translations by used locales" do
     counter = CounterLoader.new('en', 'ru')
 
     R18n::I18n.new('en', counter)
@@ -158,7 +158,7 @@ describe R18n::I18n do
     counter.loaded.should == 5
   end
 
-  it "should cache translations by places" do
+  it "caches translations by places" do
     counter = CounterLoader.new('en', 'ru')
 
     R18n::I18n.new('en', counter)
@@ -180,7 +180,7 @@ describe R18n::I18n do
     different.loaded.should == 1
   end
 
-  it "should reload translations" do
+  it "reloads translations" do
     loader = Class.new do
       def available; [R18n.locale('en')]; end
       def load(locale);
@@ -197,19 +197,19 @@ describe R18n::I18n do
     i18n.one.should == 2
   end
 
-  it "should return translations" do
+  it "returns translations" do
     i18n = R18n::I18n.new('en', DIR)
     i18n.t.should be_a(R18n::Translation)
     i18n.t.one.should == 'One'
   end
 
-  it "should return first locale with locale file" do
+  it "returns first locale with locale file" do
     i18n = R18n::I18n.new(['notransl', 'nolocale', 'ru', 'en'], DIR)
     i18n.locale.should      == R18n.locale('nolocale')
     i18n.locale.base.should == R18n.locale('ru')
   end
 
-  it "should localize objects" do
+  it "localizes objects" do
     i18n = R18n::I18n.new('ru')
 
     i18n.l(-123456789).should == '−123 456 789'
@@ -224,7 +224,7 @@ describe R18n::I18n do
     i18n.l(Date.new(0)).should == '01.01.0000'
   end
 
-  it "should return marshalizable values", :not_ruby => 1.8 do
+  it "returns marshalizable values", :not_ruby => 1.8 do
     i18n    = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
                                         :on_filters  => :untranslated_html)
     demarsh = Marshal.load(Marshal.dump(i18n.t.one))

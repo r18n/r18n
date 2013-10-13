@@ -11,56 +11,56 @@ describe Sinatra::R18n do
     app.set :environment, :test
   end
 
-  it "should translate messages" do
+  it "translates messages" do
     get '/en/posts/1'
     last_response.should be_ok
     last_response.body.should == "<h1>Post 1</h1>\n"
   end
 
-  it "should use translations from default locale" do
+  it "uses translations from default locale" do
     get '/ru/posts/1/comments'
     last_response.should be_ok
     last_response.body.should == '3 comments'
   end
 
-  it "should use default locale" do
+  it "uses default locale" do
     app.set :default_locale, 'ru'
     get '/locale'
     last_response.should be_ok
     last_response.body.should == 'Русский'
   end
 
-  it "should autodetect user locale" do
+  it "autodetects user locale" do
     get '/locale', {}, {'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9'}
     last_response.should be_ok
     last_response.body.should == 'Русский'
   end
 
-  it "should use locale from session" do
+  it "uses locale from session" do
     get '/locale', { }, { 'rack.session' => { :locale => 'ru' } }
     last_response.should be_ok
     last_response.body.should == 'Русский'
   end
 
-  it "should return locales list" do
+  it "returns locales list" do
     get '/locales'
     last_response.should be_ok
     last_response.body.should == 'en: English; ru: Русский'
   end
 
-  it "should format untranslated string" do
+  it "formats untranslated string" do
     get '/untranslated'
     last_response.should be_ok
     last_response.body.should == 'post.<span style="color: red">[no]</span>'
   end
 
-  it "should localize objects" do
+  it "localizes objects" do
     get '/time'
     last_response.should be_ok
     last_response.body.should == "01/01/1970 00:00"
   end
 
-  it "should set default places" do
+  it "sets default places" do
     R18n.default_places.should ==
       Pathname(__FILE__).dirname.expand_path.join('app/i18n/').to_s
     R18n.set('en')

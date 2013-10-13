@@ -14,22 +14,22 @@ describe R18n::Loader::YAML do
     @loader = R18n::Loader::YAML.new(DIR)
   end
 
-  it "should return dir with translations" do
+  it "returns dir with translations" do
     @loader.dir.should == DIR.expand_path.to_s
   end
 
-  it "should be equal to another YAML loader with same dir" do
+  it "equals to another YAML loader with same dir" do
     @loader.should == R18n::Loader::YAML.new(DIR)
     @loader.should_not == Class.new(R18n::Loader::YAML).new(DIR)
   end
 
-  it "should return all available translations" do
+  it "returns all available translations" do
     @loader.available.should =~ [R18n.locale('ru'),
                                  R18n.locale('en'),
                                  R18n.locale('nolocale')]
   end
 
-  it "should load translation" do
+  it "loads translation" do
     @loader.load(R18n.locale('ru')).should == {
       'one'   => 'Один',
       'in'    => { 'another' => { 'level' => 'Иерархический' } },
@@ -37,11 +37,11 @@ describe R18n::Loader::YAML do
     }
   end
 
-  it "should return hash by dir" do
+  it "returns hash by dir" do
     @loader.hash.should == R18n::Loader::YAML.new(DIR).hash
   end
 
-  it "should load in dir recursively" do
+  it "loads in dir recursively" do
     loader = R18n::Loader::YAML.new(TRANSLATIONS)
     loader.available.should =~ [R18n.locale('ru'),
                                 R18n.locale('en'),

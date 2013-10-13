@@ -3,7 +3,7 @@ require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Translation do
 
-  it "should return unstranslated string if translation isn't found" do
+  it "returns unstranslated string if translation isn't found" do
     i18n = R18n::I18n.new('en', DIR)
     i18n.not.exists.should be_a(R18n::Untranslated)
     i18n.not.exists.should_not be_translated
@@ -19,7 +19,7 @@ describe R18n::Translation do
     (i18n.one | 'default').should == 'One'
   end
 
-  it "should return html escaped string" do
+  it "returns html escaped string" do
     klass = Class.new(R18n::TranslatedString) do
       def html_safe
         '2'
@@ -31,7 +31,7 @@ describe R18n::Translation do
     str.html_safe.should == '2'
   end
 
-  it "should load use hierarchical translations" do
+  it "loads use hierarchical translations" do
     i18n = R18n::I18n.new(['ru', 'en'], DIR)
     i18n.in.another.level.should == 'Иерархический'
     i18n[:in][:another][:level].should == 'Иерархический'
@@ -39,7 +39,7 @@ describe R18n::Translation do
     i18n.only.english.should == 'Only in English'
   end
 
-  it "should save path for translation" do
+  it "saves path for translation" do
     i18n = R18n::I18n.new('en', DIR)
 
     i18n.in.another.level.path.should == 'in.another.level'
@@ -52,18 +52,18 @@ describe R18n::Translation do
     i18n.not.translated_path.should == ''
   end
 
-  it "should return translation keys" do
+  it "returns translation keys" do
     i18n = R18n::I18n.new('en', [DIR, TWO])
     i18n.in.translation_keys.should =~ ['another', 'two']
   end
 
-  it "should return string with locale info" do
+  it "returns string with locale info" do
     i18n = R18n::I18n.new(['nolocale', 'en'], DIR)
     i18n.one.locale.should == R18n::UnsupportedLocale.new('nolocale')
     i18n.two.locale.should == R18n.locale('en')
   end
 
-  it "should filter typed data" do
+  it "filters typed data" do
     en = R18n.locale('en')
     translation = R18n::Translation.new(en, '', :locale => en, :translations =>
       { 'count' => R18n::Typed.new('pl', { 1 => 'one', 'n' => 'many' }) })
@@ -72,14 +72,14 @@ describe R18n::Translation do
     translation.count(5).should == 'many'
   end
 
-  it "should return hash of translations" do
+  it "returns hash of translations" do
     i18n = R18n::I18n.new('en', DIR)
     i18n.in.to_hash.should == {
       'another' => { 'level' => 'Hierarchical' }
     }
   end
 
-  it "should return untranslated, when we go deeper string" do
+  it "returns untranslated, when we go deeper string" do
     en = R18n.locale('en')
     translation = R18n::Translation.new(en, '',
       :locale => en, :translations => { 'a' => 'A' })
@@ -89,7 +89,7 @@ describe R18n::Translation do
     translation.a.no_tr.untranslated_path.should == 'no_tr'
   end
 
-  it "should inspect translation" do
+  it "inspects translation" do
     en = R18n.locale('en')
 
     translation = R18n::Translation.new(en, 'a',
