@@ -1,16 +1,9 @@
 # encoding: utf-8
 
 require 'rubygems'
-
-begin
-  require 'bundler/setup'
-rescue LoadError
-  puts "Bundler not available. Install it with: gem install bundler"
-end
+require 'bundler/setup'
 
 GEMS = %w{r18n-core r18n-desktop sinatra-r18n r18n-rails-api r18n-rails}.freeze
-
-task :default => :spec
 
 def each_gem(&block)
   GEMS.each do |dir|
@@ -47,6 +40,7 @@ GEMS.each { |gem| SubgemSpecTask.new(gem) }
 
 desc 'Run all specs'
 task :spec => (GEMS.map { |i| "spec_#{i}" })
+task :default => :spec
 
 desc 'Build gems and push thems to RubyGems'
 task :release => [:clobber, :build] do

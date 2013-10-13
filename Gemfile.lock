@@ -127,7 +127,6 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
-    yard (0.8.7.2)
 
 PLATFORMS
   java
@@ -149,4 +148,3 @@ DEPENDENCIES
   rspec-rails
   sinatra
   sqlite3
-  yard
