@@ -5,3 +5,4 @@ pkg/
 log/
 
 .bundle
+Gemfile.lock
