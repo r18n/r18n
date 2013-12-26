@@ -22,11 +22,11 @@ human_time:
   now: 'sad'
   today: 'danas'
   minutes_ago: !!pl
-    1: 'prije %1 minute'
+    1: 'prije jedne minute'
     2: 'prije %1 minute'
     n: 'prije %1 minuta'
   hours_ago: !!pl
-    1: 'prije %1 sata'
+    1: 'prije jednog sata'
     2: 'prije %1 sata'
     n: 'prije %1 sati'
   yesterday: 'jučer'
