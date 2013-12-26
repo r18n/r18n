@@ -22,9 +22,9 @@ module R18n
     def pluralize(n)
       if 0 == n
         0
-      elsif 1 == n % 10 and 11 != n % 100
+      elsif n == 1
         1
-      elsif 2 <= n % 10 and 4 >= n % 10 and (10 > n % 100 or 20 <= n % 100)
+      elsif n >= 2 and n <= 4
         2
       else
         'n'
