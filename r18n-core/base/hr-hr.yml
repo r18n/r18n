@@ -1,0 +1,43 @@
+ok: 'U redu'
+save: 'Spremi'
+cancel: 'Odustani'
+'yes': 'Da'
+'no': 'Ne'
+exit: 'Izlaz'
+delete: 'Obriši'
+
+human_time:
+  after_days: !!pl
+    1: '%1 dan nakon'
+    n: '%1 dana nakon'
+  tomorrow: 'sutra'
+  after_hours: !!pl
+    1: '%1 sat nakon'
+    2: '%1 sata nakon'
+    3: '%1 sata nakon'
+    4: '%1 sata nakon'
+    n: '%1 sati nakon'
+  after_minutes: !!pl
+    1: 'jednu minutu nakon'
+    2: 'dvije minute nakon'
+    3: '%1 minute nakon'
+    4: '%1 minute nakon'
+    n: '%1 minuta nakon'
+  now: 'sad'
+  today: 'danas'
+  minutes_ago: !!pl
+    1: 'prije jedne minute'
+    2: 'prije dvije minute'
+    3: 'prije %1 minute'
+    4: 'prije %1 minute'
+    n: 'prije %1 minuta'
+  hours_ago: !!pl
+    1: 'prije jednog sata'
+    2: 'prije %1 sata'
+    3: 'prije %1 sata'
+    4: 'prije %1 sata'
+    n: 'prije %1 sati'
+  yesterday: 'jučer'
+  days_ago: !!pl
+    1: 'prije %1 dan'
+    n: 'prije %1 dana'
