@@ -14,8 +14,6 @@ human_time:
   after_hours: !!pl
     1: '%1 sat posle'
     2: '%1 sata posle'
-    3: '%1 sata posle'
-    4: '%1 sata posle'
     n: '%1 sati posle'
   after_minutes: !!pl
     1: 'jedan minut posle'
@@ -28,8 +26,6 @@ human_time:
   hours_ago: !!pl
     1: 'pre jednog sata'
     2: 'pre %1 sata'
-    3: 'pre %1 sata'
-    4: 'pre %1 sata'
     n: 'pre %1 sati'
   yesterday: 'jučer'
   days_ago: !!pl
