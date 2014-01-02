@@ -20,10 +20,10 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ['README.md', 'LICENSE']
   s.require_path     = 'lib'
 
-  s.author   = 'Andrey "A.I." Sitnik'
+  s.author   = 'Andrey Sitnik'
   s.email    = 'andrey@sitnik.ru'
   s.homepage = 'https://github.com/ai/r18n/tree/master/r18n-desktop'
   s.license  = 'LGPL-3'
 
-  s.add_dependency 'r18n-core', ["= #{R18n::VERSION}"]
+  s.add_dependency 'r18n-core', "= #{R18n::VERSION}"
 end
