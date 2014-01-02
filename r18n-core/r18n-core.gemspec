@@ -1,4 +1,4 @@
-require '../r18n-core/lib/r18n-core/version'
+require File.expand_path('../lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
