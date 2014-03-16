@@ -1,3 +1,6 @@
+== 1.1.9 (Не знайдено)
+* Fix Rails 4.0.4 support. Prevent loop on enforce_available_locales.
+
 == 1.1.8 (Osam)
 * Add Croatian locale (by Dino Kovač).
 * Add Serbian latin locale (by Dino Kovač).
