@@ -74,6 +74,8 @@ user:
     n: There are %1 users
 ```
 
+*Please note R18n files need to be lowercase `en-us.yml` and not `en-US.yml`.*
+
 To access translation you can call methods with the same names:
 
 ```ruby
