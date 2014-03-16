@@ -3,6 +3,8 @@ require 'pp'
 require 'i18n'
 require 'active_support'
 
+I18n.enforce_available_locales = true
+
 require File.join(File.dirname(__FILE__), '../lib/r18n-rails-api')
 
 EN = R18n.locale(:en)
