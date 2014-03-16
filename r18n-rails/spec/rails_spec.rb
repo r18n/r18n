@@ -105,9 +105,9 @@ describe TestController, :type => :controller do
   end
 
   it "translates mails" do
-    R18n.set('ru')
+    R18n.set('en')
     email = TestMailer.test.deliver
-    email.body.to_s.should == "Имя\nИмя\nИмя\n"
+    email.body.to_s.should == "Name\nName\nName\n"
   end
 
   it "reloads filters from app directory" do
