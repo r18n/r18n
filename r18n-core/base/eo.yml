@@ -3,7 +3,7 @@ save: 'Savi'
 cancel: 'Nuligi'
 'yes': 'Jes'
 'no': 'Ne'
-exit: 'Eliro'
+exit: 'Eliri'
 delete: 'Forviŝi'
 
 human_time:
@@ -20,12 +20,12 @@ human_time:
   now: 'nun'
   today: 'hodiaŭ'
   minutes_ago: !!pl
-    1: '%1 minuto antaŭ'
-    n: '%1 minutoj antaŭ'
+    1: 'antaŭ %1 minuto'
+    n: 'antaŭ %1 minutoj'
   hours_ago: !!pl
-    1: '%1 horo antaŭ'
-    n: '%1 horo antaŭ'
+    1: 'antaŭ %1 horo'
+    n: 'antaŭ %1 horoj'
   yesterday: 'hieraŭ'
   days_ago: !!pl
-    1: '%1 tago antaŭ'
-    n: '%1 tago antaŭ'
+    1: 'antaŭ %1 tago'
+    n: 'antaŭ %1 tagoj'
