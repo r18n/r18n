@@ -1,3 +1,7 @@
+== 1.1.10 (十)
+* Fix Esperanto locale by Larry Gilbert.
+* Fix Chinese locale by 刘当一.
+
 == 1.1.9 (Не знайдено)
 * Fix Rails 4.0.4 support. Prevent loop on enforce_available_locales.
 
