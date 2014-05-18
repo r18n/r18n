@@ -53,6 +53,9 @@ module R18n
           if entry.is_a? Symbol
             value = lookup(locale, scope, entry, separator, params)
             return value unless value.is_a? Untranslated
+          elsif entry.is_a? Proc
+            proc_key = options.delete(:object) || key
+            return entry.call(proc_key, options)
           else
             return entry
           end

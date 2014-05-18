@@ -48,9 +48,10 @@ describe R18n::Backend do
   end
 
   it "uses default value" do
-    I18n.t(:missed, :default => 'Default').should == 'Default'
-    I18n.t(:missed, :default => :default, :scope => :in).should == 'Default'
+    I18n.t(:missed, :default => 'Default').should                 == 'Default'
+    I18n.t(:missed, :default => :default, :scope => :in).should   == 'Default'
     I18n.t(:missed, :default => [:also_no, :'in.default']).should == 'Default'
+    I18n.t(:missed, :default => proc { |key| key.to_s }).should   == 'missed'
   end
 
   it "raises error on no translation" do
