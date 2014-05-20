@@ -10,116 +10,112 @@ describe R18n::Backend do
   end
 
   it "returns available locales" do
-    I18n.available_locales.should =~ [:en, :ru]
+    expect(I18n.available_locales).to match_array([:en, :ru])
   end
 
   it "localizes objects" do
     time = Time.at(0).utc
     date = Date.parse('1970-01-01')
 
-    I18n.l(time).should == 'Thu, 01 Jan 1970 00:00:00 +0000'
-    I18n.l(date).should == '1970-01-01'
+    expect(I18n.l(time)).to eq 'Thu, 01 Jan 1970 00:00:00 +0000'
+    expect(I18n.l(date)).to eq '1970-01-01'
 
-    I18n.l(time, :format => :short).should == '01 Jan 00:00'
-    I18n.l(time, :format => :full).should == '1st of January, 1970 00:00'
+    expect(I18n.l(time, :format => :short)).to eq '01 Jan 00:00'
+    expect(I18n.l(time, :format => :full)).to eq '1st of January, 1970 00:00'
 
-    I18n.l(-5000.5).should == '−5,000.5'
+    expect(I18n.l(-5000.5)).to eq '−5,000.5'
   end
 
   it "translates by key and scope" do
-    I18n.t('in.another.level').should               == 'Hierarchical'
-    I18n.t(:level, :scope => 'in.another').should   == 'Hierarchical'
-    I18n.t(:'another.level', :scope => 'in').should == 'Hierarchical'
+    expect(I18n.t('in.another.level')).to eq 'Hierarchical'
+    expect(I18n.t(:level, :scope => 'in.another')).to eq 'Hierarchical'
+    expect(I18n.t(:'another.level', :scope => 'in')).to eq 'Hierarchical'
   end
 
   it "uses pluralization and variables" do
-    I18n.t('users', :count => 0).should == '0 users'
-    I18n.t('users', :count => 1).should == '1 user'
-    I18n.t('users', :count => 5).should == '5 users'
+    expect(I18n.t('users', :count => 0)).to eq '0 users'
+    expect(I18n.t('users', :count => 1)).to eq '1 user'
+    expect(I18n.t('users', :count => 5)).to eq '5 users'
   end
 
   it "uses another separator" do
-    I18n.t('in/another/level', :separator => '/').should == 'Hierarchical'
+    expect(I18n.t('in/another/level', :separator => '/')).to eq 'Hierarchical'
   end
 
   it "translates array" do
-    I18n.t(['in.another.level', 'in.default']).should == ['Hierarchical',
-                                                          'Default']
+    expect(I18n.t(['in.another.level', 'in.default'])).to eq ['Hierarchical', 'Default']
   end
 
   it "uses default value" do
-    I18n.t(:missed, :default => 'Default').should                 == 'Default'
-    I18n.t(:missed, :default => :default, :scope => :in).should   == 'Default'
-    I18n.t(:missed, :default => [:also_no, :'in.default']).should == 'Default'
-    I18n.t(:missed, :default => proc { |key| key.to_s }).should   == 'missed'
+    expect(I18n.t(:missed, :default => 'Default')).to eq 'Default'
+    expect(I18n.t(:missed, :default => :default, :scope => :in)).to eq 'Default'
+    expect(I18n.t(:missed, :default => [:also_no, :'in.default'])).to eq 'Default'
+    expect(I18n.t(:missed, :default => proc { |key| key.to_s })).to eq 'missed'
   end
 
   it "raises error on no translation" do
-    lambda {
+    expect(-> {
       I18n.backend.translate(:en, :missed)
-    }.should raise_error(::I18n::MissingTranslationData)
-    lambda {
+    }).to raise_error(::I18n::MissingTranslationData)
+
+    expect(-> {
       I18n.t(:missed)
-    }.should raise_error(::I18n::MissingTranslationData)
+    }).to raise_error(::I18n::MissingTranslationData)
   end
 
   it "reloads translations" do
-    lambda { I18n.t(:other) }.should raise_error(::I18n::MissingTranslationData)
+    expect(-> { I18n.t(:other) }).to raise_error(::I18n::MissingTranslationData)
     I18n.load_path << OTHER
     I18n.reload!
-    I18n.t(:other).should == 'Other'
+    expect(I18n.t(:other)).to eq 'Other'
   end
 
   it "returns plain classes" do
-    I18n.t('in.another.level').class.should == ActiveSupport::SafeBuffer
-    I18n.t('in.another').class.should == Hash
+    expect(I18n.t('in.another.level').class).to eq ActiveSupport::SafeBuffer
+    expect(I18n.t('in.another').class).to eq Hash
   end
 
   it "returns correct unpluralized hash" do
-    I18n.t('users').should == { :one => '1 user', :other => '%{count} users' }
+    expect(I18n.t('users')).to eq ({ :one => '1 user', :other => '%{count} users' })
   end
 
   it "corrects detect untranslated, whem path is deeper than string" do
-    lambda {
+    expect(-> {
       I18n.t('in.another.level.deeper')
-    }.should raise_error(::I18n::MissingTranslationData)
+    }).to raise_error(::I18n::MissingTranslationData)
 
-    lambda {
+    expect(-> {
       I18n.t('in.another.level.go.deeper')
-    }.should raise_error(::I18n::MissingTranslationData)
+    }).to raise_error(::I18n::MissingTranslationData)
   end
 
   it "doesn't call String methods" do
-    I18n.t('in.another').class.should == Hash
+    expect(I18n.t('in.another').class).to eq Hash
   end
 
   it "doesn't call object methods" do
-    lambda {
+    expect(-> {
       I18n.t('in.another.level.to_sym')
-    }.should raise_error(::I18n::MissingTranslationData)
+    }).to raise_error(::I18n::MissingTranslationData)
   end
 
   it "works deeper pluralization" do
-    I18n.t('users.other', :count => 5).should == '5 users'
+    expect(I18n.t('users.other', :count => 5)).to eq '5 users'
   end
 
   it "returns hash with symbols keys" do
-    I18n.t('in').should == {
-      :another => { :level => 'Hierarchical' },
-      :default => 'Default'
-    }
+    expect(I18n.t('in')).to eq ({ :another => { :level => 'Hierarchical' }, :default => 'Default' })
   end
 
   it "changes locale in place" do
     I18n.load_path << PL
-    I18n.t('users', :count => 5).should == '5 users'
-    I18n.t('users', :count => 5, :locale => :ru).should == 'Много'
+    expect(I18n.t('users', :count => 5)).to eq '5 users'
+    expect(I18n.t('users', :count => 5, :locale => :ru)).to eq 'Много'
 
-    I18n.l(Date.parse('1970-01-01'), :locale => :ru).should == '01.01.1970'
+    expect(I18n.l(Date.parse('1970-01-01'), :locale => :ru)).to eq '01.01.1970'
   end
 
   it "has transliterate method" do
-    I18n.transliterate('café').should == 'cafe'
+    expect(I18n.transliterate('café')).to eq 'cafe'
   end
-
 end

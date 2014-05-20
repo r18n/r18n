@@ -9,13 +9,13 @@ describe R18n::Locale do
   end
 
   it "returns all available locales" do
-    R18n::Locale.available.class.should == Array
-    R18n::Locale.available.should_not be_empty
+    expect(R18n::Locale.available.class).to eq(Array)
+    expect(R18n::Locale.available).not_to be_empty
   end
 
   it "checks is locale exists" do
-    R18n::Locale.exists?('ru').should be_true
-    R18n::Locale.exists?('nolocale').should be_false
+    expect(R18n::Locale.exists?('ru')).to be_true
+    expect(R18n::Locale.exists?('nolocale')).to be_false
   end
 
   it "sets locale properties" do
@@ -24,85 +24,85 @@ describe R18n::Locale do
       set :two => 2
     end
     locale = locale_class.new
-    locale.one.should == 1
-    locale.two.should == 2
+    expect(locale.one).to eq(1)
+    expect(locale.two).to eq(2)
   end
 
   it "loads locale" do
-    @ru.class.should == R18n::Locales::Ru
-    @ru.code.should  == 'ru'
-    @ru.title.should == 'Русский'
+    expect(@ru.class).to eq(R18n::Locales::Ru)
+    expect(@ru.code).to  eq('ru')
+    expect(@ru.title).to eq('Русский')
   end
 
   it "loads locale by Symbol" do
-    R18n.locale(:ru).should == R18n.locale('ru')
+    expect(R18n.locale(:ru)).to eq(R18n.locale('ru'))
   end
 
   it "equals to another locale with same code" do
-    @en.should_not == @ru
-    @en.should == R18n.locale('en')
+    expect(@en).not_to eq(@ru)
+    expect(@en).to eq(R18n.locale('en'))
   end
 
   it "prints human readable representation" do
-    @ru.inspect.should == 'Locale ru (Русский)'
+    expect(@ru.inspect).to eq('Locale ru (Русский)')
   end
 
   it "returns pluralization type by elements count" do
-    @en.pluralize(0).should == 0
-    @en.pluralize(1).should == 1
-    @en.pluralize(5).should == 'n'
+    expect(@en.pluralize(0)).to eq(0)
+    expect(@en.pluralize(1)).to eq(1)
+    expect(@en.pluralize(5)).to eq('n')
   end
 
   it "uses UnsupportedLocale if locale file isn't exists" do
-    @en.should be_supported
+    expect(@en).to be_supported
 
     unsupported = R18n.locale('nolocale-DL')
-    unsupported.should_not be_supported
-    unsupported.should be_a(R18n::UnsupportedLocale)
+    expect(unsupported).not_to be_supported
+    expect(unsupported).to be_kind_of(R18n::UnsupportedLocale)
 
-    unsupported.code.downcase.should  == 'nolocale-dl'
-    unsupported.title.downcase.should == 'nolocale-dl'
-    unsupported.ltr?.should be_true
+    expect(unsupported.code.downcase).to  eq('nolocale-dl')
+    expect(unsupported.title.downcase).to eq('nolocale-dl')
+    expect(unsupported.ltr?).to be_true
 
-    unsupported.pluralize(5).should == 'n'
-    unsupported.inspect.downcase.should == 'unsupported locale nolocale-dl'
+    expect(unsupported.pluralize(5)).to eq('n')
+    expect(unsupported.inspect.downcase).to eq('unsupported locale nolocale-dl')
   end
 
   it "formats number in local traditions" do
-    @en.localize(-123456789).should == "−123,456,789"
+    expect(@en.localize(-123456789)).to eq("−123,456,789")
   end
 
   it "formats float in local traditions" do
-    @en.localize(-12345.67).should == "−12,345.67"
-    @en.localize(BigDecimal.new("-12345.67")).should == "−12,345.67"
+    expect(@en.localize(-12345.67)).to eq("−12,345.67")
+    expect(@en.localize(BigDecimal.new("-12345.67"))).to eq("−12,345.67")
   end
 
   it "translates month, week days and am/pm names in strftime" do
     i18n = R18n::I18n.new('ru')
     time = Time.at(0).utc
 
-    @ru.localize(time, '%a %A').should == 'Чтв Четверг'
-    @ru.localize(time, '%b %B').should == 'янв января'
-    @ru.localize(time, '%H:%M%p').should == '00:00 утра'
+    expect(@ru.localize(time, '%a %A')).to eq('Чтв Четверг')
+    expect(@ru.localize(time, '%b %B')).to eq('янв января')
+    expect(@ru.localize(time, '%H:%M%p')).to eq('00:00 утра')
   end
 
   it "generates locale code by locale class name" do
-    R18n.locale('ru').code.should    == 'ru'
-    R18n.locale('zh-CN').code.should == 'zh-CN'
+    expect(R18n.locale('ru').code).to    eq('ru')
+    expect(R18n.locale('zh-CN').code).to eq('zh-CN')
   end
 
   it "localizes date for human" do
     i18n = R18n::I18n.new('en')
 
-    @en.localize(Date.today + 2, :human, i18n).should == 'after 2 days'
-    @en.localize(Date.today + 1, :human, i18n).should == 'tomorrow'
-    @en.localize(Date.today,     :human, i18n).should == 'today'
-    @en.localize(Date.today - 1, :human, i18n).should == 'yesterday'
-    @en.localize(Date.today - 3, :human, i18n).should == '3 days ago'
+    expect(@en.localize(Date.today + 2, :human, i18n)).to eq('after 2 days')
+    expect(@en.localize(Date.today + 1, :human, i18n)).to eq('tomorrow')
+    expect(@en.localize(Date.today,     :human, i18n)).to eq('today')
+    expect(@en.localize(Date.today - 1, :human, i18n)).to eq('yesterday')
+    expect(@en.localize(Date.today - 3, :human, i18n)).to eq('3 days ago')
 
     y2k = Date.parse('2000-01-08')
-    @en.localize(y2k, :human, i18n, y2k + 8  ).should == '8th of January'
-    @en.localize(y2k, :human, i18n, y2k - 365).should == '8th of January, 2000'
+    expect(@en.localize(y2k, :human, i18n, y2k + 8  )).to eq('8th of January')
+    expect(@en.localize(y2k, :human, i18n, y2k - 365)).to eq('8th of January, 2000')
   end
 
   it "localizes times for human" do
@@ -112,62 +112,61 @@ describe R18n::Locale do
     zero   = Time.at(0).utc
     p = [:human, R18n::I18n.new('en'), zero]
 
-    @en.localize( zero + 7  * day,    *p).should == '8th of January 00:00'
-    @en.localize( zero + 50 * hour,   *p).should == 'after 2 days 02:00'
-    @en.localize( zero + 25 * hour,   *p).should == 'tomorrow 01:00'
-    @en.localize( zero + 70 * minute, *p).should == 'after 1 hour'
-    @en.localize( zero + hour,        *p).should == 'after 1 hour'
-    @en.localize( zero + 38 * minute, *p).should == 'after 38 minutes'
-    @en.localize( zero + 5,           *p).should == 'now'
-    @en.localize( zero - 15,          *p).should == 'now'
-    @en.localize( zero - minute,      *p).should == '1 minute ago'
-    @en.localize( zero - hour + 59,   *p).should == '59 minutes ago'
-    @en.localize( zero - 2  * hour,   *p).should == '2 hours ago'
-    @en.localize( zero - 13 * hour,   *p).should == 'yesterday 11:00'
-    @en.localize( zero - 50 * hour,   *p).should == '3 days ago 22:00'
+    expect(@en.localize( zero + 7  * day,    *p)).to eq('8th of January 00:00')
+    expect(@en.localize( zero + 50 * hour,   *p)).to eq('after 2 days 02:00')
+    expect(@en.localize( zero + 25 * hour,   *p)).to eq('tomorrow 01:00')
+    expect(@en.localize( zero + 70 * minute, *p)).to eq('after 1 hour')
+    expect(@en.localize( zero + hour,        *p)).to eq('after 1 hour')
+    expect(@en.localize( zero + 38 * minute, *p)).to eq('after 38 minutes')
+    expect(@en.localize( zero + 5,           *p)).to eq('now')
+    expect(@en.localize( zero - 15,          *p)).to eq('now')
+    expect(@en.localize( zero - minute,      *p)).to eq('1 minute ago')
+    expect(@en.localize( zero - hour + 59,   *p)).to eq('59 minutes ago')
+    expect(@en.localize( zero - 2  * hour,   *p)).to eq('2 hours ago')
+    expect(@en.localize( zero - 13 * hour,   *p)).to eq('yesterday 11:00')
+    expect(@en.localize( zero - 50 * hour,   *p)).to eq('3 days ago 22:00')
 
-    @en.localize( zero - 9  * day,  *p).should == '23rd of December, 1969 00:00'
-    @en.localize( zero - 365 * day, *p).should == '1st of January, 1969 00:00'
+    expect(@en.localize( zero - 9  * day,  *p)).to eq('23rd of December, 1969 00:00')
+    expect(@en.localize( zero - 365 * day, *p)).to eq('1st of January, 1969 00:00')
   end
 
   it "uses standard formatter by default" do
-    @ru.localize(Time.at(0).utc).should == '01.01.1970 00:00'
+    expect(@ru.localize(Time.at(0).utc)).to eq('01.01.1970 00:00')
   end
 
   it "doesn't localize time without i18n object" do
-    @ru.localize(Time.at(0)).should_not == Time.at(0).to_s
-    @ru.localize(Time.at(0), :full).should_not == Time.at(0).to_s
+    expect(@ru.localize(Time.at(0))).not_to eq(Time.at(0).to_s)
+    expect(@ru.localize(Time.at(0), :full)).not_to eq(Time.at(0).to_s)
 
-    @ru.localize(Time.at(0), :human).should == Time.at(0).to_s
+    expect(@ru.localize(Time.at(0), :human)).to eq(Time.at(0).to_s)
   end
 
   it "raises error on unknown formatter" do
-    lambda {
+    expect {
       @ru.localize(Time.at(0).utc, R18n::I18n.new('ru'), :unknown)
-    }.should raise_error(ArgumentError, /formatter/)
+    }.to raise_error(ArgumentError, /formatter/)
   end
 
   it "deletes slashed from locale for security reasons" do
     locale = R18n.locale('../spec/translations/general/en')
-    locale.should be_a(R18n::UnsupportedLocale)
+    expect(locale).to be_kind_of(R18n::UnsupportedLocale)
   end
 
   it "ignores code case in locales" do
     upcase   = R18n.locale('RU')
     downcase = R18n.locale('ru')
-    upcase.should == downcase
-    upcase.code.should   == 'ru'
-    downcase.code.should == 'ru'
+    expect(upcase).to eq(downcase)
+    expect(upcase.code).to   eq('ru')
+    expect(downcase.code).to eq('ru')
 
     upcase   = R18n.locale('nolocale')
     downcase = R18n.locale('nolocale')
-    upcase.should == downcase
-    upcase.code.should   == 'nolocale'
-    downcase.code.should == 'nolocale'
+    expect(upcase).to eq(downcase)
+    expect(upcase.code).to   eq('nolocale')
+    expect(downcase.code).to eq('nolocale')
   end
 
   it "loads locale with underscore" do
-    R18n.locale('nolocale-DL').code.should == 'nolocale-dl'
+    expect(R18n.locale('nolocale-DL').code).to eq('nolocale-dl')
   end
-
 end

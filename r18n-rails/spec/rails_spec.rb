@@ -6,69 +6,69 @@ describe TestController, :type => :controller do
 
   it "uses default locale" do
     get :locales
-    response.should be_success
-    response.body.should == 'ru'
+    expect(response).to be_success
+    expect(response.body).to eq 'ru'
   end
 
   it "gets locale from param" do
     get :locales, :locale => 'ru'
-    response.should be_success
-    response.body.should == 'ru, en'
+    expect(response).to be_success
+    expect(response.body).to eq 'ru, en'
   end
 
   it "gets locale from session" do
     get :locales, {}, { :locale => 'ru' }
-    response.should be_success
-    response.body.should == 'ru, en'
+    expect(response).to be_success
+    expect(response.body).to eq 'ru, en'
   end
 
   it "gets locales from http" do
     request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
     get :locales
-    response.should be_success
-    response.body.should == 'ru, fr, en'
+    expect(response).to be_success
+    expect(response.body).to eq 'ru, fr, en'
   end
 
   it "loads translations" do
     get :translations, :locale => 'en'
-    response.should be_success
-    response.body.should == 'R18n: supported. Rails I18n: supported'
+    expect(response).to be_success
+    expect(response.body).to eq 'R18n: supported. Rails I18n: supported'
   end
 
   it "returns available translations" do
     get :available
-    response.should be_success
-    response.body.should == 'en ru'
+    expect(response).to be_success
+    expect(response.body).to eq 'en ru'
   end
 
   it "adds helpers" do
     get :helpers, :locale => 'en'
-    response.should be_success
-    response.body.should == "Name\nName\nName\nName\n"
+    expect(response).to be_success
+    expect(response.body).to eq "Name\nName\nName\nName\n"
   end
 
   it "formats untranslated" do
     get :untranslated
-    response.should be_success
-    response.body.should == 'user.<span style="color: red">[not.exists]</span>'
+    expect(response).to be_success
+    expect(response.body).to eq 'user.<span style="color: red">[not.exists]</span>'
   end
 
   it "adds methods to controller" do
     get :controller, :locale => 'en'
-    response.should be_success
-    response.body.should == "Name Name Name"
+    expect(response).to be_success
+    expect(response.body).to eq "Name Name Name"
   end
 
   it "localizes time by Rails I18n" do
     get :time, :locale => 'en'
-    response.should be_success
-    response.body.should == "Thu, 01 Jan 1970 00:00:00 +0000\n01 Jan 00:00"
+    expect(response).to be_success
+    expect(response.body).to eq "Thu, 01 Jan 1970 00:00:00 +0000\n01 Jan 00:00"
   end
 
   it "localizes time by R18n" do
     get :human_time, :locale => 'en'
-    response.should be_success
-    response.body.should == "now"
+    expect(response).to be_success
+    expect(response.body).to eq 'now'
   end
 
   it "translates models" do
@@ -80,81 +80,77 @@ describe TestController, :type => :controller do
       end
     end
 
-    Post.unlocalized_getters(:title).should == { 'ru' => 'title_ru',
-                                                 'en' => 'title_en' }
-    Post.unlocalized_setters(:title).should == { 'ru' => 'title_ru=',
-                                                 'en' => 'title_en=' }
+    expect(Post.unlocalized_getters(:title)).to eq ({ 'ru' => 'title_ru', 'en' => 'title_en' })
+    expect(Post.unlocalized_setters(:title)).to eq ({ 'ru' => 'title_ru=', 'en' => 'title_en=' })
 
     @post = Post.new
     @post.title_en = 'Record'
 
     R18n.set('ru')
-    @post.title.should == 'Record'
+    expect(@post.title).to eq 'Record'
 
     @post.title = 'Запись'
-    @post.title_ru.should == 'Запись'
-    @post.title_en.should == 'Record'
-    @post.title.should    == 'Запись'
+    expect(@post.title_ru).to eq 'Запись'
+    expect(@post.title_en).to eq 'Record'
+    expect(@post.title).to eq 'Запись'
   end
 
   it "sets default places" do
-    R18n.default_places.should == [Rails.root.join('app/i18n'),
-                                   R18n::Loader::Rails.new]
+    expect(R18n.default_places).to eq [Rails.root.join('app/i18n'), R18n::Loader::Rails.new]
+
     R18n.set('en')
-    R18n.get.user.name.should == 'Name'
+    expect(R18n.get.user.name).to eq 'Name'
   end
 
   it "translates mails" do
     R18n.set('en')
     email = TestMailer.test.deliver
-    email.body.to_s.should == "Name\nName\nName\n"
+    expect(email.body.to_s).to eq "Name\nName\nName\n"
   end
 
   it "reloads filters from app directory" do
     get :filter, :locale => 'en'
-    response.should be_success
-    response.body.should == 'Rails'
+    expect(response).to be_success
+    expect(response.body).to eq 'Rails'
     R18n::Rails::Filters.loaded.should == [:rails_custom_filter]
 
     R18n::Filters.defined[:rails_custom_filter].block = proc { 'No' }
     get :filter, :locale => 'en'
 
-    response.should be_success
-    response.body.should == 'Rails'
+    expect(response).to be_success
+    expect(response.body).to eq 'Rails'
   end
 
   it "escapes html inside R18n" do
     get :safe, :locale => 'en'
-    response.should be_success
-    response.body.should ==
-      "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
+    expect(response).to be_success
+    expect(response.body).to eq "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
   end
 
   it "works with Rails build-in herlpers" do
     get :format
-    response.should be_success
-    response.body.should == "1 000,1 руб.\n"
+    expect(response).to be_success
+    expect(response.body).to eq "1 000,1 руб.\n"
   end
 
   it "caches I18n object" do
     R18n.clear_cache!
 
     get :translations
-    R18n.cache.keys.length.should == 1
+    expect(R18n.cache.keys.length).to eq 1
 
     get :translations
-    R18n.cache.keys.length.should == 1
+    expect(R18n.cache.keys.length).to eq 1
 
     get :translations
     request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
-    R18n.cache.keys.length.should == 1
+    expect(R18n.cache.keys.length).to eq 1
 
     get :translations, :locale => 'en'
-    R18n.cache.keys.length.should == 2
+    expect(R18n.cache.keys.length).to eq 2
   end
 
   it "parameterizes strigns" do
-    'One two три'.parameterize.should == 'one-two'
+    expect('One two три'.parameterize).to eq 'one-two'
   end
-
 end

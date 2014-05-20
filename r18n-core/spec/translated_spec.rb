@@ -15,16 +15,16 @@ describe R18n::Translated do
 
   it "saves methods map" do
     @user_class.translation :name, :methods => { :ru => :name_ru }
-    @user_class.unlocalized_getters(:name).should == { 'ru' => 'name_ru' }
-    @user_class.unlocalized_setters(:name).should == { 'ru' => 'name_ru=' }
+    expect(@user_class.unlocalized_getters(:name)).to eq({ 'ru' => 'name_ru' })
+    expect(@user_class.unlocalized_setters(:name)).to eq({ 'ru' => 'name_ru=' })
   end
 
   it "autodetects methods map" do
     @user_class.translation :name
-    @user_class.unlocalized_getters(:name).should == {
-        'en' => 'name_en', 'ru' => 'name_ru' }
-    @user_class.unlocalized_setters(:name).should == {
-        'en' => 'name_en=', 'ru' => 'name_ru=' }
+    expect(@user_class.unlocalized_getters(:name)).to eq({
+        'en' => 'name_en', 'ru' => 'name_ru' })
+    expect(@user_class.unlocalized_setters(:name)).to eq({
+        'en' => 'name_en=', 'ru' => 'name_ru=' })
   end
 
   it "translates methods" do
@@ -32,12 +32,12 @@ describe R18n::Translated do
     user = @user_class.new
 
     user.name = 'John'
-    user.name.should == 'John'
+    expect(user.name).to eq('John')
 
     R18n.set('ru')
-    user.name.should == 'John'
+    expect(user.name).to eq('John')
     user.name = 'Джон'
-    user.name.should == 'Джон'
+    expect(user.name).to eq('Джон')
   end
 
   it "returns TranslatedString" do
@@ -48,9 +48,9 @@ describe R18n::Translated do
     end
     obj = ::SomeTranslatedClass.new
 
-    obj.name.should be_a(R18n::TranslatedString)
-    obj.name.locale.should == R18n.locale('en')
-    obj.name.path.should == 'SomeTranslatedClass#name'
+    expect(obj.name).to be_kind_of(R18n::TranslatedString)
+    expect(obj.name.locale).to eq(R18n.locale('en'))
+    expect(obj.name.path).to eq('SomeTranslatedClass#name')
   end
 
   it "searchs translation by locales priority" do
@@ -59,7 +59,7 @@ describe R18n::Translated do
 
     R18n.set(['nolocale', 'ru', 'en'])
     user.name_ru = 'Иван'
-    user.name.locale.should == R18n.locale('ru')
+    expect(user.name.locale).to eq(R18n.locale('ru'))
   end
 
   it "uses default locale" do
@@ -68,7 +68,7 @@ describe R18n::Translated do
 
     R18n.set('nolocale')
     user.name_en = 'John'
-    user.name.locale.should == R18n.locale('en')
+    expect(user.name.locale).to eq(R18n.locale('en'))
   end
 
   it "uses filters" do
@@ -78,7 +78,7 @@ describe R18n::Translated do
     end
     user = @user_class.new
 
-    user.age(20).should == '20 years'
+    expect(user.age(20)).to eq('20 years')
   end
 
   it "sends params to method if user want it" do
@@ -89,8 +89,8 @@ describe R18n::Translated do
     end
     user = @user_class.new
 
-    user.no_params(1, 2).should == ''
-    user.params(1, 2).should == '1 2'
+    expect(user.no_params(1, 2)).to eq('')
+    expect(user.params(1, 2)).to eq('1 2')
   end
 
   it "translates virtual methods" do
@@ -103,7 +103,7 @@ describe R18n::Translated do
     end
     virtual = @virtual_class.new
 
-    virtual.no_method.should == 'no_method_en'
+    expect(virtual.no_method).to eq('no_method_en')
   end
 
   it "returns original type of result" do
@@ -115,7 +115,7 @@ describe R18n::Translated do
     end
     user = @user_class.new
 
-    user.name.should == :ivan
+    expect(user.name).to eq(:ivan)
   end
 
   it "returns nil" do
@@ -127,7 +127,7 @@ describe R18n::Translated do
     end
     user = @user_class.new
 
-    user.name.should be_nil
+    expect(user.name).to be_nil
   end
 
   it "allows to change I18n object" do
@@ -140,9 +140,8 @@ describe R18n::Translated do
     user.name_en = 'John'
 
     user.r18n = R18n::I18n.new('ru')
-    user.name.should == 'Иван'
+    expect(user.name).to eq('Иван')
     user.r18n = R18n::I18n.new('en')
-    user.name.should == 'John'
+    expect(user.name).to eq('John')
   end
-
 end

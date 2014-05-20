@@ -8,40 +8,30 @@ describe R18n::Loader::Rails do
   end
 
   it "returns available locales" do
-    @loader.available.should =~ [EN, RU]
+    expect(@loader.available).to match_array([EN, RU])
   end
 
   it "loads translation" do
-    @loader.load(RU).should == { 'one' => 'Один', 'two' => 'Два' }
+    expect(@loader.load(RU)).to eq ({ 'one' => 'Один', 'two' => 'Два' })
   end
 
   it "changes pluralization" do
-    @loader.load(EN).should == {
-      'users' => R18n::Typed.new('pl', {
-        0 => 'Zero', 1 => 'One', 2 => 'Few', 'n' => 'Other'
-       })
-    }
+    expect(@loader.load(EN)).to eq ({ 'users' => R18n::Typed.new('pl', { 0 => 'Zero', 1 => 'One', 2 => 'Few', 'n' => 'Other' }) })
   end
 
   it "changes Russian pluralization" do
     I18n.load_path = [PL]
-    @loader.load(RU).should == {
-      'users' => R18n::Typed.new('pl', {
-        0 => 'Ноль', 1 => 'Один', 2 => 'Несколько', 'n' => 'Много'
-       })
-    }
+    expect(@loader.load(RU)).to eq ({ 'users' => R18n::Typed.new('pl', { 0 => 'Ноль', 1 => 'Один', 2 => 'Несколько', 'n' => 'Много' }) })
   end
 
   it "reloads translations on load_path changes" do
     I18n.load_path << OTHER
-    @loader.load(RU).should == { 'one' => 'Один', 'two' => 'Два',
-                                 'three' => 'Три' }
+    expect(@loader.load(RU)).to eq ({ 'one' => 'Один', 'two' => 'Два', 'three' => 'Три' })
   end
 
   it "changes hash on load_path changes" do
     before = @loader.hash
     I18n.load_path << OTHER
-    @loader.hash.should_not == before
+    expect(@loader.hash).not_to eq before
   end
-
 end
