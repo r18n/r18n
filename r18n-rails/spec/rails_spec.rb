@@ -112,7 +112,7 @@ describe TestController, :type => :controller do
     get :filter, :locale => 'en'
     expect(response).to be_success
     expect(response.body).to eq 'Rails'
-    R18n::Rails::Filters.loaded.should == [:rails_custom_filter]
+    expect(R18n::Rails::Filters.loaded).to eq [:rails_custom_filter]
 
     R18n::Filters.defined[:rails_custom_filter].block = proc { 'No' }
     get :filter, :locale => 'en'
@@ -124,7 +124,8 @@ describe TestController, :type => :controller do
   it "escapes html inside R18n" do
     get :safe, :locale => 'en'
     expect(response).to be_success
-    expect(response.body).to eq "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
+    expect(response.body).to eq(
+      "<b> user.<span style=\"color: red\">[no_tr]</span>\n")
   end
 
   it "works with Rails build-in herlpers" do

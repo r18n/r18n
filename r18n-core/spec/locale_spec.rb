@@ -14,8 +14,8 @@ describe R18n::Locale do
   end
 
   it "checks is locale exists" do
-    expect(R18n::Locale.exists?('ru')).to be_true
-    expect(R18n::Locale.exists?('nolocale')).to be_false
+    expect(R18n::Locale.exists?('ru')).to be true
+    expect(R18n::Locale.exists?('nolocale')).to be false
   end
 
   it "sets locale properties" do
@@ -62,7 +62,7 @@ describe R18n::Locale do
 
     expect(unsupported.code.downcase).to  eq('nolocale-dl')
     expect(unsupported.title.downcase).to eq('nolocale-dl')
-    expect(unsupported.ltr?).to be_true
+    expect(unsupported.ltr?).to be true
 
     expect(unsupported.pluralize(5)).to eq('n')
     expect(unsupported.inspect.downcase).to eq('unsupported locale nolocale-dl')
