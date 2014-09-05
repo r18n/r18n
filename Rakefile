@@ -19,31 +19,10 @@ def each_rake(task)
   each_gem { rake task }
 end
 
-require 'rspec/core/rake_task'
-
-class SubgemSpecTask < RSpec::Core::RakeTask
-  attr_accessor :gem
-
-  def initialize(gem)
-    @gem = gem
-    super("spec_#{@gem}")
-  end
-
-  def desc(text); end # Monkey  patch to hide task desc
-
-  def file_inclusion_specification
-    if @gem == 'r18n-core'
-      "--pattern #{@gem}/spec{,/**}/*_spec.rb"
-    else
-      "#{@gem}/spec/*_spec.rb"
-    end
-  end
-end
-
-GEMS.each { |gem| SubgemSpecTask.new(gem) }
-
 desc 'Run all specs'
-task :spec => (GEMS.map { |i| "spec_#{i}" })
+task :spec do
+  each_rake 'spec'
+end
 task :default => :spec
 
 desc 'Build gems and push thems to RubyGems'
