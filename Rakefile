@@ -31,8 +31,12 @@ class SubgemSpecTask < RSpec::Core::RakeTask
 
   def desc(text); end # Monkey  patch to hide task desc
 
-  def pattern
-    "#{@gem}/spec{,/*/**}/*_spec.rb"
+  def file_inclusion_specification
+    if @gem == 'r18n-core'
+      "#{@gem}/spec{,/**}/*_spec.rb"
+    else
+      "#{@gem}/spec/*_spec.rb"
+    end
   end
 end
 
