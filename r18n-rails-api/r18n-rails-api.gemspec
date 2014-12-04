@@ -2,10 +2,11 @@ require File.expand_path('../../r18n-core/lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.name = 'r18n-rails-api'
-  s.version = R18n::VERSION.dup
-  s.date = Time.now.strftime('%Y-%m-%d')
-  s.summary = 'Rails I18n compatibility for R18n'
+  s.name     = 'r18n-rails-api'
+  s.version  = R18n::VERSION.dup
+  s.date     = Time.now.strftime('%Y-%m-%d')
+
+  s.summary     = 'Rails I18n compatibility for R18n'
   s.description = <<-EOF
     R18n backend for Rails I18n and R18n filters and loader to support Rails
     translation format.

@@ -2,11 +2,11 @@ require File.expand_path('../../r18n-core/lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.name = 'sinatra-r18n'
-  s.version = R18n::VERSION.dup
-  s.date = Time.now.strftime('%Y-%m-%d')
-  s.summary = 'A Sinatra extension that provides i18n support to translate your
-    web application.'
+  s.name     = 'sinatra-r18n'
+  s.version  = R18n::VERSION.dup
+  s.date     = Time.now.strftime('%Y-%m-%d')
+
+  s.summary     = 'A Sinatra extension that provides i18n support'
   s.description = <<-EOF
     A Sinatra extension that provides i18n support to translate your web
     application. It is just a wrapper for R18n core library.

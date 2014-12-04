@@ -2,10 +2,11 @@ require File.expand_path('../../r18n-core/lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.name = 'r18n-desktop'
-  s.version = R18n::VERSION.dup
-  s.date = Time.now.strftime('%Y-%m-%d')
-  s.summary = 'A i18n tool to translate your Ruby desktop application.'
+  s.name     = 'r18n-desktop'
+  s.version  = R18n::VERSION.dup
+  s.date     = Time.now.strftime('%Y-%m-%d')
+
+  s.summary     = 'A i18n tool to translate your Ruby desktop application.'
   s.description = <<-EOF
     A i18n tool to translate your desktop application in several languages.
     It is just a wrapper for R18n core library.

@@ -2,9 +2,10 @@ require File.expand_path('../../r18n-core/lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.name = 'r18n-rails'
-  s.version = R18n::VERSION.dup
-  s.date = Time.now.strftime('%Y-%m-%d')
+  s.name     = 'r18n-rails'
+  s.version  = R18n::VERSION.dup
+  s.date     = Time.now.strftime('%Y-%m-%d')
+
   s.summary = 'R18n for Rails'
   s.description = <<-EOF
     Out-of-box R18n support for Ruby on Rails.
