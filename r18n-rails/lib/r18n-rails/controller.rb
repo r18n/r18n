@@ -39,7 +39,7 @@ module R18n
           end
 
           i18n = R18n::I18n.new(locales, R18n.default_places,
-            :off_filters => :untranslated, :on_filters => :untranslated_html)
+            off_filters: :untranslated, on_filters: :untranslated_html)
           ::I18n.locale = i18n.locale.code.to_sym
           i18n
         end

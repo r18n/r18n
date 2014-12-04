@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Translation to i18n support.
 
@@ -90,9 +89,9 @@ module R18n
           case value
           when Hash
             value = Translation.new(@locale, path,
-              :locale => locale, :translations => value, :filters => @filters)
+              locale: locale, translations: value, filters: @filters)
           when String
-            c = { :locale => locale, :path => path }
+            c = { locale: locale, path: path }
             v = @filters.process_string(:passive, value, c, [])
             value = TranslatedString.new(v, locale, path, @filters)
           when Typed

@@ -1,23 +1,21 @@
-# encoding: utf-8
 module R18n
   class Locales::SrLatn < Locale
-    set :title => 'Srpski',
-        :sublocales => [],
+    set title: 'Srpski',
+        sublocales: [],
 
-        :week_start => :monday,
-        :wday_names => %w{nedelja ponedeljak utorak sreda četvrtak petak
-                          subota},
-        :wday_abbrs => %w{ned pon uto sri čet pet sub},
+        week_start: :monday,
+        wday_names: %w{nedelja ponedeljak utorak sreda četvrtak petak subota},
+        wday_abbrs: %w{ned pon uto sri čet pet sub},
 
-        :month_names => %w{januar februar mart april maj juni juli avgust
-                           septembar oktobar novembar decembar},
-        :month_abbrs => %w{jan feb mar apr maj jun jul avg sep okt nov dec},
+        month_names: %w{januar februar mart april maj juni juli avgust
+                        septembar oktobar novembar decembar},
+        month_abbrs: %w{jan feb mar apr maj jun jul avg sep okt nov dec},
 
-        :date_format => '%d.%m.%Y',
-        :full_format => '%e. %B',
+        date_format: '%d.%m.%Y',
+        full_format: '%e. %B',
 
-        :number_decimal => ",",
-        :number_group   => "."
+        number_decimal: ",",
+        number_group:   "."
 
     def pluralize(n)
       if 0 == n

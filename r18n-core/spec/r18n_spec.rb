@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n do
@@ -76,8 +75,10 @@ describe R18n do
 
   it "allows to temporary change current locales" do
     R18n.set('ru')
-    expect(R18n.change('en').locales).to eq([R18n.locale('en'), R18n.locale('ru')])
-    expect(R18n.change('en').translation_places).to eq(R18n.get.translation_places)
+    expect(R18n.change('en').locales).to eq(
+      [R18n.locale('en'), R18n.locale('ru')])
+    expect(R18n.change('en').translation_places).to eq(
+      R18n.get.translation_places)
     expect(R18n.get.locale.code).to eq('ru')
   end
 
@@ -106,21 +107,19 @@ describe R18n do
     expect(R18n.cache).to eq({ })
   end
 
-  it "converts Time to Date" do
-    expect(R18n::Utils.to_date(Time.now)).to eq(Date.today)
-  end
-
   it "maps hash" do
-    expect(R18n::Utils.hash_map({'a' => 1, 'b' => 2}) { |k, v| [k + 'a', v + 1] }).
-      to eq({ 'aa' => 2, 'ba' => 3 })
+    hash = R18n::Utils.hash_map({ 'a' => 1, 'b' => 2 }) { |k, v|
+      [k + 'a', v + 1]
+    }
+    expect(hash).to eq({ 'aa' => 2, 'ba' => 3 })
   end
 
   it "merges hash recursively" do
-    a = { :a => 1, :b => {:ba => 1, :bb => 1}, :c => 1 }
-    b = {          :b => {:bb => 2, :bc => 2}, :c => 2 }
+    a = { a: 1, b: { ba: 1, bb: 1}, c: 1 }
+    b = {       b: { bb: 2, bc: 2}, c: 2 }
 
     R18n::Utils.deep_merge!(a, b)
-    expect(a).to eq({ :a => 1, :b => { :ba => 1, :bb => 2, :bc => 2 }, :c => 2 })
+    expect(a).to eq({ a: 1, b: { ba: 1, bb: 2, bc: 2 }, c: 2 })
   end
 
   it "has l and t methods" do

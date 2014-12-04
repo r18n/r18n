@@ -1,19 +1,19 @@
 class TestController < ApplicationController
   layout false
 
-  before_filter :reload_r18n, :only => :filter
+  before_filter :reload_r18n, only: :filter
 
   def locales
-    render :text => R18n.get.locales.map { |i| i.code }.join(', ')
+    render text: R18n.get.locales.map { |i| i.code }.join(', ')
   end
 
   def translations
-    render :text => "R18n: #{R18n.get.r18n.translations}. " +
+    render text: "R18n: #{R18n.get.r18n.translations}. " +
                     "Rails I18n: #{R18n.get.i18n.translations}"
   end
 
   def available
-    render :text => R18n.get.available_locales.map { |i| i.code }.sort.join(' ')
+    render text: R18n.get.available_locales.map { |i| i.code }.sort.join(' ')
   end
 
   def helpers
@@ -22,24 +22,24 @@ class TestController < ApplicationController
   end
 
   def untranslated
-    render :text => "#{R18n.get.user.not.exists}"
+    render text: "#{R18n.get.user.not.exists}"
   end
 
   def controller
-    render :text => "#{t.user.name} #{r18n.t.user.name} #{t('user.name')}"
+    render text: "#{t.user.name} #{r18n.t.user.name} #{t('user.name')}"
   end
 
   def time
-    render :text => l(Time.at(0).utc) + "\n" +
-                    l(Time.at(0).utc, :format => :short)
+    render text: l(Time.at(0).utc) + "\n" +
+                    l(Time.at(0).utc, format: :short)
   end
 
   def human_time
-    render :text => l(Time.now, :human)
+    render text: l(Time.now, :human)
   end
 
   def filter
-    render :text => t.ruby
+    render text: t.ruby
   end
 
   def format

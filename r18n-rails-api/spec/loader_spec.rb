@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Loader::Rails do
@@ -12,21 +11,39 @@ describe R18n::Loader::Rails do
   end
 
   it "loads translation" do
-    expect(@loader.load(RU)).to eq ({ 'one' => 'Один', 'two' => 'Два' })
+    expect(@loader.load(RU)).to eq({ 'one' => 'Один', 'two' => 'Два' })
   end
 
   it "changes pluralization" do
-    expect(@loader.load(EN)).to eq ({ 'users' => R18n::Typed.new('pl', { 0 => 'Zero', 1 => 'One', 2 => 'Few', 'n' => 'Other' }) })
+    expect(@loader.load(EN)).to eq({
+      'users' => R18n::Typed.new('pl', {
+        0   => 'Zero',
+        1   => 'One',
+        2   => 'Few',
+        'n' => 'Other'
+      })
+    })
   end
 
   it "changes Russian pluralization" do
     I18n.load_path = [PL]
-    expect(@loader.load(RU)).to eq ({ 'users' => R18n::Typed.new('pl', { 0 => 'Ноль', 1 => 'Один', 2 => 'Несколько', 'n' => 'Много' }) })
+    expect(@loader.load(RU)).to eq({
+      'users' => R18n::Typed.new('pl', {\
+        0   => 'Ноль',
+        1   => 'Один',
+        2   => 'Несколько',
+        'n' => 'Много'
+      })
+    })
   end
 
   it "reloads translations on load_path changes" do
     I18n.load_path << OTHER
-    expect(@loader.load(RU)).to eq ({ 'one' => 'Один', 'two' => 'Два', 'three' => 'Три' })
+    expect(@loader.load(RU)).to eq({
+      'one'   => 'Один',
+      'two'   => 'Два',
+      'three' => 'Три'
+    })
   end
 
   it "changes hash on load_path changes" do

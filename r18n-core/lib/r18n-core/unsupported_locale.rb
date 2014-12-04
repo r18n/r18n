@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Locale withou information file to i18n support.
 

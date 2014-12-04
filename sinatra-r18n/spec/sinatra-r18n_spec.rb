@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe Sinatra::R18n do
@@ -37,7 +36,7 @@ describe Sinatra::R18n do
   end
 
   it "uses locale from session" do
-    get '/locale', { }, { 'rack.session' => { :locale => 'ru' } }
+    get '/locale', { }, { 'rack.session' => { locale: 'ru' } }
     expect(last_response).to be_ok
     expect(last_response.body).to eq 'Русский'
   end
@@ -61,7 +60,8 @@ describe Sinatra::R18n do
   end
 
   it "sets default places" do
-    expect(R18n.default_places).to eq Pathname(__FILE__).dirname.expand_path.join('app/i18n/').to_s
+    path = Pathname(__FILE__).dirname.expand_path.join('app/i18n/').to_s
+    expect(R18n.default_places).to eq path
     R18n.set('en')
     expect(R18n.get.post.title(1)).to eq 'Post 1'
   end

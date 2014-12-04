@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Translation do
@@ -65,7 +64,7 @@ describe R18n::Translation do
 
   it "filters typed data" do
     en = R18n.locale('en')
-    translation = R18n::Translation.new(en, '', :locale => en, :translations =>
+    translation = R18n::Translation.new(en, '', locale: en, translations:
       { 'count' => R18n::Typed.new('pl', { 1 => 'one', 'n' => 'many' }) })
 
     expect(translation.count(1)).to eq('one')
@@ -82,7 +81,7 @@ describe R18n::Translation do
   it "returns untranslated, when we go deeper string" do
     en = R18n.locale('en')
     translation = R18n::Translation.new(en, '',
-      :locale => en, :translations => { 'a' => 'A' })
+      locale: en, translations: { 'a' => 'A' })
 
     expect(translation.a.no_tr).to be_kind_of(R18n::Untranslated)
     expect(translation.a.no_tr.translated_path).to   eq('a.')
@@ -93,11 +92,11 @@ describe R18n::Translation do
     en = R18n.locale('en')
 
     translation = R18n::Translation.new(en, 'a',
-      :locale => en, :translations => { 'a' => 'A' })
+      locale: en, translations: { 'a' => 'A' })
     expect(translation.inspect).to eq('Translation `a` for en {"a"=>"A"}')
 
     translation = R18n::Translation.new(en, '',
-      :locale => en, :translations => { 'a' => 'A' })
+      locale: en, translations: { 'a' => 'A' })
     expect(translation.inspect).to eq('Translation root for en {"a"=>"A"}')
 
     translation = R18n::Translation.new(en, '')

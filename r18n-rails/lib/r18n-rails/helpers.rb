@@ -46,9 +46,9 @@ module R18n
 
       # Extend +l+ helper to use also R18n syntax.
       #
-      #   l Time.now                    # Rails I18n default format
-      #   l Time.now, :format => :short # Rails I18n style
-      #   l Time.now, :human            # R18n style
+      #   l Time.now                 # Rails I18n default format
+      #   l Time.now, format: :short # Rails I18n style
+      #   l Time.now, :human         # R18n style
       def l(obj, *params)
         if params.empty? or params.first.is_a? Hash
           super(obj, *params)

@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Backend do
@@ -20,37 +19,38 @@ describe R18n::Backend do
     expect(I18n.l(time)).to eq 'Thu, 01 Jan 1970 00:00:00 +0000'
     expect(I18n.l(date)).to eq '1970-01-01'
 
-    expect(I18n.l(time, :format => :short)).to eq '01 Jan 00:00'
-    expect(I18n.l(time, :format => :full)).to eq '1st of January, 1970 00:00'
+    expect(I18n.l(time, format: :short)).to eq '01 Jan 00:00'
+    expect(I18n.l(time, format: :full)).to  eq '1st of January, 1970 00:00'
 
     expect(I18n.l(-5000.5)).to eq '−5,000.5'
   end
 
   it "translates by key and scope" do
-    expect(I18n.t('in.another.level')).to eq 'Hierarchical'
-    expect(I18n.t(:level, :scope => 'in.another')).to eq 'Hierarchical'
-    expect(I18n.t(:'another.level', :scope => 'in')).to eq 'Hierarchical'
+    expect(I18n.t('in.another.level')).to            eq 'Hierarchical'
+    expect(I18n.t(:level, scope: 'in.another')).to   eq 'Hierarchical'
+    expect(I18n.t(:'another.level', scope: 'in')).to eq 'Hierarchical'
   end
 
   it "uses pluralization and variables" do
-    expect(I18n.t('users', :count => 0)).to eq '0 users'
-    expect(I18n.t('users', :count => 1)).to eq '1 user'
-    expect(I18n.t('users', :count => 5)).to eq '5 users'
+    expect(I18n.t('users', count: 0)).to eq '0 users'
+    expect(I18n.t('users', count: 1)).to eq '1 user'
+    expect(I18n.t('users', count: 5)).to eq '5 users'
   end
 
   it "uses another separator" do
-    expect(I18n.t('in/another/level', :separator => '/')).to eq 'Hierarchical'
+    expect(I18n.t('in/another/level', separator: '/')).to eq 'Hierarchical'
   end
 
   it "translates array" do
-    expect(I18n.t(['in.another.level', 'in.default'])).to eq ['Hierarchical', 'Default']
+    expect(I18n.t(['in.another.level', 'in.default'])).to eq(
+      ['Hierarchical', 'Default'])
   end
 
   it "uses default value" do
-    expect(I18n.t(:missed, :default => 'Default')).to eq 'Default'
-    expect(I18n.t(:missed, :default => :default, :scope => :in)).to eq 'Default'
-    expect(I18n.t(:missed, :default => [:also_no, :'in.default'])).to eq 'Default'
-    expect(I18n.t(:missed, :default => proc { |key| key.to_s })).to eq 'missed'
+    expect(I18n.t(:missed, default: 'Default')).to                 eq 'Default'
+    expect(I18n.t(:missed, default: :default, scope: :in)).to      eq 'Default'
+    expect(I18n.t(:missed, default: [:also_no, :'in.default'])).to eq 'Default'
+    expect(I18n.t(:missed, default: proc { |key| key.to_s })).to   eq 'missed'
   end
 
   it "raises error on no translation" do
@@ -76,7 +76,7 @@ describe R18n::Backend do
   end
 
   it "returns correct unpluralized hash" do
-    expect(I18n.t('users')).to eq ({ :one => '1 user', :other => '%{count} users' })
+    expect(I18n.t('users')).to eq ({ one: '1 user', other: '%{count} users' })
   end
 
   it "corrects detect untranslated, whem path is deeper than string" do
@@ -100,19 +100,22 @@ describe R18n::Backend do
   end
 
   it "works deeper pluralization" do
-    expect(I18n.t('users.other', :count => 5)).to eq '5 users'
+    expect(I18n.t('users.other', count: 5)).to eq '5 users'
   end
 
   it "returns hash with symbols keys" do
-    expect(I18n.t('in')).to eq ({ :another => { :level => 'Hierarchical' }, :default => 'Default' })
+    expect(I18n.t('in')).to eq({
+      another: { level: 'Hierarchical' },
+      default: 'Default'
+    })
   end
 
   it "changes locale in place" do
     I18n.load_path << PL
-    expect(I18n.t('users', :count => 5)).to eq '5 users'
-    expect(I18n.t('users', :count => 5, :locale => :ru)).to eq 'Много'
+    expect(I18n.t('users', count: 5)).to eq '5 users'
+    expect(I18n.t('users', count: 5, locale: :ru)).to eq 'Много'
 
-    expect(I18n.l(Date.parse('1970-01-01'), :locale => :ru)).to eq '01.01.1970'
+    expect(I18n.l(Date.parse('1970-01-01'), locale: :ru)).to eq '01.01.1970'
   end
 
   it "has transliterate method" do

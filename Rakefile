@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'rubygems'
 require 'bundler/setup'
 
@@ -12,7 +10,7 @@ def each_gem(&block)
 end
 
 def rake(task)
-  sh "#{Rake::DSL::RUBY} -S bundle exec rake #{task}", :verbose => false
+  sh "#{Rake::DSL::RUBY} -S bundle exec rake #{task}", verbose: false
 end
 
 def each_rake(task)

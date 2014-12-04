@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Locale to i18n support.
 
@@ -92,8 +91,8 @@ module R18n
     # name, which return propetry value:
     #
     #   class R18n::Locales::En < R18n::Locale
-    #     set :title => 'English',
-    #         :code  => 'en'
+    #     set title: 'English',
+    #         code:  'en'
     #   end
     #
     #   locale = R18n::Locales::En.new
@@ -112,13 +111,13 @@ module R18n
       lang.downcase + (culture ? '-' + culture.upcase : '')
     end
 
-    set :sublocales => %w{en},
-        :week_start => :monday,
-        :time_am => 'AM',
-        :time_pm => 'PM',
-        :time_format => ' %H:%M',
-        :full_format => '%e %B',
-        :year_format => '_ %Y'
+    set sublocales:  %w{en},
+        week_start:  :monday,
+        time_am:     'AM',
+        time_pm:     'PM',
+        time_format: ' %H:%M',
+        full_format: '%e %B',
+        year_format: '_ %Y'
 
     def month_standalone; month_names; end
     def month_abbrs;      month_names; end
@@ -228,8 +227,7 @@ module R18n
       minutes = (time - now) / 60.0
       diff = minutes.abs
       if (diff > 24 * 60) or (time.mday != now.mday and diff > 12 * 24)
-        format_date_human(R18n::Utils.to_date(time), i18n,
-                          R18n::Utils.to_date(now)) + format_time(time)
+        format_date_human(time.to_date, i18n, now.to_date) + format_time(time)
       else
         if -1 < minutes and 1 > minutes
           i18n.human_time.now

@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Filters for translations content.
 
@@ -24,7 +23,7 @@ module R18n
   class FilterList
     # Process +value+ by filters in +enabled+.
     def process(filters_type, type, value, locale, path, params)
-      config = { :locale => locale, :path => path }
+      config = { locale: locale, path: path }
 
       enabled(filters_type, type).each do |filter|
         value = filter.call(value, config, *params)
@@ -51,7 +50,7 @@ module R18n
     # Process +value+ by global filters in +enabled+.
     def process_string(filters_type, value, config, params)
       if config.is_a? String
-        config = { :locale => value.locale, :path => config }
+        config = { locale: value.locale, path: config }
       end
       enabled(filters_type, String).each do |f|
         value = f.call(value, config, *params)

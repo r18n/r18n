@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Converter between R18n and Rails I18n plural keys.
 
@@ -28,7 +27,7 @@ module R18n
 
     # Convert Rails I18n plural key to R18n.
     def self.to_r18n(k)
-      { :zero  => 0, :one => 1, :few => 2, :many => 'n', :other => 'n' }[k]
+      { zero: 0, one: 1, few: 2, many: 'n', other: 'n' }[k]
     end
 
     # Convert R18n plural key to Rails I18n.

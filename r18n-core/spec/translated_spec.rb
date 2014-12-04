@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Translated do
@@ -14,7 +13,7 @@ describe R18n::Translated do
   end
 
   it "saves methods map" do
-    @user_class.translation :name, :methods => { :ru => :name_ru }
+    @user_class.translation :name, methods: { ru: :name_ru }
     expect(@user_class.unlocalized_getters(:name)).to eq({ 'ru' => 'name_ru' })
     expect(@user_class.unlocalized_setters(:name)).to eq({ 'ru' => 'name_ru=' })
   end
@@ -74,7 +73,7 @@ describe R18n::Translated do
   it "uses filters" do
     @user_class.class_eval do
       def age_en; {1 => '%1 year', 'n' => '%1 years'} end
-      translation :age, :type => 'pl', :no_params => true
+      translation :age, type: 'pl', no_params: true
     end
     user = @user_class.new
 
@@ -85,7 +84,7 @@ describe R18n::Translated do
     @user_class.class_eval do
       def no_params_en(*params) params.join(' '); end
       def params_en(*params)    params.join(' '); end
-      translations [:no_params, {:no_params => true}], :params
+      translations [:no_params, { no_params: true }], :params
     end
     user = @user_class.new
 
@@ -96,7 +95,7 @@ describe R18n::Translated do
   it "translates virtual methods" do
     @virtual_class = Class.new do
       include R18n::Translated
-      translation :no_method, :methods => { :en => :no_method_en }
+      translation :no_method, methods: { en: :no_method_en }
       def method_missing(name, *params)
         name.to_s
       end

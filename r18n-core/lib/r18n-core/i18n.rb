@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 I18n support.
 
@@ -226,7 +225,7 @@ module R18n
         end
       end
 
-      @translation = Translation.new(@locale, '', :filters => @filters)
+      @translation = Translation.new(@locale, '', filters: @filters)
       @locales.each do |locale|
         loaded = false
         available_in_places.each do |place, available|

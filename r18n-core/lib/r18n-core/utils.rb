@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Common methods for i18n support.
 
@@ -21,16 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Common methods for another R18n code.
 module R18n
   module Utils
-    # Convert Time to Date. Backport from Ruby 1.9.
-    def self.to_date(time)
-      if '1.8.' == RUBY_VERSION[0..3]
-        d = Date.send(:civil_to_jd, time.year, time.mon, time.mday, Date::ITALY)
-        Date.new!(Date.send(:jd_to_ajd, d, 0, 0), 0, Date::ITALY)
-      else
-        time.to_date
-      end
-    end
-
     HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }
 
     # Escape HTML entries (<, >, &). Copy from HAML helper.

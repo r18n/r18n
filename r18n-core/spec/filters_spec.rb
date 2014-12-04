@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::Filters do
@@ -45,7 +44,7 @@ describe R18n::Filters do
     filter = double()
     expect(filter).to receive(:process).twice.and_return(1)
 
-    R18n::Filters.add('my', :passive, :passive => true) { filter.process }
+    R18n::Filters.add('my', :passive, passive: true) { filter.process }
 
     expect(@i18n.my_filter).to eq('value')
     @i18n.reload!
@@ -58,7 +57,7 @@ describe R18n::Filters do
   it "uses cascade filters" do
     filter = R18n::Filters.add('my', :one) { |i, config| i + '1' }
     filter = R18n::Filters.add('my', :two) { |i, config| i + '2' }
-    filter = R18n::Filters.add('my', :three, :position => 0) { |i, c| i + '3' }
+    filter = R18n::Filters.add('my', :three, position: 0) { |i, c| i + '3' }
     expect(@i18n.my_filter).to eq('value312')
   end
 
@@ -66,7 +65,7 @@ describe R18n::Filters do
     R18n::Filters.instance_variable_set(:@last_auto_name, 0)
 
     expect(R18n::Filters.add('some').name).to eq(1)
-    expect(R18n::Filters.add('some', :position => 0).name).to eq(2)
+    expect(R18n::Filters.add('some', position: 0).name).to eq(2)
 
     R18n::Filters.add('some', 3)
     expect(R18n::Filters.add('some').name).to eq(4)
@@ -141,7 +140,7 @@ describe R18n::Filters do
     R18n::Filters.add('my') { |content, config| config[:new_secret] ? 2 : 1 }
     expect(@i18n.my_filter).to eq(1)
 
-    R18n::Filters.add('my', :second, :position => 0) do |content, config|
+    R18n::Filters.add('my', :second, position: 0) do |content, config|
       config[:new_secret] = true
       content
     end
@@ -169,10 +168,10 @@ describe R18n::Filters do
   end
 
   it "doesn't pluralize without first numeric parameter" do
-    expect(@i18n.files).to       be_kind_of(R18n::UnpluralizetedTranslation)
-    expect(@i18n.files('')).to   be_kind_of(R18n::UnpluralizetedTranslation)
-    expect(@i18n.files[1]).to    eq('1 file')
-    expect(@i18n.files.n(5)).to  eq('5 files')
+    expect(@i18n.files).to      be_kind_of(R18n::UnpluralizetedTranslation)
+    expect(@i18n.files('')).to  be_kind_of(R18n::UnpluralizetedTranslation)
+    expect(@i18n.files[1]).to   eq('1 file')
+    expect(@i18n.files.n(5)).to eq('5 files')
   end
 
   it "converts first float parameter to number" do
@@ -231,13 +230,14 @@ describe R18n::Filters do
     R18n::Filters.add(R18n::Untranslated, :a) { |v, c| "a #{v}" }
     R18n::Filters.off(:a)
 
-    html = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
-                                     :on_filters  => [:untranslated_html, :a])
+    html = R18n::I18n.new('en', DIR, off_filters: :untranslated,
+                                     on_filters: [:untranslated_html, :a])
     expect(html.in.not.to_s).to eq('a in.<span style="color: red">[not]</span>')
   end
 
   it "has filter for escape HTML" do
-    expect(@i18n.html).to eq('&lt;script&gt;true &amp;&amp; false&lt;/script&gt;')
+    expect(@i18n.html).to eq(
+      '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;')
   end
 
   it "has disabled global filter for escape HTML" do
@@ -246,7 +246,8 @@ describe R18n::Filters do
     R18n::Filters.on(:global_escape_html)
     @i18n.reload!
     expect(@i18n.greater('true')).to eq('1 &lt; 2 is true')
-    expect(@i18n.html).to eq('&lt;script&gt;true &amp;&amp; false&lt;/script&gt;')
+    expect(@i18n.html).to eq(
+      '&lt;script&gt;true &amp;&amp; false&lt;/script&gt;')
   end
 
   it "has filter to disable global HTML escape" do
@@ -271,8 +272,10 @@ describe R18n::Filters do
 
     R18n::Filters.on(:global_escape_html)
     @i18n.reload!
-    expect(@i18n.markdown.html).to eq("<p><strong>Hi!</strong> &lt;br /&gt;</p>\n")
-    expect(@i18n.textile.html).to  eq('<p><em>Hi!</em>&lt;br /&gt;</p>')
+    expect(@i18n.markdown.html).to eq(
+      "<p><strong>Hi!</strong> &lt;br /&gt;</p>\n")
+    expect(@i18n.textile.html).to eq(
+      '<p><em>Hi!</em>&lt;br /&gt;</p>')
   end
 
   it "allows to listen filters adding" do

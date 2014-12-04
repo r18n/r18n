@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 require 'bigdecimal'
 
@@ -20,8 +19,8 @@ describe R18n::Locale do
 
   it "sets locale properties" do
     locale_class = Class.new(R18n::Locale) do
-      set :one => 1
-      set :two => 2
+      set one: 1
+      set two: 2
     end
     locale = locale_class.new
     expect(locale.one).to eq(1)
@@ -100,9 +99,9 @@ describe R18n::Locale do
     expect(@en.localize(Date.today - 1, :human, i18n)).to eq('yesterday')
     expect(@en.localize(Date.today - 3, :human, i18n)).to eq('3 days ago')
 
-    y2k = Date.parse('2000-01-08')
-    expect(@en.localize(y2k, :human, i18n, y2k + 8  )).to eq('8th of January')
-    expect(@en.localize(y2k, :human, i18n, y2k - 365)).to eq('8th of January, 2000')
+    y2k = Date.parse('2000-05-08')
+    expect(@en.localize(y2k, :human, i18n, y2k + 8  )).to eq('8th of May')
+    expect(@en.localize(y2k, :human, i18n, y2k - 365)).to eq('8th of May, 2000')
   end
 
   it "localizes times for human" do
@@ -126,8 +125,10 @@ describe R18n::Locale do
     expect(@en.localize( zero - 13 * hour,   *p)).to eq('yesterday 11:00')
     expect(@en.localize( zero - 50 * hour,   *p)).to eq('3 days ago 22:00')
 
-    expect(@en.localize( zero - 9  * day,  *p)).to eq('23rd of December, 1969 00:00')
-    expect(@en.localize( zero - 365 * day, *p)).to eq('1st of January, 1969 00:00')
+    expect(@en.localize( zero - 9  * day,  *p)).to eq(
+      '23rd of December, 1969 00:00')
+    expect(@en.localize( zero - 365 * day, *p)).to eq(
+      '1st of January, 1969 00:00')
   end
 
   it "uses standard formatter by default" do

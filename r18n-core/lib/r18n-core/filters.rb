@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Filters for translations content.
 
@@ -36,7 +35,7 @@ module R18n
   #   R18n::Filters.add('custom_type', :no_space) do |content, config, replace|
   #     content.gsub(' ', replace)
   #   end
-  #   R18n::Filters.add('custom_type', :passive => true) do |content, config|
+  #   R18n::Filters.add('custom_type', passive: true) do |content, config|
   #     content + '!'
   #   end
   #
@@ -76,8 +75,8 @@ module R18n
   #
   # You can enabled/disabled filters only for special I18n object:
   #
-  #   R18n::I18n.new('en', nil, :on_filters  => [:untranslated_html, :no_space],
-  #                             :off_filters => :untranslated )
+  #   R18n::I18n.new('en', nil, on_filters: [:untranslated_html, :no_space],
+  #                             off_filters: :untranslated )
   module Filters
     class << self
       # Hash of filter names to Filters.
@@ -225,7 +224,7 @@ module R18n
       content[type]
     else
       UnpluralizetedTranslation.new(config[:locale], config[:path],
-        :locale => config[:locale], :translations => content)
+        locale: config[:locale], translations: content)
     end
   end
 
@@ -270,18 +269,18 @@ module R18n
   end
   Filters.off(:untranslated_html)
 
-  Filters.add('escape', :escape_html, :passive => true) do |content, config|
+  Filters.add('escape', :escape_html, passive: true) do |content, config|
     config[:dont_escape_html] = true
     Utils.escape_html(content)
   end
 
-  Filters.add('html', :dont_escape_html, :passive => true) do |content, config|
+  Filters.add('html', :dont_escape_html, passive: true) do |content, config|
     config[:dont_escape_html] = true
     content
   end
 
   Filters.add([String, 'markdown', 'textile'],
-              :global_escape_html, :passive => true) do |html, config|
+              :global_escape_html, passive: true) do |html, config|
     if config[:dont_escape_html]
       html
     else
@@ -291,12 +290,12 @@ module R18n
   end
   Filters.off(:global_escape_html)
 
-  Filters.add('markdown', :kramdown, :passive => true) do |content, config|
+  Filters.add('markdown', :kramdown, passive: true) do |content, config|
     require 'kramdown'
     ::Kramdown::Document.new(content).to_html
   end
 
-  Filters.add('textile', :redcloth, :passive => true) do |content, config|
+  Filters.add('textile', :redcloth, passive: true) do |content, config|
     require 'redcloth'
     ::RedCloth.new(content).to_html
   end

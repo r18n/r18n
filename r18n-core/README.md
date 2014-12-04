@@ -194,7 +194,7 @@ To create a filter you pass the following to `R18n::Filters.add`:
   `R18n::Filters.off`, `R18n::Filters.on` and
   `R18n::Filters.delete`.
 * Hash with options:
-  * `:passive => true` to filter translations only on load;
+  * `passive: true` to filter translations only on load;
   * `:position` within the list of current filters of this type
     (by default a new filter will be inserted into last position).
 
@@ -261,7 +261,7 @@ to use your own parser:
 # Disable standard Markdown filter
 Filters.off(:kramdown)
 # Add new filter for !!markdown YAML type
-Filters.add('markdown', :passive => true) do |content, config|
+Filters.add('markdown', passive: true) do |content, config|
   require 'redcarpet'
   markdown = ::Redcarpet::Markdown.new(Redcarpet::Render::HTML)
   markdown.render(content)

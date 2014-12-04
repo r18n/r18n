@@ -60,7 +60,7 @@ R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
     hash[type]
   elsif content.is_a? R18n::UnpluralizetedTranslation
     R18n::RailsUnpluralizetedTranslation.new(config[:locale], config[:path],
-        :locale => config[:locale], :translations => content.to_hash)
+        locale: config[:locale], translations: content.to_hash)
   else
     content
   end

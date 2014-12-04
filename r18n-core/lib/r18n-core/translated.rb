@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Add i18n support to any class.
 
@@ -75,7 +74,7 @@ module R18n
   #
   # Method +translation+ will be more useful for options:
   #
-  #   translation :title, :methods => {:ru => :russian, :en => :english}
+  #   translation :title, methods: { ru: :russian, en: :english}
   module Translated
     class << self
       def included(base) #:nodoc:
@@ -100,7 +99,7 @@ module R18n
       # Add several proxy +methods+. See R18n::Translated for description.
       # It’s more compact, that +translation+.
       #
-      #   translations :title, :keywords, [:desciption, {:type => 'markdown'}]
+      #   translations :title, :keywords, [:desciption, { type: 'markdown' }]
       def translations(*methods)
         methods.each do |method|
           translation(*method)
@@ -110,7 +109,7 @@ module R18n
       # Add proxy-method +name+. See R18n::Translated for description.
       # It’s more useful to set options.
       #
-      #   translation :desciption, :type => 'markdown'
+      #   translation :desciption, type: 'markdown'
       def translation(name, options = {})
         if options[:methods]
           @unlocalized_getters[name] = R18n::Utils.

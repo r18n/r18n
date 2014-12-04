@@ -22,8 +22,8 @@ users: !!pl
 ```ruby
 require 'r18n-rails-api'
 
-i18n.greeting(:name => 'John') #=> "Hi, John"
-i18n.users(:count => 5)        #=> "5 users"
+i18n.greeting(name: 'John') #=> "Hi, John"
+i18n.users(count: 5)        #=> "5 users"
 ```
 
 ### Rails Translations
@@ -47,7 +47,7 @@ require 'r18n-rails-api'
 I18n.load_path = ['i18n/en.yml']
 i18n = R18n::I18n.new('en', R18n::Loader::Rails)
 
-i18n.posts(:count => 5) #=> "5 posts"
+i18n.posts(count: 5) #=> "5 posts"
 ```
 
 ### Backend
@@ -60,9 +60,9 @@ require 'r18n-rails-api'
 R18n.set('en', 'path/to/translation')
 I18n.backend = R18n::Backend
 
-I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
-I18n.t :greeting, :name => 'John' #=> "Hi, John"
-I18n.t :users, :count => 5        #=> "5 users"
+I18n.l Time.now, format: :full #=> "6th of December, 2009 22:44"
+I18n.t :greeting, name: 'John' #=> "Hi, John"
+I18n.t :users, count: 5        #=> "5 users"
 ```
 
 ## R18n Features

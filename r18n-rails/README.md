@@ -71,14 +71,14 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
 5. Use translated messages in views. You can use Rails I18n syntax:
 
      ```ruby
-    t 'user.name',  :name => 'John'
-    t 'user.count', :count => 5
+    t 'user.name',  name: 'John'
+    t 'user.count', count: 5
      ```
    or R18n syntax:
 
      ```ruby
-    t.user.name(:name => 'John') # for Rails I18n named variables
-    t.user.name('John')          # for R18n variables
+    t.user.name(name: 'John') # for Rails I18n named variables
+    t.user.name('John')       # for R18n variables
     t.user.count(5)
      ```
 

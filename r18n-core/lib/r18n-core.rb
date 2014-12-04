@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Main file to load all neccessary classes for i18n support.
 
@@ -17,8 +16,6 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
-
-$KCODE = 'u' if '1.8.' == RUBY_VERSION[0..3]
 
 require 'pathname'
 

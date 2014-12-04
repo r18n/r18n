@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 R18n backend for Rails I18n.
 
@@ -26,7 +25,7 @@ module R18n
   #
   #   R18n.set locales, R18n::Loader::Rails
   #
-  #   I18n.l Time.now, :format => :full #=> "6th of December, 2009 22:44"
+  #   I18n.l Time.now, format: :full #=> "6th of December, 2009 22:44"
   class Backend
     include ::I18n::Backend::Transliterator
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
 
 require 'rubygems'
 
@@ -30,9 +29,9 @@ end
 
 RBench.run(1000) do
 
-  column :r18n, :title => 'R18n'
-  column :i18n, :title => 'Rails I18n'
-  column :diff, :title => 'I18n/R18n', :compare => [:i18n, :r18n]
+  column :r18n, title: 'R18n'
+  column :i18n, title: 'Rails I18n'
+  column :diff, title: 'I18n/R18n', compare: [:i18n, :r18n]
 
   report 'cold load' do
     r18n {
@@ -79,7 +78,7 @@ RBench.run(1000) do
       R18n.get.user.your_name('John', 'user123')
     }
     i18n {
-      I18n.t :'user.your_name', :name => 'John', :login => 'user123'
+      I18n.t :'user.your_name', name: 'John', login: 'user123'
     }
   end
 
@@ -88,7 +87,7 @@ RBench.run(1000) do
       R18n.get.user.count(51)
     }
     i18n {
-      I18n.t :'user.count', :count => 51
+      I18n.t :'user.count', count: 51
     }
   end
 
@@ -107,8 +106,8 @@ RBench.run(1000) do
       R18n.get.not.exists | R18n.get.user.name
     }
     i18n {
-      I18n.t :'not.exists', :default => 'default'
-      I18n.t :'not.exists', :default => :'user.name'
+      I18n.t :'not.exists', default: 'default'
+      I18n.t :'not.exists', default: :'user.name'
     }
   end
 

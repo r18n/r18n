@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Base methods to load translations for YAML.
 
@@ -26,16 +25,14 @@ module R18n
   module YamlMethods
     # Detect class for private type depend on YAML parser.
     def detect_yaml_private_type
-      @private_type_class = if '1.8.' == RUBY_VERSION[0..3]
-        ::YAML::PrivateType
-      elsif 'syck' == ::YAML::ENGINE.yamler
+      @private_type_class = if defined?(Syck)
         ::Syck::PrivateType
       end
     end
 
     # Register global types in Psych
     def initialize_types
-      if '1.8.' != RUBY_VERSION[0..3] and 'psych' == ::YAML::ENGINE.yamler
+      if defined?(Psych)
         Filters.by_type.keys.each do |type|
           next unless type.is_a? String
           # Yeah, I add R18n’s types to global, send me patch if you really

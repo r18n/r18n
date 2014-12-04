@@ -1,4 +1,3 @@
-# encoding: utf-8
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::I18n do
@@ -133,12 +132,12 @@ describe R18n::I18n do
   it "doesn't clear cache when custom filters are specified" do
     counter = CounterLoader.new('en')
 
-    R18n::I18n.new('en', counter, :off_filters => :untranslated,
-      :on_filters => :untranslated_html)
+    R18n::I18n.new('en', counter,
+      off_filters: :untranslated, on_filters: :untranslated_html)
     expect(counter.loaded).to eq(1)
 
-    R18n::I18n.new('en', counter, :off_filters => :untranslated,
-      :on_filters => :untranslated_html)
+    R18n::I18n.new('en', counter,
+      off_filters: :untranslated, on_filters: :untranslated_html)
     expect(counter.loaded).to eq(1)
   end
 
@@ -224,9 +223,9 @@ describe R18n::I18n do
     expect(i18n.l(Date.new(0))).to eq('01.01.0000')
   end
 
-  it "returns marshalizable values", :not_ruby => 1.8 do
-    i18n    = R18n::I18n.new('en', DIR, :off_filters => :untranslated,
-                                        :on_filters  => :untranslated_html)
+  it "returns marshalizable values" do
+    i18n    = R18n::I18n.new('en', DIR, off_filters: :untranslated,
+                                        on_filters:  :untranslated_html)
     demarsh = Marshal.load(Marshal.dump(i18n.t.one))
 
     expect(i18n.t.one).to        eq(demarsh)

@@ -1,22 +1,21 @@
-# encoding: utf-8
 module R18n
   class Locales::Hu < Locale
-    set :title => 'Magyar',
+    set title: 'Magyar',
 
-        :week_start => :monday,
-        :wday_names => %w{vasárnap hétfő kedd szerda csütörtök péntek szombat},
-        :wday_abbrs => %w{vas hét ked sze csü pén szo},
+        week_start: :monday,
+        wday_names: %w{vasárnap hétfő kedd szerda csütörtök péntek szombat},
+        wday_abbrs: %w{vas hét ked sze csü pén szo},
 
-        :month_names => %w{január február március április május június július
-                           augusztus szeptember október november december},
-        :month_abbrs => %w{jan feb már ápr máj jún júl aug sze okt nov dec},
+        month_names: %w{január február március április május június július
+                        augusztus szeptember október november december},
+        month_abbrs: %w{jan feb már ápr máj jún júl aug sze okt nov dec},
 
-        :date_format => '%Y. %m. %d.',
-        :full_format => '%B %e.',
-        :year_format => '%Y. _',
+        date_format: '%Y. %m. %d.',
+        full_format: '%B %e.',
+        year_format: '%Y. _',
 
-        :number_decimal => ",",
-        :number_group   => " "
+        number_decimal: ",",
+        number_group:   " "
 
     def format_integer(integer)
       str = integer.to_s

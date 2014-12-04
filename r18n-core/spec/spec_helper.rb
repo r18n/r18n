@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'pp'
 
 dir = Pathname(__FILE__).dirname
@@ -35,10 +34,4 @@ class CounterLoader
   def hash
     @available.hash
   end
-end
-
-RSpec.configure do |c|
-  c.filter_run_excluding :not_ruby => lambda { |version|
-    RUBY_VERSION.to_s.start_with? version.to_s
-  }
 end

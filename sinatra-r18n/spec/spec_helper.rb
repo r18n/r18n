@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'pp'
 
 ENV['RACK_ENV'] = 'test'

@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 Sinatra extension to i18n support.
 
@@ -46,7 +45,7 @@ module Sinatra
           end
 
           ::R18n::I18n.new(locales, ::R18n.default_places,
-            :off_filters => :untranslated, :on_filters => :untranslated_html)
+            off_filters: :untranslated, on_filters: :untranslated_html)
         end
       end
     end

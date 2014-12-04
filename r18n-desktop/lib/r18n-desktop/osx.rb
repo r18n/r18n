@@ -1,4 +1,3 @@
-# encoding: utf-8
 =begin
 I18n support for Mac OS X.
 
