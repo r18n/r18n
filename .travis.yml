@@ -1,7 +1,8 @@
 language: ruby
 bundler_args: --without development
 rvm:
-  - "2.0"
-  - "2.1"
-  - "2.2"
+  - 2.0
+  - 2.1
+  - 2.2
   - jruby-19mode
+env: JRUBY_OPTS=--2.0
