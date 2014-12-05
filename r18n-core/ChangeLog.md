@@ -1,3 +1,7 @@
+## 2.0.0 (Москва)
+* Remove Ruby 1.8 and 1.9 support.
+* Add JRuby 9000 support.
+
 ### 1.1.11 (São Paulo)
 * Allow to set Proc as `default` option in Rails I18n backend.
 
