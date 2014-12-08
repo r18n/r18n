@@ -1,3 +1,6 @@
+## 2.0.1 (Amsterdam)
+* Fix Dutch locale.
+
 ## 2.0.0 (Москва)
 * Remove Ruby 1.8 and 1.9 support.
 * Add JRuby 9000 support.
