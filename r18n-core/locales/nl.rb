@@ -11,7 +11,7 @@ module R18n
         month_abbrs: %w{jan feb mrt apr mei jun jul aug sep okt nov dec},
 
         time_am:     "'s ochtends",
-        time_pm:     "s middags",
+        time_pm:     "'s middags",
         date_format: '%d-%m-%Y',
         full_format: '%e %B',
 
