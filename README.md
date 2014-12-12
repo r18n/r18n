@@ -1,8 +1,12 @@
-# R18n
+# R18n [![Build Status](https://travis-ci.org/ai/r18n.svg)](https://travis-ci.org/ai/r18n)
 
 R18n is an i18n tool to translate your Ruby application into several languages.
 It contains a core gem and out-of-box wrapper plugins for frameworks or
 environments (Rails, Sinatra, desktop).
+
+<a href="https://evilmartians.com/?utm_source=r18n">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
 
 ## Quick Demo
 
