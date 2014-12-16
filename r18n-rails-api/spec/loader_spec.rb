@@ -14,6 +14,10 @@ describe R18n::Loader::Rails do
     expect(@loader.load(RU)).to eq({ 'one' => 'Один', 'two' => 'Два' })
   end
 
+  it 'does not load faker data' do
+    expect(@loader.load(DE)).to be_nil
+  end
+
   it "changes pluralization" do
     expect(@loader.load(EN)).to eq({
       'users' => R18n::Typed.new('pl', {
