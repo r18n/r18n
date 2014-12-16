@@ -54,13 +54,31 @@ module R18n
         @translations[locale.code.downcase]
       end
 
+      # The faker gem contains 'non-standard' (at least for R18n) I18n *.yml files that it uses to generate strings
+      # for testing. Rather than containing strings, they contain arrays of strings. Additionally the file-names
+      # contain upper and lowercase letters, which the load method, above, won't find. Even if a file name is
+      # all lower-case letters, the @backend.translations method called in reload! below picks them up and R18n
+      # subsequently chokes on them.  So this guy filters out the faker contents
+      def filter_out_faker_files(h)
+        h.keys.each do |k|
+          if  h[k][:faker]
+            if h[k].size == 1
+              h.delete(k)
+            else
+              h[k].delete(:faker)
+            end
+          end
+        end
+        h
+      end
+
       # Reload backend if <tt>I18n.load_path</tt> is changed.
       def reload!
         return if @last_path == ::I18n.load_path
         @last_path = ::I18n.load_path.clone
         @backend.reload!
         @backend.send(:init_translations)
-        @translations = transform @backend.send(:translations)
+        @translations = transform filter_out_faker_files(@backend.send(:translations))
       end
 
       # Return hash for object and <tt>I18n.load_path</tt>.
