@@ -102,7 +102,7 @@ module R18n
             end
           end
           @data[name] = value
-        elsif @data[name].is_a? Translation
+        elsif @data[name].is_a? Translation and value.is_a? Hash
           @data[name].merge! value, locale
         end
       end
