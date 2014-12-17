@@ -1,3 +1,7 @@
+## 2.0.2 (Budapest)
+* Fix array support in translations.
+* Fix Rails support for dialect locales.
+
 ## 2.0.1 (Amsterdam)
 * Fix Dutch locale.
 
