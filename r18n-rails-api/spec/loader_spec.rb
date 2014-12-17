@@ -7,11 +7,15 @@ describe R18n::Loader::Rails do
   end
 
   it "returns available locales" do
-    expect(@loader.available).to match_array([EN, RU])
+    expect(@loader.available).to match_array([DECH, EN, RU])
   end
 
   it "loads translation" do
     expect(@loader.load(RU)).to eq({ 'one' => 'Один', 'two' => 'Два' })
+  end
+
+  it "loads translation for dialects" do
+    expect(@loader.load(DECH)).to eq({ 'a' => 1 })
   end
 
   it "changes pluralization" do

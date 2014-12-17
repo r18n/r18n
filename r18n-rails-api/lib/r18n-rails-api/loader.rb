@@ -51,7 +51,7 @@ module R18n
       def load(locale)
         initialize_types
         reload!
-        @translations[locale.code.downcase]
+        @translations[locale.code]
       end
 
       # Reload backend if <tt>I18n.load_path</tt> is changed.
