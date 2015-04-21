@@ -17,12 +17,12 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
 
-require 'dl/import'
+require 'fiddle/import'
 
 module R18n
   class I18n
     module Kernel32
-      extend DL::Importer
+      extend Fiddle::Importer
       dlload 'Kernel32'
       extern 'int GetUserDefaultLangID()'
     end
