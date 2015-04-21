@@ -1,3 +1,6 @@
+## 2.0.4 (Ikkuna)
+* Fix Windows support (by janahanEDH).
+
 ## 2.0.3 (Hévíz)
 * Fix Thai locale (by Kasima Tharnpipitchai).
 
