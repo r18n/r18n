@@ -25,7 +25,7 @@ information.
      ```yaml
     post:
       friends: Post only for friends
-      tags: Post tags is %1
+      tags: Post tags are %1
 
     comments: !!pl
       0: No comments
