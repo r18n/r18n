@@ -13,7 +13,7 @@ module R18n
         date_format: '%Y-%m-%d',
         full_format: '%e %B %Y',
 
-        number_decimal: ",",
-        number_group:   "."
+        number_decimal: ',',
+        number_group:   '.'
   end
 end

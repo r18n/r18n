@@ -12,7 +12,7 @@ module R18n
                              Септември Октомври Ноември Декември},
         date_format: '%d.%m.%Y',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
   end
 end

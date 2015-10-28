@@ -13,7 +13,7 @@ module R18n
         full_format: '%m月%d日',
         year_format: '%Y年_',
 
-        number_decimal: ".",
-        number_group:   ","
+        number_decimal: '.',
+        number_group:   ','
   end
 end

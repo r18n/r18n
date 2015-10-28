@@ -13,8 +13,8 @@ module R18n
 
         date_format: '%d/%m/%Y',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def format_date_full(date, year = true, *params)
       full = super(date, year)

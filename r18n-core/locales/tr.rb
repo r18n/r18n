@@ -12,9 +12,9 @@ module R18n
         date_format: '%d.%m.%Y',
         full_format: '%B %e.',
         year_format: '%Y. _',
-        time_format: '%H:%M',
+        time_format: '_%H:%M',
 
-        number_decimal: ".",
-        number_group:   ","
+        number_decimal: '.',
+        number_group:   ','
   end
 end

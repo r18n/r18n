@@ -115,7 +115,7 @@ module R18n
         week_start:  :monday,
         time_am:     'AM',
         time_pm:     'PM',
-        time_format: ' %H:%M',
+        time_format: '_ %H:%M',
         full_format: '%e %B',
         year_format: '_ %Y'
 
@@ -215,9 +215,9 @@ module R18n
       time.strftime(translated)
     end
 
-    # Format +time+ without date. For example, “12:59”.
-    def format_time(time)
-      strftime(time, time_format)
+    # Format +time+ and set +date+
+    def format_time(date, time)
+      strftime(time, time_format).sub('_', date.to_s)
     end
 
     # Format +time+ in human usable form. For example “5 minutes ago” or
@@ -227,7 +227,7 @@ module R18n
       minutes = (time - now) / 60.0
       diff = minutes.abs
       if (diff > 24 * 60) or (time.mday != now.mday and diff > 12 * 24)
-        format_date_human(time.to_date, i18n, now.to_date) + format_time(time)
+        format_time(format_date_human(time.to_date, i18n, now.to_date), time)
       else
         if -1 < minutes and 1 > minutes
           i18n.human_time.now
@@ -245,13 +245,13 @@ module R18n
 
     # Format +time+ in compact form. For example, “12/31/09 12:59”.
     def format_time_standard(time, *params)
-      format_date_standard(time) + format_time(time)
+      format_time(format_date_standard(time), time)
     end
 
     # Format +time+ in most official form. For example, “December 31st, 2009
     # 12:59”. For special cases you can replace it in locale’s class.
     def format_time_full(time, *params)
-      format_date_full(time) + format_time(time)
+      format_time(format_date_full(time), time)
     end
 
     # Format +date+ in human usable form. For example “5 days ago” or

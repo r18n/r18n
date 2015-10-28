@@ -5,7 +5,7 @@ module R18n::Locales
     set title: 'American English',
         sublocales: %w{en},
 
-        time_format: ' %I:%M %p',
+        time_format: '_ %I:%M %p',
         date_format: '%m/%d/%Y',
         full_format: '%B %e'
   end

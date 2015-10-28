@@ -18,7 +18,7 @@ module R18n
         full_format: '%B %e-і',
         year_format: '%Y жылы _',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
   end
 end

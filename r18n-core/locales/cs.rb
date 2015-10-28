@@ -17,8 +17,8 @@ module R18n
         date_format: '%e. %m. %Y',
         full_format: '%e. %B',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def pluralize(n)
       case n

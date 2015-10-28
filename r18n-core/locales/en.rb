@@ -16,8 +16,8 @@ module R18n
         full_format: '%e of %B',
         year_format: '_, %Y',
 
-        number_decimal: ".",
-        number_group:   ","
+        number_decimal: '.',
+        number_group:   ','
 
     def ordinalize(n)
       if (11..13).include?(n % 100)

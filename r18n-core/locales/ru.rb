@@ -16,8 +16,8 @@ module R18n
         time_pm:     ' вечера',
         date_format: '%d.%m.%Y',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def pluralize(n)
       if 0 == n

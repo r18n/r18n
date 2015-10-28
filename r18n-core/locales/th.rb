@@ -15,8 +15,8 @@ module R18n
       full_format: '%e %B',
       year_format: '_, %Y',
 
-      number_decimal: ".",
-      number_group:   ","
+      number_decimal: '.',
+      number_group:   ','
 
     def strftime(time, format)
       year = (time.year + 543).to_s

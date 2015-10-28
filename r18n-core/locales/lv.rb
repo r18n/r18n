@@ -18,8 +18,8 @@ module R18n
         full_format: '%e.%B',
         year_format: '%Y.gada _',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def pluralize(n)
       if 0 == n

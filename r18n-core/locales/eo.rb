@@ -13,7 +13,7 @@ module R18n
         full_format: 'la %e-a de %B',
         year_format: '_ de %Y',
 
-        number_decimal: ".",
-        number_group:   " "
+        number_decimal: '.',
+        number_group:   ' '
   end
 end

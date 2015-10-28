@@ -13,9 +13,10 @@ module R18n
         date_format: '%Y. %m. %d.',
         full_format: '%B %e.',
         year_format: '%Y. _',
+        time_format: '_, %H:%M',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def format_integer(integer)
       str = integer.to_s
@@ -31,14 +32,6 @@ module R18n
       else
         str
       end
-    end
-
-    def format_time_standard(time, *params)
-      format_date_standard(time) + ',' + format_time(time)
-    end
-
-    def format_time_full(time, *params)
-      format_date_full(time) + ',' + format_time(time)
     end
   end
 end

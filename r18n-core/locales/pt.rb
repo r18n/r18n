@@ -16,7 +16,7 @@ module R18n
         full_format: '%d de %B',
         year_format: '_ de %Y',
 
-        number_decimal: ",",
-        number_group:   "."
+        number_decimal: ',',
+        number_group:   '.'
   end
 end

@@ -12,13 +12,13 @@ module R18n
 
         date_format: '%d/%m/%Y',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def format_date_full(date, year = true, *params)
       full = super(date, year)
       if ' 1' == full[0..1]
-        "1º" + full[2..-1]
+        '1º' + full[2..-1]
       else
         full
       end

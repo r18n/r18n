@@ -15,14 +15,14 @@ module R18n
                              marraskuu joulukuu},
 
         date_format: '%d.%m.%Y',
-        time_format: ' %H.%M',
         full_format: '%e. %B',
+        time_format: '_ %H.%M',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ''
 
     def format_time_full(time, *params)
-      format_date_full(time) + ' kello' + format_time(time)
+      format_time(format_date_full(time) + ' kello', time)
     end
   end
 end

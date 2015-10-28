@@ -16,9 +16,9 @@ module R18n
         date_format: '%d/%m/%Y',
         full_format: 'ngày %e %B',
         year_format: '_ năm %Y',
-        time_format: ', %H:%M',
+        time_format: '%H:%M, _',
 
-        number_decimal: ".",
-        number_group:   ","
+        number_decimal: '.',
+        number_group:   ','
   end
 end

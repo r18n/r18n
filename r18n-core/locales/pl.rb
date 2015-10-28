@@ -15,8 +15,8 @@ module R18n
 
         date_format: '%d.%m.%Y',
 
-        number_decimal: ",",
-        number_group:   " "
+        number_decimal: ',',
+        number_group:   ' '
 
     def pluralize(n)
       return 0 if n == 0
