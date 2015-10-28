@@ -1,6 +1,6 @@
 module R18n
   class Locales::Vi < Locale
-    set title: 'Vietnamese',
+    set title: 'Tiếng Việt',
         sublocales: [],
 
         wday_names: ['Ch? nh?t', 'Th? hai', 'Th? ba', 'Th? t?', 'Th? n?m',
