@@ -17,5 +17,29 @@ module R18n
 
     # Change direction
     def ltr?; false; end
+
+    # Change numerals to Persian
+    def format_integer(integer)
+      persian_numerals super(integer)
+    end
+
+    # Change numerals to Persian
+    def format_float(integer)
+      persian_numerals super(integer)
+    end
+
+    # Replace western numerals to Persian
+    def persian_numerals(str)
+      str.gsub('0', '۰')
+         .gsub('1', '۱')
+         .gsub('2', '۲')
+         .gsub('3', '۳')
+         .gsub('4', '۴')
+         .gsub('5', '۵')
+         .gsub('6', '۶')
+         .gsub('7', '۷')
+         .gsub('8', '۸')
+         .gsub('9', '۹')
+    end
   end
 end
