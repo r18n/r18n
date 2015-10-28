@@ -30,15 +30,39 @@ describe Sinatra::R18n do
   end
 
   it "autodetects user locale" do
-    get '/locale', {}, {'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9'}
+    get '/locale', { }, { 'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9' }
     expect(last_response).to be_ok
     expect(last_response.body).to eq 'Русский'
+  end
+
+  it "uses locale from param" do
+    get '/locale', { locale: 'ru' }
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq 'Русский'
+  end
+
+  it "ignore empty param" do
+    get '/locale', { locale: '' }
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq 'English'
   end
 
   it "uses locale from session" do
     get '/locale', { }, { 'rack.session' => { locale: 'ru' } }
     expect(last_response).to be_ok
     expect(last_response.body).to eq 'Русский'
+  end
+
+  it "ignore empty session" do
+    get '/locale', { }, { 'rack.session' => { locale: '' } }
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq 'English'
+  end
+
+  it "ignores empty locale" do
+    get '/locale', { }
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq 'English'
   end
 
   it "returns locales list" do
