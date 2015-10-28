@@ -20,12 +20,17 @@ module R18n
 
     # Change numerals to Persian
     def format_integer(integer)
-      persian_numerals super(integer)
+      persian_numerals super
     end
 
     # Change numerals to Persian
     def format_float(integer)
-      persian_numerals super(integer)
+      persian_numerals super
+    end
+
+    # Change numerals to Persian
+    def strftime(time, format)
+      persian_numerals super
     end
 
     # Replace western numerals to Persian
