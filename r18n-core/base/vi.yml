@@ -1,0 +1,31 @@
+ok: 'OK'
+save: 'Lưu'
+cancel: 'Hủy'
+'yes': 'Đồng ý'
+'no': 'Không'
+exit: 'Thoát'
+delete: 'Xóa'
+
+human_time:
+  after_days: !!pl
+    1: 'Sau %1 ngày'
+    n: 'Sau %1 ngày'
+  tomorrow: 'ngày mai'
+  after_hours: !!pl
+    1: 'Sau %1 giờ'
+    n: 'Sau %1 giờ'
+  after_minutes: !!pl
+    1: 'Sau %1 phút'
+    n: 'Sau %1 phút'
+  now: 'Ngay bây giờ'
+  today: 'ngày hôm nay'
+  minutes_ago: !!pl
+    1: '%1 phút trước'
+    n: '%1 phút trước'
+  hours_ago: !!pl
+    1: '%1 giờ trước'
+    n: '%1 giờ trước'
+  yesterday: 'ngày hôm qua'
+  days_ago: !!pl
+    1: '%1 ngày trước'
+    n: '%1 ngày trước'
