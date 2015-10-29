@@ -1,3 +1,10 @@
+## 2.1 (Một)
+* Add Vietnamese locale (by Nguyễn Văn Được).
+* Add Persian locale.
+* Allow to change date/time order in locales.
+* Fix pluralization in locales without plural forms.
+* Fix Mongolian base translations.
+
 ## 2.0.4 (Ikkuna)
 * Fix Windows support (by janahanEDH).
 
