@@ -7,19 +7,13 @@ exit: 'Thoát'
 delete: 'Xóa'
 
 human_time:
-  after_days: !!pl
-    n: 'Sau %1 ngày'
+  after_days: 'Sau %1 ngày'
   tomorrow: 'ngày mai'
-  after_hours: !!pl
-    n: 'Sau %1 giờ'
-  after_minutes: !!pl
-    n: 'Sau %1 phút'
+  after_hours: 'Sau %1 giờ'
+  after_minutes: 'Sau %1 phút'
   now: 'Ngay bây giờ'
   today: 'ngày hôm nay'
-  minutes_ago: !!pl
-    n: '%1 phút trước'
-  hours_ago: !!pl
-    n: '%1 giờ trước'
+  minutes_ago: '%1 phút trước'
+  hours_ago: '%1 giờ trước'
   yesterday: 'ngày hôm qua'
-  days_ago: !!pl
-    n: '%1 ngày trước'
+  days_ago: '%1 ngày trước'

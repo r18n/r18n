@@ -18,6 +18,10 @@ module R18n
       number_decimal: '.',
       number_group:   ','
 
+    def pluralize(n)
+      'n'
+    end
+
     def strftime(time, format)
       year = (time.year + 543).to_s
       super(time, format.gsub('%Y', year).gsub('%y', year[-2..-1]))

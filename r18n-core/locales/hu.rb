@@ -18,6 +18,10 @@ module R18n
         number_decimal: ',',
         number_group:   ' '
 
+    def pluralize(n)
+      'n'
+    end
+
     def format_integer(integer)
       str = integer.to_s
       str[0] = '−' if 0 > integer # Real typographic minus

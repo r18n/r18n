@@ -14,5 +14,9 @@ module R18n
 
         number_decimal: '.',
         number_group:   ' '
+
+      def pluralize(n)
+        'n'
+      end
   end
 end
