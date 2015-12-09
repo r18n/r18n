@@ -1,3 +1,6 @@
+## 2.1.1 (Barcelona)
+* Better sanity check for Accept-Language header (by Viktors Rotanovs).
+
 ## 2.1 (Một)
 * Add Vietnamese locale (by Nguyễn Văn Được).
 * Add Persian locale.
