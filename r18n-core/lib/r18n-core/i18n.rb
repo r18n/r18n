@@ -149,7 +149,7 @@ module R18n
       end
       locales << @@default
       locales.each_with_index do |locale, i|
-        if locale =~ /[_-]/
+        if locale =~ /[^_-]+[_-]/
           locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
         end
       end
