@@ -230,8 +230,7 @@ module R18n
 
   Filters.add(String, :variables) do |content, config, *params|
     cached_params = []
-    content = content.clone
-    content.gsub!(/\%\d/) do |key|
+    content.to_s.gsub(/\%\d/) do |key|
       i = key[1..-1].to_i
       unless cached_params.include? i - 1
         param = config[:locale].localize(params[i - 1])
@@ -243,7 +242,6 @@ module R18n
       end
       cached_params[i - 1]
     end
-    content
   end
 
   Filters.add(Untranslated, :untranslated) do |v, c, translated, untranslated|

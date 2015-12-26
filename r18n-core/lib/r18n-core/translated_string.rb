@@ -28,10 +28,12 @@ module R18n
 
     # Returns a new string object containing a copy of +str+, which translated
     # for +path+ to +locale+
-    def initialize(str, locale, path, filters = nil)
-      super(str)
+    def initialize(value, locale, path, filters = nil)
+      value = value.to_s if value.is_a? TranslatedString
+      super(value)
       @filters = filters
       @locale  = locale
+      @value   = value
       @path    = path
     end
 
@@ -53,9 +55,9 @@ module R18n
     # Override to_s to make string html safe if `html_safe` method is defined.
     def to_s
       if respond_to? :html_safe
-        html_safe
+        @value.html_safe
       else
-        String.new(self)
+        @value
       end
     end
 
