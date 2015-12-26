@@ -1,3 +1,6 @@
+## 2.1.2 (Wien)
+* Fix Ruby 2.3 support.
+
 ## 2.1.1 (Barcelona)
 * Better sanity check for Accept-Language header (by Viktors Rotanovs).
 
