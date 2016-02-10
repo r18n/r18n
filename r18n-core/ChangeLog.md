@@ -1,3 +1,6 @@
+## 2.1.3 (Seoul)
+* Add Korean locale (by Patrick Cheng).
+
 ## 2.1.2 (Wien)
 * Fix Ruby 2.3 support.
 
