@@ -1,3 +1,6 @@
+## 2.1.4 (Bakı)
+* Add Azerbaijani locale (by Adil Aliyev).
+
 ## 2.1.3 (Seoul)
 * Add Korean locale (by Patrick Cheng).
 
