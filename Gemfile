@@ -10,14 +10,13 @@ gem 'i18n',        require: false
 gem 'rails',       require: false
 gem 'rspec-rails', require: false
 
-gem 'sqlite3',                          platform: %i(ruby mswin mingw)
-gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
+gem 'sqlite3'
 
 gem 'r18n-core',      path: 'r18n-core/'
 gem 'r18n-rails-api', path: 'r18n-rails-api/', require: false
 gem 'r18n-rails',     path: 'r18n-rails/',     require: false
 
 group :development do
-  gem 'redcarpet', require: false, platform: %i(ruby mswin mingw)
+  gem 'redcarpet', require: false
   gem 'rbench',    require: false
 end
