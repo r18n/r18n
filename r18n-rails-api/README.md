@@ -58,7 +58,7 @@ You can use R18n as a backend for Rails I18n:
 require 'r18n-rails-api'
 
 R18n.set('en', 'path/to/translation')
-I18n.backend = R18n::Backend
+I18n.backend = R18n::Backend.new
 
 I18n.l Time.now, format: :full #=> "6th of December, 2009 22:44"
 I18n.t :greeting, name: 'John' #=> "Hi, John"
