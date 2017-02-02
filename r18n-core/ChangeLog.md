@@ -1,3 +1,6 @@
+## 2.1.5 (මාතර)
+* Fix Ruby 2.4 support (by Alexander Popov)
+
 ## 2.1.4 (Bakı)
 * Add Azerbaijani locale (by Adil Aliyev).
 
