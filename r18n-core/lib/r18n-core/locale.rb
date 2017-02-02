@@ -141,7 +141,7 @@ module R18n
       "Locale #{code} (#{title})"
     end
 
-    # Convert +object+ to String. It support Fixnum, Bignum, Float, Time, Date
+    # Convert +object+ to String. It support Integer, Float, Time, Date
     # and DateTime.
     #
     # For time classes you can set +format+ in standard +strftime+ form,

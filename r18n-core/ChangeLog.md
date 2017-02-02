@@ -91,7 +91,7 @@
 * Add `Translation#inspect` to easy debug.
 * Return translation, when pluralization filter didn’t get count.
 * Set R18n backend on Rails plugin init, to use it in console.
-* Allow to use Fixnum in translation keys.
+* Allow to use Integer in translation keys.
 
 ### 1.0.1 (Phuket Town)
 * Fix translation reloading in Rails and Sinatra.

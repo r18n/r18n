@@ -252,7 +252,7 @@ module R18n
     end
 
     # Convert +object+ to String, according to the rules of the current locale.
-    # It support Fixnum, Bignum, Float, Time, Date and DateTime.
+    # It support Integer, Float, Time, Date and DateTime.
     #
     # For time classes you can set +format+ in standard +strftime+ form,
     # <tt>:full</tt> (“01 Jule, 2009”), <tt>:human</tt> (“yesterday”),
