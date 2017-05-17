@@ -93,7 +93,7 @@ module R18n
           when String
             c = { locale: locale, path: path }
             v = @filters.process_string(:passive, value, c, [])
-            value = TranslatedString.new(v, locale, path, @filter)
+            value = TranslatedString.new(v, locale, path, @filters)
           when Typed
             value.locale = locale
             value.path   = path
