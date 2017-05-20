@@ -18,6 +18,21 @@ describe R18n::Translation do
     expect(i18n.one | 'default').to eq('One')
   end
 
+  it "returns strings which can be used as normal strings" do
+    i18n = R18n::I18n.new('en', DIR)
+    expect(i18n.not.exists).not_to be_translated
+    expect(i18n.not.exists.to_s).to be_kind_of(String)
+    expect(i18n.not.exists.to_s.split.first).to be_kind_of(String)
+    expect(i18n.not.exists.to_s.split.first.to_s).to be_kind_of(String)
+
+    expect(i18n.one).to be_translated
+    expect(i18n.one.to_s).to be_kind_of(String)
+    expect(i18n.one.to_s.split.first).to be_kind_of(String)
+    expect(i18n.one.to_s.split.first.to_s).to be_kind_of(String)
+    expect(i18n.one.split.first).to be_kind_of(String)
+    expect(i18n.one.split.first.to_s).to be_kind_of(String)
+  end
+
   it "returns html escaped string" do
     klass = Class.new(R18n::TranslatedString) do
       def html_safe
