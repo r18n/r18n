@@ -9,7 +9,7 @@ gem 'sinatra',     require: false
 gem 'i18n',        require: false
 gem 'rails',       require: false
 gem 'rspec-rails', require: false
-gem 'rack', '< 2', require: false
+gem 'rack',        require: false
 
 gem 'sqlite3'
 

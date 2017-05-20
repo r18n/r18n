@@ -31,9 +31,17 @@ R18n.default_places { [Rails.root.join('app/i18n'), R18n::Loader::Rails.new] }
 
 ActionController::Base.helper(R18n::Rails::Helpers)
 ActionController::Base.send(:include, R18n::Rails::Controller)
-ActionController::Base.send(:before_filter, :set_r18n)
-if Rails.env.development?
-  ActionController::Base.send(:before_filter, :reload_r18n)
+
+if ActionController::Base.respond_to? :before_action
+  ActionController::Base.send(:before_action, :set_r18n)
+  if Rails.env.development?
+    ActionController::Base.send(:before_action, :reload_r18n)
+  end
+else
+  ActionController::Base.send(:before_filter, :set_r18n)
+  if Rails.env.development?
+    ActionController::Base.send(:before_filter, :reload_r18n)
+  end
 end
 
 ActionMailer::Base.helper(R18n::Rails::Helpers) if defined? ActionMailer
