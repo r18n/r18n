@@ -1,3 +1,7 @@
+## 2.1.6 (Berlin)
+* Better `TranslatedString` → `String` converting (by Patrik Rak).
+* Add Ruby on Rails 5 support.
+
 ## 2.1.5 (මාතර)
 * Fix Ruby 2.4 support (by Alexander Popov)
 
