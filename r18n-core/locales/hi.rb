@@ -1,9 +1,7 @@
 # Borrowed from Rajesh Ranjan (rajesh672@gmail.com)
 # At https://gist.github.com/rajesh672/11338b8acab7482f43e0
 
-require File.join(File.dirname(__FILE__), 'hi')
-
-module R18n::Locales
+module R18n
   class Locales::Hi < Locale
     set title: 'हिन्दी भाषा',
         wday_names: %w{रविवार, सोमवार, मंगलवार, बुधवार, गुरुवार, शुक्रवार, शनिवार},
