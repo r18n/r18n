@@ -1,3 +1,6 @@
+## 2.1.7 (Sewe)
+* Add Afrikaans locale (by Llewellyn van der Merwe).
+
 ## 2.1.6 (Berlin)
 * Better `TranslatedString` → `String` converting (by Patrik Rak).
 * Add Ruby on Rails 5 support.
