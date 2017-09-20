@@ -145,7 +145,10 @@ module R18n
     # Translation can contain variable part. Just set is as <tt>%1</tt>,
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
-      name = name.to_s if not name.is_a? String and not name.is_a? Integer
+      unless [String, Integer, TrueClass, FalseClass]
+             .any? { |klass| name.is_a?(klass) }
+        name = name.to_s
+      end
       value = @data[name]
       case value
       when TranslatedString

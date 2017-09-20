@@ -33,6 +33,13 @@ describe R18n::Translation do
     expect(i18n.one.split.first.to_s).to be_kind_of(String)
   end
 
+  it "returns strings by Boolean keys (true, false)" do
+    i18n = R18n::I18n.new('en', DIR)
+
+    expect(i18n.boolean[true]).to eq('Boolean is true')
+    expect(i18n.boolean[false]).to eq('Boolean is false')
+  end
+
   it "returns html escaped string" do
     klass = Class.new(R18n::TranslatedString) do
       def html_safe

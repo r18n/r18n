@@ -40,3 +40,7 @@ markdown:
 textile:
   simple: !!textile _Hi!_
   html: !!textile _Hi!_<br />
+
+boolean:
+  true: Boolean is true
+  false: Boolean is false
