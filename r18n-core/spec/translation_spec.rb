@@ -40,7 +40,7 @@ describe R18n::Translation do
     expect(i18n.boolean[false]).to eq('Boolean is false')
   end
 
-  it "returns html escaped string" do
+  it "returns html escaped string if html_safe is defined" do
     klass = Class.new(R18n::TranslatedString) do
       def html_safe
         '2'
@@ -50,6 +50,16 @@ describe R18n::Translation do
 
     expect(str).to be_html_safe
     expect(str.html_safe).to eq('2')
+  end
+
+  it "returns unescaped string if html_safe is not defined" do
+    klass = Class.new(R18n::TranslatedString) do
+      undef_method :html_safe if method_defined?(:html_safe)
+    end
+    str = klass.new('a & b', nil, nil)
+
+    expect(str).not_to be_html_safe
+    expect(str.to_s).to eq('a & b')
   end
 
   it "loads use hierarchical translations" do
