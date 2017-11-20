@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'bundler/setup'
 
 GEMS = %w{r18n-core r18n-desktop sinatra-r18n r18n-rails-api r18n-rails}.freeze

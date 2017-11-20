@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-
 begin
   require 'bundler/setup'
 rescue LoadError
