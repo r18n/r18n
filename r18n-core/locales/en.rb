@@ -12,7 +12,7 @@ module R18n
                         September October November December},
         month_abbrs: %w{Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec},
 
-        date_format: '%d/%m/%Y',
+        date_format: '%Y-%m-%d',
         full_format: '%e of %B',
         year_format: '_, %Y',
 
