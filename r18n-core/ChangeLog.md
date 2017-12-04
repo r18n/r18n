@@ -1,3 +1,5 @@
+# Change Log
+
 ## 2.1.8 (Ѣ)
 * Fix `true` and `false` keys support (by Alexander Popov).
 
