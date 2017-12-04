@@ -66,7 +66,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
     t.files(12)           #=> "12 files"
 
     l -12000.5          #=> "−12,000.5"
-    l Time.now          #=> "08/09/2009 21:41"
+    l Time.now          #=> "2009-08-09 21:41"
     l Time.now, :human  #=> "now"
     l Time.now, :full   #=> "August 9th, 2009 21:41"
 
