@@ -125,7 +125,7 @@ describe R18n do
   it "has l and t methods" do
     R18n.set('en')
     expect(t.yes).to eq('Yes')
-    expect(l(Time.at(0).utc)).to eq('01/01/1970 00:00')
+    expect(l(Time.at(0).utc)).to eq('1970-01-01 00:00')
   end
 
   it "has helpers mixin" do
@@ -135,7 +135,7 @@ describe R18n do
     expect(r18n).to  eq(obj)
     expect(i18n).to  eq(obj)
     expect(t.yes).to eq('Yes')
-    expect(l(Time.at(0).utc)).to eq('01/01/1970 00:00')
+    expect(l(Time.at(0).utc)).to eq('1970-01-01 00:00')
   end
 
   it "returns available translations" do

@@ -80,7 +80,7 @@ describe Sinatra::R18n do
   it "localizes objects" do
     get '/time'
     expect(last_response).to be_ok
-    expect(last_response.body).to eq "01/01/1970 00:00"
+    expect(last_response.body).to eq "1970-01-01 00:00"
   end
 
   it "sets default places" do
