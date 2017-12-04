@@ -83,7 +83,7 @@ module R18n
     # Add another hash with +translations+ for some +locale+. Current data is
     # more priority, that new one in +translations+.
     def merge!(translations, locale)
-      translations.each_pair do |name, value|
+      (translations || { }).each_pair do |name, value|
         if not @data.has_key? name
           path = @path.empty? ? name : "#{@path}.#{name}"
           case value
