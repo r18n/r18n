@@ -324,8 +324,8 @@ R18n has some built-in time formats for locales: `:human`, `:full` and
 ```ruby
 l Time.now, :human #=> "now"
 l Time.now, :full  #=> "August 9th, 2009 21:47"
-l Time.now         #=> "08/09/2009 21:41"
-l Time.now.to_date #=> "08/09/2009"
+l Time.now         #=> "2009-08-09 21:41"
+l Time.now.to_date #=> "2009-08-09"
 ```
 
 ### Model

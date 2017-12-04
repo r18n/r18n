@@ -85,7 +85,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
 6. Print dates and numbers in user’s tradition:
 
      ```ruby
-    l Date.today, :standard #=> "20/12/2009"
+    l Date.today, :standard #=> "2009-12-20"
     l Time.now,   :full     #=> "20th of December, 2009 12:00"
     l 1234.5                #=> "1,234.5"
      ```

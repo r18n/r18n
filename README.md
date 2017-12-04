@@ -38,7 +38,7 @@ t.user.count(5)     #=> "There are 5 users"
 t.not.exists | 'default' #=> "default"
 t.not.exists.translated? #=> false
 
-l Time.now         #=> "03/01/2010 18:54"
+l Time.now         #=> "2010-01-03 18:54"
 l Time.now, :human #=> "now"
 l Time.now, :full  #=> "3rd of January, 2010 18:54"
 ```
