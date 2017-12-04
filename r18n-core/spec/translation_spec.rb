@@ -33,6 +33,15 @@ describe R18n::Translation do
     expect(i18n.one.split.first.to_s).to be_kind_of(String)
   end
 
+  it "returns strings compatible with activesupport json encoding" do
+    require 'active_support'
+
+    i18n = R18n::I18n.new('en', DIR)
+    json = ActiveSupport::JSON.encode(one: i18n.one)
+
+    expect(json).to eq('{"one":"One"}')
+  end
+
   it "returns strings by Boolean keys (true, false)" do
     i18n = R18n::I18n.new('en', DIR)
 

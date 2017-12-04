@@ -59,6 +59,11 @@ module R18n
       end
     end
 
+    # Define `as_json` for ActiveSupport compatibility.
+    def as_json(options = nil)
+      to_str
+    end
+
     # Override marshal_dump to avoid Marshalizing filter procs
     def _dump(limit)
       [@locale.code, @path, to_str].join(":")
