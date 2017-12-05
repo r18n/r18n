@@ -159,7 +159,7 @@ module R18n
         return month_standalone[obj.month - 1] if :month == format
         return obj.to_s if :human == format and not params.first.is_a? I18n
 
-        type = obj.is_a?(Date) ? 'date' : 'time'
+        type = obj.is_a?(Date) && !obj.is_a?(DateTime) ? 'date' : 'time'
         format = :standard unless format
 
         unless [:human, :full, :standard].include? format
@@ -224,7 +224,8 @@ module R18n
     # “yesterday”. In +now+ you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale’s class.
     def format_time_human(time, i18n, now = Time.now, *params)
-      minutes = (time - now) / 60.0
+      diff = time - now
+      minutes = time.is_a?(DateTime) ? diff * 24 * 60.0 : diff / 60.0
       diff = minutes.abs
       if (diff > 24 * 60) or (time.mday != now.mday and diff > 12 * 24)
         format_time(format_date_human(time.to_date, i18n, now.to_date), time)
