@@ -131,6 +131,34 @@ describe R18n::Locale do
       '1st of January, 1969 00:00')
   end
 
+  it "localizes date-times for human" do
+    day    = 1.0
+    hour   = day / 24
+    minute = hour / 60
+    second = minute / 60
+    zero   = DateTime.new(1970)
+    p = [:human, R18n::I18n.new('en'), zero]
+
+    expect(@en.localize( zero + 7  * day,    *p)).to eq('8th of January 00:00')
+    expect(@en.localize( zero + 50 * hour,   *p)).to eq('after 2 days 02:00')
+    expect(@en.localize( zero + 25 * hour,   *p)).to eq('tomorrow 01:00')
+    expect(@en.localize( zero + 70 * minute, *p)).to eq('after 1 hour')
+    expect(@en.localize( zero + hour,        *p)).to eq('after 1 hour')
+    expect(@en.localize( zero + 38 * minute, *p)).to eq('after 38 minutes')
+    expect(@en.localize( zero + 5 * second,  *p)).to eq('now')
+    expect(@en.localize( zero - 15 * second, *p)).to eq('now')
+    expect(@en.localize( zero - minute,      *p)).to eq('1 minute ago')
+    expect(@en.localize( zero - hour + 59 * second, *p)).to eq('59 minutes ago')
+    expect(@en.localize( zero - 2  * hour,   *p)).to eq('2 hours ago')
+    expect(@en.localize( zero - 13 * hour,   *p)).to eq('yesterday 11:00')
+    expect(@en.localize( zero - 50 * hour,   *p)).to eq('3 days ago 22:00')
+
+    expect(@en.localize( zero - 9  * day,  *p)).to eq(
+      '23rd of December, 1969 00:00')
+    expect(@en.localize( zero - 365 * day, *p)).to eq(
+      '1st of January, 1969 00:00')
+  end
+
   it "uses standard formatter by default" do
     expect(@ru.localize(Time.at(0).utc)).to eq('01.01.1970 00:00')
   end
