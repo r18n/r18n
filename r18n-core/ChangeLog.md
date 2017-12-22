@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.2 (La Habana)
+* Change date format in `en` locale to `YYYY-MM-DD` (by Alexander Popov).
+* Add `TranslatedString#as_json` for ActiveSupport compatibility (by Tim Craft).
+* Fix `TranslatedString#html_safe?` behaviour (by Tim Craft).
+* Fix unsupported `LANG` environment (by Chris Poirier).
+* Fix `Locale#localize` method for `DateTime` objects (by Alexander Popov).s
+
 ## 2.1.8 (Ѣ)
 * Fix `true` and `false` keys support (by Alexander Popov).
 
