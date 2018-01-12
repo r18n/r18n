@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 App::Application.routes.draw do
   get '/locales',      to: 'test#locales'
   get '/translations', to: 'test#translations'

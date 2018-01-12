@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../../r18n-core/lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
@@ -7,14 +9,14 @@ Gem::Specification.new do |s|
   s.date     = Time.now.strftime('%Y-%m-%d')
 
   s.summary     = 'A Sinatra extension that provides i18n support'
-  s.description = <<-EOF
+  s.description = <<-DESC
     A Sinatra extension that provides i18n support to translate your web
     application. It is just a wrapper for R18n core library.
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
     user language support, agnostic core package with out-of-box support for
     Rails, Sinatra and desktop applications.
-  EOF
+  DESC
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -26,6 +28,6 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/ai/r18n/tree/master/sinatra-r18n'
   s.license  = 'LGPL-3'
 
-  s.add_dependency 'sinatra',   ">= 1.3"
   s.add_dependency 'r18n-core', "= #{R18n::VERSION}"
+  s.add_dependency 'sinatra',   '>= 1.3'
 end

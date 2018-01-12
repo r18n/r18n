@@ -1,24 +1,25 @@
-=begin
-Filters for translations content.
+# frozen_string_literal: true
 
-Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# Filters for translations content.
+#
+# Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'ostruct'
 
+# R18n filters definition
 module R18n
   # Filter is a way, to process translations: escape HTML entries, convert from
   # Markdown syntax, etc.
@@ -101,13 +102,12 @@ module R18n
         @enabled[type] = []
 
         @by_type[type].each do |filter|
-          if filter.enabled?
-            @enabled[type] << filter
-            if filter.passive?
-              @passive_enabled[type] << filter
-            else
-              @active_enabled[type] << filter
-            end
+          next unless filter.enabled?
+          @enabled[type] << filter
+          if filter.passive?
+            @passive_enabled[type] << filter
+          else
+            @active_enabled[type] << filter
           end
         end
       end
@@ -125,25 +125,29 @@ module R18n
       # * +passive+ – if +true+, filter will process only on translation
       #   loading. Note that you must add all passive before load translation.
       def add(types, name = nil, options = {}, &block)
-        options, name = name, nil if name.is_a? Hash
+        if name.is_a? Hash
+          options = name
+          name = nil
+        end
         types = Array(types)
 
-        unless name
+        if name
+          delete(name)
+        else
           @last_auto_name ||= 0
-          begin
+          loop do
             @last_auto_name += 1
             name = @last_auto_name
-          end while defined.has_key? name
-        else
-          delete(name)
+            break unless defined.key? name
+          end
         end
 
         filter = Filter.new(name, types, block, true, options[:passive])
         @defined[name] = filter
 
         types.each do |type|
-          @by_type[type] = [] unless @by_type.has_key? type
-          if options.has_key? :position
+          @by_type[type] = [] unless @by_type.key? type
+          if options.key? :position
             @by_type[type].insert(options[:position], filter)
           else
             @by_type[type] << filter
@@ -186,7 +190,7 @@ module R18n
       end
 
       # Return filters, which be added inside +block+.
-      def listen(&block)
+      def listen(&_block)
         filters = []
         @new_filter_listener = proc { |i| filters << i }
         yield
@@ -202,14 +206,24 @@ module R18n
     Filters.enabled         = Hash.new([])
 
     Filter = Struct.new(:name, :types, :block, :enabled, :passive) do
-      def call(*params); block.call(*params); end
-      def enabled?; enabled; end
-      def passive?; passive; end
+      def call(*params)
+        block.call(*params)
+      end
+
+      def enabled?
+        enabled
+      end
+
+      def passive?
+        passive
+      end
     end
   end
 
-  Filters.add('proc', :procedure) do |content, config, *params|
-    eval("proc { #{content} }").call(*params)
+  Filters.add('proc', :procedure) do |content, _config, *params|
+    # rubocop:disable Security/Eval
+    eval("proc { #{content} }", nil, __FILE__, __LINE__).call(*params)
+    # rubocop:enable Security/Eval
   end
 
   # Class to mark unpluralized translation.
@@ -220,11 +234,13 @@ module R18n
     param = param.to_i if param.is_a? Float
     if param.is_a? Numeric
       type = config[:locale].pluralize(param)
-      type = 'n' if not content.has_key? type
+      type = 'n' unless content.key? type
       content[type]
     else
-      UnpluralizetedTranslation.new(config[:locale], config[:path],
-        locale: config[:locale], translations: content)
+      UnpluralizetedTranslation.new(
+        config[:locale], config[:path],
+        locale: config[:locale], translations: content
+      )
     end
   end
 
@@ -244,25 +260,24 @@ module R18n
     end
   end
 
-  Filters.add(Untranslated, :untranslated) do |v, c, translated, untranslated|
+  Filters.add(Untranslated, :untranslated) do |_v, _c, translated, untranslated|
     "#{translated}[#{untranslated}]"
   end
 
-  Filters.add(Untranslated, :untranslated_bash) do |v, c, transl, untransl|
+  Filters.add(Untranslated, :untranslated_bash) do |_v, _c, transl, untransl|
     "#{transl}\e[0;31m[#{untransl}]\e[0m"
   end
   Filters.off(:untranslated_bash)
 
-  Filters.add(Untranslated, :untranslated_html) do |v, c, transl, untransl|
+  Filters.add(Untranslated, :untranslated_html) do |_v, _c, transl, untransl|
     prefix  = '<span style="color: red">['
     postfix = ']</span>'
     if prefix.respond_to? :html_safe
       prefix  = prefix.html_safe
       postfix = postfix.html_safe
-      transl  << prefix << untransl << postfix
+      transl + prefix + untransl + postfix
     else
-      Utils.escape_html(transl) <<
-        prefix << Utils.escape_html(untransl) << postfix
+      Utils.escape_html(transl) + prefix + Utils.escape_html(untransl) + postfix
     end
   end
   Filters.off(:untranslated_html)
@@ -288,12 +303,12 @@ module R18n
   end
   Filters.off(:global_escape_html)
 
-  Filters.add('markdown', :kramdown, passive: true) do |content, config|
+  Filters.add('markdown', :kramdown, passive: true) do |content, _config|
     require 'kramdown'
     ::Kramdown::Document.new(content).to_html
   end
 
-  Filters.add('textile', :redcloth, passive: true) do |content, config|
+  Filters.add('textile', :redcloth, passive: true) do |content, _config|
     require 'redcloth'
     ::RedCloth.new(content).to_html
   end

@@ -1,21 +1,21 @@
-=begin
-Loader for Rails translations.
+# frozen_string_literal: true
 
-Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# Loader for Rails translations.
+#
+# Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'i18n'
 
@@ -69,8 +69,8 @@ module R18n
       end
 
       # Is another +loader+ is also load Rails translations.
-      def ==(loader)
-        self.class == loader.class
+      def ==(other)
+        self.class == other.class
       end
 
       protected
@@ -80,14 +80,17 @@ module R18n
         if value.is_a? Hash
           if value.empty?
             value
-          elsif value.keys.inject(true) { |a, i| a and RailsPlural.is_rails? i }
-            Typed.new('pl', R18n::Utils.hash_map(value) { |k, v|
-              [RailsPlural.to_r18n(k), transform(v)]
-            })
+          elsif value.keys.inject(true) { |a, i| a && RailsPlural.is_rails?(i) }
+            Typed.new(
+              'pl',
+              R18n::Utils.hash_map(value) do |k, v|
+                [RailsPlural.to_r18n(k), transform(v)]
+              end
+            )
           else
             Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
           end
-        elsif @private_type_class and value.is_a? @private_type_class
+        elsif @private_type_class && value.is_a?(@private_type_class)
           Typed.new(value.type_id, value.value)
         else
           value

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
@@ -7,13 +9,13 @@ Gem::Specification.new do |s|
   s.date     = Time.now.strftime('%Y-%m-%d')
 
   s.summary     = 'I18n tool to translate your Ruby application.'
-  s.description = <<-EOF
+  s.description = <<-DESC
     R18n is a i18n tool to translate your Ruby application.
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
     user language support, agnostic core package with out-of-box support for
     Rails, Sinatra and desktop applications.
-  EOF
+  DESC
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")

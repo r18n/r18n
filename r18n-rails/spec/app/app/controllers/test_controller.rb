@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 class TestController < ApplicationController
   layout false
 
   before_action :reload_r18n, only: :filter
 
   def locales
-    render plain: R18n.get.locales.map { |i| i.code }.join(', ')
+    render plain: R18n.get.locales.map(&:code).join(', ')
   end
 
   def translations
-    render plain: "R18n: #{R18n.get.r18n.translations}. " +
+    render plain: "R18n: #{R18n.get.r18n.translations}. " \
                   "Rails I18n: #{R18n.get.i18n.translations}"
   end
 
   def available
-    render plain: R18n.get.available_locales.map { |i| i.code }.sort.join(' ')
+    render plain: R18n.get.available_locales.map(&:code).sort.join(' ')
   end
 
   def helpers
@@ -22,7 +24,7 @@ class TestController < ApplicationController
   end
 
   def untranslated
-    render plain: "#{R18n.get.user.not.exists}"
+    render plain: R18n.get.user.not.exists.to_s
   end
 
   def controller
@@ -31,7 +33,7 @@ class TestController < ApplicationController
 
   def time
     render plain: l(Time.at(0).utc) + "\n" +
-                 l(Time.at(0).utc, format: :short)
+                  l(Time.at(0).utc, format: :short)
   end
 
   def human_time

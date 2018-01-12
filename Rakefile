@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
 
-GEMS = %w{r18n-core r18n-desktop sinatra-r18n r18n-rails-api r18n-rails}.freeze
+GEMS = %w[r18n-core r18n-desktop sinatra-r18n r18n-rails-api r18n-rails].freeze
 
 def each_gem(&block)
   GEMS.each do |dir|
@@ -20,17 +22,17 @@ desc 'Run all specs'
 task :spec do
   each_rake 'spec'
 end
-task :default => :spec
+task default: :spec
 
 desc 'Build gems and push thems to RubyGems'
-task :release => [:clobber, :build] do
+task release: %i[clobber build] do
   each_gem { sh 'gem push `ls pkg/*`' }
   each_rake 'clobber'
 end
 
 desc 'Remove all generated files'
 task :clobber do
-  rm_r 'log' if File.exists? 'log'
+  rm_r 'log' if File.exist? 'log'
   each_rake 'clobber'
 end
 

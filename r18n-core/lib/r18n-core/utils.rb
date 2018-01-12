@@ -1,26 +1,26 @@
-=begin
-Common methods for i18n support.
+# frozen_string_literal: true
 
-Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# Common methods for i18n support.
+#
+# Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Common methods for another R18n code.
 module R18n
   module Utils
-    HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }
+    HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }.freeze
 
     # Escape HTML entries (<, >, &). Copy from HAML helper.
     def self.escape_html(content)
@@ -39,18 +39,19 @@ module R18n
         new_key, new_value = block.call(key, val)
         result[new_key] = new_value
       end
-     result
+      result
     end
 
     # Recursively hash merge.
     def self.deep_merge!(a, b)
       b.each_pair do |key, value|
         another = a[key]
-        a[key] = if another.is_a?(Hash) && value.is_a?(Hash)
-          deep_merge!(another, value)
-        else
-          value
-        end
+        a[key] =
+          if another.is_a?(Hash) && value.is_a?(Hash)
+            deep_merge!(another, value)
+          else
+            value
+          end
       end
       a
     end

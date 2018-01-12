@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Pl do
-  it "uses Polish pluralization" do
+  it 'uses Polish pluralization' do
     pl = R18n.locale('pl')
     expect(pl.pluralize(0)).to eq(0)
     expect(pl.pluralize(1)).to eq(1)

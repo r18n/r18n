@@ -1,21 +1,21 @@
-=begin
-I18n support.
+# frozen_string_literal: true
 
-Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# I18n support.
+#
+# Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'date'
 require 'pathname'
@@ -103,7 +103,7 @@ module R18n
       locales = str.split(',')
       locales.map! do |locale|
         locale = locale.split ';q='
-        if 1 == locale.size
+        if locale.size == 1
           [locale[0], 1.0]
         else
           [locale[0], locale[1].to_f]
@@ -117,7 +117,7 @@ module R18n
     # argument.
     def self.convert_places(places)
       Array(places).map! do |loader|
-        if loader.respond_to? :available and loader.respond_to? :load
+        if loader.respond_to?(:available) && loader.respond_to?(:load)
           loader
         else
           R18n.default_loader.new(loader)
@@ -144,7 +144,7 @@ module R18n
     def initialize(locales, translation_places = nil, opts = {})
       locales = Array(locales)
 
-      if not locales.empty? and Locale.exists? locales.first
+      if !locales.empty? && Locale.exists?(locales.first)
         locales += Locale.load(locales.first).sublocales
       end
       locales << @@default
@@ -166,14 +166,15 @@ module R18n
 
       @translation_places = self.class.convert_places(@original_places)
 
-      if opts[:on_filters] or opts[:off_filters]
-        @filters = CustomFilterList.new(opts[:on_filters], opts[:off_filters])
-      else
-        @filters = GlobalFilterList.instance
-      end
+      @filters =
+        if opts[:on_filters] || opts[:off_filters]
+          CustomFilterList.new(opts[:on_filters], opts[:off_filters])
+        else
+          GlobalFilterList.instance
+        end
 
       key = translation_cache_key
-      if R18n.cache.has_key? key
+      if R18n.cache.key? key
         @locale, @translation = *R18n.cache[key]
       else
         reload!
@@ -187,8 +188,9 @@ module R18n
 
     # Return unique key for current locales in translation and places.
     def translation_cache_key
-      @available_codes ||= @translation_places.inject([]) { |all, i|
-        all + i.available }.uniq.map { |i| i.code.downcase }
+      @available_codes ||= @translation_places
+        .inject([]) { |all, i| all + i.available }
+        .uniq.map { |i| i.code.downcase }
       (@locales_codes & @available_codes).join(',') + '@' +
         @filters.hash.to_s + '_' +
         R18n.default_loader.hash.to_s + '_' +
@@ -202,10 +204,13 @@ module R18n
       @translation_places = self.class.convert_places(@original_places)
 
       available_in_places = @translation_places.map { |i| [i, i.available] }
-      available_in_extensions = R18n.extension_places.map {|i| [i, i.available]}
+      available_in_extensions =
+        R18n.extension_places.map { |i| [i, i.available] }
 
       unless @locale
-        available_in_places.each do |place, available|
+        # It's array!
+        # rubocop:disable Perfomance/HashEachMethods
+        available_in_places.each do |_place, available|
           @locales.each do |locale|
             if available.include? locale
               @locale = locale
@@ -214,6 +219,7 @@ module R18n
           end
           break if @locale
         end
+        # rubocop:enable Perfomance/HashEachMethods
       end
       @locale ||= @locales.first
       unless @locale.supported?
@@ -228,17 +234,19 @@ module R18n
       @translation = Translation.new(@locale, '', filters: @filters)
       @locales.each do |locale|
         loaded = false
+
         available_in_places.each do |place, available|
           if available.include? locale
             @translation.merge! place.load(locale), locale
             loaded = true
           end
         end
-        if loaded
-          available_in_extensions.each do |extension, available|
-            if available.include? locale
-              @translation.merge! extension.load(locale), locale
-            end
+
+        next unless loaded
+
+        available_in_extensions.each do |extension, available|
+          if available.include? locale
+            @translation.merge! extension.load(locale), locale
           end
         end
       end
@@ -267,7 +275,7 @@ module R18n
     def localize(object, format = nil, *params)
       locale.localize(object, format, self, *params)
     end
-    alias :l :localize
+    alias l localize
 
     # Return translations.
     def t

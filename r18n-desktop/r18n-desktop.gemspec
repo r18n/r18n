@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../../r18n-core/lib/r18n-core/version', __FILE__)
 
 Gem::Specification.new do |s|
@@ -7,14 +9,14 @@ Gem::Specification.new do |s|
   s.date     = Time.now.strftime('%Y-%m-%d')
 
   s.summary     = 'A i18n tool to translate your Ruby desktop application.'
-  s.description = <<-EOF
+  s.description = <<-DESC
     A i18n tool to translate your desktop application in several languages.
     It is just a wrapper for R18n core library.
     It has nice Ruby-style syntax, filters, flexible locales, custom loaders,
     translation support for any classes, time and number localization, several
     user language support, agnostic core package with out-of-box support for
     Rails, Sinatra and desktop applications.
-  EOF
+  DESC
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")

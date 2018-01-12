@@ -1,18 +1,23 @@
+# frozen_string_literal: true
+
 module R18n
-  class Locales::Lv < Locale
-    set title: 'Latviešu',
+  module Locales
+    # Latvian locale
+    class Lv < Locale
+      set(
+        title: 'Latviešu',
 
         week_start: :monday,
-        wday_names: %w{Svētdiena Pirmdiena Otrdiena Trešdiena Ceturtdiena
-                       Piektdiena Sestdiena},
-        wday_abbrs: %w{Sv P O T C P S},
+        wday_names: %w[Svētdiena Pirmdiena Otrdiena Trešdiena Ceturtdiena
+                       Piektdiena Sestdiena],
+        wday_abbrs: %w[Sv P O T C P S],
 
-        month_names:      %w{janvārī februārī martā aprīlī maijā jūnijā jūlijā
-                             augustā septembrī oktobrī novembrī decembrī},
-        month_abbrs:      %w{jan feb mar apr mai jūn jūl aug sep okt nov dec},
-        month_standalone: %w{janvāris februāris marts aprīlis maijs jūnijs
+        month_names:      %w[janvārī februārī martā aprīlī maijā jūnijā jūlijā
+                             augustā septembrī oktobrī novembrī decembrī],
+        month_abbrs:      %w[jan feb mar apr mai jūn jūl aug sep okt nov dec],
+        month_standalone: %w[janvāris februāris marts aprīlis maijs jūnijs
                              jūlijs augusts septembris oktobris novembris
-                             decembris},
+                             decembris],
 
         date_format: '%d.%m.%Y.',
         full_format: '%e.%B',
@@ -20,14 +25,16 @@ module R18n
 
         number_decimal: ',',
         number_group:   ' '
+      )
 
-    def pluralize(n)
-      if 0 == n
-        0
-      elsif 1 == n % 10 and 11 != n % 100
-        1
-      else
-        'n'
+      def pluralize(n)
+        if n.zero?
+          0
+        elsif n % 10 == 1 && n % 100 != 11
+          1
+        else
+          'n'
+        end
       end
     end
   end

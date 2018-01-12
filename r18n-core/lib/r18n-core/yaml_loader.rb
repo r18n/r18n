@@ -1,21 +1,21 @@
-=begin
-Loader for YAML translations.
+# frozen_string_literal: true
 
-Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# Loader for YAML translations.
+#
+# Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module R18n
   module Loader
@@ -43,9 +43,9 @@ module R18n
 
       # Array of locales, which has translations in +dir+.
       def available
-        Dir.glob(File.join(@dir, '**/*.yml')).
-          map { |i| File.basename(i, '.yml') }.uniq.
-          map { |i| R18n.locale(i) }
+        Dir.glob(File.join(@dir, '**/*.yml'))
+          .map { |i| File.basename(i, '.yml') }.uniq
+          .map { |i| R18n.locale(i) }
       end
 
       # Return Hash with translations for +locale+.
@@ -54,7 +54,7 @@ module R18n
 
         translations = {}
         Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |i|
-          Utils.deep_merge!(translations, ::YAML::load_file(i) || {})
+          Utils.deep_merge!(translations, ::YAML.load_file(i) || {})
         end
         transform(translations)
       end
@@ -65,8 +65,8 @@ module R18n
       end
 
       # Is another +loader+ load YAML translations from same +dir+.
-      def ==(loader)
-        self.class == loader.class and self.dir == loader.dir
+      def ==(other)
+        self.class == other.class && dir == other.dir
       end
 
       # Wrap YAML private types to Typed.
@@ -74,9 +74,9 @@ module R18n
         R18n::Utils.hash_map(a_hash) do |key, value|
           if value.is_a? Hash
             value = transform(value)
-          elsif @private_type_class and value.is_a? @private_type_class
+          elsif @private_type_class && value.is_a?(@private_type_class)
             v = value.value
-            if v.respond_to?(:force_encoding) and v.encoding != __ENCODING__
+            if v.respond_to?(:force_encoding) && v.encoding != __ENCODING__
               v = v.force_encoding(__ENCODING__)
             end
             value = Typed.new(value.type_id, v)

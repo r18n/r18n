@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Ru do
-  it "uses Russian pluralization" do
+  it 'uses Russian pluralization' do
     ru = R18n.locale('ru')
     expect(ru.pluralize(0)).to eq(0)
 

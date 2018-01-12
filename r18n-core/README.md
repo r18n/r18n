@@ -456,7 +456,7 @@ simple:
   values.
   * If your country has alternate languages (for example, in exUSSR countries
     most people also know Russian), add
-    <tt>sublocales %w{<i>another_locale</i> en}</tt>.
+    <tt>sublocales %w[<i>another_locale</i> en]</tt>.
 * Create in `base/` file <tt><i>code</i>.yml</tt>  for your language and
   translate the base messages. Just copy file from language, which you know,
   and rewrite values.

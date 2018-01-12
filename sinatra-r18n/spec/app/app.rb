@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.join(File.dirname(__FILE__), '../../lib/sinatra/r18n')
 require 'sinatra'
 
@@ -31,5 +33,5 @@ get '/warning' do
 end
 
 get '/untranslated' do
-  "#{t.post.no}"
+  t.post.no.to_s
 end

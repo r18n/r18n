@@ -1,23 +1,26 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'rspec'
 gem 'rake'
+gem 'rspec'
 
-gem 'kramdown',    require: false
-gem 'RedCloth',    require: false
-gem 'sinatra',     require: false
 gem 'i18n',        require: false
-gem 'rails',       require: false
-gem 'rspec-rails', require: false
+gem 'kramdown',    require: false
 gem 'rack',        require: false
+gem 'rails',       require: false
+gem 'RedCloth',    require: false
+gem 'rspec-rails', require: false
+gem 'sinatra',     require: false
 
 gem 'sqlite3'
 
 gem 'r18n-core',      path: 'r18n-core/'
-gem 'r18n-rails-api', path: 'r18n-rails-api/', require: false
 gem 'r18n-rails',     path: 'r18n-rails/',     require: false
+gem 'r18n-rails-api', path: 'r18n-rails-api/', require: false
 
 group :development do
-  gem 'redcarpet', require: false
   gem 'rbench',    require: false
+  gem 'redcarpet', require: false
+  gem 'rubocop',   require: false
 end

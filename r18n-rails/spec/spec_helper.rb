@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pp'
 
 ENV['RAILS_ENV'] ||= 'test'
