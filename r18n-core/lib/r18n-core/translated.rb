@@ -121,49 +121,48 @@ module R18n
         end
 
         @translation_types[name] = options[:type]
-        params = options[:no_params] ? '' : ', *params'
 
-        class_eval <<-CODE, __FILE__, __LINE__ + 1
-          def #{name}(*params)
-            unlocalized = self.class.unlocalized_getters(#{name.inspect})
-            result = nil
+        define_method name do |*params|
+          unlocalized = self.class.unlocalized_getters(name)
+          result = nil
 
-            r18n.locales.each do |locale|
-              code = locale.code
-              next unless unlocalized.key? code
-              result = send unlocalized[code]#{params}
-              next unless result
+          r18n.locales.each do |locale|
+            code = locale.code
+            next unless unlocalized.key? code
+            result = send(
+              unlocalized[code], *(params unless options[:no_params])
+            )
+            next unless result
 
-              path = "\#{self.class.name}##{name}"
-              type = self.class.translation_types[#{name.inspect}]
-              if type
-                return r18n.filter_list.process(:all, type, result, locale,
-                                                    path, params)
-              elsif result.is_a? String
-                result = TranslatedString.new(result, locale, path)
-                return r18n.filter_list.process_string(:all, result, path,
-                                                           params)
-              else
-                return result
-              end
+            path = "#{self.class.name}##{name}"
+            type = self.class.translation_types[name]
+            if type
+              return r18n.filter_list.process(
+                :all, type, result, locale, path, params
+              )
+            elsif result.is_a? String
+              result = TranslatedString.new(result, locale, path)
+              return r18n.filter_list.process_string(
+                :all, result, path, params
+              )
+            else
+              return result
             end
-
-            result
           end
-        CODE
+
+          result
+        end
 
         return if options[:no_write]
 
-        class_eval <<-CODE, __FILE__, __LINE__ + 1
-          def #{name}=(*params)
-            unlocalized = self.class.unlocalized_setters(#{name.inspect})
-            r18n.locales.each do |locale|
-              code = locale.code
-              next unless unlocalized.key? code
-              return send unlocalized[code], *params
-            end
+        define_method "#{name}=" do |*params|
+          unlocalized = self.class.unlocalized_setters(name)
+          r18n.locales.each do |locale|
+            code = locale.code
+            next unless unlocalized.key? code
+            return send unlocalized[code], *params
           end
-        CODE
+        end
       end
 
       # Return array of methods to find +unlocalized_getters+ or
