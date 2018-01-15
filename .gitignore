@@ -6,3 +6,4 @@ log/
 
 .bundle
 Gemfile.lock
+.ruby-version
