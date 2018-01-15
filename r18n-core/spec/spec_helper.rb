@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pp'
 
 dir = Pathname(__FILE__).dirname
@@ -26,7 +28,7 @@ class CounterLoader
     @loaded = 0
   end
 
-  def load(locale)
+  def load(_locale)
     @loaded += 1
     {}
   end

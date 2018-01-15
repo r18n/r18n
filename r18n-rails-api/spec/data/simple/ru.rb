@@ -1,1 +1,3 @@
-{ ru: { two: "Два" } }
+# frozen_string_literal: true
+
+{ ru: { two: 'Два' } }

@@ -1,21 +1,21 @@
-=begin
-Translation to i18n support.
+# frozen_string_literal: true
 
-Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# Translation to i18n support.
+#
+# Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'pathname'
 
@@ -83,13 +83,15 @@ module R18n
     # Add another hash with +translations+ for some +locale+. Current data is
     # more priority, that new one in +translations+.
     def merge!(translations, locale)
-      (translations || { }).each_pair do |name, value|
-        if not @data.has_key? name
+      (translations || {}).each_pair do |name, value|
+        if !@data.key?(name)
           path = @path.empty? ? name : "#{@path}.#{name}"
           case value
           when Hash
-            value = Translation.new(@locale, path,
-              locale: locale, translations: value, filters: @filters)
+            value = Translation.new(
+              @locale, path,
+              locale: locale, translations: value, filters: @filters
+            )
           when String
             c = { locale: locale, path: path }
             v = @filters.process_string(:passive, value, c, [])
@@ -98,11 +100,11 @@ module R18n
             value.locale = locale
             value.path   = path
             unless @filters.passive(value.type).empty?
-              value = @filters.process_typed(:passive, value, { })
+              value = @filters.process_typed(:passive, value, {})
             end
           end
           @data[name] = value
-        elsif @data[name].is_a? Translation and value.is_a? Hash
+        elsif @data[name].is_a?(Translation) && value.is_a?(Hash)
           @data[name].merge! value, locale
         end
       end
@@ -110,8 +112,9 @@ module R18n
 
     # Use untranslated filter to print path.
     def to_s
-      @filters.process(:all, Untranslated, @path, @locale, @path,
-                      [@path, '', @path])
+      @filters.process(
+        :all, Untranslated, @path, @locale, @path, [@path, '', @path]
+      )
     end
 
     # Override inspect to easy debug.
@@ -136,8 +139,8 @@ module R18n
     end
 
     # Return +default+.
-    def |(default)
-      default
+    def |(other)
+      other
     end
 
     # Return translation with special +name+.
@@ -146,7 +149,7 @@ module R18n
     # <tt>%2</tt>, etc in translations file and set values in next +params+.
     def [](name, *params)
       unless [String, Integer, TrueClass, FalseClass]
-             .any? { |klass| name.is_a?(klass) }
+          .any? { |klass| name.is_a?(klass) }
         name = name.to_s
       end
       value = @data[name]

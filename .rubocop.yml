@@ -1,0 +1,52 @@
+AllCops:
+  # Ruby 2.2 is now under the state of the security maintenance phase, until the end of the March of 2018. After the date, maintenance of Ruby 2.2 will be ended.
+  # https://www.ruby-lang.org/en/news/2017/12/14/ruby-2-2-9-released/
+  TargetRubyVersion: 2.2
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+
+Layout/EmptyLinesAroundArguments:
+  Exclude:
+    - r18n-core/locales/*.rb
+
+Naming/FileName:
+  Exclude:
+    - 'r18n-core/locales/*.rb'
+    - 'r18n-core/spec/locales/*.rb'
+    - '**/r18n-core.rb'
+    - '**/r18n-rails.rb'
+    - '**/r18n-rails-api.rb'
+    - '**/r18n-desktop.rb'
+    - '**/r18n-desktop_spec.rb'
+    - '**/sinatra-r18n.rb'
+    - '**/sinatra-r18n_spec.rb'
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false # https://github.com/bbatsov/rubocop/issues/5398
+
+Style/DateTime:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/IndentArray:
+  EnforcedStyle: consistent
+Layout/IndentHash:
+  EnforcedStyle: consistent
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/spec/**/*'
+    - 'benchmark/*'
+
+Style/Documentation:
+  Exclude:
+    - '**/spec/**/*'
+
+Style/NumericLiterals:
+  Exclude:
+    - '**/db/**/*'

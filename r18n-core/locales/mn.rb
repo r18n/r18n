@@ -1,10 +1,15 @@
+# frozen_string_literal: true
+
 module R18n
-  class Locales::Mn < Locale
-    set title: 'Монгол',
+  module Locales
+    # Mongolian locale
+    class Mn < Locale
+      set(
+        title: 'Монгол',
 
         wday_names: ['Ням гариг', 'Даваа гариг', 'Мягмар гариг', 'Лхагва гариг',
                      'Пүрэв гариг', 'Баасан гариг', 'Бямба гариг'],
-        wday_abbrs: %w{ня да мя лх пү ба бя},
+        wday_abbrs: %w[ня да мя лх пү ба бя],
 
         month_names: ['Нэгдүгээр сар',   'Хоёрдугаар сар', 'Гуравдугаар сар',
                       'Дөрөвдүгээр сар', 'Тавдугаар сар',  'Зургадугаар сар',
@@ -16,5 +21,7 @@ module R18n
 
         number_decimal: ',',
         number_group:   '.'
+      )
+    end
   end
 end

@@ -1,21 +1,21 @@
-=begin
-R18n backend for Rails I18n.
+# frozen_string_literal: true
 
-Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# R18n backend for Rails I18n.
+#
+# Copyright (C) 2009 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'i18n/backend/transliterator'
 
@@ -29,7 +29,7 @@ module R18n
   class Backend
     include ::I18n::Backend::Transliterator
 
-    RESERVED_KEYS = [:scope, :default, :separator]
+    RESERVED_KEYS = %i[scope default separator].freeze
 
     # Find translation in R18n. It didn’t use +locale+ argument, only current
     # R18n I18n object. Also it doesn’t support Proc and variables in +default+
@@ -38,12 +38,12 @@ module R18n
       return key.map { |k| translate(locale, k, options) } if key.is_a?(Array)
 
       scope, default, separator = options.values_at(*RESERVED_KEYS)
-      params = options.reject { |name, value| RESERVED_KEYS.include?(name) }
+      params = options.reject { |name, _value| RESERVED_KEYS.include?(name) }
 
       result = lookup(locale, scope, key, separator, params)
 
       if result.is_a? Untranslated
-        options = options.reject { |key, value| key == :default }
+        options = options.reject { |opts_key, _value| opts_key == :default }
 
         default = []        if default.nil?
         default = [default] unless default.is_a? Array
@@ -73,7 +73,7 @@ module R18n
     # Support Rails I18n (+:default+, +:short+, +:long+, +:long_ordinal+,
     # +:only_day+ and +:only_second+) and R18n (+:full+, +:human+, +:standard+
     # and +:month+) time formatters.
-    def localize(locale, object, format = :default, options = {})
+    def localize(locale, object, format = :default, _options = {})
       i18n = get_i18n(locale)
       if format.is_a? Symbol
         key  = format
@@ -117,11 +117,12 @@ module R18n
 
     def translation_to_hash(translation)
       Utils.hash_map(translation.to_hash) do |key, value|
-        value = if value.is_a? Hash
-          translation_to_hash(value)
-        else
-          format_value(value)
-        end
+        value =
+          if value.is_a? Hash
+            translation_to_hash(value)
+          else
+            format_value(value)
+          end
         [key.to_sym, value]
       end
     end
@@ -129,23 +130,25 @@ module R18n
     # Find translation by <tt>scope.key(params)</tt> in current R18n I18n
     # object.
     def lookup(locale, scope, key, separator, params)
-      keys = (Array(scope) + Array(key)).map { |k|
-        k.to_s.split(separator || ::I18n.default_separator) }.flatten
+      keys = (Array(scope) + Array(key))
+        .map { |k| k.to_s.split(separator || ::I18n.default_separator) }
+        .flatten
       last = keys.pop.to_sym
 
-      result = keys.inject(get_i18n(locale).t) do |node, key|
+      result = keys.inject(get_i18n(locale).t) do |node, iterated_key|
         if node.is_a? TranslatedString
-          node.get_untranslated(key)
+          node.get_untranslated(iterated_key)
         else
-          node[key]
+          node[iterated_key]
         end
       end
 
-      result = if result.is_a? TranslatedString
-        result.get_untranslated(key)
-      else
-        result[last, params]
-      end
+      result =
+        if result.is_a? TranslatedString
+          result.get_untranslated(key)
+        else
+          result[last, params]
+        end
 
       format_value(result)
     end

@@ -1,21 +1,21 @@
-=begin
-Filters for translations content.
+# frozen_string_literal: true
 
-Copyright (C) 2012 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-=end
+# Filters for translations content.
+#
+# Copyright (C) 2012 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module R18n
   # Superclass for +GlobalFilterList+ and +CustomFilterList+ with filters
@@ -49,9 +49,8 @@ module R18n
 
     # Process +value+ by global filters in +enabled+.
     def process_string(filters_type, value, config, params)
-      if config.is_a? String
-        config = { locale: value.locale, path: config }
-      end
+      config = { locale: value.locale, path: config } if config.is_a? String
+
       enabled(filters_type, String).each do |f|
         value = f.call(value, config, *params)
       end
@@ -75,17 +74,17 @@ module R18n
     end
 
     # List of enable passive filters.
-    def passive(type)
+    def passive(_type)
       []
     end
 
     # List of enable active filters.
-    def active(type)
+    def active(_type)
       []
     end
 
     # List of enable filters.
-    def all(type)
+    def all(_type)
       []
     end
   end
@@ -109,16 +108,15 @@ module R18n
 
   # Filter list for I18n object with custom disabled/enabled filters.
   class CustomFilterList < FilterList
-
     def initialize(on, off)
       @on  = Array(on).map  { |i| Filters.defined[i] }
       @off = Array(off).map { |i| Filters.defined[i] }
-      @changed_types = (@on + @off).map { |i| i.types }.flatten.uniq
+      @changed_types = (@on + @off).map(&:types).flatten.uniq
 
-      @changed_passive = (@on + @off).reject { |i| !i.passive? }.
-        map { |i| i.types }.flatten.uniq
-      @changed_active  = (@on + @off).reject { |i|  i.passive? }.
-        map { |i| i.types }.flatten.uniq
+      @changed_passive = (@on + @off).select(&:passive?)
+        .map(&:types).flatten.uniq
+      @changed_active  = (@on + @off).reject(&:passive?)
+        .map(&:types).flatten.uniq
 
       @on_by_type = {}
       @on.each do |filter|
@@ -139,22 +137,22 @@ module R18n
     def passive(type)
       enabled = Filters.passive_enabled[type]
       return enabled unless @changed_passive.include? type
-      enabled  = enabled.reject { |i| @off_by_type[type].include? i }
-      enabled += @on_by_type[type].reject { |i| !i.passive }
+      enabled = enabled.reject { |i| @off_by_type[type].include? i }
+      enabled + @on_by_type[type].select(&:passive)
     end
 
     def active(type)
       enabled = Filters.active_enabled[type]
       return enabled unless @changed_active.include? type
-      enabled  = enabled.reject { |i| @off_by_type[type].include? i }
-      enabled += @on_by_type[type].reject { |i|  i.passive }
+      enabled = enabled.reject { |i| @off_by_type[type].include? i }
+      enabled + @on_by_type[type].reject(&:passive)
     end
 
     def all(type)
       enabled = Filters.enabled[type]
       return enabled unless @changed_types.include? type
-      enabled  = enabled.reject { |i| @off_by_type[type].include? i }
-      enabled += @on_by_type[type]
+      enabled = enabled.reject { |i| @off_by_type[type].include? i }
+      enabled + @on_by_type[type]
     end
 
     def hash

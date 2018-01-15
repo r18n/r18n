@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pp'
 
 ENV['RACK_ENV'] = 'test'
@@ -7,7 +9,10 @@ require 'rack/test'
 
 module RSpecMixinExample
   include Rack::Test::Methods
-  def app(); Sinatra::Application; end
+
+  def app
+    Sinatra::Application
+  end
 end
 
 RSpec.configure { |c| c.include RSpecMixinExample }

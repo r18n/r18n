@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe R18n::Locales::Cs do
-  it "uses Czech pluralization" do
+  it 'uses Czech pluralization' do
     cs = R18n.locale('cs')
     expect(cs.pluralize(0)).to eq(0)
     expect(cs.pluralize(1)).to eq(1)

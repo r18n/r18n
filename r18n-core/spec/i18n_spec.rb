@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../spec_helper', __FILE__)
 
 describe R18n::I18n do
@@ -11,67 +13,82 @@ describe R18n::I18n do
     R18n.extension_places = @extension_places
   end
 
-  it "parses HTTP_ACCEPT_LANGUAGE" do
+  it 'parses HTTP_ACCEPT_LANGUAGE' do
     expect(R18n::I18n.parse_http(nil)).to eq([])
     expect(R18n::I18n.parse_http('')).to eq([])
-    expect(R18n::I18n.parse_http('ru,en;q=0.9')).to eq(['ru', 'en'])
-    expect(R18n::I18n.parse_http('ru;q=0.8,en;q=0.9')).to eq(['en', 'ru'])
+    expect(R18n::I18n.parse_http('ru,en;q=0.9')).to eq(%w[ru en])
+    expect(R18n::I18n.parse_http('ru;q=0.8,en;q=0.9')).to eq(%w[en ru])
   end
 
-  it "has default locale" do
+  it 'has default locale' do
     R18n::I18n.default = 'ru'
     expect(R18n::I18n.default).to eq('ru')
   end
 
-  it "loads locales" do
+  it 'loads locales' do
     i18n = R18n::I18n.new('en', DIR)
     expect(i18n.locales).to eq([R18n.locale('en')])
 
     i18n = R18n::I18n.new(['ru', 'nolocale-DL'], DIR)
-    expect(i18n.locales).to eq([R18n.locale('ru'),
-                            R18n::UnsupportedLocale.new('nolocale-DL'),
-                            R18n::UnsupportedLocale.new('nolocale'),
-                            R18n.locale('en')])
+    expect(i18n.locales).to eq([
+      R18n.locale('ru'),
+      R18n::UnsupportedLocale.new('nolocale-DL'),
+      R18n::UnsupportedLocale.new('nolocale'),
+      R18n.locale('en')
+    ])
   end
 
-  it "returns translations loaders" do
+  it 'returns translations loaders' do
     i18n = R18n::I18n.new('en', DIR)
     expect(i18n.translation_places).to eq([R18n::Loader::YAML.new(DIR)])
   end
 
-  it "loads translations by loader" do
+  it 'loads translations by loader' do
     loader = Class.new do
-      def available; [R18n.locale('en')]; end
-      def load(locale); { 'custom' => 'Custom' }; end
+      def available
+        [R18n.locale('en')]
+      end
+
+      def load(_locale)
+        { 'custom' => 'Custom' }
+      end
     end
     expect(R18n::I18n.new('en', loader.new).custom).to eq('Custom')
   end
 
-  it "passes parameters to default loader" do
+  it 'passes parameters to default loader' do
     loader = Class.new do
-      def initialize(param); @param = param; end
-      def available; [R18n.locale('en')]; end
-      def load(locale); { 'custom' => @param }; end
+      def initialize(param)
+        @param = param
+      end
+
+      def available
+        [R18n.locale('en')]
+      end
+
+      def load(_locale)
+        { 'custom' => @param }
+      end
     end
     R18n.default_loader = loader
     expect(R18n::I18n.new('en', 'default').custom).to eq('default')
   end
 
-  it "loads translations" do
-    i18n = R18n::I18n.new(['ru', 'en'], DIR)
+  it 'loads translations' do
+    i18n = R18n::I18n.new(%w[ru en], DIR)
     expect(i18n.one).to    eq('Один')
     expect(i18n[:one]).to  eq('Один')
     expect(i18n['one']).to eq('Один')
     expect(i18n.only.english).to eq('Only in English')
   end
 
-  it "loads translations from several dirs" do
-    i18n = R18n::I18n.new(['nolocale', 'en'], [TWO, DIR])
+  it 'loads translations from several dirs' do
+    i18n = R18n::I18n.new(%w[nolocale en], [TWO, DIR])
     expect(i18n.in.two).to eq('Two')
     expect(i18n.in.another.level).to eq('Hierarchical')
   end
 
-  it "uses extension places" do
+  it 'uses extension places' do
     R18n.extension_places << EXT
 
     i18n = R18n::I18n.new('en', DIR)
@@ -82,11 +99,11 @@ describe R18n::I18n do
   it "doesn't use extension without app translations with same locale" do
     R18n.extension_places << EXT
 
-    i18n = R18n::I18n.new(['notransl', 'en'], DIR)
+    i18n = R18n::I18n.new(%w[notransl en], DIR)
     expect(i18n.ext).to eq('Extension')
   end
 
-  it "ignores case on loading" do
+  it 'ignores case on loading' do
     i18n = R18n::I18n.new('nolocale', [DIR])
     expect(i18n.one).to eq('ONE')
 
@@ -94,13 +111,13 @@ describe R18n::I18n do
     expect(i18n.one).to eq('ONE')
   end
 
-  it "loads default translation" do
+  it 'loads default translation' do
     i18n = R18n::I18n.new('nolocale', DIR)
     expect(i18n.one).to eq('ONE')
     expect(i18n.two).to eq('Two')
   end
 
-  it "loads sublocales for first locale" do
+  it 'loads sublocales for first locale' do
     R18n::I18n.default = 'notransl'
 
     i18n = R18n::I18n.new('ru', DIR)
@@ -108,14 +125,16 @@ describe R18n::I18n do
     expect(i18n.two).to eq('Two')
   end
 
-  it "returns available translations" do
+  it 'returns available translations' do
     i18n = R18n::I18n.new('en', DIR)
-    expect(i18n.available_locales).to match_array([R18n.locale('nolocale'),
-                                      R18n.locale('ru'),
-                                      R18n.locale('en')])
+    expect(i18n.available_locales).to match_array([
+      R18n.locale('nolocale'),
+      R18n.locale('ru'),
+      R18n.locale('en')
+    ])
   end
 
-  it "caches translations" do
+  it 'caches translations' do
     counter = CounterLoader.new('en')
 
     R18n::I18n.new('en', counter)
@@ -132,32 +151,34 @@ describe R18n::I18n do
   it "doesn't clear cache when custom filters are specified" do
     counter = CounterLoader.new('en')
 
-    R18n::I18n.new('en', counter,
-      off_filters: :untranslated, on_filters: :untranslated_html)
+    R18n::I18n.new(
+      'en', counter, off_filters: :untranslated, on_filters: :untranslated_html
+    )
     expect(counter.loaded).to eq(1)
 
-    R18n::I18n.new('en', counter,
-      off_filters: :untranslated, on_filters: :untranslated_html)
+    R18n::I18n.new(
+      'en', counter, off_filters: :untranslated, on_filters: :untranslated_html
+    )
     expect(counter.loaded).to eq(1)
   end
 
-  it "caches translations by used locales" do
+  it 'caches translations by used locales' do
     counter = CounterLoader.new('en', 'ru')
 
     R18n::I18n.new('en', counter)
     expect(counter.loaded).to eq(1)
 
-    R18n::I18n.new(['en', 'fr'], counter)
+    R18n::I18n.new(%w[en fr], counter)
     expect(counter.loaded).to eq(1)
 
-    R18n::I18n.new(['en', 'ru'], counter)
+    R18n::I18n.new(%w[en ru], counter)
     expect(counter.loaded).to eq(3)
 
-    R18n::I18n.new(['ru', 'en'], counter)
+    R18n::I18n.new(%w[ru en], counter)
     expect(counter.loaded).to eq(5)
   end
 
-  it "caches translations by places" do
+  it 'caches translations by places' do
     counter = CounterLoader.new('en', 'ru')
 
     R18n::I18n.new('en', counter)
@@ -179,10 +200,13 @@ describe R18n::I18n do
     expect(different.loaded).to eq(1)
   end
 
-  it "reloads translations" do
+  it 'reloads translations' do
     loader = Class.new do
-      def available; [R18n.locale('en')]; end
-      def load(locale);
+      def available
+        [R18n.locale('en')]
+      end
+
+      def load(_locale)
         @answer ||= 0
         @answer  += 1
         { 'one' => @answer }
@@ -196,23 +220,23 @@ describe R18n::I18n do
     expect(i18n.one).to eq(2)
   end
 
-  it "returns translations" do
+  it 'returns translations' do
     i18n = R18n::I18n.new('en', DIR)
     expect(i18n.t).to be_kind_of(R18n::Translation)
     expect(i18n.t.one).to eq('One')
   end
 
-  it "returns first locale with locale file" do
-    i18n = R18n::I18n.new(['notransl', 'nolocale', 'ru', 'en'], DIR)
+  it 'returns first locale with locale file' do
+    i18n = R18n::I18n.new(%w[notransl nolocale ru en], DIR)
     expect(i18n.locale).to      eq(R18n.locale('nolocale'))
     expect(i18n.locale.base).to eq(R18n.locale('ru'))
   end
 
-  it "localizes objects" do
+  it 'localizes objects' do
     i18n = R18n::I18n.new('ru')
 
-    expect(i18n.l(-123456789)).to eq('−123 456 789')
-    expect(i18n.l(-12345.67)).to  eq('−12 345,67')
+    expect(i18n.l(-123_456_789)).to eq('−123 456 789')
+    expect(i18n.l(-12_345.67)).to   eq('−12 345,67')
 
     time = Time.at(0).utc
     expect(i18n.l(time, '%A')).to      eq('Четверг')
@@ -223,7 +247,7 @@ describe R18n::I18n do
     expect(i18n.l(Date.new(0))).to eq('01.01.0000')
   end
 
-  it "returns marshalizable values" do
+  it 'returns marshalizable values' do
     i18n    = R18n::I18n.new('en', DIR, off_filters: :untranslated,
                                         on_filters:  :untranslated_html)
     demarsh = Marshal.load(Marshal.dump(i18n.t.one))

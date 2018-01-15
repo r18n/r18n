@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pp'
 require 'i18n'
 require 'active_support'
