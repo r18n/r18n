@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe R18n::Locales::Cs do
   it 'uses Czech pluralization' do
     cs = R18n.locale('cs')

@@ -17,15 +17,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'pathname'
 require 'r18n-core'
 require 'r18n-rails-api'
 
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails'
-require dir + 'helpers'
-require dir + 'controller'
-require dir + 'translated'
-require dir + 'filters'
+require_relative 'r18n-rails/helpers'
+require_relative 'r18n-rails/controller'
+require_relative 'r18n-rails/translated'
+require_relative 'r18n-rails/filters'
 
 R18n.default_places { [Rails.root.join('app/i18n'), R18n::Loader::Rails.new] }
 

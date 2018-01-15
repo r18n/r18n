@@ -7,9 +7,6 @@ rescue LoadError
   puts 'Bundler not available. Install it with: gem install bundler'
 end
 
-require 'pathname'
-dir = Pathname.new(__FILE__).dirname.expand_path
-
 require 'i18n'
 require 'rbench'
 require 'r18n-core'
@@ -34,14 +31,14 @@ RBench.run(1000) do
   report 'cold load' do
     r18n do
       R18n.clear_cache!
-      R18n.set(%w[ru fr en], dir + 'r18n')
+      R18n.set(%w[ru fr en], File.join(__dir__, 'r18n'))
       R18n.get.available_locales
     end
     i18n do
       I18n.reload!
       I18n.available_locales = nil
 
-      I18n.load_path = [Dir.glob(dir.join('i18n/*.{yml,rb}').to_s)]
+      I18n.load_path = [Dir.glob(File.join(__dir__, 'i18n', '*.{yml,rb}'))]
       I18n.locale = :ru
       I18n.fallbacks[:ru] = %i[ru en]
       I18n.available_locales
@@ -50,7 +47,7 @@ RBench.run(1000) do
 
   report 'load' do
     r18n do
-      R18n.set(%w[ru fr en], dir + 'r18n')
+      R18n.set(%w[ru fr en], File.join(__dir__, 'r18n'))
       R18n.get.available_locales
     end
     i18n do

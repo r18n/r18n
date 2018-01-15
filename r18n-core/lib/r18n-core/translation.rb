@@ -17,8 +17,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'pathname'
-
 module R18n
   # Struct to containt translation with some type for filter.
   Typed = Struct.new(:type, :value, :locale, :path)

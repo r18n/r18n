@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('../lib/r18n-core/version', __FILE__)
+require_relative 'lib/r18n-core/version'
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY

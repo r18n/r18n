@@ -46,7 +46,7 @@ information.
      ```ruby
     class YourApp < Sinatra::Base
       register Sinatra::R18n
-      set :root, File.dirname(__FILE__)
+      set :root, __dir__
      ```
 
 4. Add locale to your URLs. For example:

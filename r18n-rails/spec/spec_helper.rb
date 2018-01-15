@@ -3,8 +3,8 @@
 require 'pp'
 
 ENV['RAILS_ENV'] ||= 'test'
-dir = File.dirname(__FILE__)
-require File.expand_path(File.join(dir, 'app/config/environment'))
-require File.expand_path(File.join(dir, '../lib/r18n-rails'))
+
+require_relative 'app/config/environment'
+require_relative '../lib/r18n-rails'
 
 require 'rspec/rails'

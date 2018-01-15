@@ -19,16 +19,14 @@
 
 require 'r18n-core'
 
-require 'pathname'
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-desktop'
 if /cygwin|mingw|win32/ =~ RUBY_PLATFORM
-  require dir.join('win32').to_s
+  require_relative 'r18n-desktop/win32'
 elsif /java/ =~ RUBY_PLATFORM
-  require dir.join('java').to_s
+  require_relative 'r18n-desktop/java'
 elsif /darwin/ =~ RUBY_PLATFORM
-  require dir.join('osx').to_s
+  require_relative 'r18n-desktop/osx'
 else
-  require dir.join('posix').to_s
+  require_relative 'r18n-desktop/posix'
 end
 
 module R18n

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../spec_helper', __FILE__)
-
 describe R18n::Translation do
   it "returns unstranslated string if translation isn't found" do
     i18n = R18n::I18n.new('en', DIR)

@@ -27,7 +27,7 @@ module Sinatra
       app.set :default_locale, (proc { ::R18n::I18n.default })
       app.set :translations,   (proc { ::R18n.default_places })
 
-      ::R18n.default_places { File.join(app.root, 'i18n/') }
+      ::R18n.default_places { File.join(app.root, 'i18n') }
 
       app.before do
         ::R18n.clear_cache! if self.class.development?

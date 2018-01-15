@@ -17,11 +17,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'pathname'
 require 'r18n-core'
 
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-rails-api'
-require dir + 'rails_plural'
-require dir + 'filters'
-require dir + 'loader'
-require dir + 'backend'
+require_relative 'r18n-rails-api/rails_plural'
+require_relative 'r18n-rails-api/filters'
+require_relative 'r18n-rails-api/loader'
+require_relative 'r18n-rails-api/backend'

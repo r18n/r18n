@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe R18n::Locales::Sk do
   it 'uses Slovak pluralization' do
     sk = R18n.locale('Sk')

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../spec_helper', __FILE__)
-
 describe 'Rails filters' do
   it 'uses named variables' do
     i18n = R18n::Translation.new(

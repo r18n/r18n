@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.join(File.dirname(__FILE__), '../../lib/sinatra/r18n')
+require_relative '../../lib/sinatra/r18n'
 require 'sinatra'
 
 get '/:locale/posts/:name' do

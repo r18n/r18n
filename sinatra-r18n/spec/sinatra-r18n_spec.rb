@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../spec_helper', __FILE__)
-
 describe Sinatra::R18n do
   before(:all) do
     Sinatra::R18n.registered(app)
@@ -86,7 +84,7 @@ describe Sinatra::R18n do
   end
 
   it 'sets default places' do
-    path = Pathname(__FILE__).dirname.expand_path.join('app/i18n/').to_s
+    path = File.join(__dir__, 'app', 'i18n')
     expect(R18n.default_places).to eq path
     R18n.set('en')
     expect(R18n.get.post.title(1)).to eq 'Post 1'
