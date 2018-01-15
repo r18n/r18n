@@ -79,9 +79,7 @@ module R18n
         if exists? code
           require File.join(LOCALES_DIR, "#{code}.rb")
           name = code.gsub(/\w+/, &:capitalize).delete('-')
-          # rubocop:disable Security/Eval
-          eval('R18n::Locales::' + name).new
-          # rubocop:enable Security/Eval
+          R18n::Locales.const_get(name).new
         else
           UnsupportedLocale.new(original)
         end

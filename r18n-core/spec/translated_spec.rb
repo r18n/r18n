@@ -78,7 +78,7 @@ describe R18n::Translated do
   end
 
   it 'uses filters' do
-    @user_class.class_eval do
+    @user_class.class_exec do
       def age_en
         { 1 => '%1 year', 'n' => '%1 years' }
       end
@@ -90,7 +90,7 @@ describe R18n::Translated do
   end
 
   it 'sends params to method if user want it' do
-    @user_class.class_eval do
+    @user_class.class_exec do
       def no_params_en(*params)
         params.join(' ')
       end
@@ -123,7 +123,7 @@ describe R18n::Translated do
   end
 
   it 'returns original type of result' do
-    @user_class.class_eval do
+    @user_class.class_exec do
       translation :name
       def name_en
         :ivan
@@ -135,7 +135,7 @@ describe R18n::Translated do
   end
 
   it 'returns nil' do
-    @user_class.class_eval do
+    @user_class.class_exec do
       translation :name
       def name_en
         nil
@@ -147,7 +147,7 @@ describe R18n::Translated do
   end
 
   it 'allows to change I18n object' do
-    @user_class.class_eval do
+    @user_class.class_exec do
       translation :name
       attr_accessor :r18n
     end
