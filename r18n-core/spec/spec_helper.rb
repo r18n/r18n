@@ -2,15 +2,17 @@
 
 require 'pp'
 
-dir = Pathname(__FILE__).dirname
+require_relative '../lib/r18n-core'
+Dir.glob(File.join(__dir__, '..', 'locales', '*.rb')) do |locale_file|
+  require locale_file
+end
 
-require dir.join('../lib/r18n-core').to_s
-Dir.glob(dir.join('../locales/*.rb').to_s) { |locale| require locale }
-
-TRANSLATIONS = dir + 'translations' unless defined? TRANSLATIONS
-DIR = TRANSLATIONS + 'general' unless defined? DIR
-TWO = TRANSLATIONS + 'two'     unless defined? TWO
-EXT = R18n::Loader::YAML.new(TRANSLATIONS + 'extension') unless defined? EXT
+TRANSLATIONS = File.join(__dir__, 'translations') unless defined? TRANSLATIONS
+DIR = File.join(TRANSLATIONS, 'general') unless defined? DIR
+TWO = File.join(TRANSLATIONS, 'two')     unless defined? TWO
+unless defined? EXT
+  EXT = R18n::Loader::YAML.new(File.join(TRANSLATIONS, 'extension'))
+end
 
 RSpec.configure do |config|
   config.before { R18n.clear_cache! }

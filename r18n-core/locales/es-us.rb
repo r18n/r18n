@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.join(File.dirname(__FILE__), 'es')
+require_relative 'es'
 
 module R18n
   module Locales

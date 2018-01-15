@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'pathname'
 require 'singleton'
 require 'bigdecimal'
 
@@ -55,7 +54,7 @@ module R18n
   # You can see more available data about locale in samples in
   # <tt>locales/</tt> dir.
   class Locale
-    LOCALES_DIR = Pathname(__FILE__).dirname.expand_path + '../../locales/'
+    LOCALES_DIR = File.join(__dir__, '..', '..', 'locales')
 
     @@loaded = {}
 
@@ -68,7 +67,7 @@ module R18n
 
     # Is +locale+ has info file.
     def self.exists?(locale)
-      File.exist?(File.join(LOCALES_DIR, locale.to_s + '.rb'))
+      File.exist?(File.join(LOCALES_DIR, "#{locale}.rb"))
     end
 
     # Load locale by RFC 3066 +code+.
@@ -78,7 +77,7 @@ module R18n
 
       @@loaded[code] ||= begin
         if exists? code
-          require LOCALES_DIR.join("#{code}.rb").to_s
+          require File.join(LOCALES_DIR, "#{code}.rb")
           name = code.gsub(/\w+/, &:capitalize).delete('-')
           # rubocop:disable Security/Eval
           eval('R18n::Locales::' + name).new

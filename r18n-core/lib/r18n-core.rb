@@ -17,22 +17,23 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'pathname'
-
-dir = Pathname(__FILE__).dirname.expand_path + 'r18n-core'
-require dir.join('version').to_s
-require dir.join('utils').to_s
-require dir.join('locale').to_s
-require dir.join('unsupported_locale').to_s
-require dir.join('translated_string').to_s
-require dir.join('untranslated').to_s
-require dir.join('translation').to_s
-require dir.join('filters').to_s
-require dir.join('filter_list').to_s
-require dir.join('yaml_methods').to_s
-require dir.join('yaml_loader').to_s
-require dir.join('i18n').to_s
-require dir.join('helpers').to_s
+%w[
+  version
+  utils
+  locale
+  unsupported_locale
+  translated_string
+  untranslated
+  translation
+  filters
+  filter_list
+  yaml_methods
+  yaml_loader
+  i18n
+  helpers
+].each do |file|
+  require_relative File.join('r18n-core', file)
+end
 
 module R18n
   autoload :Translated, 'r18n-core/translated'
@@ -150,9 +151,8 @@ module R18n
     attr_accessor :cache
   end
 
-  dir = Pathname(__FILE__).dirname.expand_path
   self.default_loader   = R18n::Loader::YAML
   self.default_places   = nil
-  self.extension_places = [Loader::YAML.new(dir + '../base')]
+  self.extension_places = [Loader::YAML.new(File.join(__dir__, '..', 'base'))]
   clear_cache!
 end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe R18n::Locales::It do
   it 'formats Italian date' do
     italian = R18n::I18n.new('it')

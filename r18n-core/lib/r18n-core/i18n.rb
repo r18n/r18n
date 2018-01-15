@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'date'
-require 'pathname'
 
 module R18n
   # General class to i18n support in your application. It load Translation and

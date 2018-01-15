@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require File.expand_path('../spec_helper', __FILE__)
-
 describe R18n::Loader::YAML do
   before :all do
     R18n::Filters.add('my', :my) { |i| i }
@@ -16,7 +14,7 @@ describe R18n::Loader::YAML do
   end
 
   it 'returns dir with translations' do
-    expect(@loader.dir).to eq(DIR.expand_path.to_s)
+    expect(@loader.dir).to eq(DIR)
   end
 
   it 'equals to another YAML loader with same dir' do

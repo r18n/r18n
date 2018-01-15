@@ -3,7 +3,7 @@
 require 'pp'
 
 ENV['RACK_ENV'] = 'test'
-require File.join(File.dirname(__FILE__), 'app/app')
+require_relative 'app/app'
 
 require 'rack/test'
 
