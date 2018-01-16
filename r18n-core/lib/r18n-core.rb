@@ -42,14 +42,15 @@ module R18n
     # Set I18n object globally. You can miss translation +places+, it will be
     # taken from <tt>R18n.default_places</tt>.
     def set(i18n = nil, places = R18n.default_places, &block)
-      if block_given?
-        @setter = block
-        @i18n   = nil
-      elsif i18n.is_a? I18n
-        @i18n = i18n
-      else
-        @i18n = I18n.new(i18n, places)
-      end
+      @i18n =
+        if block_given?
+          @setter = block
+          nil
+        elsif i18n.is_a? I18n
+          i18n
+        else
+          I18n.new(i18n, places)
+        end
     end
 
     # Set I18n object to current thread.
