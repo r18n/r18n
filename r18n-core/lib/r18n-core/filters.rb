@@ -155,7 +155,9 @@ module R18n
           rebuild_enabled! type
         end
 
-        @new_filter_listener.call(filter) if @new_filter_listener
+        if defined?(@new_filter_listener) && @new_filter_listener.is_a?(Proc)
+          @new_filter_listener.call(filter)
+        end
         filter
       end
 

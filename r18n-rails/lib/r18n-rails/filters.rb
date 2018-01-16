@@ -28,7 +28,8 @@ module R18n
         # Path to filters. Should be set to `app/i18n`.
         attr_writer :path
         def path
-          @path || ::Rails.root.join('app/i18n')
+          return @path if defined?(@path)
+          ::Rails.root.join('app/i18n')
         end
 
         # Load all ruby files from `app/i18n` and remember loaded filters.

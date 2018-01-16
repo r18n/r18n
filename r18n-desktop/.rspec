@@ -1,1 +1,1 @@
---format documentation --colour --require spec_helper
+--format documentation --colour --warnings --require spec_helper
