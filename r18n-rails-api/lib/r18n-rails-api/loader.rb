@@ -56,7 +56,7 @@ module R18n
 
       # Reload backend if <tt>I18n.load_path</tt> is changed.
       def reload!
-        return if @last_path == ::I18n.load_path
+        return if defined?(@last_path) && @last_path == ::I18n.load_path
         @last_path = ::I18n.load_path.clone
         @backend.reload!
         @backend.send(:init_translations)
@@ -90,7 +90,7 @@ module R18n
           else
             Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
           end
-        elsif @private_type_class && value.is_a?(@private_type_class)
+        elsif defined?(@private_type_class) && value.is_a?(@private_type_class)
           Typed.new(value.type_id, value.value)
         else
           value

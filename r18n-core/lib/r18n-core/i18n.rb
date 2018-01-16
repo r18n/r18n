@@ -206,7 +206,7 @@ module R18n
       available_in_extensions =
         R18n.extension_places.map { |i| [i, i.available] }
 
-      unless @locale
+      unless defined? @locale
         # It's array!
         # rubocop:disable Perfomance/HashEachMethods
         available_in_places.each do |_place, available|
@@ -216,7 +216,7 @@ module R18n
               break
             end
           end
-          break if @locale
+          break if defined? @locale
         end
         # rubocop:enable Perfomance/HashEachMethods
       end
