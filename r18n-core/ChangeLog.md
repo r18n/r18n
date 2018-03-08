@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.1 (Brooklyn)
+* Fix `no` locale deprecation warning.
+
 ## 3.0 (New York)
 * Deprecate `no` locale, use `nb` instead (by Alexander Popov).
 * Remove unsafe `!!proc` filter.
