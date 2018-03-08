@@ -10,8 +10,6 @@ in:
 only:
   english: Only in English
 
-sum: !!proc "|x, y| x + y"
-
 comments: !!pl
   0: "no comments for %2"
   1: "one comment for %2"

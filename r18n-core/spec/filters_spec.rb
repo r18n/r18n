@@ -153,10 +153,6 @@ describe R18n::Filters do
     expect(@i18n.my_filter(1, 2)).to eq('value12')
   end
 
-  it 'calls proc from translation' do
-    expect(@i18n.sum(2, 3)).to eq(5)
-  end
-
   it 'pluralizes translation' do
     expect(@i18n.comments(0, 'article')).to eq('no comments for article')
     expect(@i18n.comments(1, 'article')).to eq('one comment for article')

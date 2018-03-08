@@ -281,25 +281,6 @@ alarm: !!textile
 t.alarm #=> "<p>It will delete <em>all</em> users!</p>"
 ```
 
-#### Lambdas
-
-You can use lambdas in your translations.
-
-```yaml
-sum: !!proc |x, y| x + y
-```
-
-```ruby
-t.sum(1, 2) #=> 3
-```
-
-If this is unsafe in your application (for example, user can change
-translations), you can disable it:
-
-```ruby
-R18n::Filters.off(:procedure)
-```
-
 ### Localization
 
 You can print numbers and floats according to the rules of the user locale:
