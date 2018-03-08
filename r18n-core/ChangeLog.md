@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.0 (New York)
+* Deprecate `no` locale, use `nb` instead (by Alexander Popov).
+* Remove unsafe `!!proc` filter.
+* Reduce `eval` calls (by Alexander Popov).
+
 ## 2.2 (La Habana)
 * Change date format in `en` locale to `YYYY-MM-DD` (by Alexander Popov).
 * Add `TranslatedString#as_json` for ActiveSupport compatibility (by Tim Craft).
