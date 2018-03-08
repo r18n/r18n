@@ -8,7 +8,7 @@ module R18n
     class No < Nb
       class << self
         extend Gem::Deprecate
-        deprecate :new, 'R18n::Locales::Nb.new', 2018, 3
+        deprecate :new, 'R18n::Locales::Nb.new', 2019, 1
       end
     end
   end

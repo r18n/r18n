@@ -6,7 +6,7 @@ module R18n
     class Nb < Locale
       set(
         title: 'Norsk (bokmål)',
-        sublocales: %w[no nn en],
+        sublocales: %w[nn en],
 
         week_start: :monday,
         wday_names: %w[søndag mandag tirsdag onsdag torsdag fredag lørdag],
