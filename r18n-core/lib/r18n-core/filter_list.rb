@@ -37,7 +37,7 @@ module R18n
       end
     end
 
-    # Shortcut ot process `R18n::Typed`.
+    # Shortcut to process `R18n::Typed`.
     def process_typed(filters_type, typed_value, params)
       process(filters_type,
               typed_value.type,
