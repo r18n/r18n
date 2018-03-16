@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.2 (Ё)
+* Fix `Untranslted.to_s` (by Patrik Rak).
+
 ## 3.0.1 (Brooklyn)
 * Fix `no` locale deprecation warning.
 
