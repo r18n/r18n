@@ -56,7 +56,7 @@ module R18n
       end
 
       if value.class == String
-        TranslatedString.new(value, config[:locale], config[:path])
+        TranslatedString.new(value, config[:locale], config[:path], self)
       else
         value
       end
