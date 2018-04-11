@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.3 (〥)
+* Fix missed filters in `Untranslted` initialization (by Alexander Popov).
+
 ## 3.0.2 (Ё)
 * Fix `Untranslted.to_s` (by Patrik Rak).
 
