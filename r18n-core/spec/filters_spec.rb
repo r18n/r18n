@@ -194,6 +194,8 @@ describe R18n::Filters do
     expect(@i18n.in.not.to_s).to   eq('in.[not]')
     expect(@i18n.in.not.to_str).to eq('in.[not]')
 
+    expect(@i18n.one.not_exists.to_s).to eq('one.[not_exists]')
+
     R18n::Filters.off(:untranslated)
     expect(@i18n.in.not.to_s).to eq('in.not')
 
