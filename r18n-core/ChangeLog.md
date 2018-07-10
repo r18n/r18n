@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.4 (𐤀)
+* Fix `Translated` compatibility with `Hash` (by Alexander Popov).
+
 ## 3.0.3 (〥)
 * Fix missed filters in `Untranslted` initialization (by Alexander Popov).
 
