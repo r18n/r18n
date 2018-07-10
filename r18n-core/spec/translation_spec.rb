@@ -145,4 +145,20 @@ describe R18n::Translation do
     translation = R18n::Translation.new(en, '')
     expect(translation.inspect).to eq('Translation root for en {}')
   end
+
+  describe '#dig' do
+    subject { R18n::I18n.new('en', DIR).in.dig(*keys) }
+
+    context 'with existing keys' do
+      let(:keys) { %w[another level] }
+
+      it { is_expected.to be_translated }
+    end
+
+    context 'with non-existing keys' do
+      let(:keys) { %w[non-existing level] }
+
+      it { is_expected.not_to be_translated }
+    end
+  end
 end

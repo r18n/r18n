@@ -165,5 +165,11 @@ module R18n
       end
     end
     alias method_missing []
+
+    # Return translation located at +names+.
+    # @see Hash#dig
+    def dig(*keys)
+      keys.reduce(self) { |result, key| result[key] }
+    end
   end
 end
