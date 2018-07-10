@@ -5,50 +5,50 @@ describe TestController, type: :controller do
 
   it 'uses default locale' do
     get :locales
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'ru'
   end
 
   it 'gets locale from param' do
     get :locales, params: { locale: 'ru' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'ru, en'
   end
 
   it 'gets locale from session' do
     get :locales, session: { locale: 'ru' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'ru, en'
   end
 
   it 'gets locales from http' do
     request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
     get :locales
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'ru, fr, en'
   end
 
   it 'loads translations' do
     get :translations, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'R18n: supported. Rails I18n: supported'
   end
 
   it 'returns available translations' do
     get :available
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'en ru'
   end
 
   it 'adds helpers' do
     get :helpers, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq "Name\nName\nName\nName\n"
   end
 
   it 'formats untranslated' do
     get :untranslated
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq(
       'user.<span style="color: red">[not.exists]</span>'
     )
@@ -56,19 +56,19 @@ describe TestController, type: :controller do
 
   it 'adds methods to controller' do
     get :controller, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'Name Name Name'
   end
 
   it 'localizes time by Rails I18n' do
     get :time, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq "Thu, 01 Jan 1970 00:00:00 +0000\n01 Jan 00:00"
   end
 
   it 'localizes time by R18n' do
     get :human_time, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'now'
   end
 
@@ -119,20 +119,20 @@ describe TestController, type: :controller do
 
   it 'reloads filters from app directory' do
     get :filter, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'Rails'
     expect(R18n::Rails::Filters.loaded).to eq [:rails_custom_filter]
 
     R18n::Filters.defined[:rails_custom_filter].block = proc { 'No' }
     get :filter, params: { locale: 'en' }
 
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq 'Rails'
   end
 
   it 'escapes html inside R18n' do
     get :safe, params: { locale: 'en' }
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq(
       "<b> user.<span style=\"color: red\">[no_tr]</span>\n"
     )
@@ -140,7 +140,7 @@ describe TestController, type: :controller do
 
   it 'works with Rails build-in herlpers' do
     get :format
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
     expect(response.body).to eq "1 000,1 руб.\n"
   end
 
