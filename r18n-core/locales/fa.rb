@@ -5,7 +5,7 @@ module R18n
     # Persian locale
     class Fa < Locale
       set(
-        title: 'فارْسِى',
+        title: 'فارسی',
 
         wday_names: %w[
           یکشنبه دوشنبه سه‌شنبه چهارشنبه پنج‌شنبه جمعه شنبه
