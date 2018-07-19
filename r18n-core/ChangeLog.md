@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.5 (ب)
+* Fix Farsi locale name (by @iriman).
+
 ## 3.0.4 (𐤀)
 * Fix `Translated` compatibility with `Hash` (by Alexander Popov).
 
