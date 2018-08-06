@@ -1,18 +1,6 @@
 # frozen_string_literal: true
 
 describe 'Rails filters' do
-  it 'uses named variables' do
-    i18n = R18n::Translation.new(
-      EN, '', locale: EN, translations: { 'echo' => 'Value is %{value}' }
-    )
-
-    expect(i18n.echo(value: 'R18n')).to eq 'Value is R18n'
-    expect(i18n.echo(value: -5.5)).to   eq 'Value is −5.5'
-    expect(i18n.echo(value: 5000)).to   eq 'Value is 5,000'
-    expect(i18n.echo(value: '<b>')).to  eq 'Value is &lt;b&gt;'
-    expect(i18n.echo).to eq 'Value is %{value}'
-  end
-
   it 'uses old variables syntax' do
     i18n = R18n::Translation.new(
       EN, '', locale: EN, translations: { 'echo' => 'Value is {{value}}' }
