@@ -190,6 +190,21 @@ describe R18n::Filters do
     )
   end
 
+  it 'interpolates named variables' do
+    R18n::Filters.off(:named_variables)
+    expect(@i18n.echo(value: 'R18n')).to eq 'Value is %{value}'
+
+    R18n::Filters.on(:named_variables)
+    expect(@i18n.echo(value: 'R18n')).to eq 'Value is R18n'
+    expect(@i18n.echo(value: -5.5)).to   eq 'Value is −5.5'
+    expect(@i18n.echo(value: 5000)).to   eq 'Value is 5,000'
+    expect(@i18n.echo(value: '<b>')).to eq 'Value is <b>'
+    expect(@i18n.echo).to eq 'Value is %{value}'
+
+    expect(@i18n.echo2(value: 'R18n')).to eq 'Value2 is R18n'
+    expect(@i18n.echo2).to eq 'Value2 is {{value}}'
+  end
+
   it 'formats untranslated' do
     expect(@i18n.in.not.to_s).to   eq('in.[not]')
     expect(@i18n.in.not.to_str).to eq('in.[not]')
@@ -292,16 +307,18 @@ describe R18n::Filters do
 
   it 'escapes variables if ActiveSupport is loaded' do
     expect(@i18n.escape_params('<br>')).to eq('<b><br></b>')
-    require 'active_support'
-    expect(@i18n.escape_params('<br>')).to eq('<b>&lt;br&gt;</b>')
-  end
 
-  it 'uses SafeBuffer if it is loaded' do
     require 'active_support'
+
+    expect(@i18n.escape_params('<br>')).to eq('<b>&lt;br&gt;</b>')
 
     R18n::Filters.on(:global_escape_html)
     @i18n.reload!
 
     expect(@i18n.greater('<b>'.html_safe)).to eq('1 &lt; 2 is <b>')
+
+    R18n::Filters.on(:named_variables)
+
+    expect(@i18n.echo(value: '<b>')).to eq 'Value is &lt;b&gt;'
   end
 end

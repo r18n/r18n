@@ -281,6 +281,25 @@ alarm: !!textile
 t.alarm #=> "<p>It will delete <em>all</em> users!</p>"
 ```
 
+#### Named variables
+
+After enabling built-in `named_variables` filter, you can use named variables
+in all translations:
+
+```yaml
+greeting: "Hi, %{name}"
+users: !!pl
+  1: One user
+  n: {{count}} users
+```
+
+```ruby
+Filters.on(:named_variables)
+
+t.greeting(name: 'John') #=> "Hi, John"
+t.users(count: 5)        #=> "5 users"
+```
+
 ### Localization
 
 You can print numbers and floats according to the rules of the user locale:

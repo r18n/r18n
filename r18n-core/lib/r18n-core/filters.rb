@@ -262,6 +262,22 @@ module R18n
     end
   end
 
+  Filters.add(String, :named_variables) do |content, config, params|
+    if params.is_a? Hash
+      content = content.clone
+      params.each_pair do |name, value|
+        value = config[:locale].localize(value)
+        if defined? ActiveSupport::SafeBuffer
+          value = ActiveSupport::SafeBuffer.new + value
+        end
+        content.gsub! "%{#{name}}",  value
+        content.gsub! "{{#{name}}}", value
+      end
+    end
+    content
+  end
+  Filters.off(:named_variables)
+
   Filters.add(Untranslated, :untranslated) do |_v, _c, translated, untranslated|
     "#{translated}[#{untranslated}]"
   end

@@ -1,30 +1,10 @@
 # R18n Rails API
 
 Rails I18n compatibility for R18n:
-* filters to work with named variables in Rails translation format;
 * R18n loader for Rails I18n translation format;
 * R18n backend.
 
 ## How To
-
-### Variables
-
-After require-ing `r18n-rails-api` you can use named variables in all
-translations:
-
-```yaml
-greeting: "Hi, %{name}"
-users: !!pl
-  1: One user
-  n: %{count} users
-```
-
-```ruby
-require 'r18n-rails-api'
-
-i18n.greeting(name: 'John') #=> "Hi, John"
-i18n.users(count: 5)        #=> "5 users"
-```
 
 ### Rails Translations
 

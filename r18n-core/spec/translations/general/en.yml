@@ -39,6 +39,9 @@ textile:
   simple: !!textile _Hi!_
   html: !!textile _Hi!_<br />
 
+echo: Value is %{value}
+echo2: Value2 is {{value}}
+
 boolean:
   true: Boolean is true
   false: Boolean is false
