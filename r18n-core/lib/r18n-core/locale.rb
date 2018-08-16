@@ -170,12 +170,13 @@ module R18n
 
         type = obj.is_a?(Date) && !obj.is_a?(DateTime) ? 'date' : 'time'
         format ||= :standard
+        format_method_name = "format_#{type}_#{format}"
 
-        unless %i[human full standard].include? format
+        unless respond_to? format_method_name
           raise ArgumentError, "Unknown time formatter #{format}"
         end
 
-        send "format_#{type}_#{format}", obj, *params
+        send format_method_name, obj, *params
       else
         obj.to_s
       end
