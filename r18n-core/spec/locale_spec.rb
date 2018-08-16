@@ -175,6 +175,16 @@ describe R18n::Locale do
     expect(@ru.localize(Time.at(0), :human)).to eq(Time.at(0).to_s)
   end
 
+  it 'localizes date in custom formatter if exists' do
+    allow(@en).to receive(:format_date_my_own_way) do |date|
+      date == Date.today ? 'DOOMSDAY!' : 'Just another day'
+    end
+
+    expect(@en.localize(Date.today, :my_own_way)).to eq('DOOMSDAY!')
+    expect(@en.localize(Date.today + 1, :my_own_way)).to eq('Just another day')
+    expect(@en.localize(Date.today - 1, :my_own_way)).to eq('Just another day')
+  end
+
   it 'raises error on unknown formatter' do
     expect do
       @ru.localize(Time.at(0).utc, R18n::I18n.new('ru'), :unknown)
