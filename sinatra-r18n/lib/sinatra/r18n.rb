@@ -39,9 +39,9 @@ module Sinatra
 
           locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
           if params[:locale]
-            locales.insert(0, params[:locale])
+            locales.unshift(params[:locale])
           elsif session[:locale]
-            locales.insert(0, session[:locale])
+            locales.unshift(session[:locale])
           end
 
           ::R18n::I18n.new(
