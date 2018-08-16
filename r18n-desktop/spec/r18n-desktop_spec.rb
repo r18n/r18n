@@ -13,23 +13,31 @@ describe 'r18n-desktop' do
     expect(locale).not_to be_empty
   end
 
-  it 'loads I18n from system environment' do
-    R18n.from_env
-    expect(r18n.class).to eq R18n::I18n
-    expect(r18n.locale).not_to be_empty if String == r18n.locale.class
-    expect(R18n.get).to eq r18n
-  end
+  describe '.from_env' do
+    it 'loads I18n from system environment' do
+      R18n.from_env
+      expect(r18n.class).to eq R18n::I18n
+      expect(r18n.locale).not_to be_empty if String == r18n.locale.class
+      expect(R18n.get).to eq r18n
+    end
 
-  it 'loads i18n from system environment using specified order' do
-    R18n.from_env(nil, 'en')
-    expect(r18n.locale).to eq R18n.locale('en')
-    expect(R18n.get).to eq r18n
-  end
+    it 'loads i18n from system environment using specified order' do
+      R18n.from_env(nil, 'en')
+      expect(r18n.locale).to eq R18n.locale('en')
+      expect(R18n.get).to eq r18n
+    end
 
-  it 'allows to overide autodetect by LANG environment' do
-    allow(R18n::I18n).to receive(:system_locale) { 'ru' }
-    ENV['LANG'] = 'en'
-    R18n.from_env
-    expect(r18n.locale).to eq R18n.locale('en')
+    it 'allows to overide autodetect by LANG environment' do
+      allow(R18n::I18n).to receive(:system_locale) { 'ru' }
+      ENV['LANG'] = 'en'
+      R18n.from_env
+      expect(r18n.locale).to eq R18n.locale('en')
+    end
+
+    it 'works with following `R18n.set`' do
+      R18n.from_env 'spec/i18n/'
+      R18n.set 'en'
+      expect(t.account.balance).to eq 'Balance for account'
+    end
   end
 end
