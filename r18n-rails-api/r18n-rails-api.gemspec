@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.author   = 'Andrey Sitnik'
   s.email    = 'andrey@sitnik.ru'
   s.homepage = 'https://github.com/ai/r18n/tree/master/r18n-rails-api'
-  s.license  = 'LGPL-3'
+  s.license  = 'LGPL-3.0'
 
   s.add_dependency 'i18n'
   s.add_dependency 'r18n-core', "= #{R18n::VERSION}"

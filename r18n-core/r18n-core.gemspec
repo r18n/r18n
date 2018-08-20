@@ -25,5 +25,5 @@ Gem::Specification.new do |s|
   s.author   = 'Andrey Sitnik'
   s.email    = 'andrey@sitnik.ru'
   s.homepage = 'https://github.com/ai/r18n'
-  s.license  = 'LGPL-3'
+  s.license  = 'LGPL-3.0'
 end
