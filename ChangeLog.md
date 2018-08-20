@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.1.1 (У)
+* Fix errors and warnings from `gem build`
+
 ## 3.1 (Одинцово)
 * Move `named_variables` filter from `r18n-rails-api` to `r18n-core` (by Alexander Popov).
 * Add possibility for `R18n::Locale` to define custom formatters (by Alexander Popov).
