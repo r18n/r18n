@@ -29,5 +29,5 @@ Gem::Specification.new do |s|
   s.license  = 'LGPL-3.0'
 
   s.add_dependency 'r18n-core', "= #{R18n::VERSION}"
-  s.add_dependency 'sinatra',   '>= 1.3'
+  s.add_dependency 'sinatra', '>= 1.3', '< 3'
 end
