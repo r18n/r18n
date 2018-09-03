@@ -45,3 +45,8 @@ echo2: Value2 is {{value}}
 boolean:
   true: Boolean is true
   false: Boolean is false
+
+page:
+  header: Title
+  itself:
+    not_found: Not found

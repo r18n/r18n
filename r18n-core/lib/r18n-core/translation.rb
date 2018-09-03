@@ -171,5 +171,11 @@ module R18n
     def dig(*keys)
       keys.reduce(self) { |result, key| result[key] }
     end
+
+    # I think we don't need in the Ruby core method,
+    # but it can be handy as a key
+    def itself
+      self[__method__]
+    end
   end
 end

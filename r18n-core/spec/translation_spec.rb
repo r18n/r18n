@@ -161,4 +161,11 @@ describe R18n::Translation do
       it { is_expected.not_to be_translated }
     end
   end
+
+  context '`itself` key' do
+    subject { R18n::I18n.new('en', DIR).page.itself.not_found }
+
+    it { is_expected.to be_translated }
+    it { is_expected.to eq 'Not found' }
+  end
 end
