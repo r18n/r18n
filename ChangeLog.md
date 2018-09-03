@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.1.2 (i)
+* Call `Translation#itself` as translation key instead of `Kernel#itself` implementation (by Alexander Popov).
+
 ## 3.1.1 (У)
 * Fix errors and warnings from `gem build`
 
