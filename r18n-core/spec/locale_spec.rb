@@ -203,6 +203,24 @@ describe R18n::Locale do
     expect(@en.localize(Date.today - 1, :my_own_way)).to eq('Just another day')
   end
 
+  it 'localizes custom classes if formatter exists' do
+    stub_const(
+      'FooBar', Class.new do
+        attr_reader :value
+
+        def initialize(value)
+          @value = value
+        end
+      end
+    )
+
+    foo_bar = FooBar.new 'something'
+
+    allow(@en).to receive(:format_foo_bar_human, &:value)
+
+    expect(@en.localize(foo_bar, :human)).to eq('something')
+  end
+
   it 'raises error on unknown formatter' do
     expect do
       @ru.localize(Time.at(0).utc, R18n::I18n.new('ru'), :unknown)
