@@ -32,6 +32,8 @@ module R18n
     class YAML
       include ::R18n::YamlMethods
 
+      FILE_EXT = 'y{,a}ml'.freeze
+
       # Dir with translations.
       attr_reader :dir
 
@@ -43,8 +45,8 @@ module R18n
 
       # Array of locales, which has translations in +dir+.
       def available
-        Dir.glob(File.join(@dir, '**/*.yml'))
-          .map { |i| File.basename(i, '.yml') }.uniq
+        Dir.glob(File.join(@dir, "**/*.#{FILE_EXT}"))
+          .map { |i| File.basename(i, '.*') }.uniq
           .map { |i| R18n.locale(i) }
       end
 
@@ -53,7 +55,9 @@ module R18n
         initialize_types
 
         translations = {}
-        Dir.glob(File.join(@dir, "**/#{locale.code.downcase}.yml")).each do |i|
+        Dir.glob(
+          File.join(@dir, "**/#{locale.code.downcase}.#{FILE_EXT}")
+        ).each do |i|
           Utils.deep_merge!(translations, ::YAML.load_file(i) || {})
         end
         transform(translations)

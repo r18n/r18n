@@ -169,4 +169,10 @@ describe R18n do
     i18n = R18n::I18n.new('en', nil)
     expect(i18n.one).not_to be_translated
   end
+
+  it 'allows to load files with `.yaml` extension' do
+    R18n.default_places = File.join(TRANSLATIONS, 'yaml')
+    R18n.set('en')
+    expect(t.one).to eq('One')
+  end
 end
