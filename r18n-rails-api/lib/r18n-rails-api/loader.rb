@@ -60,7 +60,10 @@ module R18n
         @last_path = ::I18n.load_path.clone
         @backend.reload!
         @backend.send(:init_translations)
-        @translations = transform @backend.send(:translations)
+        @translations =
+          Utils.hash_map(@backend.send(:translations)) do |locale, values|
+            [R18n::Locale.sanitize_code(locale), transform(values)]
+          end
       end
 
       # Return hash for object and <tt>I18n.load_path</tt>.

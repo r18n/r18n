@@ -70,9 +70,13 @@ module R18n
       File.exist?(File.join(LOCALES_DIR, "#{locale}.rb"))
     end
 
+    def self.sanitize_code(code)
+      code.to_s.gsub(/[^-_a-zA-Z]/, '').tr('_', '-').downcase
+    end
+
     # Load locale by RFC 3066 +code+.
     def self.load(code)
-      code = code.to_s.gsub(/[^-_a-zA-Z]/, '').tr('_', '-').downcase
+      code = sanitize_code code
 
       @@loaded[code] ||= begin
         if exists? code
