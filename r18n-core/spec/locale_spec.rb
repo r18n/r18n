@@ -211,6 +211,6 @@ describe R18n::Locale do
   end
 
   it 'loads locale with underscore' do
-    expect(R18n.locale('nolocale-DL').code).to eq('nolocale-dl')
+    expect(R18n.locale('nolocale_DL').code).to eq('nolocale-dl')
   end
 end
