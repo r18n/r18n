@@ -181,7 +181,12 @@ module R18n
 
         send format_method_name, obj, *params
       else
-        obj.to_s
+        format_method_name =
+          "format_#{Utils.underscore(obj.class.name)}_#{format}"
+
+        return obj.to_s unless respond_to? format_method_name
+
+        send format_method_name, obj, *params
       end
     end
 
