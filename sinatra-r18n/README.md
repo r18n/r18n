@@ -30,7 +30,7 @@ information.
     comments: !!pl
       0: No comments
       1: One comment
-      n: %1 comments
+      n: '%1 comments'
 
     html: !!html
       <b>Don't escape HTML</b>

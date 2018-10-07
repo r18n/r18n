@@ -51,7 +51,7 @@ module R18n
   #   comments: !!pl
   #     0: no comments
   #     1: one comment
-  #     n: %1 comments
+  #     n: '%1 comments'
   #
   # example.rb
   #

@@ -71,7 +71,7 @@ In your translation files you can use:
     robots: !!pl
       0: No robots
       1: One robot
-      n: %1 robots
+      n: '%1 robots'
     ```
 
 * Filters

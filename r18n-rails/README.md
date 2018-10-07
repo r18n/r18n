@@ -65,7 +65,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
       count: !!pl
         0: No users
         1: 1 user
-        n: %1 users
+        n: '%1 users'
      ```
 
 5. Use translated messages in views. You can use Rails I18n syntax:

@@ -31,7 +31,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
     files: !!pl
       0: No files
       1: One file
-      n: %1 files
+      n: '%1 files'
      ```
 
 3. Add R18n to your application:
