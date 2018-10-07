@@ -60,7 +60,7 @@ describe R18n::Locale do
     expect(unsupported).not_to be_supported
     expect(unsupported).to be_kind_of(R18n::UnsupportedLocale)
 
-    expect(unsupported.code.downcase).to  eq('nolocale-dl')
+    expect(unsupported.code).to eq('nolocale-dl')
     expect(unsupported.title.downcase).to eq('nolocale-dl')
     expect(unsupported.ltr?).to be true
 
