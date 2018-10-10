@@ -110,28 +110,36 @@ describe R18n::Locale do
     hour   = 60 * minute
     day    = 24 * hour
     zero   = Time.at(0).utc
-    p = [:human, R18n::I18n.new('en'), zero]
+    now    = Time.now
+    now_params = [:human, R18n::I18n.new('en')]
+    zero_params = [*now_params, zero]
 
-    expect(@en.localize(zero + 7  * day,    *p)).to eq('8th of January 00:00')
-    expect(@en.localize(zero + 50 * hour,   *p)).to eq('after 2 days 02:00')
-    expect(@en.localize(zero + 25 * hour,   *p)).to eq('tomorrow 01:00')
-    expect(@en.localize(zero + 70 * minute, *p)).to eq('after 1 hour')
-    expect(@en.localize(zero + hour,        *p)).to eq('after 1 hour')
-    expect(@en.localize(zero + 38 * minute, *p)).to eq('after 38 minutes')
-    expect(@en.localize(zero + 5,           *p)).to eq('now')
-    expect(@en.localize(zero - 15,          *p)).to eq('now')
-    expect(@en.localize(zero - minute,      *p)).to eq('1 minute ago')
-    expect(@en.localize(zero - hour + 59,   *p)).to eq('59 minutes ago')
-    expect(@en.localize(zero - 2  * hour,   *p)).to eq('2 hours ago')
-    expect(@en.localize(zero - 13 * hour,   *p)).to eq('yesterday 11:00')
-    expect(@en.localize(zero - 50 * hour,   *p)).to eq('3 days ago 22:00')
+    expect(@en.localize(now + 70 * minute,   *now_params)).to eq('after 1 hour')
+    expect(@en.localize(now + hour + minute, *now_params)).to eq('after 1 hour')
+    expect(@en.localize(now + 38 * minute,   *now_params))
+      .to eq('after 38 minutes')
+    expect(@en.localize(now + 5,             *now_params)).to eq('now')
+    expect(@en.localize(now - 15,            *now_params)).to eq('now')
+    expect(@en.localize(now - minute,        *now_params)).to eq('1 minute ago')
+    expect(@en.localize(now - hour + 59,     *now_params))
+      .to eq('59 minutes ago')
+    expect(@en.localize(now - 2 * hour,      *now_params)).to eq('2 hours ago')
 
-    expect(@en.localize(zero - 9  * day, *p)).to eq(
-      '23rd of December, 1969 00:00'
-    )
-    expect(@en.localize(zero - 365 * day, *p)).to eq(
-      '1st of January, 1969 00:00'
-    )
+    expect(@en.localize(zero + 7 * day,   *zero_params))
+      .to eq('8th of January 00:00')
+    expect(@en.localize(zero + 50 * hour, *zero_params))
+      .to eq('after 2 days 02:00')
+    expect(@en.localize(zero + 25 * hour, *zero_params))
+      .to eq('tomorrow 01:00')
+    expect(@en.localize(zero - 13 * hour, *zero_params))
+      .to eq('yesterday 11:00')
+    expect(@en.localize(zero - 50 * hour, *zero_params))
+      .to eq('3 days ago 22:00')
+
+    expect(@en.localize(zero - 9   * day, *zero_params))
+      .to eq('23rd of December, 1969 00:00')
+    expect(@en.localize(zero - 365 * day, *zero_params))
+      .to eq('1st of January, 1969 00:00')
   end
 
   it 'localizes date-times for human' do
@@ -140,28 +148,38 @@ describe R18n::Locale do
     minute = hour / 60
     second = minute / 60
     zero   = DateTime.new(1970)
-    p = [:human, R18n::I18n.new('en'), zero]
+    now    = DateTime.now
+    now_params = [:human, R18n::I18n.new('en')]
+    zero_params = [*now_params, zero]
 
-    expect(@en.localize(zero + 7  * day,    *p)).to eq('8th of January 00:00')
-    expect(@en.localize(zero + 50 * hour,   *p)).to eq('after 2 days 02:00')
-    expect(@en.localize(zero + 25 * hour,   *p)).to eq('tomorrow 01:00')
-    expect(@en.localize(zero + 70 * minute, *p)).to eq('after 1 hour')
-    expect(@en.localize(zero + hour,        *p)).to eq('after 1 hour')
-    expect(@en.localize(zero + 38 * minute, *p)).to eq('after 38 minutes')
-    expect(@en.localize(zero + 5 * second,  *p)).to eq('now')
-    expect(@en.localize(zero - 15 * second, *p)).to eq('now')
-    expect(@en.localize(zero - minute,      *p)).to eq('1 minute ago')
-    expect(@en.localize(zero - hour + 59 * second, *p)).to eq('59 minutes ago')
-    expect(@en.localize(zero - 2  * hour,   *p)).to eq('2 hours ago')
-    expect(@en.localize(zero - 13 * hour,   *p)).to eq('yesterday 11:00')
-    expect(@en.localize(zero - 50 * hour,   *p)).to eq('3 days ago 22:00')
+    expect(@en.localize(now + 70 * minute,   *now_params)).to eq('after 1 hour')
+    expect(@en.localize(now + hour + minute, *now_params)).to eq('after 1 hour')
+    expect(@en.localize(now + 38 * minute,   *now_params))
+      .to eq('after 38 minutes')
+    expect(@en.localize(now + 5 * second,    *now_params)).to eq('now')
+    expect(@en.localize(now - 15 * second,   *now_params)).to eq('now')
+    expect(@en.localize(now - minute,        *now_params)).to eq('1 minute ago')
 
-    expect(@en.localize(zero - 9  * day, *p)).to eq(
-      '23rd of December, 1969 00:00'
-    )
-    expect(@en.localize(zero - 365 * day, *p)).to eq(
-      '1st of January, 1969 00:00'
-    )
+    expect(@en.localize(now - hour + 59 * second, *now_params))
+      .to eq('59 minutes ago')
+
+    expect(@en.localize(now - 2 * hour, *now_params)).to eq('2 hours ago')
+
+    expect(@en.localize(zero + 7  * day,  *zero_params))
+      .to eq('8th of January 00:00')
+    expect(@en.localize(zero + 50 * hour, *zero_params))
+      .to eq('after 2 days 02:00')
+    expect(@en.localize(zero + 25 * hour, *zero_params))
+      .to eq('tomorrow 01:00')
+    expect(@en.localize(zero - 13 * hour, *zero_params))
+      .to eq('yesterday 11:00')
+    expect(@en.localize(zero - 50 * hour, *zero_params))
+      .to eq('3 days ago 22:00')
+
+    expect(@en.localize(zero - 9  * day,  *zero_params))
+      .to eq('23rd of December, 1969 00:00')
+    expect(@en.localize(zero - 365 * day, *zero_params))
+      .to eq('1st of January, 1969 00:00')
   end
 
   it 'uses standard formatter by default' do
