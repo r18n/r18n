@@ -17,7 +17,7 @@ module R18n
         month_abbrs: %w[Sij Velj Ožu Tra Svi Lip Srp Kol Ruj Lis Stu Pro],
 
         date_format: '%d.%m.%Y',
-        full_format: '%e. %B',
+        full_format: '%-d. %B',
 
         number_decimal: ',',
         number_group:   '.'

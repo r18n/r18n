@@ -17,7 +17,7 @@ module R18n
                         พ.ย. ธ.ค.],
 
         date_format: '%d/%m/%Y',
-        full_format: '%e %B',
+        full_format: '%-d %B',
         year_format: '_, %Y',
 
         number_decimal: '.',

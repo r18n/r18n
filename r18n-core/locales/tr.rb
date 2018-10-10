@@ -15,7 +15,7 @@ module R18n
         month_abbrs: %w[Oca Şub Mar Nis May Haz Tem Ağu Eyl Eki Kas Ara],
 
         date_format: '%d.%m.%Y',
-        full_format: '%B %e.',
+        full_format: '%B %-d.',
         year_format: '%Y. _',
         time_format: '_%H:%M',
 

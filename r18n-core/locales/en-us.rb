@@ -12,7 +12,7 @@ module R18n
 
         time_format: '_ %I:%M %p',
         date_format: '%m/%d/%Y',
-        full_format: '%B %e'
+        full_format: '%B %-d'
       )
     end
   end

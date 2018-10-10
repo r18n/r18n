@@ -20,7 +20,7 @@ module R18n
         time_am:     ' ертеңің',
         time_pm:     ' кештің',
         date_format: '%Y-%m-%d',
-        full_format: '%B %e-і',
+        full_format: '%B %-d-і',
         year_format: '%Y жылы _',
 
         number_decimal: ',',

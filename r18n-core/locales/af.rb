@@ -20,7 +20,7 @@ module R18n
         time_pm:     "'s namiddag",
 
         date_format: '%d/%m/%Y',
-        full_format: '%e %B',
+        full_format: '%-d %B',
         year_format: '_, %Y',
         time_format: '_, %H:%M',
 

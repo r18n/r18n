@@ -23,8 +23,8 @@ module R18n
 
       def format_date_full(date, year = true, *_params)
         full = super(date, year)
-        if full[0..1] == ' 1'
-          '1º' + full[2..-1]
+        if full[0..1] == '1 '
+          '1º' + full[1..-1]
         else
           full
         end

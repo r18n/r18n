@@ -20,7 +20,7 @@ module R18n
                              decembris],
 
         date_format: '%d.%m.%Y.',
-        full_format: '%e.%B',
+        full_format: '%-d.%B',
         year_format: '%Y.gada _',
 
         number_decimal: ',',

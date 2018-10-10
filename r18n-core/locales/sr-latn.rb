@@ -16,7 +16,7 @@ module R18n
           month_abbrs: %w[jan feb mar apr maj jun jul avg sep okt nov dec],
 
           date_format: '%d.%m.%Y',
-          full_format: '%e. %B',
+          full_format: '%-d. %B',
 
           number_decimal: ',',
           number_group:   '.'
