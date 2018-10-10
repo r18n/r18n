@@ -19,7 +19,7 @@ module R18n
         time_am:     'vormittags',
         time_pm:     'nachmittags',
         date_format: '%d.%m.%Y',
-        full_format: '%e. %B',
+        full_format: '%-d. %B',
 
         number_decimal: ',',
         number_group:   '.'

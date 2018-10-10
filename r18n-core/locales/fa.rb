@@ -20,7 +20,7 @@ module R18n
         ],
 
         date_format: '%Y/%m/%d',
-        full_format: '%e %B',
+        full_format: '%-d %B',
         year_format: '_ %Y',
 
         number_decimal: '٫',

@@ -118,7 +118,7 @@ module R18n
         time_am:     'AM',
         time_pm:     'PM',
         time_format: '_ %H:%M',
-        full_format: '%e %B',
+        full_format: '%-d %B',
         year_format: '_ %Y'
 
     def month_standalone

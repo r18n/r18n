@@ -20,7 +20,7 @@ module R18n
         time_am: 'dop.',
         time_pm: 'odp.',
         date_format: '%d.%m.%Y',
-        full_format: '%e. %B',
+        full_format: '%-d. %B',
 
         number_decimal: ',',
         number_group:   ' '

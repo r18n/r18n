@@ -17,7 +17,7 @@ module R18n
         month_abbrs: %w[th1 th2 th3 th4 th5 th6 th7 th8 th9 th10 th11 th12],
 
         date_format: '%d/%m/%Y',
-        full_format: 'ngày %e %B',
+        full_format: 'ngày %-d %B',
         year_format: '_ năm %Y',
         time_format: '%H:%M, _',
 

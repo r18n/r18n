@@ -18,7 +18,7 @@ module R18n
         month_abbrs: %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec],
 
         date_format: '%Y-%m-%d',
-        full_format: '%e of %B',
+        full_format: '%-d of %B',
         year_format: '_, %Y',
 
         number_decimal: '.',
@@ -41,7 +41,7 @@ module R18n
       def format_date_full(date, year = true, *_params)
         format = full_format
         format = year_format.sub('_', format) if year
-        strftime(date, format.sub('%e', ordinalize(date.mday)))
+        strftime(date, format.sub('%-d', ordinalize(date.mday)))
       end
     end
   end
