@@ -74,7 +74,7 @@ describe R18n::Locale do
 
   it 'formats float in local traditions' do
     expect(@en.localize(-12_345.67)).to eq('−12,345.67')
-    expect(@en.localize(BigDecimal.new('-12345.67'))).to eq('−12,345.67')
+    expect(@en.localize(BigDecimal('-12345.67'))).to eq('−12,345.67')
   end
 
   it 'translates month, week days and am/pm names in strftime' do
