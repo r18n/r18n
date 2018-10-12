@@ -70,6 +70,11 @@ describe R18n::Translation do
     expect(str.to_s).to eq('a & b')
   end
 
+  it 'does not respond to to_hash' do
+    i18n = R18n::I18n.new('en', DIR)
+    expect(i18n.one).to_not respond_to(:to_hash)
+  end
+
   it 'loads use hierarchical translations' do
     i18n = R18n::I18n.new(%w[ru en], DIR)
     expect(i18n.in.another.level).to eq('Иерархический')

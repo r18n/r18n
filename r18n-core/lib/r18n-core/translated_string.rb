@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 
 # Translation string for i18n support.
@@ -84,6 +85,10 @@ module R18n
 
     # Return untranslated, when user try to go deeper in translation.
     def method_missing(name, *_params)
+      # Maintain API compatibility with String#to_hash
+      # Necessary because otherwise it breaks when passed to
+      # methods with signature m(*a, **b)
+      return super if name == :to_hash
       get_untranslated(name.to_s)
     end
   end
