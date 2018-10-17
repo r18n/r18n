@@ -35,17 +35,7 @@ module R18n
             when 16 then "#{n}eg"
             when 17 then "#{n}eg"
             when 19 then "#{n}eg"
-            when 21 then "#{n}ain"
-            when 22 then "#{n}ain"
-            when 23 then "#{n}ain"
-            when 24 then "#{n}ain"
-            when 25 then "#{n}ain"
-            when 26 then "#{n}ain"
-            when 27 then "#{n}ain"
-            when 28 then "#{n}ain"
-            when 29 then "#{n}ain"
-            when 30 then "#{n}ain"
-            when 31 then "#{n}ain"
+            when 21..31 then "#{n}ain"
             else "#{n}ed"
           end
       end
