@@ -1,4 +1,7 @@
-# R18n [![Build Status](https://api.cirrus-ci.com/github/r18n/r18n.svg?branch=master)](https://cirrus-ci.com/github/r18n/r18n)
+# R18n
+
+[![Build Status](https://api.cirrus-ci.com/github/r18n/r18n.svg?branch=master)](https://cirrus-ci.com/github/r18n/r18n)
+[![Depfu](https://badges.depfu.com/badges/e168722276dfdd5e61368bbb6129e3f2/overview.svg)](https://depfu.com/github/r18n/r18n?project_id=6059)
 
 R18n is an i18n tool to translate your Ruby application into several languages.
 It contains a core gem and out-of-box wrapper plugins for frameworks or
