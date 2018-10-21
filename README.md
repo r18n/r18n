@@ -1,4 +1,4 @@
-# R18n [![Build Status](https://travis-ci.org/ai/r18n.svg)](https://travis-ci.org/ai/r18n)
+# R18n [![Build Status](https://api.cirrus-ci.com/github/r18n/r18n.svg?branch=master)](https://cirrus-ci.com/github/r18n/r18n)
 
 R18n is an i18n tool to translate your Ruby application into several languages.
 It contains a core gem and out-of-box wrapper plugins for frameworks or
