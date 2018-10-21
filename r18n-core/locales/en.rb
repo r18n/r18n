@@ -25,15 +25,15 @@ module R18n
         number_group:   ','
       )
 
-      def ordinalize(n)
-        if (11..13).cover?(n % 100)
-          "#{n}th"
+      def ordinalize(number)
+        if (11..13).cover?(number % 100)
+          "#{number}th"
         else
-          case n % 10
-          when 1 then "#{n}st"
-          when 2 then "#{n}nd"
-          when 3 then "#{n}rd"
-          else        "#{n}th"
+          case number % 10
+          when 1 then "#{number}st"
+          when 2 then "#{number}nd"
+          when 3 then "#{number}rd"
+          else        "#{number}th"
           end
         end
       end

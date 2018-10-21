@@ -24,7 +24,7 @@ module R18n
         number_group:   ' '
       )
 
-      def pluralize(_n)
+      def pluralize(_number)
         'n'
       end
 

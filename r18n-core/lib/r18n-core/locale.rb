@@ -302,10 +302,10 @@ module R18n
       strftime(date, format)
     end
 
-    # Return pluralization type for +n+ items. This is simple form. For special
-    # cases you can replace it in locale’s class.
-    def pluralize(n)
-      case n
+    # Return pluralization type for +number+ of items. This is simple form.
+    # For special cases you can replace it in locale’s class.
+    def pluralize(number)
+      case number
       when 0
         0
       when 1

@@ -73,13 +73,22 @@ module R18n
       new arr[1], arr[2], R18n.locale(arr[0]), GlobalFilterList.instance
     end
 
+    NON_KEYS_METHODS = %i[
+      to_ary
+      marshal_dump
+      marshal_load
+    ].freeze
+
     def method_missing(name, *_params)
       # It is need to fix some hack in specs
-      if name == :to_ary
-        raise NoMethodError, "undefined method `to_ary' for #{self}"
-      end
+      return super if NON_KEYS_METHODS.include?(name)
 
       self[name]
+    end
+
+    def respond_to_missing?(name, *args)
+      return super if NON_KEYS_METHODS.include?(name)
+      true
     end
 
     def [](*params)

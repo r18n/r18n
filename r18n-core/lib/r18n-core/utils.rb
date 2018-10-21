@@ -43,17 +43,17 @@ module R18n
     end
 
     # Recursively hash merge.
-    def self.deep_merge!(a, b)
-      b.each_pair do |key, value|
-        another = a[key]
-        a[key] =
-          if another.is_a?(Hash) && value.is_a?(Hash)
-            deep_merge!(another, value)
+    def self.deep_merge!(one, another)
+      another.each_pair do |key, another_value|
+        value = one[key]
+        one[key] =
+          if value.is_a?(Hash) && another_value.is_a?(Hash)
+            deep_merge!(value, another_value)
           else
-            value
+            another_value
           end
       end
-      a
+      one
     end
   end
 end

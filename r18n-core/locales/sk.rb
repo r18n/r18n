@@ -26,8 +26,8 @@ module R18n
         number_group:   ' '
       )
 
-      def pluralize(n)
-        case n
+      def pluralize(number)
+        case number
         when 0
           0
         when 1
