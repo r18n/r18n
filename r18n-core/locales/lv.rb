@@ -27,10 +27,10 @@ module R18n
         number_group:   ' '
       )
 
-      def pluralize(n)
-        if n.zero?
+      def pluralize(number)
+        if number.zero?
           0
-        elsif n % 10 == 1 && n % 100 != 11
+        elsif number % 10 == 1 && number % 100 != 11
           1
         else
           'n'

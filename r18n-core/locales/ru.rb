@@ -25,12 +25,12 @@ module R18n
         number_group:   ' '
       )
 
-      def pluralize(n)
-        if n.zero?
+      def pluralize(number)
+        if number.zero?
           0
-        elsif n % 10 == 1 && n % 100 != 11
+        elsif number % 10 == 1 && number % 100 != 11
           1
-        elsif (2..4).cover?(n % 10) && !(10..19).cover?(n % 100)
+        elsif (2..4).cover?(number % 10) && !(10..19).cover?(number % 100)
           2
         else
           'n'

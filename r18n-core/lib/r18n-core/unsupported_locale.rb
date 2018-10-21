@@ -56,7 +56,12 @@ module R18n
 
     #  Proxy to default locale object.
     def method_missing(name, *params)
-      @base.send(name, *params)
+      return super unless @base.respond_to? name
+      @base.public_send(name, *params)
+    end
+
+    def respond_to_missing?(name, *args)
+      @base.send __method__, name, *args
     end
   end
 end

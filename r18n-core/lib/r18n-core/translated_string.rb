@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'untranslated'
+
 # Translation string for i18n support.
 #
 # Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
@@ -82,14 +84,21 @@ module R18n
       Untranslated.new(translated, key, @locale, @filters)
     end
 
-    METHODS_FROM_STRING = %i[html_safe to_ary].freeze
-
-    private_constant :METHODS_FROM_STRING
+    NON_KEYS_METHODS = [
+      *Untranslated::NON_KEYS_METHODS,
+      :html_safe,
+      :to_text
+    ].freeze
 
     # Return untranslated, when user try to go deeper in translation.
     def method_missing(name, *_params)
-      return super if METHODS_FROM_STRING.include?(name)
+      return super if NON_KEYS_METHODS.include?(name)
       get_untranslated(name.to_s)
+    end
+
+    def respond_to_missing?(name, *args)
+      return super if NON_KEYS_METHODS.include?(name)
+      true
     end
   end
 end

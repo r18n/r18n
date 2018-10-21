@@ -24,13 +24,13 @@ module R18n
         number_group:   ' '
       )
 
-      def pluralize(n)
-        return 0 if n.zero?
-        case n % 10
+      def pluralize(number)
+        return 0 if number.zero?
+        case number % 10
         when 1
-          n > 10 ? 'n' : 1
+          number > 10 ? 'n' : 1
         when 2..4
-          (11..19).cover?(n % 100) ? 'n' : 2
+          (11..19).cover?(number % 100) ? 'n' : 2
         else
           'n'
         end

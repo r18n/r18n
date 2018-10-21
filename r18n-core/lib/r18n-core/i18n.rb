@@ -199,7 +199,7 @@ module R18n
 
     # Reload translations.
     def reload!
-      @available = @available_codes = nil
+      @available_locales = @available_codes = nil
       @translation_places = self.class.convert_places(@original_places)
 
       available_in_places = @translation_places.map { |i| [i, i.available] }
@@ -207,8 +207,6 @@ module R18n
         R18n.extension_places.map { |i| [i, i.available] }
 
       unless defined? @locale
-        # It's array!
-        # rubocop:disable Perfomance/HashEachMethods
         available_in_places.each do |_place, available|
           @locales.each do |locale|
             if available.include? locale
@@ -218,7 +216,6 @@ module R18n
           end
           break if defined? @locale
         end
-        # rubocop:enable Perfomance/HashEachMethods
       end
       @locale ||= @locales.first
       unless @locale.supported?
@@ -255,7 +252,7 @@ module R18n
 
     # Return Array of locales with available translations.
     def available_locales
-      @available ||= R18n.available_locales(@translation_places)
+      @available_locales ||= R18n.available_locales(@translation_places)
     end
 
     # Convert +object+ to String, according to the rules of the current locale.

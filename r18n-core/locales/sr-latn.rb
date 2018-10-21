@@ -21,12 +21,12 @@ module R18n
           number_decimal: ',',
           number_group:   '.'
 
-      def pluralize(n)
-        if n.zero?
+      def pluralize(number)
+        if number.zero?
           0
-        elsif n == 1
+        elsif number == 1
           1
-        elsif n >= 2 && n <= 4
+        elsif number >= 2 && number <= 4
           2
         else
           'n'
