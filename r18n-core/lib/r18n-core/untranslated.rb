@@ -75,6 +75,7 @@ module R18n
 
     NON_KEYS_METHODS = %i[
       to_ary
+      to_hash
       marshal_dump
       marshal_load
     ].freeze
