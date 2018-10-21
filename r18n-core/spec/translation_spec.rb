@@ -168,4 +168,9 @@ describe R18n::Translation do
     it { is_expected.to be_translated }
     it { is_expected.to eq 'Not found' }
   end
+
+  it 'handles #to_ary' do
+    i18n = R18n::I18n.new('en', DIR)
+    expect([i18n.one, i18n.two].flatten).to eq [i18n.one, i18n.two]
+  end
 end
