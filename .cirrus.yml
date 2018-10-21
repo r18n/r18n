@@ -1,0 +1,18 @@
+test_task:
+  container:
+    matrix:
+      image: ruby:2.3
+      image: ruby:2.4
+      image: ruby:2.5
+  bundle_cache:
+    folder: /usr/local/bundle
+    fingerprint_script: >
+      echo $CIRRUS_TASK_NAME:$CIRRUS_OS:$RUBY_VERSION &&
+      cat Gemfile &&
+      cat r18n-core/r18n-core.gemspec &&
+      cat r18n-desktop/r18n-desktop.gemspec &&
+      cat r18n-rails/r18n-rails.gemspec &&
+      cat r18n-rails-api/r18n-rails-api.gemspec &&
+      cat sinatra-r18n/sinatra-r18n.gemspec
+    populate_script: bundle update
+  test_script: bundle exec rake
