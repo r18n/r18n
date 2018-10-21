@@ -82,8 +82,13 @@ module R18n
       Untranslated.new(translated, key, @locale, @filters)
     end
 
+    METHODS_FROM_STRING = %i[html_safe to_ary].freeze
+
+    private_constant :METHODS_FROM_STRING
+
     # Return untranslated, when user try to go deeper in translation.
     def method_missing(name, *_params)
+      return super if METHODS_FROM_STRING.include?(name)
       get_untranslated(name.to_s)
     end
   end
