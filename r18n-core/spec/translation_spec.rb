@@ -173,4 +173,14 @@ describe R18n::Translation do
     i18n = R18n::I18n.new('en', DIR)
     expect([i18n.one, i18n.two].flatten).to eq [i18n.one, i18n.two]
   end
+
+  it 'handles #to_hash' do
+    i18n = R18n::I18n.new('en', DIR)
+
+    def foo(*args, **opts)
+      [args, opts]
+    end
+
+    expect(foo(i18n.one)).to eq [[i18n.one], {}]
+  end
 end
