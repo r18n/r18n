@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.2.0 (Kawasaki)
+* Support `*.yaml` files (by Alexander Popov).
+* Locate processed `code` in `UnsupportedLocale`, like in `Locale` (by Alexander Popov).
+* Fix `TranslatedString#to_ary`, don't return `Untranslated` (by Alexander Popov).
+* Add Welsh language (`cy`) (by Mei Gwilym).
+* Add support for custom classes localizing (`R18n.l`) (by Alexander Popov).
+* Replace blank-padded day in date with no-padded (by Alexander Popov).
+* Fix `TranslatedString#to_hash` (by Christian Höppner and Alexander Popov).
+
 ## 3.1.2 (i)
 * Call `Translation#itself` as translation key instead of `Kernel#itself` implementation (by Alexander Popov).
 
