@@ -5,7 +5,7 @@ require_relative 'en'
 module R18n
   module Locales
     # American English locale
-    class EnUs < En
+    class EnUS < En
       set(
         title: 'American English',
         sublocales: %w[en],

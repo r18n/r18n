@@ -8,11 +8,6 @@ describe R18n::Locale do
     @en = R18n.locale('en')
   end
 
-  it 'returns all available locales' do
-    expect(R18n::Locale.available.class).to eq(Array)
-    expect(R18n::Locale.available).not_to be_empty
-  end
-
   it 'checks is locale exists' do
     expect(R18n::Locale.exists?('ru')).to be true
     expect(R18n::Locale.exists?('nolocale')).to be false

@@ -5,7 +5,7 @@ require_relative 'en'
 module R18n
   module Locales
     # Australian English locale
-    class EnAu < En
+    class EnAU < En
       set title: 'Australian English',
           sublocales: %w[en]
     end

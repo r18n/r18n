@@ -3,7 +3,7 @@
 module R18n
   module Locales
     # Swedish (Sweden) locale
-    class SvSe < Locale
+    class SvSE < Locale
       set(
         title: 'Svenska',
         sublocales: %w[sv en],
