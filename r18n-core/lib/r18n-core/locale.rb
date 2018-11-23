@@ -54,55 +54,58 @@ module R18n
   # You can see more available data about locale in samples in
   # <tt>locales/</tt> dir.
   class Locale
-    LOCALES_DIR = File.join(__dir__, '..', '..', 'locales')
+    @loaded = {}
 
-    @@loaded = {}
-
-    # Codes of all available locales.
-    def self.available
-      Dir.glob(File.join(LOCALES_DIR, '*.rb')).map do |i|
-        File.basename(i, '.rb')
+    class << self
+      # Is +locale+ has info file.
+      def exists?(locale)
+        name = capitalize(locale)
+        return false unless name
+        R18n::Locales.const_defined?(name)
       end
-    end
 
-    # Is +locale+ has info file.
-    def self.exists?(locale)
-      File.exist?(File.join(LOCALES_DIR, "#{locale}.rb"))
-    end
+      def sanitize_code(code)
+        code.to_s.gsub(/[^-_a-zA-Z]/, '').tr('_', '-').downcase
+      end
 
-    def self.sanitize_code(code)
-      code.to_s.gsub(/[^-_a-zA-Z]/, '').tr('_', '-').downcase
-    end
+      def capitalize(code)
+        lang, region = code.gsub(/\..+/, '').split('-')
+        return unless lang
+        lang.capitalize!
+        return lang unless region
+        region.size > 2 ? region.capitalize! : region.upcase!
+        "#{lang}#{region}"
+      end
 
-    # Load locale by RFC 3066 +code+.
-    def self.load(code)
-      code = sanitize_code code
+      # Load locale by RFC 3066 +code+.
+      def load(code)
+        code = sanitize_code code
+        name = capitalize(code)
 
-      @@loaded[code] ||= begin
-        if exists? code
-          require File.join(LOCALES_DIR, "#{code}.rb")
-          name = code.gsub(/\w+/, &:capitalize).delete('-')
-          R18n::Locales.const_get(name).new
-        else
-          UnsupportedLocale.new(code)
+        @loaded[code] ||= begin
+          if exists?(code)
+            R18n::Locales.const_get(name).new
+          else
+            UnsupportedLocale.new(code)
+          end
         end
       end
-    end
 
-    # Set locale +properties+. Locale class will have methods for each propetry
-    # name, which return propetry value:
-    #
-    #   class R18n::Locales::En < R18n::Locale
-    #     set title: 'English',
-    #         code:  'en'
-    #   end
-    #
-    #   locale = R18n::Locales::En.new
-    #   locale.title #=> "English"
-    #   locale.code  #=> "en"
-    def self.set(properties)
-      properties.each_pair do |key, value|
-        define_method(key) { value }
+      # Set locale +properties+. Locale class will have methods for each propetry
+      # name, which return propetry value:
+      #
+      #   class R18n::Locales::En < R18n::Locale
+      #     set title: 'English',
+      #         code:  'en'
+      #   end
+      #
+      #   locale = R18n::Locales::En.new
+      #   locale.title #=> "English"
+      #   locale.code  #=> "en"
+      def set(properties)
+        properties.each_pair do |key, value|
+          define_method(key) { value }
+        end
       end
     end
 
@@ -322,5 +325,9 @@ module R18n
   end
 
   # Namespace for Locale sub-classes
-  module Locales; end
+  module Locales
+    Dir.glob(File.join(__dir__, 'locales', '*.rb')) do |file|
+      autoload Locale.capitalize(File.basename(file, '.*')), file
+    end
+  end
 end

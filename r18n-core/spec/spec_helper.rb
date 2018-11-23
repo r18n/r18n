@@ -7,9 +7,6 @@ Encoding.default_external = 'UTF-8'
 require 'pp'
 
 require_relative '../lib/r18n-core'
-Dir.glob(File.join(__dir__, '..', 'locales', '*.rb')) do |locale_file|
-  require locale_file
-end
 
 TRANSLATIONS = File.join(__dir__, 'translations') unless defined? TRANSLATIONS
 DIR = File.join(TRANSLATIONS, 'general') unless defined? DIR

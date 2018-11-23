@@ -5,7 +5,7 @@ require_relative 'zh'
 module R18n
   module Locales
     # Chinese (S) locale
-    class ZhCn < Zh
+    class ZhCN < Zh
       set(
         title: '简体中文',
         sublocales: %w[zh en]

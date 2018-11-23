@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe R18n::Locales::EnUs do
+describe R18n::Locales::EnUS do
   it 'formats American English date' do
     en_us = R18n::I18n.new('en-US')
     expect(en_us.l(Date.parse('2009-05-01'), :full)).to eq('May 1st, 2009')

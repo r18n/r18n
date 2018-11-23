@@ -5,7 +5,7 @@ require_relative 'pt'
 module R18n
   module Locales
     # Brazilian Portuguese locale
-    class PtBr < Pt
+    class PtBR < Pt
       set(
         title: 'Português brasileiro',
         sublocales: %w[pt en]
