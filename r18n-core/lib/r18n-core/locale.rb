@@ -109,11 +109,14 @@ module R18n
       end
     end
 
-    # Locale RFC 3066 code.
-    def code
+    attr_reader :code, :language, :region
+
+    def initialize
       name = self.class.name.split('::').last
-      lang, culture = name.match(/([A-Z][a-z]+)([A-Z]\w+)?/).captures
-      lang.downcase + (culture ? '-' + culture.upcase : '')
+      language, region = name.match(/([A-Z][a-z]+)([A-Z]\w+)?/).captures
+      @language = language.downcase.freeze
+      @region = region.upcase.freeze if region
+      @code = "#{@language}#{"-#{region}" if region}".freeze
     end
 
     set sublocales:  %w[en],
