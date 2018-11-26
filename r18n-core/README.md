@@ -47,7 +47,8 @@ To set locale only for current thread use `R18n.thread_set`.
 
 Translation files are in YAML format by default and have names like
 `en.yml` (English) or `en-us.yml` (USA English dialect) with
-language/country code (RFC 3066).
+language/country code (RFC 3066). Upcased region (`en-US`) and
+`.yaml` file extension are also allowed.
 
 In your translation files you can use:
 
