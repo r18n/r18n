@@ -175,4 +175,17 @@ describe R18n do
     R18n.set('en')
     expect(t.one).to eq('One')
   end
+
+  it 'allows to load files with downcased region in name' do
+    R18n.default_places = File.join(TRANSLATIONS, 'yaml')
+    R18n.set('en-us')
+    expect(t.one).to eq('American One')
+  end
+
+  it 'allows to load files with upcased region in name' do
+    R18n.default_places = File.join(TRANSLATIONS, 'yaml')
+    R18n.set('en-gb')
+    expect(R18n.get.locale.code).to eq('en-GB')
+    expect(t.one).to eq('British One')
+  end
 end

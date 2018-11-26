@@ -47,6 +47,8 @@ describe R18n::Loader::YAML do
     expect(loader.available).to match_array([
       R18n.locale('ru'),
       R18n.locale('en'),
+      R18n.locale('en-us'),
+      R18n.locale('en-gb'),
       R18n.locale('fr'),
       R18n.locale('notransl'),
       R18n.locale('nolocale')

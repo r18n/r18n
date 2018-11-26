@@ -56,7 +56,7 @@ module R18n
 
         translations = {}
         Dir.glob(
-          File.join(@dir, "**/#{locale.code.downcase}.#{FILE_EXT}")
+          File.join(@dir, "**/#{locale.code}.#{FILE_EXT}"), File::FNM_CASEFOLD
         ).each do |i|
           Utils.deep_merge!(translations, ::YAML.load_file(i) || {})
         end
