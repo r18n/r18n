@@ -15,6 +15,10 @@ describe R18n::Locale do
 
   it 'sets locale properties' do
     locale_class = Class.new(R18n::Locale) do
+      def self.name
+        'Foo'
+      end
+
       set one: 1
       set two: 2
     end
