@@ -42,6 +42,22 @@ describe R18n::Translated do
     expect(user.name).to eq('Джон')
   end
 
+  it 'translates locales with regions' do
+    class SomeTranslatedClass
+      include R18n::Translated
+
+      def name_en_us
+        'John'
+      end
+
+      translation :name
+    end
+    obj = ::SomeTranslatedClass.new
+
+    R18n.set('en-US')
+    expect(obj.name).to eq('John')
+  end
+
   it 'returns TranslatedString' do
     class SomeTranslatedClass
       include R18n::Translated

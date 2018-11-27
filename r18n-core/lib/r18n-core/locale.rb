@@ -109,7 +109,7 @@ module R18n
       end
     end
 
-    attr_reader :code, :language, :region, :parent
+    attr_reader :code, :language, :region, :downcased_code, :parent
 
     def initialize
       language, region =
@@ -117,6 +117,7 @@ module R18n
       @language = language.downcase.freeze
       @region = region.upcase.freeze if region
       @code = "#{@language}#{"-#{region}" if region}".freeze
+      @downcased_code = @code.downcase.tr('-', '_').freeze
 
       @parent = self.class.superclass.new
     end

@@ -24,10 +24,13 @@ module R18n
     # Locale, to get data and pluralization for unsupported locale.
     attr_accessor :base
 
+    attr_reader :code, :downcased_code
+
     # Create object for unsupported locale with +code+ and load other locale
     # data from +base+ locale.
     def initialize(code, _base = nil)
       @code = code
+      @downcased_code = @code.downcase.tr('-', '_').freeze
       @base = Locale.load(I18n.default) if @code != I18n.default
     end
 
@@ -40,9 +43,6 @@ module R18n
     def inspect
       "Unsupported locale #{@code}"
     end
-
-    # Locale RFC 3066 code.
-    attr_reader :code
 
     # Locale code as title.
     def title
