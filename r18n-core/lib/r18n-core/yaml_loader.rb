@@ -46,7 +46,7 @@ module R18n
       # Array of locales, which has translations in +dir+.
       def available
         Dir.glob(File.join(@dir, "**/*.#{FILE_EXT}"))
-          .map { |i| File.basename(i, '.*') }.uniq
+          .map { |i| File.basename(i, '.*').downcase }.uniq
           .map { |i| R18n.locale(i) }
       end
 

@@ -244,6 +244,9 @@ module R18n
           if available.include? locale
             @translation.merge! extension.load(locale), locale
           end
+          if available.include? locale.parent
+            @translation.merge! extension.load(locale.parent), locale.parent
+          end
         end
       end
 
