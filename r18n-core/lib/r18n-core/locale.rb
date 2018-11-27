@@ -109,14 +109,16 @@ module R18n
       end
     end
 
-    attr_reader :code, :language, :region
+    attr_reader :code, :language, :region, :parent
 
     def initialize
-      name = self.class.name.split('::').last
-      language, region = name.match(/([A-Z][a-z]+)([A-Z]\w+)?/).captures
+      language, region =
+        self.class.name.split('::').last.split(/([A-Z][a-z]+)/)[1, 2]
       @language = language.downcase.freeze
       @region = region.upcase.freeze if region
       @code = "#{@language}#{"-#{region}" if region}".freeze
+
+      @parent = self.class.superclass.new
     end
 
     set sublocales:  %w[en],

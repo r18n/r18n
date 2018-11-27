@@ -123,6 +123,11 @@ describe R18n::I18n do
     expect(i18n.two).to eq('Two')
   end
 
+  it 'loads base translations from parent locale' do
+    i18n = R18n::I18n.new('en-US', File.join(TRANSLATIONS, 'with_regions'))
+    expect(i18n.save).to eq('Save')
+  end
+
   it 'returns available translations' do
     i18n = R18n::I18n.new('en', DIR)
     expect(i18n.available_locales).to match_array([
