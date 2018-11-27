@@ -127,7 +127,7 @@ module R18n
           result = nil
 
           r18n.locales.each do |locale|
-            code = locale.code
+            code = locale.downcased_code
             next unless unlocalized.key? code
             result = send(
               unlocalized[code], *(params unless options[:no_params])
