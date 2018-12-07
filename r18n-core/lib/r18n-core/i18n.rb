@@ -83,43 +83,37 @@ module R18n
   #   i18n.ok     #=> "OK"
   #   i18n.cancel #=> "Cancel"
   class I18n
-    @@default = 'en'
+    @default = 'en'
 
-    # Set default locale code to use when any user locales willn't be founded.
-    # It should has all translations and locale file.
-    def self.default=(locale)
-      @@default = locale
-    end
+    class << self
+      attr_accessor :default
 
-    # Get default locale code
-    def self.default
-      @@default
-    end
+      # Parse HTTP_ACCEPT_LANGUAGE and return array of user locales
+      def parse_http(str)
+        return [] if str.nil?
 
-    # Parse HTTP_ACCEPT_LANGUAGE and return array of user locales
-    def self.parse_http(str)
-      return [] if str.nil?
-      locales = str.split(',')
-      locales.map! do |locale|
-        locale = locale.split ';q='
-        if locale.size == 1
-          [locale[0], 1.0]
-        else
-          [locale[0], locale[1].to_f]
+        locales = str.split(',')
+        locales.map! do |locale|
+          locale = locale.split ';q='
+          if locale.size == 1
+            [locale[0], 1.0]
+          else
+            [locale[0], locale[1].to_f]
+          end
         end
+        locales.sort! { |a, b| b[1] <=> a[1] }
+        locales.map! { |i| i[0] }
       end
-      locales.sort! { |a, b| b[1] <=> a[1] }
-      locales.map! { |i| i[0] }
-    end
 
-    # Load default loader for elements in +places+ with only constructor
-    # argument.
-    def self.convert_places(places)
-      Array(places).map! do |loader|
-        if loader.respond_to?(:available) && loader.respond_to?(:load)
-          loader
-        else
-          R18n.default_loader.new(loader)
+      # Load default loader for elements in +places+ with only constructor
+      # argument.
+      def convert_places(places)
+        Array(places).map! do |loader|
+          if loader.respond_to?(:available) && loader.respond_to?(:load)
+            loader
+          else
+            R18n.default_loader.new(loader)
+          end
         end
       end
     end
@@ -146,7 +140,7 @@ module R18n
       if !locales.empty? && Locale.exists?(locales.first)
         locales += Locale.load(locales.first).sublocales
       end
-      locales << @@default
+      locales << self.class.default
       locales.each_with_index do |locale, i|
         if locale =~ /[^_-]+[_-]/
           locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
@@ -154,7 +148,12 @@ module R18n
       end
       locales.map! { |i| i.to_s.downcase }.uniq!
       @locales_codes = locales
-      @locales = locales.map { |i| Locale.load(i) }
+      @locales = locales.each_with_object([]) do |locale, result|
+        locale = Locale.load(locale)
+        next unless locale
+
+        result << locale
+      end
 
       if translation_places
         @original_places = translation_places
