@@ -29,10 +29,24 @@ describe Sinatra::R18n do
     expect(last_response.body).to eq 'Русский'
   end
 
-  it 'autodetects user locale' do
-    get '/locale', {}, 'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq 'Русский'
+  describe 'autodetect user locale' do
+    it 'works with regular' do
+      get '/locale', {}, 'HTTP_ACCEPT_LANGUAGE' => 'ru,en;q=0.9'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq 'Русский'
+    end
+
+    it 'works with only wildcard' do
+      get '/locale', {}, 'HTTP_ACCEPT_LANGUAGE' => '*'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq 'English'
+    end
+
+    it 'works with only regular and wildcard' do
+      get '/locale', {}, 'HTTP_ACCEPT_LANGUAGE' => 'ru, en;q=0.9, *;q=0.5'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq 'Русский'
+    end
   end
 
   it 'uses locale from param' do

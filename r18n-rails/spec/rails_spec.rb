@@ -21,11 +21,27 @@ describe TestController, type: :controller do
     expect(response.body).to eq 'ru, en'
   end
 
-  it 'gets locales from http' do
-    request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
-    get :locales
-    expect(response).to have_http_status(200)
-    expect(response.body).to eq 'ru, fr, en'
+  describe 'locales from http' do
+    it 'gets from regular locales' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
+      get :locales
+      expect(response).to have_http_status(200)
+      expect(response.body).to eq 'ru, fr, en'
+    end
+
+    it 'gets from wildcard' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = '*'
+      get :locales
+      expect(response).to have_http_status(200)
+      expect(response.body).to eq 'ru'
+    end
+
+    it 'gets from regular locales with wildcard' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru, fr;q=0.9, *;q=0.5'
+      get :locales
+      expect(response).to have_http_status(200)
+      expect(response.body).to eq 'ru, fr, en'
+    end
   end
 
   it 'loads translations' do

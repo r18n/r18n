@@ -57,10 +57,12 @@ module R18n
     @loaded = {}
 
     class << self
-      # Is +locale+ has info file.
+      # Is +locale+ constant defined?
       def exists?(locale)
+        locale = sanitize_code locale
         name = capitalize(locale)
         return false unless name
+
         R18n::Locales.const_defined?(name)
       end
 
@@ -71,8 +73,10 @@ module R18n
       def capitalize(code)
         lang, region = code.gsub(/\..+/, '').split('-')
         return unless lang
+
         lang.capitalize!
         return lang unless region
+
         region.size > 2 ? region.capitalize! : region.upcase!
         "#{lang}#{region}"
       end
@@ -81,6 +85,7 @@ module R18n
       def load(code)
         code = sanitize_code code
         name = capitalize(code)
+        return unless name
 
         @loaded[code] ||= begin
           if exists?(code)
