@@ -6,8 +6,9 @@ module R18n
   module Locales
     # Chile Spanish locale
     class EsCL < Es
-      set title: 'Chile Spanish',
-          sublocales: %w[es]
+      set title: 'Español Chile',
+          sublocales: %w[es],
+          date_format: '%d-%m-%Y',
     end
   end
 end
