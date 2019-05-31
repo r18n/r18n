@@ -30,7 +30,7 @@ module R18n
 
       def format_integer(integer)
         str = integer.to_s
-        str[0] = '−' if integer < 0 # Real typographic minus
+        str[0] = '−' if integer.negative? # Real typographic minus
         group = number_group
 
         # only group numbers if it has at least 5 digits
