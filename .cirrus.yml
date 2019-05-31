@@ -1,7 +1,6 @@
 test_task:
   container:
     matrix:
-      image: ruby:2.3
       image: ruby:2.4
       image: ruby:2.5
   bundle_cache:

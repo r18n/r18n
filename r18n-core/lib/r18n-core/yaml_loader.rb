@@ -32,7 +32,7 @@ module R18n
     class YAML
       include ::R18n::YamlMethods
 
-      FILE_EXT = 'y{,a}ml'.freeze
+      FILE_EXT = 'y{,a}ml'
 
       # Dir with translations.
       attr_reader :dir

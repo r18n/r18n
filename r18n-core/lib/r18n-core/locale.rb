@@ -121,7 +121,7 @@ module R18n
         self.class.name.split('::').last.split(/([A-Z][a-z]+)/)[1, 2]
       @language = language.downcase.freeze
       @region = region.upcase.freeze if region
-      @code = "#{@language}#{"-#{region}" if region}".freeze
+      @code = "#{@language}#{"-#{region}" if region}"
       @downcased_code = @code.downcase.tr('-', '_').freeze
 
       @parent = self.class.superclass.new
@@ -208,7 +208,7 @@ module R18n
     # It will also put real typographic minus.
     def format_integer(integer)
       str = integer.to_s
-      str[0] = '−' if integer < 0 # Real typographic minus
+      str[0] = '−' if integer.negative? # Real typographic minus
       group = number_group
 
       str.gsub(/(\d)(?=(\d\d\d)+(?!\d))/) do |match|
@@ -268,7 +268,7 @@ module R18n
         i18n.human_time.after_hours((diff / 60.0).floor)
       elsif minutes <= -60
         i18n.human_time.hours_ago((diff / 60.0).floor)
-      elsif minutes > 0
+      elsif minutes.positive?
         i18n.human_time.after_minutes(minutes.round)
       else
         i18n.human_time.minutes_ago(minutes.round.abs)

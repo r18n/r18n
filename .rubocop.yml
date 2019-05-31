@@ -1,7 +1,5 @@
 AllCops:
-  # Ruby 2.2 is now under the state of the security maintenance phase, until the end of the March of 2018. After the date, maintenance of Ruby 2.2 will be ended.
-  # https://www.ruby-lang.org/en/news/2017/12/14/ruby-2-2-9-released/
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.4
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
