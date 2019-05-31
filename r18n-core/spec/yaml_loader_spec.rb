@@ -32,8 +32,8 @@ describe R18n::Loader::YAML do
 
   it 'loads translation' do
     expect(@loader.load(R18n.locale('ru'))).to eq(
-      'one'   => 'Один',
-      'in'    => { 'another' => { 'level' => 'Иерархический' } },
+      'one' => 'Один',
+      'in' => { 'another' => { 'level' => 'Иерархический' } },
       'typed' => R18n::Typed.new('my', 'value')
     )
   end

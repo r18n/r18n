@@ -93,11 +93,13 @@ module R18n
     # Return untranslated, when user try to go deeper in translation.
     def method_missing(name, *_params)
       return super if NON_KEYS_METHODS.include?(name)
+
       get_untranslated(name.to_s)
     end
 
     def respond_to_missing?(name, *args)
       return super if NON_KEYS_METHODS.include?(name)
+
       true
     end
   end

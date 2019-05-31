@@ -104,8 +104,11 @@ describe R18n::Translation do
 
   it 'filters typed data' do
     en = R18n.locale('en')
-    translation = R18n::Translation.new(en, '', locale: en, translations:
-      { 'count' => R18n::Typed.new('pl', 1 => 'one', 'n' => 'many') })
+    translation = R18n::Translation.new(
+      en, '', locale: en, translations: {
+        'count' => R18n::Typed.new('pl', 1 => 'one', 'n' => 'many')
+      }
+    )
 
     expect(translation.count(1)).to eq('one')
     expect(translation.count(5)).to eq('many')

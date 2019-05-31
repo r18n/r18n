@@ -103,6 +103,7 @@ module R18n
 
         @by_type[type].each do |filter|
           next unless filter.enabled?
+
           @enabled[type] << filter
           if filter.passive?
             @passive_enabled[type] << filter
@@ -304,8 +305,9 @@ module R18n
     content
   end
 
-  Filters.add([String, 'markdown', 'textile'],
-              :global_escape_html, passive: true) do |html, config|
+  Filters.add(
+    [String, 'markdown', 'textile'], :global_escape_html, passive: true
+  ) do |html, config|
     if config[:dont_escape_html]
       html
     else

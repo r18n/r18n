@@ -29,6 +29,7 @@ module R18n
         attr_writer :path
         def path
           return @path if defined?(@path)
+
           ::Rails.root.join('app/i18n')
         end
 

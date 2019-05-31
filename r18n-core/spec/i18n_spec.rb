@@ -27,7 +27,7 @@ describe R18n::I18n do
     i18n = R18n::I18n.new('en', DIR)
     expect(i18n.locales).to eq([R18n.locale('en')])
 
-    i18n = R18n::I18n.new(['ru', 'nolocale-DL'], DIR)
+    i18n = R18n::I18n.new(%w[ru nolocale-DL], DIR)
     expect(i18n.locales).to eq([
       R18n.locale('ru'),
       R18n::UnsupportedLocale.new('nolocale-DL'),
@@ -259,8 +259,9 @@ describe R18n::I18n do
   end
 
   it 'returns marshalizable values' do
-    i18n    = R18n::I18n.new('en', DIR, off_filters: :untranslated,
-                                        on_filters:  :untranslated_html)
+    i18n = R18n::I18n.new(
+      'en', DIR, off_filters: :untranslated, on_filters: :untranslated_html
+    )
     demarsh = Marshal.load(Marshal.dump(i18n.t.one))
 
     expect(i18n.t.one).to        eq(demarsh)

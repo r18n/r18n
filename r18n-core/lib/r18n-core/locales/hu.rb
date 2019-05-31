@@ -11,8 +11,10 @@ module R18n
         wday_names: %w[vasárnap hétfő kedd szerda csütörtök péntek szombat],
         wday_abbrs: %w[vas hét ked sze csü pén szo],
 
-        month_names: %w[január február március április május június július
-                        augusztus szeptember október november december],
+        month_names: %w[
+          január február március április május június július augusztus
+          szeptember október november december
+        ],
         month_abbrs: %w[jan feb már ápr máj jún júl aug sze okt nov dec],
 
         date_format: '%Y. %m. %d.',
@@ -22,7 +24,7 @@ module R18n
         time_with_seconds_format: '_, %T',
 
         number_decimal: ',',
-        number_group:   ' '
+        number_group: ' '
       )
 
       def pluralize(_number)

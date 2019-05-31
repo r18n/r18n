@@ -57,6 +57,7 @@ module R18n
       # Reload backend if <tt>I18n.load_path</tt> is changed.
       def reload!
         return if defined?(@last_path) && @last_path == ::I18n.load_path
+
         @last_path = ::I18n.load_path.clone
         @backend.reload!
         @backend.send(:init_translations)
@@ -83,7 +84,7 @@ module R18n
         if value.is_a? Hash
           if value.empty?
             value
-          elsif value.keys.inject(true) { |a, i| a && RailsPlural.is_rails?(i) }
+          elsif value.keys.inject(true) { |a, i| a && RailsPlural.rails?(i) }
             Typed.new(
               'pl',
               R18n::Utils.hash_map(value) do |k, v|

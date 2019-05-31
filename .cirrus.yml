@@ -1,9 +1,4 @@
-test_task:
-  container:
-    matrix:
-      image: ruby:2.4
-      image: ruby:2.5
-      image: ruby:2.6
+bundle_cache: &bundle_cache
   bundle_cache:
     folder: /usr/local/bundle
     fingerprint_script:
@@ -12,4 +7,18 @@ test_task:
       - cat Gemfile
       - cat **/*.gemspec
     populate_script: bundle update
+
+test_task:
+  container:
+    matrix:
+      image: ruby:2.4
+      image: ruby:2.5
+      image: ruby:2.6
+  <<: *bundle_cache
   test_script: bundle exec rake
+
+rubocop_task:
+  container:
+    image: ruby:2.6
+  <<: *bundle_cache
+  rubocop_script: bundle exec rubocop

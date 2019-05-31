@@ -1,16 +1,9 @@
 AllCops:
   TargetRubyVersion: 2.4
 
-Style/FrozenStringLiteralComment:
-  EnforcedStyle: always
-
-Layout/EmptyLinesAroundArguments:
-  Exclude:
-    - r18n-core/locales/*.rb
-
 Naming/FileName:
   Exclude:
-    - 'r18n-core/locales/*.rb'
+    - 'r18n-core/lib/r18n-core/locales/*.rb'
     - 'r18n-core/spec/locales/*.rb'
     - '**/r18n-core.rb'
     - '**/r18n-rails.rb'
@@ -23,28 +16,53 @@ Naming/FileName:
 Style/AsciiComments:
   Enabled: false
 
-Style/FormatStringToken:
-  Enabled: false # https://github.com/bbatsov/rubocop/issues/5398
-
-Style/DateTime:
-  Enabled: false
-
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
-Layout/IndentArray:
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+Layout/MultilineArrayBraceLayout:
+  EnforcedStyle: new_line
+Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
-Layout/IndentHash:
+Layout/FirstArgumentIndentation:
   EnforcedStyle: consistent
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
 
 Metrics/BlockLength:
   Exclude:
     - '**/spec/**/*'
     - 'benchmark/*'
 
-Style/Documentation:
-  Exclude:
-    - '**/spec/**/*'
-
 Style/NumericLiterals:
   Exclude:
     - '**/db/**/*'
+
+# TODO: fix offenses and enable cops
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+  Exclude:
+    - '**/spec/**/*'

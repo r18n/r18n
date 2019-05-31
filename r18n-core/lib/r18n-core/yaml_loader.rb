@@ -79,7 +79,7 @@ module R18n
           if value.is_a? Hash
             value = transform(value)
           elsif defined?(@private_type_class) &&
-                value.is_a?(@private_type_class)
+              value.is_a?(@private_type_class)
             v = value.value
             if v.respond_to?(:force_encoding) && v.encoding != __ENCODING__
               v = v.force_encoding(__ENCODING__)

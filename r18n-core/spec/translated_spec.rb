@@ -131,11 +131,13 @@ describe R18n::Translated do
 
       def method_missing(name, *_params)
         return name.to_s if name.to_s =~ /^no_method*/
+
         super
       end
 
       def respond_to_missing?(name, *_params)
         return true if name.to_s =~ /^no_method*/
+
         super
       end
     end
