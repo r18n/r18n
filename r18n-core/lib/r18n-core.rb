@@ -105,11 +105,25 @@ module R18n
     #
     #   - R18n.available_locales.each do |locale|
     #     - R18n.change(locale).t.language_title
+    #
+    # It also can be used with block:
+    #
+    #   - R18n.change(locale) { t.language_title }
     def change(locale)
       locale = locale.code if locale.is_a? Locale
       exists = get ? get.locales.map(&:code) : []
       places = get ? get.translation_places : R18n.default_places
-      R18n::I18n.new([locale] + exists, places)
+
+      i18n = R18n::I18n.new([locale] + exists, places)
+
+      if block_given?
+        old_thread_i18n = thread[:r18n_i18n]
+        thread_set i18n
+        yield
+        thread[:r18n_i18n] = old_thread_i18n
+      end
+
+      i18n
     end
 
     # Return Locale object by locale code. It’s shortcut for
