@@ -89,6 +89,14 @@ describe R18n do
     expect(R18n.change(R18n.locale('en')).locale.code).to eq('en')
   end
 
+  it 'allows to temporary change locale inside block' do
+    R18n.set('ru')
+    code_inside_block = nil
+    R18n.change(R18n.locale('en')) { code_inside_block = R18n.get.locale.code }
+    expect(code_inside_block).to eq('en')
+    expect(R18n.get.locale.code).to eq('ru')
+  end
+
   it 'has shortcut to load locale' do
     expect(R18n.locale('ru')).to eq(R18n::Locale.load('ru'))
   end
