@@ -127,11 +127,12 @@ module R18n
       @parent = self.class.superclass.new
     end
 
-    set sublocales:  %w[en],
-        week_start:  :monday,
-        time_am:     'AM',
-        time_pm:     'PM',
-        time_format: '_ %H:%M',
+    set sublocales: %w[en],
+        week_start: :monday,
+        time_am: 'AM',
+        time_pm: 'PM',
+        time_format: '_ %R',
+        time_with_seconds_format: '_ %T',
         full_format: '%-d %B',
         year_format: '_ %Y'
 
@@ -249,8 +250,10 @@ module R18n
     end
 
     # Format +time+ and set +date+
-    def format_time(date, time)
-      strftime(time, time_format).sub('_', date.to_s)
+    def format_time(date, time, with_seconds: false)
+      strftime(
+        time, with_seconds ? time_with_seconds_format : time_format
+      ).sub('_', date.to_s)
     end
 
     # Format +time+ in human usable form. For example “5 minutes ago” or
@@ -276,14 +279,16 @@ module R18n
     end
 
     # Format +time+ in compact form. For example, “12/31/09 12:59”.
-    def format_time_standard(time, *_params)
-      format_time(format_date_standard(time), time)
+    def format_time_standard(time, *params)
+      options = params.last.is_a?(Hash) ? params.last : {}
+      format_time(format_date_standard(time), time, **options)
     end
 
     # Format +time+ in most official form. For example, “December 31st, 2009
     # 12:59”. For special cases you can replace it in locale’s class.
-    def format_time_full(time, *_params)
-      format_time(format_date_full(time), time)
+    def format_time_full(time, *params)
+      options = params.last.is_a?(Hash) ? params.last : {}
+      format_time(format_date_full(time), time, **options)
     end
 
     # Format +date+ in human usable form. For example “5 days ago” or

@@ -11,6 +11,7 @@ module R18n
         sublocales: %w[en],
 
         time_format: '_ %I:%M %p',
+        time_with_seconds_format: '_ %r',
         date_format: '%m/%d/%Y',
         full_format: '%B %-d'
       )
