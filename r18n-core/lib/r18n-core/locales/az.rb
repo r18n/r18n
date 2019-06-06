@@ -20,7 +20,6 @@ module R18n
         time_am:     ' gündüz',
         time_pm:     ' axşam',
         date_format: '%d.%m.%Y',
-        time_format: '_%H:%M',
 
         number_decimal: ',',
         number_group:   ' '

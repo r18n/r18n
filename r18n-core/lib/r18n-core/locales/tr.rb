@@ -17,7 +17,6 @@ module R18n
         date_format: '%d.%m.%Y',
         full_format: '%B %-d.',
         year_format: '%Y. _',
-        time_format: '_%H:%M',
 
         number_decimal: '.',
         number_group:   ','

@@ -22,6 +22,7 @@ module R18n
         date_format: '%d.%m.%Y',
         full_format: '%-d. %B',
         time_format: '_ %H.%M',
+        time_with_seconds_format: '_ %H.%M.%S',
 
         number_decimal: ',',
         number_group:   ''

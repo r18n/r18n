@@ -10,7 +10,8 @@ module R18n
         title: 'Español Estadounidense',
         sublocales: %w[es en],
 
-        time_format: ' %I:%M %p',
+        time_format: '_ %I:%M %p',
+        time_with_seconds_format: '_ %r',
         date_format: '%m/%d/%Y',
 
         number_decimal: '.',
