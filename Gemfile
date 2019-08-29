@@ -13,8 +13,7 @@ gem 'RedCloth',    require: false
 gem 'rspec-rails', require: false
 gem 'sinatra',     require: false
 
-## https://github.com/rails/rails/issues/35153#issuecomment-460455573
-gem 'sqlite3', '~> 1.3.6'
+gem 'sqlite3'
 
 gem 'r18n-core',      path: 'r18n-core/'
 gem 'r18n-rails',     path: 'r18n-rails/',     require: false
