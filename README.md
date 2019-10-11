@@ -125,7 +125,7 @@ end
 t.log.signup(user)
 ```
 
-R18n already has filters for HTML escaping, Textile, Markdown and lambdas:
+R18n already has filters for HTML escaping, Textile and Markdown:
 
 ```yaml
 hi: !!markdown

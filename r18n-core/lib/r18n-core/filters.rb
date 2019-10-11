@@ -222,12 +222,6 @@ module R18n
     end
   end
 
-  Filters.add('proc', :procedure) do |content, _config, *params|
-    # rubocop:disable Security/Eval
-    eval("proc { #{content} }", nil, __FILE__, __LINE__).call(*params)
-    # rubocop:enable Security/Eval
-  end
-
   # Class to mark unpluralized translation.
   class UnpluralizetedTranslation < Translation
   end
