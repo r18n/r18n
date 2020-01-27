@@ -96,8 +96,8 @@ module R18n
         end
       end
 
-      # Set locale +properties+. Locale class will have methods for each propetry
-      # name, which return propetry value:
+      # Set locale +properties+. Locale class will have methods
+      # for each property name, which return property value:
       #
       #   class R18n::Locales::En < R18n::Locale
       #     set title: 'English',

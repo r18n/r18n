@@ -32,8 +32,8 @@ class TestController < ApplicationController
   end
 
   def time
-    render plain: l(Time.at(0).utc) + "\n" +
-                  l(Time.at(0).utc, format: :short)
+    render plain:
+      l(Time.at(0).utc) + "\n" + l(Time.at(0).utc, format: :short)
   end
 
   def human_time

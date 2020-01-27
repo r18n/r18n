@@ -12,10 +12,10 @@ require 'rbench'
 require 'r18n-core'
 
 I18n.enforce_available_locales = false
-I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
-I18n::Backend::Simple.send(:include, I18n::Backend::InterpolationCompiler)
-I18n::Backend::Simple.send(:include, I18n::Backend::Flatten)
+I18n::Backend::Simple.include I18n::Backend::Fallbacks
+I18n::Backend::Simple.include I18n::Backend::Pluralization
+I18n::Backend::Simple.include I18n::Backend::InterpolationCompiler
+I18n::Backend::Simple.include I18n::Backend::Flatten
 
 class Array
   def nitems

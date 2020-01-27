@@ -9,12 +9,15 @@ module R18n
         sublocales: [],
 
         week_start: :sunday,
-        wday_names: %w[Sunday Monday Tuesday Wednesday Thursday Friday
-                       Saturday],
+        wday_names: %w[
+          Sunday Monday Tuesday Wednesday Thursday Friday Saturday
+        ],
         wday_abbrs: %w[Sun Mon Tue Wed Thu Fri Sat],
 
-        month_names: %w[January February March April May June July August
-                        September October November December],
+        month_names: %w[
+          January February March April May June July August September October
+          November December
+        ],
         month_abbrs: %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec],
 
         date_format: '%Y-%m-%d',
@@ -22,7 +25,7 @@ module R18n
         year_format: '_, %Y',
 
         number_decimal: '.',
-        number_group:   ','
+        number_group: ','
       )
 
       def ordinalize(number)

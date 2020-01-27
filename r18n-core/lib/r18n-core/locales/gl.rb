@@ -11,8 +11,10 @@ module R18n
         wday_names: %w[domingo luns martes mércores xoves venres sábado],
         wday_abbrs: %w[dom lun mar mér xov ven sáb],
 
-        month_names: %w[xaneiro febreiro marzo abril maio xuño xullo
-                        agosto setembro outubro novembro decembro],
+        month_names: %w[
+          xaneiro febreiro marzo abril maio xuño xullo agosto setembro outubro
+          novembro decembro
+        ],
         month_abbrs: %w[xan feb mar abr mai xuñ xul ago set out nov dec],
 
         date_format: '%d/%m/%Y',
@@ -20,7 +22,7 @@ module R18n
         year_format: '_ de %Y',
 
         number_decimal: ',',
-        number_group:   '.'
+        number_group: '.'
       )
     end
   end

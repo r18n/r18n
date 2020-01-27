@@ -28,7 +28,7 @@ require_relative 'r18n-rails/filters'
 R18n.default_places { [Rails.root.join('app/i18n'), R18n::Loader::Rails.new] }
 
 ActionController::Base.helper(R18n::Rails::Helpers)
-ActionController::Base.send(:include, R18n::Rails::Controller)
+ActionController::Base.include R18n::Rails::Controller
 
 if ActionController::Base.respond_to? :before_action
   ActionController::Base.send(:before_action, :set_r18n)
@@ -52,7 +52,7 @@ ActiveSupport.on_load(:after_initialize) do
     i18n = R18n::I18n.new(
       locale, R18n.default_places,
       off_filters: :untranslated,
-      on_filters:  :untranslated_bash
+      on_filters: :untranslated_bash
     )
     R18n.set(i18n)
   else

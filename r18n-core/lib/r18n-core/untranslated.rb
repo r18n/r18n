@@ -89,12 +89,17 @@ module R18n
 
     def respond_to_missing?(name, *args)
       return super if NON_KEYS_METHODS.include?(name)
+
       true
     end
 
     def [](*params)
-      Untranslated.new(translated_path, "#{@untranslated_path}.#{params.first}",
-                       @locale, @filters)
+      Untranslated.new(
+        translated_path,
+        "#{@untranslated_path}.#{params.first}",
+        @locale,
+        @filters
+      )
     end
 
     def |(other)
@@ -116,6 +121,7 @@ module R18n
       return false unless locale            == other.locale
       return false unless translated_path   == other.translated_path
       return false unless untranslated_path == other.untranslated_path
+
       true
     end
   end

@@ -11,6 +11,7 @@ describe R18n::Filters do
   after do
     R18n::Filters.defined.each_value do |filter|
       next if @system.include? filter
+
       R18n::Filters.delete(filter)
     end
 
@@ -190,6 +191,7 @@ describe R18n::Filters do
     )
   end
 
+  # rubocop:disable Style/FormatStringToken
   it 'interpolates named variables' do
     R18n::Filters.off(:named_variables)
     expect(@i18n.echo(value: 'R18n')).to eq 'Value is %{value}'
@@ -204,6 +206,7 @@ describe R18n::Filters do
     expect(@i18n.echo2(value: 'R18n')).to eq 'Value2 is R18n'
     expect(@i18n.echo2).to eq 'Value2 is {{value}}'
   end
+  # rubocop:enable Style/FormatStringToken
 
   it 'formats untranslated' do
     expect(@i18n.in.not.to_s).to   eq('in.[not]')

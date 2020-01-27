@@ -21,18 +21,18 @@ module R18n
   # Converter between R18n and Rails I18n plural keys.
   class RailsPlural
     # Check, that +key+ is Rails plural key.
-    def self.is_rails?(k)
-      %i[zero one few many other].include? k
+    def self.rails?(key)
+      %i[zero one few many other].include? key
     end
 
     # Convert Rails I18n plural key to R18n.
-    def self.to_r18n(k)
-      { zero: 0, one: 1, few: 2, many: 'n', other: 'n' }[k]
+    def self.to_r18n(key)
+      { zero: 0, one: 1, few: 2, many: 'n', other: 'n' }[key]
     end
 
     # Convert R18n plural key to Rails I18n.
-    def self.from_r18n(k)
-      { 0 => :zero, 1 => :one, 2 => :few, 'n' => :other }[k]
+    def self.from_r18n(key)
+      { 0 => :zero, 1 => :one, 2 => :few, 'n' => :other }[key]
     end
   end
 end

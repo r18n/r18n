@@ -31,8 +31,10 @@ module R18n
     # Register global types in Psych
     def initialize_types
       return unless defined?(Psych)
+
       Filters.by_type.each_key do |type|
         next unless type.is_a? String
+
         # Yeah, I add R18n’s types to global, send me patch if you really
         # use YAML types too ;).
         Psych.add_domain_type('yaml.org,2002', type) do |_full_type, value|

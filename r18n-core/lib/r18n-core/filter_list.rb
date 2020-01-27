@@ -39,12 +39,14 @@ module R18n
 
     # Shortcut to process `R18n::Typed`.
     def process_typed(filters_type, typed_value, params)
-      process(filters_type,
-              typed_value.type,
-              typed_value.value,
-              typed_value.locale,
-              typed_value.path,
-              params)
+      process(
+        filters_type,
+        typed_value.type,
+        typed_value.value,
+        typed_value.locale,
+        typed_value.path,
+        params
+      )
     end
 
     # Process +value+ by global filters in +enabled+.
@@ -137,6 +139,7 @@ module R18n
     def passive(type)
       enabled = Filters.passive_enabled[type]
       return enabled unless @changed_passive.include? type
+
       enabled = enabled.reject { |i| @off_by_type[type].include? i }
       enabled + @on_by_type[type].select(&:passive)
     end
@@ -144,6 +147,7 @@ module R18n
     def active(type)
       enabled = Filters.active_enabled[type]
       return enabled unless @changed_active.include? type
+
       enabled = enabled.reject { |i| @off_by_type[type].include? i }
       enabled + @on_by_type[type].reject(&:passive)
     end
@@ -151,6 +155,7 @@ module R18n
     def all(type)
       enabled = Filters.enabled[type]
       return enabled unless @changed_types.include? type
+
       enabled = enabled.reject { |i| @off_by_type[type].include? i }
       enabled + @on_by_type[type]
     end

@@ -8,6 +8,7 @@ describe 'Rails filters' do
     expect(i18n.echo(value: 'Old')).to eq 'Value is Old'
   end
 
+  # rubocop:disable Style/FormatStringToken
   it 'pluralizes by variable %{count}' do
     i18n = R18n::Translation.new(
       EN, '', locale: EN, translations: {
@@ -24,4 +25,5 @@ describe 'Rails filters' do
     expect(i18n.users(count: 1)).to eq '1 user'
     expect(i18n.users(count: 5)).to eq '5 users'
   end
+  # rubocop:enable Style/FormatStringToken
 end

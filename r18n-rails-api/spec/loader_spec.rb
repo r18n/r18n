@@ -22,9 +22,9 @@ describe R18n::Loader::Rails do
     expect(@loader.load(EN)).to eq(
       'users' => R18n::Typed.new(
         'pl',
-        0   => 'Zero',
-        1   => 'One',
-        2   => 'Few',
+        0 => 'Zero',
+        1 => 'One',
+        2 => 'Few',
         'n' => 'Other'
       )
     )
@@ -35,9 +35,9 @@ describe R18n::Loader::Rails do
     expect(@loader.load(RU)).to eq(
       'users' => R18n::Typed.new(
         'pl',
-        0   => 'Ноль',
-        1   => 'Один',
-        2   => 'Несколько',
+        0 => 'Ноль',
+        1 => 'Один',
+        2 => 'Несколько',
         'n' => 'Много'
       )
     )
@@ -46,8 +46,8 @@ describe R18n::Loader::Rails do
   it 'reloads translations on load_path changes' do
     I18n.load_path << OTHER
     expect(@loader.load(RU)).to eq(
-      'one'   => 'Один',
-      'two'   => 'Два',
+      'one' => 'Один',
+      'two' => 'Два',
       'three' => 'Три'
     )
   end

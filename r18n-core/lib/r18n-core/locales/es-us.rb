@@ -15,7 +15,7 @@ module R18n
         date_format: '%m/%d/%Y',
 
         number_decimal: '.',
-        number_group:   ','
+        number_group: ','
       )
     end
   end

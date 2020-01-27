@@ -55,13 +55,10 @@ describe R18n::Backend do
   end
 
   it 'raises error on no translation' do
-    expect {
-      I18n.backend.translate(:en, :missed)
-    }.to raise_error(::I18n::MissingTranslationData)
+    expect { I18n.backend.translate(:en, :missed) }
+      .to raise_error(::I18n::MissingTranslationData)
 
-    expect {
-      I18n.t(:missed)
-    }.to raise_error(::I18n::MissingTranslationData)
+    expect { I18n.t(:missed) }.to raise_error(::I18n::MissingTranslationData)
   end
 
   it 'reloads translations' do
@@ -76,18 +73,19 @@ describe R18n::Backend do
     expect(I18n.t('in.another').class).to eq Hash
   end
 
+  ## https://github.com/rubocop-hq/rubocop/issues/7436#issuecomment-578766498
+  # rubocop:disable Style/FormatStringToken
   it 'returns correct unpluralized hash' do
     expect(I18n.t('users')).to eq(one: '1 user', other: '%{count} users')
   end
+  # rubocop:enable Style/FormatStringToken
 
   it 'corrects detect untranslated, whem path is deeper than string' do
-    expect {
-      I18n.t('in.another.level.deeper')
-    }.to raise_error(::I18n::MissingTranslationData)
+    expect { I18n.t('in.another.level.deeper') }
+      .to raise_error(::I18n::MissingTranslationData)
 
-    expect {
-      I18n.t('in.another.level.go.deeper')
-    }.to raise_error(::I18n::MissingTranslationData)
+    expect { I18n.t('in.another.level.go.deeper') }
+      .to raise_error(::I18n::MissingTranslationData)
   end
 
   it "doesn't call String methods" do
@@ -95,9 +93,8 @@ describe R18n::Backend do
   end
 
   it "doesn't call object methods" do
-    expect {
-      I18n.t('in.another.level.to_sym')
-    }.to raise_error(::I18n::MissingTranslationData)
+    expect { I18n.t('in.another.level.to_sym') }
+      .to raise_error(::I18n::MissingTranslationData)
   end
 
   it 'works deeper pluralization' do
