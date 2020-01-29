@@ -304,7 +304,7 @@
 * Remove RubyGems requires.
 
 ### 0.3 (Vladivostok)
-* `Translated` mix-in to I18n support to model or any other class.
+* `Translated` mixin to I18n support to model or any other class.
 * New cool time formatters.
 * Filters for translations.
 * Add filters to escape HTML, Markdown and Textile syntax.

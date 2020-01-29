@@ -1,0 +1,11 @@
+{
+  "name": "R18n",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "remark-cli": "^7.0.1",
+    "remark-preset-lint-recommended": "^3.0.3"
+  },
+  "scripts": {
+    "remark": "remark -f ./ "
+  }
+}

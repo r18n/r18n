@@ -7,12 +7,12 @@ documentation for more information.
 
 ## Features
 
-R18n for Rails is fully compatibile with Rails I18n, and add extra features:
+R18n for Rails is fully compatible with Rails I18n, and add extra features:
 
 * Nice Ruby-style syntax.
 * Filters.
 * Model Translation (or any Ruby object).
-* Autodetect user locales.
+* Auto-detect user locales.
 * Flexible locales.
 * Total flexibility.
 
@@ -25,7 +25,7 @@ See full features in [main README](https://github.com/r18n/r18n/blob/master/READ
      ```
     gem 'r18n-rails'
      ```
-   Now R18n will autodetect user locales.
+   Now R18n will auto-detect user locales.
 2. Define your way to set locale manually. R18n will find it in
    `params[:locale]` or `session[:locale]`. Best way is a put optional
    locale prefix to URLs:
@@ -121,8 +121,8 @@ See full features in [main README](https://github.com/r18n/r18n/blob/master/READ
       on current user locales.
 
 8. Download translations for Rails system messages (validation, etc) from
-   https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale and
-   put them to `config/locales/` (because them use Rails I18n format).
+   [svenfuchs/rails-i18n](https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale)
+   and put them to `config/locales/` (because them use Rails I18n format).
 9. Add your own translations filters to `app/i18n/filters.rb`:
 
      ```ruby
@@ -147,8 +147,8 @@ See full features in [main README](https://github.com/r18n/r18n/blob/master/READ
 ## License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
+You can read it in LICENSE file or in [www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html).
 
 ## Author
 
-Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+Andrey “A.I.” Sitnik [andrey@sitnik.ru](mailto:andrey@sitnik.ru)

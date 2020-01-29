@@ -2,7 +2,7 @@
 
 Rails I18n compatibility for R18n:
 * R18n loader for Rails I18n translation format;
-* R18n backend.
+* R18n back-end.
 
 ## How To
 
@@ -30,9 +30,9 @@ i18n = R18n::I18n.new('en', R18n::Loader::Rails)
 i18n.posts(count: 5) #=> "5 posts"
 ```
 
-### Backend
+### Back-end
 
-You can use R18n as a backend for Rails I18n:
+You can use R18n as a back-end for Rails I18n:
 
 ```ruby
 require 'r18n-rails-api'
@@ -58,8 +58,8 @@ I18n.t :users, count: 5        #=> "5 users"
 ## License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
+You can read it in LICENSE file or in [www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html).
 
 ## Author
 
-Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+Andrey “A.I.” Sitnik [andrey@sitnik.ru](mailto:andrey@sitnik.ru)

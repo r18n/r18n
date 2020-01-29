@@ -10,7 +10,7 @@ Use `r18n-rails` or `sinatra-r18n` to localize Web applications and
 * Nice Ruby-style syntax.
 * Filters.
 * Model Translation (or any Ruby object).
-* Autodetect user locales.
+* Auto-detect user locales.
 * Flexible locales.
 * Total flexibility.
 
@@ -271,7 +271,7 @@ end
 
 #### Textile
 
-To use Textile in your translations you must install the RedCloth gem:
+To use Textile in your translations you must install the `RedCloth` gem:
 
 ```yaml
 alarm: !!textile
@@ -331,8 +331,8 @@ l Time.now.to_date #=> "2009-08-09"
 
 ### Model
 
-You can add i18n support to any classes, including ORM models (ActiveRecord,
-DataMapper, MongoMapper, Mongoid or others):
+You can add i18n support to any classes, including ORM models (`ActiveRecord`,
+`Sequel`, `DataMapper`, `MongoMapper`, `Mongoid` or others):
 
 ```ruby
 class Product
@@ -468,17 +468,18 @@ If you want to send a pull request:
   translate the base messages. Just copy file from language, which you know,
   and rewrite values.
 * Send a pull request via GitHub <http://github.com/r18n/r18n> or just write
-  email with the files to <andrey@sitnik.ru> or <alex.wayfer@gmail.com>.
+  email with the files to [Andrey Sitnik](mailto:andrey@sitnik.ru)
+  or [Alexander Popov](mailto:alex.wayfer@gmail.com).
 
 `%{code}` is RFC 3066 code for your language (for example, `en` for English and
 `fr-CA` for Canadian French). Email me with any questions you may have, you will
-find other contact addresses at http://sitnik.ru.
+find other contact addresses at [sitnik.ru](https://sitnik.ru/).
 
 ## License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
-See the LICENSE file or http://www.gnu.org/licenses/lgpl.html.
+See the LICENSE file or [www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html).
 
 ## Author
 
-Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+Andrey “A.I.” Sitnik [andrey@sitnik.ru](mailto:andrey@sitnik.ru)

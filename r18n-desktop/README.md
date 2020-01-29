@@ -10,7 +10,7 @@ information.
 * Nice Ruby-style syntax.
 * Filters.
 * Model Translation (or any Ruby object).
-* Autodetect user locales.
+* Auto-detect user locales.
 * Flexible locales.
 * Total flexibility.
 
@@ -85,8 +85,8 @@ See full features in [main README](https://github.com/r18n/r18n/blob/master/READ
 ## License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
+You can read it in LICENSE file or in [www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html).
 
 ## Author
 
-Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+Andrey “A.I.” Sitnik [andrey@sitnik.ru](mailto:andrey@sitnik.ru)
