@@ -34,27 +34,27 @@ module R18n
     class Rails
       include ::R18n::YamlMethods
 
-      # Create new loader for some +backend+ from Rails I18n. Backend must have
-      # +reload!+, +init_translations+ and +translations+ methods.
+      # Create new loader for some `backend` from Rails I18n. Backend must have
+      # `reload!`, `init_translations` and `translations` methods.
       def initialize(backend = ::I18n::Backend::Simple.new)
         @backend = backend
         detect_yaml_private_type
       end
 
-      # Array of locales, which has translations in +I18n.load_path+.
+      # `Array` of locales, which has translations in `I18n.load_path`.
       def available
         reload!
         @translations.keys.map { |code| R18n.locale(code) }
       end
 
-      # Return Hash with translations for +locale+.
+      # Return `Hash` with translations for `locale`.
       def load(locale)
         initialize_types
         reload!
         @translations[locale.code]
       end
 
-      # Reload backend if <tt>I18n.load_path</tt> is changed.
+      # Reload backend if `I18n.load_path` is changed.
       def reload!
         return if defined?(@last_path) && @last_path == ::I18n.load_path
 
@@ -67,12 +67,12 @@ module R18n
           end
       end
 
-      # Return hash for object and <tt>I18n.load_path</tt>.
+      # Return hash for object and `I18n.load_path`.
       def hash
         ::I18n.load_path.hash
       end
 
-      # Is another +loader+ is also load Rails translations.
+      # Is another `loader` is also load Rails translations.
       def ==(other)
         self.class == other.class
       end

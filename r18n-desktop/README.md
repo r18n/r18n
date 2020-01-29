@@ -14,7 +14,7 @@ information.
 * Flexible locales.
 * Total flexibility.
 
-See full features in [main README](https://github.com/ai/r18n/blob/master/README.md).
+See full features in [main README](https://github.com/r18n/r18n/blob/master/README.md).
 
 ## How To
 

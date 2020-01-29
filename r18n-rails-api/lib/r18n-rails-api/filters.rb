@@ -51,7 +51,7 @@ module R18n
   end
 end
 
-# Pluralization by named variable <tt>%{count}</tt>.
+# Pluralization by named variable `%{count}`.
 R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
   if param.is_a?(Hash) && param.key?(:count)
     hash = content.to_hash

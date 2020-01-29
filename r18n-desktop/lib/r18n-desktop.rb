@@ -32,8 +32,8 @@ end
 module R18n
   class << self
     # Get user locale from system environment and load I18n object with locale
-    # information and translations from +translations_places+. If user set
-    # locale +manual+ put it as last argument.
+    # information and translations from `translations_places`. If user set
+    # locale `manual` put it as last argument.
     def from_env(translations_places = nil, manual = nil)
       ::R18n.default_places { translations_places }
       locales = Array(R18n::I18n.system_locale)

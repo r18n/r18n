@@ -23,14 +23,14 @@ require 'bigdecimal'
 module R18n
   # Information about locale (language, country and other special variant
   # preferences). Locale was named by RFC 3066. For example, locale for French
-  # speaking people in Canada will be +fr-CA+.
+  # speaking people in Canada will be `fr-CA`.
   #
-  # Locale classes are placed in <tt>R18n::Locales</tt> module and storage
-  # install <tt>locales/</tt> dir.
+  # Locale classes are placed in `R18n::Locales` module and storage
+  # install `locales/` dir.
   #
-  # Each locale has +sublocales+ – often known languages for people from this
+  # Each locale has `sublocales` – often known languages for people from this
   # locale. For example, many Belorussians know Russian and English. If there
-  # is’t translation for Belorussian, it will be searched in Russian and next in
+  # is't translation for Belorussian, it will be searched in Russian and next in
   # English translations.
   #
   # == Usage
@@ -44,20 +44,20 @@ module R18n
   #
   # == Available data
   #
-  # * +code+ – locale RFC 3066 code;
-  # * +title+ – locale name on it language;
-  # * +ltr?+ – true on left-to-right writing direction, false for Arabic and
+  # * `code` – locale RFC 3066 code;
+  # * `title` – locale name on it language;
+  # * `ltr?` – true on left-to-right writing direction, false for Arabic and
   #   Hebrew);
-  # * +sublocales+ – often known languages for people from this locale;
-  # * +week_start+ – does week start from +:monday+ or +:sunday+.
+  # * `sublocales` – often known languages for people from this locale;
+  # * `week_start` – does week start from `:monday` or `:sunday`.
   #
   # You can see more available data about locale in samples in
-  # <tt>locales/</tt> dir.
+  # `locales/` dir.
   class Locale
     @loaded = {}
 
     class << self
-      # Is +locale+ constant defined?
+      # Is `locale` constant defined?
       def exists?(locale)
         locale = sanitize_code locale
         name = capitalize(locale)
@@ -81,7 +81,7 @@ module R18n
         "#{lang}#{region}"
       end
 
-      # Load locale by RFC 3066 +code+.
+      # Load locale by RFC 3066 `code`.
       def load(code)
         code = sanitize_code code
         name = capitalize(code)
@@ -96,7 +96,7 @@ module R18n
         end
       end
 
-      # Set locale +properties+. Locale class will have methods
+      # Set locale `properties`. Locale class will have methods
       # for each property name, which return property value:
       #
       #   class R18n::Locales::En < R18n::Locale
@@ -168,13 +168,13 @@ module R18n
       "Locale #{code} (#{title})"
     end
 
-    # Convert +object+ to String. It support Integer, Float, Time, Date
-    # and DateTime.
+    # Convert `object` to `String`. It support `Integer`, `Float`, `Time`,
+    # `Date` and `DateTime`.
     #
-    # For time classes you can set +format+ in standard +strftime+ form,
-    # <tt>:full</tt> (“01 Jule, 2009”), <tt>:human</tt> (“yesterday”),
-    # <tt>:standard</tt> (“07/01/09”) or <tt>:month</tt> for standalone month
-    # name. Default format is <tt>:standard</tt>.
+    # For time classes you can set `format` in standard `strftime` form,
+    # `:full` ("01 Jule, 2009"), `:human` ("yesterday"),
+    # `:standard` ("07/01/09") or `:month` for standalone month
+    # name. Default format is `:standard`.
     def localize(obj, format = nil, *params)
       case obj
       when Integer
@@ -205,8 +205,8 @@ module R18n
       end
     end
 
-    # Returns the integer in String form, according to the rules of the locale.
-    # It will also put real typographic minus.
+    # Returns the integer in `String` form, according to the rules
+    # of the locale. It will also put real typographic minus.
     def format_integer(integer)
       str = integer.to_s
       str[0] = '−' if integer.negative? # Real typographic minus
@@ -217,16 +217,16 @@ module R18n
       end
     end
 
-    # Returns the float in String form, according to the rules of the locale.
+    # Returns the float in `String` form, according to the rules of the locale.
     # It will also put real typographic minus.
     def format_float(float)
       decimal = number_decimal
       format_integer(float.to_i) + decimal + float.to_s.split('.').last
     end
 
-    # Same that <tt>Time.strftime</tt>, but translate months and week days
-    # names. In +time+ you can use Time, DateTime or Date object. In +format+
-    # you can use standard +strftime+ format.
+    # Same that `Time.strftime`, but translate months and week days
+    # names. In `time` you can use `Time`, `DateTime` or `Date` object.
+    # In `format` you can use standard `strftime` format.
     def strftime(time, format)
       translated = ''
       format.scan(/%[EO]?.|./o) do |c|
@@ -249,16 +249,16 @@ module R18n
       time.strftime(translated)
     end
 
-    # Format +time+ and set +date+
+    # Format `time` and set `date`
     def format_time(date, time, with_seconds: false)
       strftime(
         time, with_seconds ? time_with_seconds_format : time_format
       ).sub('_', date.to_s)
     end
 
-    # Format +time+ in human usable form. For example “5 minutes ago” or
-    # “yesterday”. In +now+ you can set base time, which be used to get relative
-    # time. For special cases you can replace it in locale’s class.
+    # Format `time` in human usable form. For example "5 minutes ago" or
+    # "yesterday". In `now` you can set base time, which be used to get relative
+    # time. For special cases you can replace it in locale's class.
     def format_time_human(time, i18n, now = time.class.now, *_params)
       diff = time - now
       minutes = time.is_a?(DateTime) ? diff * 24 * 60.0 : diff / 60.0
@@ -278,22 +278,22 @@ module R18n
       end
     end
 
-    # Format +time+ in compact form. For example, “12/31/09 12:59”.
+    # Format `time` in compact form. For example, "12/31/09 12:59".
     def format_time_standard(time, *params)
       options = params.last.is_a?(Hash) ? params.last : {}
       format_time(format_date_standard(time), time, **options)
     end
 
-    # Format +time+ in most official form. For example, “December 31st, 2009
-    # 12:59”. For special cases you can replace it in locale’s class.
+    # Format `time` in most official form. For example, "December 31st, 2009
+    # 12:59". For special cases you can replace it in locale's class.
     def format_time_full(time, *params)
       options = params.last.is_a?(Hash) ? params.last : {}
       format_time(format_date_full(time), time, **options)
     end
 
-    # Format +date+ in human usable form. For example “5 days ago” or
-    # “yesterday”. In +now+ you can set base time, which be used to get relative
-    # time. For special cases you can replace it in locale’s class.
+    # Format `date` in human usable form. For example "5 days ago" or
+    # "yesterday". In `now` you can set base time, which be used to get relative
+    # time. For special cases you can replace it in locale's class.
     def format_date_human(date, i18n, now = Date.today, *_params)
       days = (date - now).to_i
       case days
@@ -312,13 +312,13 @@ module R18n
       end
     end
 
-    # Format +date+ in compact form. For example, “12/31/09”.
+    # Format `date` in compact form. For example, "12/31/09".
     def format_date_standard(date, *_params)
       strftime(date, date_format)
     end
 
-    # Format +date+ in most official form. For example, “December 31st, 2009”.
-    # For special cases you can replace it in locale’s class. If +year+ is false
+    # Format `date` in most official form. For example, "December 31st, 2009".
+    # For special cases you can replace it in locale's class. If `year` is false
     # date will be without year.
     def format_date_full(date, year = true, *_params)
       format = full_format
@@ -326,8 +326,8 @@ module R18n
       strftime(date, format)
     end
 
-    # Return pluralization type for +number+ of items. This is simple form.
-    # For special cases you can replace it in locale’s class.
+    # Return pluralization type for `number` of items. This is simple form.
+    # For special cases you can replace it in locale's class.
     def pluralize(number)
       case number
       when 0

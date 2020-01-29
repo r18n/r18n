@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module R18n
-  # Return if translation isn’t exists. Unlike nil, it didn’t raise error when
+  # Return if translation isn't exists. Unlike nil, it didn't raise error when
   # you try to access for subtranslations.
   #
   # You can set format to print untranslated string by filters. For example:
@@ -37,7 +37,7 @@ module R18n
   #
   #   R18n::Filters.add(R18n::Untranslated, :hide_untranslated) { '' }
   class Untranslated
-    # Path, that isn’t in translation.
+    # Path, that isn't in translation.
     attr_reader :untranslated_path
 
     # Path, that exists in translation.

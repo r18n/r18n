@@ -53,16 +53,16 @@ For Rails, Sinatra or desktop examples, see plugins documentations:
 * [sinatra-r18n] for Sinatra,
 * [r18n-desktop] for shell/desktop applications.
 
-[r18n-rails]: https://github.com/ai/r18n/tree/master/r18n-rails
-[sinatra-r18n]: https://github.com/ai/r18n/tree/master/sinatra-r18n
-[r18n-desktop]: https://github.com/ai/r18n/tree/master/r18n-desktop
+[r18n-rails]: https://github.com/r18n/r18n/tree/master/r18n-rails
+[sinatra-r18n]: https://github.com/r18n/r18n/tree/master/sinatra-r18n
+[r18n-desktop]: https://github.com/r18n/r18n/tree/master/r18n-desktop
 
 ## R18n Features
 
 * Nice Ruby-style syntax.
 * Filters.
 * Model Translation (or any Ruby object).
-* Autodetect user locales.
+* Auto-detect user locales.
 * Flexible locales.
 * Total flexibility.
 
@@ -106,7 +106,7 @@ syntax.
 
 You can add filters for some YAML type. For example, we add custom filter to
 return different translation depend on user gender
-(it’s actual for some languages).
+(it's actual for some languages).
 
 ```yaml
 log:
@@ -140,12 +140,12 @@ i18n.greater #=> "1 &lt; 2 is true"
 ```
 
 You can also add filters for all returned translations or to issues, when
-translation can’t be founded.
+translation can't be founded.
 
 ### Model Translation
 
-You can translate any class, including ORM models (ActiveRecord, Mongoid,
-MongoMapper, DataMapper or others):
+You can translate any class, including ORM models (`ActiveRecord`, `Sequel`,
+`Mongoid`, `MongoMapper`, `DataMapper` or others):
 
 ```ruby
 class Product < ActiveRecord::Base
@@ -161,12 +161,13 @@ R18n.set('ru') # Russian
 product.title  #=> "Сибирская язва"
 ```
 
-### Autodetect User Locales
+### Auto-detect User Locales
 
 R18n has an agnostic core package and plugins with standard support for
 Sinatra and desktop applications. So for common cases you can use out-of-box
-gems with user locale autodetect. For special cases you can use core gem and
-hack everything, that you want (see “Total flexibility” section).
+gems with user locale auto-detect. For special cases you can use core gem and
+hack everything, that you want (see ["Total flexibility"](#total-flexibility)
+section).
 
 R18n automatically generate fallbacks for current user, based on
 user locales list from `HTTP_ACCEPT_LANGUAGE`, locale info (in some countries
@@ -202,7 +203,7 @@ l Time.now, :full         #=> "1er décembre 2011 12:00"
 l Time.now + 1.day, :full #=> "2 décembre 2011 12:00"
 ```
 
-Years in Thailand are counted in the Buddhist Era. It’s very easy for R18n:
+Years in Thailand are counted in the Buddhist Era. It's very easy for R18n:
 
 ```ruby
 R18n.set('th')
@@ -214,9 +215,9 @@ R18n.l Time.now, :full #=> "1 พฤศจิกายน, 2554 12:00"
 R18n is very flexible and agnostic. For example, Rails I18n compatibility level
 is just few filters and custom loader.
 
-Translation variables and pluralization (“1 comment”, “5 comments”) are filters
+Translation variables and pluralization ("1 comment", "5 comments") are filters
 too, so you can disable, replace or cascade them. For example, you can use the
-“named variables filter” from the `r18n-rails-api` gem:
+"named variables filter" from the `r18n-rails-api` gem:
 
 ```yaml
 greeting: "Hi, %{name}"
@@ -268,10 +269,12 @@ plugin_i18n.t.message.hellow
 
 ## Services
 
-* [WebTranslateIt] – web service to translate your app. It allow your customer
-  without programming skills help you with translations.
+* [Crowdin] — supports all of R18n, including pluralization, filters, etc.
 * [Localeapp] – Locale helps content owners and translators work together,
   so Rails developers are free to write more code.
+* [WebTranslateIt] – web service to translate your app. It allow your customer
+  without programming skills help you with translations.
 
-[WebTranslateIt]: https://webtranslateit.com/
+[Crowdin]: https://crowdin.com/
 [Localeapp]: http://www.localeapp.com/
+[WebTranslateIt]: https://webtranslateit.com/

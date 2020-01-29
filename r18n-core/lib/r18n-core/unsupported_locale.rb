@@ -26,8 +26,8 @@ module R18n
 
     attr_reader :code, :downcased_code
 
-    # Create object for unsupported locale with +code+ and load other locale
-    # data from +base+ locale.
+    # Create object for unsupported locale with `code` and load other locale
+    # data from `base` locale.
     def initialize(code, _base = nil)
       @code = code
       @downcased_code = @code.downcase.tr('-', '_').freeze

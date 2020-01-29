@@ -22,9 +22,9 @@ module R18n
   # R18n plugin with out-of-box i18n support.
   #
   # Module can add proxy-methods to find translation in object methods. For
-  # example, if you class have +title_en+ and +title_ru+ methods, you can add
-  # proxy-method +title+, which will use +title_ru+ for Russian users and
-  # +title_en+ for English:
+  # example, if you class have `title_en` and `title_ru` methods, you can add
+  # proxy-method `title`, which will use `title_ru` for Russian users and
+  # `title_en` for English:
   #
   #   class Product
   #     include DataMapper::Resource
@@ -58,21 +58,21 @@ module R18n
   # Proxy-method support all funtion from I18n: global and type filters,
   # pluralization, variables. It also return TranslatedString or Untranslated.
   #
-  # By default it use <tt>R18n.get</tt> to get I18n object (so, you must set it
-  # before use model), but you can overwrite object +r18n+ method to change
+  # By default it use `R18n.get` to get I18n object (so, you must set it
+  # before use model), but you can overwrite object `r18n` method to change
   # default logic.
   #
   # See R18n::Translated::Base for class method documentation.
   #
   # == Options
   # You can set option for proxy-method as Hash with keys;
-  # * +type+ – YAML type for filters. For example, "markdown" or "escape_html".
-  # * +methods+ – manual method map as Hash of locale codes to method names.
-  # * +no_params+ – set it to true if you proxy-method must send it parameters
+  # * `type` – YAML type for filters. For example, "markdown" or "escape_html".
+  # * `methods` – manual method map as Hash of locale codes to method names.
+  # * `no_params` – set it to true if you proxy-method must send it parameters
   #   only to filters.
-  # * +no_write+ – set it to true if you don’t want to create proxy-setters.
+  # * `no_write` – set it to true if you don't want to create proxy-setters.
   #
-  # Method +translation+ will be more useful for options:
+  # Method `translation` will be more useful for options:
   #
   #   translation :title, methods: { ru: :russian, en: :english}
   module Translated
@@ -86,18 +86,18 @@ module R18n
     end
 
     # Access to I18n object. By default return global I18n object from
-    # <tt>R18n.get</tt>.
+    # `R18n.get`.
     def r18n
       R18n.get
     end
 
     # Module with class methods, which be added after R18n::Translated include.
     module Base
-      # Hash of translation method names to it type for filters.
+      # `Hash` of translation method names to it type for filters.
       attr_reader :translation_types
 
-      # Add several proxy +methods+. See R18n::Translated for description.
-      # It’s more compact, that +translation+.
+      # Add several proxy `methods`. See R18n::Translated for description.
+      # It's more compact, that `translation`.
       #
       #   translations :title, :keywords, [:desciption, { type: 'markdown' }]
       def translations(*methods)
@@ -106,8 +106,8 @@ module R18n
         end
       end
 
-      # Add proxy-method +name+. See R18n::Translated for description.
-      # It’s more useful to set options.
+      # Add proxy-method `name`. See R18n::Translated for description.
+      # It's more useful to set options.
       #
       #   translation :desciption, type: 'markdown'
       def translation(name, options = {})
@@ -167,14 +167,14 @@ module R18n
         end
       end
 
-      # Return array of methods to find +unlocalized_getters+ or
-      # +unlocalized_setters+.
+      # Return array of methods to find `unlocalized_getters` or
+      # `unlocalized_setters`.
       def unlocalized_methods
         instance_methods
       end
 
-      # Return Hash of locale code to getter method for proxy +method+. If you
-      # didn’t set map in +translation+ option +methods+, it will be detect
+      # Return `Hash` of locale code to getter method for proxy `method`. If you
+      # didn't set map in `translation` option `methods`, it will be detect
       # automatically.
       def unlocalized_getters(method)
         matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)$')
@@ -187,8 +187,8 @@ module R18n
         @unlocalized_getters[method]
       end
 
-      # Return Hash of locale code to setter method for proxy +method+. If you
-      # didn’t set map in +translation+ option +methods+, it will be detect
+      # Return `Hash` of locale code to setter method for proxy `method`. If you
+      # didn't set map in `translation` option `methods`, it will be detect
       # automatically.
       def unlocalized_setters(method)
         matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)=$')

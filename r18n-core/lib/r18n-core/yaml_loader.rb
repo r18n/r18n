@@ -20,13 +20,13 @@
 module R18n
   module Loader
     # Loader for translations in YAML format. Them should have name like
-    # +en.yml+ (English) or en-US.yml (USA English dialect) with
+    # `en.yml` (English) or en-US.yml (USA English dialect) with
     # language/country code (RFC 3066).
     #
     #   R18n::I18n.new('en', R18n::Loader::YAML.new('dir/with/translations'))
     #
     # YAML loader is default loader, so you can just set constructor parameter
-    # to <tt>R18n::I18n.new</tt>:
+    # to `R18n::I18n.new`:
     #
     #   R18n::I18n.new('en', 'dir/with/translations')
     class YAML
@@ -37,20 +37,20 @@ module R18n
       # Dir with translations.
       attr_reader :dir
 
-      # Create new loader for +dir+ with YAML translations.
+      # Create new loader for `dir` with YAML translations.
       def initialize(dir)
         @dir = File.expand_path(dir)
         detect_yaml_private_type
       end
 
-      # Array of locales, which has translations in +dir+.
+      # `Array` of locales, which has translations in `dir`.
       def available
         Dir.glob(File.join(@dir, "**/*.#{FILE_EXT}"))
           .map { |i| File.basename(i, '.*').downcase }.uniq
           .map { |i| R18n.locale(i) }
       end
 
-      # Return Hash with translations for +locale+.
+      # Return `Hash` with translations for `locale`.
       def load(locale)
         initialize_types
 
@@ -63,12 +63,12 @@ module R18n
         transform(translations)
       end
 
-      # YAML loader with same +dir+ will be have same +hash+.
+      # YAML loader with same `dir` will be have same `hash`.
       def hash
         self.class.hash + @dir.hash
       end
 
-      # Is another +loader+ load YAML translations from same +dir+.
+      # Is another `loader` load YAML translations from same `dir`.
       def ==(other)
         self.class == other.class && dir == other.dir
       end

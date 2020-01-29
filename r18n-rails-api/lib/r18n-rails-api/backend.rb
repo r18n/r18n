@@ -31,9 +31,9 @@ module R18n
 
     RESERVED_KEYS = %i[scope default separator].freeze
 
-    # Find translation in R18n. It didn’t use +locale+ argument, only current
-    # R18n I18n object. Also it doesn’t support Proc and variables in +default+
-    # String option.
+    # Find translation in R18n. It didn't use `locale` argument, only current
+    # R18n I18n object. Also it doesn't support `Proc` and variables in
+    # `default` String option.
     def translate(locale, key, options = {})
       return key.map { |k| translate(locale, k, options) } if key.is_a?(Array)
 
@@ -66,13 +66,13 @@ module R18n
       end
     end
 
-    # Convert +object+ to String, according to the rules of the current
-    # R18n locale. It didn’t use +locale+ argument, only current R18n I18n
-    # object. It support Integer, Float, Time, Date and DateTime.
+    # Convert `object` to `String`, according to the rules of the current
+    # R18n locale. It didn't use `locale` argument, only current R18n I18n
+    # object. It support `Integer`, `Float`, `Time`, `Date` and `DateTime`.
     #
-    # Support Rails I18n (+:default+, +:short+, +:long+, +:long_ordinal+,
-    # +:only_day+ and +:only_second+) and R18n (+:full+, +:human+, +:standard+
-    # and +:month+) time formatters.
+    # Support Rails I18n (`:default`, `:short`, `:long`, `:long_ordinal`,
+    # `:only_day` and `:only_second`) and R18n (`:full`, `:human`, `:standard`
+    # and `:month`) time formatters.
     def localize(locale, object, format = :default, _options = {})
       i18n = get_i18n(locale)
       if format.is_a? Symbol
@@ -127,7 +127,7 @@ module R18n
       end
     end
 
-    # Find translation by <tt>scope.key(params)</tt> in current R18n I18n
+    # Find translation by `scope.key(params)` in current R18n I18n
     # object.
     def lookup(locale, scope, key, separator, params)
       keys = (Array(scope) + Array(key))
