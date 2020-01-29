@@ -20,26 +20,13 @@
 # Common methods for another R18n code.
 module R18n
   module Utils
-    HTML_ENTRIES = { '&' => '&amp;', '<' => '&lt;', '>' => '&gt;' }.freeze
-
     # Escape HTML entries (<, >, &). Copy from HAML helper.
     def self.escape_html(content)
       if defined? ActiveSupport::SafeBuffer
         ActiveSupport::SafeBuffer.new + content
       else
-        content.to_s.gsub(/[><&]/) { |s| HTML_ENTRIES[s] }
+        CGI.escapeHTML content
       end
-    end
-
-    # Invokes `block` once for each key and value of `hash`. Creates a new hash
-    # with the keys and values returned by the `block`.
-    def self.hash_map(hash, &block)
-      result = {}
-      hash.each_pair do |key, val|
-        new_key, new_value = block.call(key, val)
-        result[new_key] = new_value
-      end
-      result
     end
 
     # Recursively hash merge.
