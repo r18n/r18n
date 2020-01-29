@@ -24,14 +24,14 @@ module R18n
   # Locale classes and create pretty way to use it.
   #
   # To get translation you can use same with Translation way – use method with
-  # translation’s name or <tt>[name]</tt> method. Translations will be also
-  # loaded for default locale, +sublocales+ from first in +locales+ and general
-  # languages for dialects (it will load +fr+ for +fr_CA+ too).
+  # translation's name or `[name]` method. Translations will be also
+  # loaded for default locale, `sublocales` from first in `locales` and general
+  # languages for dialects (it will load `fr` for `fr_CA` too).
   #
   # Translations will loaded by loader object, which must have 2 methods:
-  # * <tt>available</tt> – return array of locales of available translations;
-  # * <tt>load(locale)</tt> – return Hash of translation.
-  # If you will use default loader (+R18n.default_loader+) you can pass to I18n
+  # * `available` – return array of locales of available translations;
+  # * `load(locale)` – return Hash of translation.
+  # If you will use default loader (`R18n.default_loader`) you can pass to I18n
   # only constructor argument for loader:
   #
   #   R18n::I18n.new('en', R18n::Loader::YAML.new('dir/with/translations'))
@@ -41,16 +41,16 @@ module R18n
   #   R18n::I18n.new('en', 'dir/with/translations')
   #
   # In translation file you can use strings, numbers, floats (any YAML types)
-  # and pluralizable values (<tt>!!pl</tt>). You can use params in string
-  # values, which you can replace in program. Just write <tt>%1</tt>,
-  # <tt>%2</tt>, etc and set it values as method arguments, when you will be get
+  # and pluralizable values (`!!pl`). You can use params in string
+  # values, which you can replace in program. Just write `%1`,
+  # `%2`, etc and set it values as method arguments, when you will be get
   # value.
   #
   # You can use filters for some YAML type or for all strings. See R18n::Filters
   # for details.
   #
-  # R18n contain translations for common words (such as “OK”, “Cancel”, etc)
-  # for most supported locales. See <tt>base/</tt> dir.
+  # R18n contain translations for common words (such as "OK", "Cancel", etc)
+  # for most supported locales. See `base/` dir.
   #
   # == Usage
   # translations/ru.yml
@@ -105,7 +105,7 @@ module R18n
         locales.map! { |i| i[0] }
       end
 
-      # Load default loader for elements in +places+ with only constructor
+      # Load default loader for elements in `places` with only constructor
       # argument.
       def convert_places(places)
         Array(places).map! do |loader|
@@ -127,13 +127,13 @@ module R18n
     # First locale with locale file
     attr_reader :locale
 
-    # Create i18n for +locales+ with translations from +translation_places+ and
+    # Create i18n for `locales` with translations from `translation_places` and
     # locales data. Translations will be also loaded for default locale,
-    # +sublocales+ from first in +locales+ and general languages for dialects
-    # (it will load +fr+ for +fr_CA+ too).
+    # `sublocales` from first in `locales` and general languages for dialects
+    # (it will load `fr` for `fr_CA` too).
     #
-    # +Locales+ must be a locale code (RFC 3066) or array, ordered by priority.
-    # +Translation_places+ must be a string with path or array.
+    # `locales` must be a locale code (RFC 3066) or array, ordered by priority.
+    # `translation_places` must be a string with path or array.
     def initialize(locales, translation_places = nil, opts = {})
       locales = Array(locales)
 
@@ -252,18 +252,18 @@ module R18n
       R18n.cache[translation_cache_key] = [@locale, @translation]
     end
 
-    # Return Array of locales with available translations.
+    # Return `Array` of locales with available translations.
     def available_locales
       @available_locales ||= R18n.available_locales(@translation_places)
     end
 
-    # Convert +object+ to String, according to the rules of the current locale.
-    # It support Integer, Float, Time, Date and DateTime.
+    # Convert `object` to `String`, according to the rules of the current
+    # locale. It support `Integer`, `Float`, `Time`, `Date` and `DateTime`.
     #
-    # For time classes you can set +format+ in standard +strftime+ form,
-    # <tt>:full</tt> (“01 Jule, 2009”), <tt>:human</tt> (“yesterday”),
-    # <tt>:standard</tt> (“07/01/09”) or <tt>:month</tt> for standalone month
-    # name. Default format is <tt>:standard</tt>.
+    # For time classes you can set `format` in standard `strftime` form,
+    # `:full` ("01 Jule, 2009"), `:human` ("yesterday"),
+    # `:standard` ("07/01/09") or `:month` for standalone month
+    # name. Default format is `:standard`.
     #
     #   i18n.l -12000.5         #=> "−12,000.5"
     #   i18n.l Time.now         #=> "07/01/09 12:59"
@@ -280,10 +280,10 @@ module R18n
       @translation
     end
 
-    # Return translation with special +name+.
+    # Return translation with special `name`.
     #
-    # Translation can contain variable part. Just set is as <tt>%1</tt>,
-    # <tt>%2</tt>, etc in translations file and set values in next +params+.
+    # Translation can contain variable part. Just set is as `%1`,
+    # `%2`, etc in translations file and set values in next `params`.
     def [](name, *params)
       @translation[name, *params]
     end

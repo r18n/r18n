@@ -43,7 +43,7 @@
 ## 2.2 (La Habana)
 * Change date format in `en` locale to `YYYY-MM-DD` (by Alexander Popov).
 * Add `TranslatedString#as_json` for ActiveSupport compatibility (by Tim Craft).
-* Fix `TranslatedString#html_safe?` behaviour (by Tim Craft).
+* Fix `TranslatedString#html_safe?` behavior (by Tim Craft).
 * Fix unsupported `LANG` environment (by Chris Poirier).
 * Fix `Locale#localize` method for `DateTime` objects (by Alexander Popov).
 
@@ -97,7 +97,7 @@
 * Add JRuby 9000 support.
 
 ### 1.1.11 (São Paulo)
-* Allow to set Proc as `default` option in Rails I18n backend.
+* Allow to set Proc as `default` option in Rails I18n back-end.
 
 ### 1.1.10 (十)
 * Fix Esperanto locale by Larry Gilbert.
@@ -112,7 +112,7 @@
 
 ### 1.1.7 (Tujuh)
 * Return `nil` on untranslated in models with Translated.
-* Add `transliterate` method to I18n backend.
+* Add `transliterate` method to I18n back-end.
 * Add Indonesian locale (by Guntur Akhmad).
 
 ### 1.1.6 (Vitebsk)
@@ -120,17 +120,17 @@
 * Fix path in global String filters.
 
 ### 1.1.5 (Hilo)
-* Fix Sinatra plugin under multithreaded web-server (by Viktors Rotanovs).
-* Fix BigDecimal localizing (by François Beausoleil).
+* Fix Sinatra plugin under multi-threaded web-server (by Viktors Rotanovs).
+* Fix `BigDecimal` localizing (by François Beausoleil).
 * Add American American Spanish locale (by renemarcelo).
 
 ### 1.1.4 (Bokmål)
-* Add Norwegian “no” locale as gateway to Bokmål or Nynorsk.
+* Add Norwegian `no` locale as gateway to Bokmål or Nynorsk.
 * Fix Norwegian Bokmål locale code.
-* Fix hungarian time format (Kővágó Zoltán).
+* Fix Hungarian time format (Kővágó Zoltán).
 
 ### 1.1.3 (Saint Petersburg)
-* Fix memory leak from cache key missmatch in Rails plugin (by silentshade).
+* Fix memory leak from cache key mismatch in Rails plugin (by silentshade).
 
 ### 1.1.2 (Marshal)
 * Fix translation and untranslated marshalizing (by silentshade).
@@ -138,27 +138,27 @@
 * Fix untranslated strings output in tests.
 
 ### 1.1.1 (Dunhuang)
-* Don’t change YAML parser in Ruby 1.9.
-* Allow to change locale by argument in R18n Rails backend.
-* Set also Rails I18n locale in Rails autodetect filter.
+* Don't change YAML parser in Ruby 1.9.
+* Allow to change locale by argument in R18n Rails back-end.
+* Set also Rails I18n locale in Rails auto-detect filter.
 * Fix caching with custom filters (by Anton Onyshchenko).
 * Fix translation variables with `%1` text inside (by Taras Kunch).
 * Fix Latvian locale (by Aleksandrs Ļedovskis).
 
 ### 1.1.0 (Leipzig)
 * A lot of fixes in Rails I18n compatibility (thanks for Stephan Schubert).
-* Return Untranslted, when user try to call another translation key on
+* Return `Untranslted`, when user try to call another translation key on
   already translated string.
 * Add `Translation#to_hash` to get raw translation.
 * Add `Translation#inspect` to easy debug.
-* Return translation, when pluralization filter didn’t get count.
-* Set R18n backend on Rails plugin init, to use it in console.
+* Return translation, when pluralization filter did not get count.
+* Set R18n back-end on Rails plugin init, to use it in console.
 * Allow to use Integer in translation keys.
 
 ### 1.0.1 (Phuket Town)
 * Fix translation reloading in Rails and Sinatra.
 * Use global R18n settings for Sinatra extension.
-* Allow to override desktop autodetect by LANG environment on all platforms.
+* Allow to override desktop auto-detect by LANG environment on all platforms.
 * Add support for JRuby in 1.9 mode.
 * Rename `R18n.reset` to `R18n.reset!` and add `R18n.clear_cache!`.
 * Fix Sinatra with loaded ActiveSupport.
@@ -166,7 +166,7 @@
 
 ### 1.0.0 (Bangkok)
 * Add `R18n.default_places`.
-* Rails SafeBuffer support.
+* Rails `SafeBuffer` support.
 * Allow in Rails app to put filters to `app/i18n` reload them in development.
 * Move `R18n::I18n.available_locales` to `R18n.available_locales`.
 * Rename `_keys` to `translation_keys`.
@@ -191,11 +191,11 @@
 * Fix Swedish locale (by Pär Wieslander).
 
 ### 0.4.13 (Sti)
-* Fix Pathname to String error in r18n-desktop.
+* Fix `Pathname` to `String` error in `r18n-desktop`.
 * Add Norwegian locale (by Oddmund Strømme).
 
 ### 0.4.12 (Шлях)
-* Fix Pathname to String convertion error.
+* Fix `Pathname` to `String` conversion error.
 * Fix model translation for non-ActiveRecord (by Szymon Przybył).
 * Add Ukrainian locale (by Ярослав Руденок).
 
@@ -225,14 +225,14 @@
 * Fix caching issue (by Viktors Rotanovs).
 * Add Danish locale (by Hans Czajkowski Jørgensen)
 * Fix Italian locale (by Viktors Rotanovs).
-* Move untranslated filters with html highlight to r18n-core.
+* Move untranslated filters with html highlight to `r18n-core`.
 
 ### 0.4.7.1 (Kyū)
 * Fix Japanese locale in Ruby 1.9.1.
 
 ### 0.4.7 (Mado)
-* Fix autodetect locale in Windows and Ruby 1.9.1 (by Marvin Gülker).
-* Fix autodetect locale in JRuby (by Kővágó, Zoltán).
+* Fix auto-detect locale in Windows and Ruby 1.9.1 (by Marvin Gülker).
+* Fix auto-detect locale in JRuby (by Kővágó, Zoltán).
 * Fix human time format on 60 minutes.
 * Add Hungarian locale (by Kővágó, Zoltán).
 * Add Japanese locale (by hryk).
@@ -260,7 +260,7 @@
 * Set I18n object to thread (by Simon Hafner).
 * Add to l Rails helper R18n syntax.
 * Add common helpers.
-* Clear cache in R18n.reset.
+* Clear cache in `R18n.reset`.
 * Clean up code and fix bug (by Akzhan Abdulin).
 * Add Thai locale (by Felix Hanley).
 
@@ -277,7 +277,7 @@
 
 ### 0.4.1 (Lazy Boole)
 * Add passive filters.
-* Receive filter position as option Hash.
+* Receive filter position as option `Hash`.
 * Fix base translations (by Pavel Kunc).
 
 ### 0.4 (D-Day)
@@ -304,25 +304,25 @@
 * Remove RubyGems requires.
 
 ### 0.3 (Vladivostok)
-* Translated mixin to add i18n support to model or any other class.
+* `Translated` mix-in to I18n support to model or any other class.
 * New cool time formatters.
 * Filters for translations.
 * Add filters to escape HTML, Markdown and Textile syntax.
 * Pluralization and variables is now filters and can be replaced.
 * I18n#locales now contain all detected locales, used to load translations,
   instead of just received from user.
-* Bugfix in locale code case.
+* Bug-fix in locale code case.
 * Add Czech locale (by Josef Pospíšil).
 
 ### 0.2.3 (Shanghai eclipse)
-* R18n will return path string if translation isn’t exists.
-* Add UnsupportedLocale class for locale without information file.
+* R18n will return path string if translation isn't exists.
+* Add `UnsupportedLocale` class for locale without information file.
 * Load absent locale information from default locale.
 * Add Polish locale (by Tymon Tobolski).
 
 ### 0.2.2 (Clone Wars)
 * Localize numbers in pluralization.
-* Bugfix in translation variables.
+* Bug-fix in translation variables.
 
 ### 0.2.1 (Neun)
 * Ruby 1.9 compatibility.
@@ -336,8 +336,8 @@
 * Add Kazakh locale.
 
 ### 0.1.1 (Saluto)
-* Loading i18n object without translations.
+* Loading I18n object without translations.
 * Add output for standalone month name.
-* Don’t call procedures from translations if it isn’t secure.
+* Don't call procedures from translations if it isn't secure.
 * Add Esperanto locale.
 * English locale now contain UK date standards.

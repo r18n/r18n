@@ -39,8 +39,8 @@ module R18n
   autoload :Translated, 'r18n-core/translated'
 
   class << self
-    # Set I18n object globally. You can miss translation +places+, it will be
-    # taken from <tt>R18n.default_places</tt>.
+    # Set I18n object globally. You can miss translation `places`, it will be
+    # taken from `R18n.default_places`.
     def set(i18n = nil, places = R18n.default_places, &block)
       @i18n =
         if block_given?
@@ -90,17 +90,17 @@ module R18n
       Thread.current
     end
 
-    # Translate message. Alias for <tt>R18n.get.t</tt>.
+    # Translate message. Alias for `R18n.get.t`.
     def t(*params)
       get.t(*params)
     end
 
-    # Localize object. Alias for <tt>R18n.get.l</tt>.
+    # Localize object. Alias for `R18n.get.l`.
     def l(*params)
       get.l(*params)
     end
 
-    # Return I18n object for +locale+. Useful to temporary change locale,
+    # Return I18n object for `locale`. Useful to temporary change locale,
     # for example, to show text in locales list:
     #
     #   - R18n.available_locales.each do |locale|
@@ -126,19 +126,19 @@ module R18n
       i18n
     end
 
-    # Return Locale object by locale code. It’s shortcut for
-    # <tt>R18n::Locale.load(code)</tt>.
+    # Return Locale object by locale code. It's shortcut for
+    # `R18n::Locale.load(code)`.
     def locale(code)
       R18n::Locale.load(code)
     end
 
-    # Return Array of locales with available translations. You can miss
-    # translation +places+, it will be taken from <tt>R18n.default_places</tt>.
+    # Return `Array` of locales with available translations. You can miss
+    # translation `places`, it will be taken from `R18n.default_places`.
     def available_locales(places = R18n.default_places)
       R18n::I18n.convert_places(places).map(&:available).flatten.uniq
     end
 
-    # Default places for <tt>R18n.set</tt> and <tt>R18n.available_locales</tt>.
+    # Default places for `R18n.set` and `R18n.available_locales`.
     #
     # You can set block to calculate places dynamically:
     #   R18n.default_places { settings.i18n_places }
@@ -154,15 +154,15 @@ module R18n
       end
     end
 
-    # Default loader class, which will be used if you didn’t send loader to
-    # +I18n.new+ (object with +available+ and +load+ methods).
+    # Default loader class, which will be used if you didn't send loader to
+    # `I18n.new` (object with `available` and `load` methods).
     attr_accessor :default_loader
 
     # Loaders with extension translations. If application translations with
-    # same locale isn’t exists, extension file willn’t be used.
+    # same locale isn't exists, extension file willn't be used.
     attr_accessor :extension_places
 
-    # Hash of hash-like (see Moneta) object to store loaded translations.
+    # `Hash` of hash-like (see Moneta) object to store loaded translations.
     attr_accessor :cache
   end
 

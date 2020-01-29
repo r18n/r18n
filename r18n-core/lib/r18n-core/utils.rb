@@ -31,8 +31,8 @@ module R18n
       end
     end
 
-    # Invokes +block+ once for each key and value of +hash+. Creates a new hash
-    # with the keys and values returned by the +block+.
+    # Invokes `block` once for each key and value of `hash`. Creates a new hash
+    # with the keys and values returned by the `block`.
     def self.hash_map(hash, &block)
       result = {}
       hash.each_pair do |key, val|

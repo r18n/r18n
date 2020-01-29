@@ -35,7 +35,7 @@ module R18n
       Filters.by_type.each_key do |type|
         next unless type.is_a? String
 
-        # Yeah, I add R18n’s types to global, send me patch if you really
+        # Yeah, I add R18n's types to global, send me patch if you really
         # use YAML types too ;).
         Psych.add_domain_type('yaml.org,2002', type) do |_full_type, value|
           Typed.new(type, value)

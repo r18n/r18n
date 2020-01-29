@@ -16,7 +16,7 @@ R18n for Rails is fully compatibile with Rails I18n, and add extra features:
 * Flexible locales.
 * Total flexibility.
 
-See full features in [main README](https://github.com/ai/r18n/blob/master/README.md).
+See full features in [main README](https://github.com/r18n/r18n/blob/master/README.md).
 
 ## How To
 
@@ -46,7 +46,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
      ```
 
 4. Translations in I18n format are stored in
-   <tt>config/locales/<i>locale</i>.yml</tt>:
+   `config/locales/%{locale}.yml`:
 
      ```yaml
     en:
@@ -57,7 +57,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
           one:  "One user"
           many: "%{count} users"
      ```
-   Translations in R18n format go to <tt>app/i18n/<i>locale</i>.yml</tt>:
+   Translations in R18n format go to `app/i18n/%{locale}.yml`:
 
      ```yaml
     user:
@@ -82,7 +82,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
     t.user.count(5)
      ```
 
-6. Print dates and numbers in user’s tradition:
+6. Print dates and numbers in user's tradition:
 
      ```ruby
     l Date.today, :standard #=> "2009-12-20"
@@ -94,7 +94,7 @@ See full features in [main README](https://github.com/ai/r18n/blob/master/README
    not only for ActiveRecord models
 
    1. Add to migration columns for each of the supported locales, named as
-      <tt><i>name</i>_<i>locale</i></tt>:
+      `%{name}_%{locale}`:
 
          ```ruby
         t.string :title_en

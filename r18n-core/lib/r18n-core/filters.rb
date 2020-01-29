@@ -42,14 +42,14 @@ module R18n
   #
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
   #
-  # Use String class as type to add global filter for all translated strings:
+  # Use `String` class as type to add global filter for all translated strings:
   #
   #   R18n::Filters.add(String, :escape_html) do |content, config, params|
   #     escape_html(content)
   #   end
   #
   # Filter config contain two parameters: translation locale and path. But it is
-  # Hash and you can add you own parameter to cross-filter communications:
+  # `Hash` and you can add you own parameter to cross-filter communications:
   #
   #   R18n::Filters.add(String, :hide_truth) do |content, config|
   #     return content if config[:censorship_check]
@@ -74,28 +74,28 @@ module R18n
   #   i18n.filtered('_') #=> "This_content_will_be_processed_by_filter!"
   #   R18n::Filters.delete(:no_space)
   #
-  # You can enabled/disabled filters only for special I18n object:
+  # You can enabled/disabled filters only for special `I18n` object:
   #
   #   R18n::I18n.new('en', nil, on_filters: [:untranslated_html, :no_space],
   #                             off_filters: :untranslated )
   module Filters
     class << self
-      # Hash of filter names to Filters.
+      # `Hash` of filter names to Filters.
       attr_accessor :defined
 
-      # Hash of types to all Filters.
+      # `Hash` of types to all Filters.
       attr_accessor :by_type
 
-      # Hash of types to enabled active filters.
+      # `Hash` of types to enabled active filters.
       attr_accessor :active_enabled
 
-      # Hash of types to enabled passive filters.
+      # `Hash` of types to enabled passive filters.
       attr_accessor :passive_enabled
 
-      # Hash of types to enabled passive and active filters.
+      # `Hash` of types to enabled passive and active filters.
       attr_accessor :enabled
 
-      # Rebuild +active_enabled+ and +passive_enabled+ for +type+.
+      # Rebuild `active_enabled` and `passive_enabled` for `type`.
       def rebuild_enabled!(type)
         @passive_enabled[type] = []
         @active_enabled[type] = []
@@ -113,17 +113,17 @@ module R18n
         end
       end
 
-      # Add new filter for +type+ with +name+ and return filter object. You
-      # can use String class as +type+ to add global filter for all translated
+      # Add new filter for `type` with `name` and return filter object. You
+      # can use `String` class as `type` to add global filter for all translated
       # string.
       #
-      # Filter content will be sent to +block+ as first argument, struct with
+      # Filter content will be sent to `block` as first argument, struct with
       # config as second and filters parameters will be in next arguments.
       #
       # Options:
-      # * +position+ – change order on processing several filters for same type.
+      # * `position` – change order on processing several filters for same type.
       #    Note that passive filters will be always run before active.
-      # * +passive+ – if +true+, filter will process only on translation
+      # * `passive` – if `true`, filter will process only on translation
       #   loading. Note that you must add all passive before load translation.
       def add(types, name = nil, options = {}, &block)
         if name.is_a? Hash
@@ -162,7 +162,7 @@ module R18n
         filter
       end
 
-      # Delete +filter+ by name or Filter object.
+      # Delete `filter` by name or Filter object.
       def delete(filter)
         filter = @defined[filter] unless filter.is_a? Filter
         return unless filter
@@ -174,7 +174,7 @@ module R18n
         end
       end
 
-      # Disable +filter+ by name or Filter object.
+      # Disable `filter` by name or Filter object.
       def off(filter)
         filter = @defined[filter] unless filter.is_a? Filter
         return unless filter
@@ -183,7 +183,7 @@ module R18n
         filter.types.each { |type| rebuild_enabled! type }
       end
 
-      # Turn on disabled +filter+ by name or Filter object.
+      # Turn on disabled `filter` by name or Filter object.
       def on(filter)
         filter = @defined[filter] unless filter.is_a? Filter
         return unless filter
@@ -192,7 +192,7 @@ module R18n
         filter.types.each { |type| rebuild_enabled! type }
       end
 
-      # Return filters, which be added inside +block+.
+      # Return filters, which be added inside `block`.
       def listen(&_block)
         filters = []
         @new_filter_listener = proc { |i| filters << i }

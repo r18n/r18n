@@ -28,8 +28,8 @@ module R18n
     # Path for this translation.
     attr_reader :path
 
-    # Returns a new string object containing a copy of +str+, which translated
-    # for +path+ to +locale+
+    # Returns a new string object containing a copy of `str`, which translated
+    # for `path` to `locale`
     def initialize(value, locale, path, filters = nil)
       super(value.to_s)
       @filters = filters

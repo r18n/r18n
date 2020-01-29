@@ -18,10 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module R18n
-  # Superclass for +GlobalFilterList+ and +CustomFilterList+ with filters
+  # Superclass for `GlobalFilterList` and `CustomFilterList` with filters
   # processing.
   class FilterList
-    # Process +value+ by filters in +enabled+.
+    # Process `value` by filters in `enabled`.
     def process(filters_type, type, value, locale, path, params)
       config = { locale: locale, path: path }
 
@@ -49,7 +49,7 @@ module R18n
       )
     end
 
-    # Process +value+ by global filters in +enabled+.
+    # Process `value` by global filters in `enabled`.
     def process_string(filters_type, value, config, params)
       config = { locale: value.locale, path: config } if config.is_a? String
 
@@ -64,7 +64,7 @@ module R18n
       end
     end
 
-    # Array of enabled filters with +filters_type+ for +type+.
+    # `Array` of enabled filters with `filters_type` for `type`.
     def enabled(filters_type, type)
       if filters_type == :passive
         passive(type)

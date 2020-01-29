@@ -14,7 +14,7 @@ Use `r18n-rails` or `sinatra-r18n` to localize Web applications and
 * Flexible locales.
 * Total flexibility.
 
-See full features in [main README](https://github.com/ai/r18n/blob/master/README.md).
+See full features in [main README](https://github.com/r18n/r18n/blob/master/README.md).
 
 ## Usage
 
@@ -97,7 +97,7 @@ t.post.add     #=> "Add post"
 t[:post][:add] #=> "Add post"
 ```
 
-If the locale isn’t found in the user’s requested locale, R18n will search for
+If the locale isn't found in the user's requested locale, R18n will search for
 it in sublocales or in another locale, which the user also can accept:
 
 ```ruby
@@ -105,7 +105,7 @@ t.not.in.english #=> "В английском нет"
 ```
 
 The translated string has a `locale` method for determining its locale (Locale
-instance or code string if locale is’t supported in R18n):
+instance or code string if locale is't supported in R18n):
 
 ```ruby
 i18n.not.in.english.locale #=> Locale ru (Русский)
@@ -129,8 +129,8 @@ t.robots(1)  #=> "One robot"
 t.robots(50) #=> "50 robots"
 ```
 
-If there isn’t a pluralization for a particular number, translation will be use
-`n`. If there isn’t a locale file for translation, it will use the English
+If there isn't a pluralization for a particular number, translation will be use
+`n`. If there isn't a locale file for translation, it will use the English
 pluralization rule (`0`, `1` and `n`).
 
 You can check if the key has a translation:
@@ -194,7 +194,7 @@ To create a filter you pass the following to `R18n::Filters.add`:
 * Optional filter name, to disable, enable or delete it later by
   `R18n::Filters.off`, `R18n::Filters.on` and
   `R18n::Filters.delete`.
-* Hash with options:
+* `Hash` with options:
   * `passive: true` to filter translations only on load;
   * `:position` within the list of current filters of this type
     (by default a new filter will be inserted into last position).
@@ -202,7 +202,7 @@ To create a filter you pass the following to `R18n::Filters.add`:
 The filter will receive at least two arguments:
 * Translation (possibly already filtered by other filters for this type earlier
   in the list).
-* A Hash with translation `locale` and `path`.
+* A `Hash` with translation `locale` and `path`.
 * Parameters from translation request will be in the remaining arguments.
 
 In Rails application put your filters to `app/i18n/filters.rb`, it will be
@@ -255,7 +255,7 @@ hi: !!markdown
 t.hi #=> "<p><strong>Hi</strong>, people!</p>"
 ```
 
-If you can’t use Kramdown you can redefine Markdown filter
+If you can't use Kramdown you can redefine Markdown filter
 to use your own parser:
 
 ```ruby
@@ -312,8 +312,8 @@ l -12000.5 #=> "−12,000.5"
 Number and float formatters will also put real typographic minus and put
 non-breakable thin spaces (for locale, which use it as digit separator).
 
-You can translate months and week day names in Time, Date and DateTime by the
-`strftime` method:
+You can translate months and week day names in `Time`, `Date` and `DateTime`
+by the `strftime` method:
 
 ```ruby
 l Time.now, '%B'  #=> "September"
@@ -362,9 +362,9 @@ See `R18n::Translated` for documentation.
 
 ### Locale
 
-All supported locales are stored in R18n gem in `locales` directory. If you want
-to add your locale, please fork this project and send a pull request or email me
-at <andrey@sitnik.ru>.
+All supported locales are stored in `r18n-core` gem in `locales/` directory.
+If you want to add your locale, please see the ["Add Locale"](#add-locale)
+section.
 
 To get information about a locale create an `R18n::Locale` instance:
 
@@ -399,7 +399,7 @@ You can load translations from anywhere, not just from YAML files. To load
 translation you must create loader class with 2 methods:
 
 * `available` – return array of locales of available translations;
-* `load(locale)` – return Hash of translation.
+* `load(locale)` – return `Hash` of translation.
 
 Pass its instance to `R18n.default_places` or `R18n.set(locales, loaders)`
 
@@ -449,25 +449,29 @@ R18n.extension_places << R18n::Loader::YAML.new('./error_messages/')
 
 ## Add Locale
 
-If R18n hasn’t got locale file for your language, please add it. It’s very
+If R18n has not got locale file for your language, please add it. It's very
 simple:
 
-* Create the file <tt><i>code</i>.rb</tt> in the `locales/` directory for your
-  language and describe locale. Just copy from another locale and change the
+* Create the file `%{code}.rb` for your language and describe locale, then
+  require it in the project. Just copy from another locale and change the
   values.
   * If your country has alternate languages (for example, in exUSSR countries
     most people also know Russian), add
-    <tt>sublocales %w[<i>another_locale</i> en]</tt>.
-* Create in `base/` file <tt><i>code</i>.yml</tt>  for your language and
-  translate the base messages. Just copy file from language, which you know,
-  and rewrite values.
+    `sublocales %w[%{another_locale} en]`.
 * If your language needs some special logic (for example, different
   pluralization or time formatters) you can extend `R18n::Locale` class methods.
-* Send a pull request via GitHub <http://github.com/ai/r18n> or just write email
-  with the files to me <andrey@sitnik.ru>.
 
-*Code* is RFC 3066 code for your language (for example, “en” for English and
-“fr-CA” for Canadian French). Email me with any questions you may have, you will
+If you want to send a pull request:
+
+* Move your `%{code}.rb` file in the `locales/` directory.
+* Create `%{code}.yml` file for your language in the `base/` directory and
+  translate the base messages. Just copy file from language, which you know,
+  and rewrite values.
+* Send a pull request via GitHub <http://github.com/r18n/r18n> or just write
+  email with the files to <andrey@sitnik.ru> or <alex.wayfer@gmail.com>.
+
+`%{code}` is RFC 3066 code for your language (for example, `en` for English and
+`fr-CA` for Canadian French). Email me with any questions you may have, you will
 find other contact addresses at http://sitnik.ru.
 
 ## License

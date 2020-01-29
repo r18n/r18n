@@ -21,17 +21,17 @@ module R18n
   module Rails
     module Helpers
       # Return current R18n I18n object, to use R18n API:
-      # * <tt>r18n.available_locales</tt> – available application translations.
-      # * <tt>r18n.locales</tt> – List of user locales
-      # * <tt>r18n.reload!</tt> – Reload R18n translations
+      # * `r18n.available_locales` – available application translations.
+      # * `r18n.locales` – List of user locales
+      # * `r18n.reload!` – Reload R18n translations
       #
-      # You can get translations by <tt>r18n.user.name</tt>, but +t+ helper is
+      # You can get translations by `r18n.user.name`, but `t` helper is
       # more beautiful, short and also support R18n syntax.
       def r18n
         R18n.get
       end
 
-      # Extend +t+ helper to use also R18n syntax.
+      # Extend `t` helper to use also R18n syntax.
       #
       #   t 'user.name' # Rails I18n style
       #   t.user.name   # R18n style
@@ -44,7 +44,7 @@ module R18n
       end
       alias translate t
 
-      # Extend +l+ helper to use also R18n syntax.
+      # Extend `l` helper to use also R18n syntax.
       #
       #   l Time.now                 # Rails I18n default format
       #   l Time.now, format: :short # Rails I18n style

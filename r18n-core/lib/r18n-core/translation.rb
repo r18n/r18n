@@ -23,16 +23,16 @@ module R18n
 
   # Translation is container of translated messages.
   #
-  # You can load several locales and if translation willn’t be found in first,
+  # You can load several locales and if translation willn't be found in first,
   # r18n will be search it in next. Use R18n::I18n.new to load translations.
   #
   # To get translation value use method with same name. If translation name
-  # is equal with Object methods (+new+, +to_s+, +methods+) use
-  # <tt>[name, params…]</tt>. If you want to get pluralizable value, just set
+  # is equal with Object methods (`new`, `to_s`, `methods`) use
+  # `[name, params…]`. If you want to get pluralizable value, just set
   # value for pluralization in first argument of method. See samples below.
   #
-  # Translated strings will have +locale+ methods, which return Locale or
-  # UnsupportedLocale, if locale file isn’t exists.
+  # Translated strings will have `locale` methods, which return Locale or
+  # UnsupportedLocale, if locale file isn't exists.
   #
   # == Examples
   # translations/ru.yml
@@ -68,7 +68,7 @@ module R18n
   #   i18n.comments(10)           #=> "10 comments"
   class Translation
     # This is internal a constructor. To load translation use
-    # <tt>R18n::I18n.new(locales, translations_dir)</tt>.
+    # `R18n::I18n.new(locales, translations_dir)`.
     def initialize(locale, path = '', options = {})
       @data    = {}
       @locale  = locale
@@ -78,8 +78,8 @@ module R18n
       merge! options[:translations], options[:locale] if options[:translations]
     end
 
-    # Add another hash with +translations+ for some +locale+. Current data is
-    # more priority, that new one in +translations+.
+    # Add another hash with `translations` for some `locale`. Current data is
+    # more priority, that new one in `translations`.
     def merge!(translations, locale)
       (translations || {}).each_pair do |name, value|
         if !@data.key?(name)
@@ -123,7 +123,7 @@ module R18n
 
     # Return current translation keys.
     #
-    # Deprecated. Use <tt>to_hash.keys</tt>.
+    # Deprecated. Use `to_hash.keys`.
     def translation_keys
       to_hash.keys
     end
@@ -136,15 +136,15 @@ module R18n
       end
     end
 
-    # Return +default+.
+    # Return `default`.
     def |(other)
       other
     end
 
-    # Return translation with special +name+.
+    # Return translation with special `name`.
     #
-    # Translation can contain variable part. Just set is as <tt>%1</tt>,
-    # <tt>%2</tt>, etc in translations file and set values in next +params+.
+    # Translation can contain variable part. Just set is as `%1`,
+    # `%2`, etc in translations file and set values in next `params`.
     def [](name, *params)
       unless [String, Integer, TrueClass, FalseClass]
           .any? { |klass| name.is_a?(klass) }
@@ -166,7 +166,7 @@ module R18n
     end
     alias method_missing []
 
-    # Return translation located at +names+.
+    # Return translation located at `keys`.
     # @see Hash#dig
     def dig(*keys)
       keys.reduce(self) { |result, key| result[key] }

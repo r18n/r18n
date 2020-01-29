@@ -32,12 +32,12 @@ module R18n
     end
     alias i18n r18n
 
-    # Translate message. Alias for <tt>r18n.t</tt>.
+    # Translate message. Alias for `r18n.t`.
     def t(*params)
       R18n.get.t(*params)
     end
 
-    # Localize object. Alias for <tt>r18n.l</tt>.
+    # Localize object. Alias for `r18n.l`.
     def l(*params)
       R18n.get.l(*params)
     end

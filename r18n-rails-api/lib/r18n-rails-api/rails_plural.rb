@@ -20,7 +20,7 @@
 module R18n
   # Converter between R18n and Rails I18n plural keys.
   class RailsPlural
-    # Check, that +key+ is Rails plural key.
+    # Check, that `key` is Rails plural key.
     def self.rails?(key)
       %i[zero one few many other].include? key
     end
