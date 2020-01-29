@@ -49,13 +49,12 @@ l Time.now, :full  #=> "3rd of January, 2010 18:54"
 ### Examples
 
 For Rails, Sinatra or desktop examples, see plugins documentations:
-* [r18n-rails] for Ruby on Rails,
-* [sinatra-r18n] for Sinatra,
-* [r18n-desktop] for shell/desktop applications.
-
-[r18n-rails]: https://github.com/r18n/r18n/tree/master/r18n-rails
-[sinatra-r18n]: https://github.com/r18n/r18n/tree/master/sinatra-r18n
-[r18n-desktop]: https://github.com/r18n/r18n/tree/master/r18n-desktop
+* [`r18n-rails`](https://github.com/r18n/r18n/tree/master/r18n-rails)
+  for Ruby on Rails,
+* [`sinatra-r18n`](https://github.com/r18n/r18n/tree/master/sinatra-r18n)
+  for Sinatra,
+* [`r18n-desktop`](https://github.com/r18n/r18n/tree/master/r18n-desktop)
+  for shell/desktop applications.
 
 ## R18n Features
 
@@ -269,12 +268,10 @@ plugin_i18n.t.message.hellow
 
 ## Services
 
-* [Crowdin] — supports all of R18n, including pluralization, filters, etc.
-* [Localeapp] – Locale helps content owners and translators work together,
-  so Rails developers are free to write more code.
-* [WebTranslateIt] – web service to translate your app. It allow your customer
-  without programming skills help you with translations.
-
-[Crowdin]: https://crowdin.com/
-[Localeapp]: http://www.localeapp.com/
-[WebTranslateIt]: https://webtranslateit.com/
+* [Crowdin](https://crowdin.com/) — supports all of R18n, including
+  pluralization, filters, etc.
+* [Localeapp](https://www.localeapp.com/) – Locale helps content owners and
+  translators work together, so Rails developers are free to write more code.
+* [WebTranslateIt](https://webtranslateit.com/) – web service to translate
+  your app. It allows your customer without programming skills help you
+  with translations.

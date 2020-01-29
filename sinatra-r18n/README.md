@@ -101,8 +101,8 @@ R18n.default_places { './translations' }
 # License
 
 R18n is licensed under the GNU Lesser General Public License version 3.
-You can read it in LICENSE file or in http://www.gnu.org/licenses/lgpl.html.
+You can read it in LICENSE file or in [www.gnu.org/licenses/lgpl-3.0.html](https://www.gnu.org/licenses/lgpl-3.0.html).
 
 # Author
 
-Andrey “A.I.” Sitnik <andrey@sitnik.ru>
+Andrey “A.I.” Sitnik [andrey@sitnik.ru](mailto:andrey@sitnik.ru)

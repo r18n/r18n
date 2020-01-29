@@ -8,6 +8,18 @@
       - cat **/*.gemspec
     populate_script: bundle update
 
+remark_task:
+  container:
+    image: node:latest
+  node_modules_cache:
+    folder: node_modules
+    fingerprint_script:
+      - echo $CIRRUS_TASK_NAME:$CIRRUS_OS
+      - node -v
+      - cat package.json
+    populate_script: yarn install
+  remark_script: yarn run remark
+
 rubocop_task:
   container:
     image: ruby:2.7
@@ -16,6 +28,7 @@ rubocop_task:
 
 test_task:
   depends_on:
+    - remark
     - rubocop
   container:
     matrix:

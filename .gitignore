@@ -8,3 +8,6 @@ log/
 Gemfile.lock
 .ruby-version
 *.gem
+
+node_modules/
+yarn.lock
