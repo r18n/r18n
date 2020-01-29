@@ -1,5 +1,27 @@
 # Change Log
 
+## 4.0.0 (Santiago)
+
+* Drop Ruby 2.3 support (by Alexander Popov).
+* Drop `R18n::Utils.hash_map` (by Alexander Popov).
+* Add Ruby 2.6 and 2.7 for CI (by Alexander Popov).
+* Allow to add custom (per-project) locales (by Alexander Popov).
+* Add block for `R18n.change` (change affects only code inside block)
+  (by Alexander Popov).
+* Add `language` and `region` readers for `Locale` (by Alexander Popov).
+* Allow upcased region in translation file names (like `en-US.yml`)
+  (by Alexander Popov).
+* Load `base` translations from parent locale (by Alexander Popov).
+* Downcase locales with regions for `Translated`, like `name_en_us`
+  instead of `name_en-US` (by Alexander Popov).
+* Add Spanish Chile (`es-CL`) (by Juan Gil Miqueo).
+* Add `:with_seconds` option for Time formatting (by Alexander Popov).
+* Replace custom `gsub` in `R18n::Utils.escape_html` with `CGI.escapeHTML`
+  (by Alexander Popov).
+* Improve Indonesian translation (by Mohammad Satrio).
+* Improve documentation (by Alexander Popov).
+* Fix issue with wildcard in `Accept-Language` header (by Alexander Popov).
+
 ## 3.2.0 (Kawasaki)
 * Support `*.yaml` files (by Alexander Popov).
 * Locate processed `code` in `UnsupportedLocale`, like in `Locale` (by Alexander Popov).
