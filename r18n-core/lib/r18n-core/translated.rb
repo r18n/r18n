@@ -81,7 +81,6 @@ module R18n
         base.send :extend, Base
         base.instance_variable_set '@unlocalized_getters', {}
         base.instance_variable_set '@unlocalized_setters', {}
-        base.instance_variable_set '@translation_types', {}
       end
     end
 
@@ -94,33 +93,33 @@ module R18n
     # Module with class methods, which be added after R18n::Translated include.
     module Base
       # `Hash` of translation method names to it type for filters.
-      attr_reader :translation_types
+      def translation_types
+        @translation_types ||= {}
+      end
 
-      # Add several proxy `methods`. See R18n::Translated for description.
+      # Add several proxy methods. See `R18n::Translated` for description.
       # It's more compact, that `translation`.
       #
       #   translations :title, :keywords, [:desciption, { type: 'markdown' }]
-      def translations(*methods)
-        methods.each do |method|
-          translation(*method)
-        end
+      def translations(*names)
+        names.each { |name| translation(*name) }
       end
 
-      # Add proxy-method `name`. See R18n::Translated for description.
+      # Add proxy-method `name`. See `R18n::Translated` for description.
       # It's more useful to set options.
       #
       #   translation :desciption, type: 'markdown'
       def translation(name, options = {})
         if options[:methods]
-          @unlocalized_getters[name] = R18n::Utils
-            .hash_map(options[:methods]) { |l, i| [l.to_s, i.to_s] }
+          @unlocalized_getters[name] =
+            options[:methods].map { |l, i| [l.to_s, i.to_s] }.to_h
           unless options[:no_write]
-            @unlocalized_setters[name] = R18n::Utils
-              .hash_map(options[:methods]) { |l, i| [l.to_s, i.to_s + '='] }
+            @unlocalized_setters[name] =
+              options[:methods].map { |l, i| [l.to_s, i.to_s + '='] }.to_h
           end
         end
 
-        @translation_types[name] = options[:type]
+        translation_types[name] = options[:type]
 
         define_method name do |*params|
           unlocalized = self.class.unlocalized_getters(name)

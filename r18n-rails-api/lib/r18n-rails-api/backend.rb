@@ -105,9 +105,7 @@ module R18n
       if result.is_a? TranslatedString
         result.to_s
       elsif result.is_a? UnpluralizetedTranslation
-        Utils.hash_map(result.to_hash) do |key, value|
-          [RailsPlural.from_r18n(key), value]
-        end
+        result.to_hash.map { |k, v| [RailsPlural.from_r18n(k), v] }.to_h
       elsif result.is_a? Translation
         translation_to_hash(result)
       else
@@ -116,15 +114,12 @@ module R18n
     end
 
     def translation_to_hash(translation)
-      Utils.hash_map(translation.to_hash) do |key, value|
-        value =
-          if value.is_a? Hash
-            translation_to_hash(value)
-          else
-            format_value(value)
-          end
-        [key.to_sym, value]
-      end
+      translation.to_hash.map do |key, value|
+        [
+          key.to_sym,
+          value.is_a?(Hash) ? translation_to_hash(value) : format_value(value)
+        ]
+      end.to_h
     end
 
     # Find translation by `scope.key(params)` in current R18n I18n

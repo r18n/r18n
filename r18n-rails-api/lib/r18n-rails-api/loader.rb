@@ -62,9 +62,9 @@ module R18n
         @backend.reload!
         @backend.send(:init_translations)
         @translations =
-          Utils.hash_map(@backend.send(:translations)) do |locale, values|
+          @backend.send(:translations).map do |locale, values|
             [R18n::Locale.sanitize_code(locale), transform(values)]
-          end
+          end.to_h
       end
 
       # Return hash for object and `I18n.load_path`.
@@ -87,12 +87,10 @@ module R18n
           elsif value.keys.inject(true) { |a, i| a && RailsPlural.rails?(i) }
             Typed.new(
               'pl',
-              R18n::Utils.hash_map(value) do |k, v|
-                [RailsPlural.to_r18n(k), transform(v)]
-              end
+              value.map { |k, v| [RailsPlural.to_r18n(k), transform(v)] }.to_h
             )
           else
-            Utils.hash_map(value) { |k, v| [k.to_s, transform(v)] }
+            value.map { |k, v| [k.to_s, transform(v)] }.to_h
           end
         elsif defined?(@private_type_class) && value.is_a?(@private_type_class)
           Typed.new(value.type_id, value.value)

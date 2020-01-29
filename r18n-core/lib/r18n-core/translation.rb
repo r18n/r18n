@@ -130,9 +130,8 @@ module R18n
 
     # Return hash of current translation node.
     def to_hash
-      Utils.hash_map(@data) do |key, value|
-        value = value.to_hash if value.is_a? Translation
-        [key, value]
+      @data.transform_values do |value|
+        value.is_a?(Translation) ? value.to_hash : value
       end
     end
 
