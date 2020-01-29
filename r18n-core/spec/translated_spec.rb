@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 describe R18n::Translated do
-  before do
-    @user_class = Class.new do
+  let(:user_class) do
+    Class.new do
       include R18n::Translated
       attr_accessor :name_ru, :name_en
 
@@ -10,28 +10,32 @@ describe R18n::Translated do
 
       def name_ru!; end
     end
+  end
+
+  let(:user) { user_class.new }
+
+  before do
     R18n.set('en')
   end
 
   it 'saves methods map' do
-    @user_class.translation :name, methods: { ru: :name_ru }
-    expect(@user_class.unlocalized_getters(:name)).to eq('ru' => 'name_ru')
-    expect(@user_class.unlocalized_setters(:name)).to eq('ru' => 'name_ru=')
+    user_class.translation :name, methods: { ru: :name_ru }
+    expect(user_class.unlocalized_getters(:name)).to eq('ru' => 'name_ru')
+    expect(user_class.unlocalized_setters(:name)).to eq('ru' => 'name_ru=')
   end
 
   it 'autodetects methods map' do
-    @user_class.translation :name
-    expect(@user_class.unlocalized_getters(:name)).to eq(
+    user_class.translation :name
+    expect(user_class.unlocalized_getters(:name)).to eq(
       'en' => 'name_en', 'ru' => 'name_ru'
     )
-    expect(@user_class.unlocalized_setters(:name)).to eq(
+    expect(user_class.unlocalized_setters(:name)).to eq(
       'en' => 'name_en=', 'ru' => 'name_ru='
     )
   end
 
   it 'translates methods' do
-    @user_class.translation :name
-    user = @user_class.new
+    user_class.translation :name
 
     user.name = 'John'
     expect(user.name).to eq('John')
@@ -43,7 +47,7 @@ describe R18n::Translated do
   end
 
   it 'translates locales with regions' do
-    class SomeTranslatedClass
+    some_translated_class = Class.new do
       include R18n::Translated
 
       def name_en_us
@@ -52,14 +56,14 @@ describe R18n::Translated do
 
       translation :name
     end
-    obj = ::SomeTranslatedClass.new
+    obj = some_translated_class.new
 
     R18n.set('en-US')
     expect(obj.name).to eq('John')
   end
 
-  it 'returns TranslatedString' do
-    class SomeTranslatedClass
+  it 'returns `TranslatedString`' do
+    some_translated_class = Class.new do
       include R18n::Translated
 
       def name_en
@@ -68,7 +72,9 @@ describe R18n::Translated do
 
       translation :name
     end
-    obj = ::SomeTranslatedClass.new
+    allow(some_translated_class).to receive(:name)
+      .and_return 'SomeTranslatedClass'
+    obj = some_translated_class.new
 
     expect(obj.name).to be_kind_of(R18n::TranslatedString)
     expect(obj.name.locale).to eq(R18n.locale('en'))
@@ -76,8 +82,7 @@ describe R18n::Translated do
   end
 
   it 'searchs translation by locales priority' do
-    @user_class.translation :name
-    user = @user_class.new
+    user_class.translation :name
 
     R18n.set(%w[nolocale ru en])
     user.name_ru = 'Иван'
@@ -85,46 +90,56 @@ describe R18n::Translated do
   end
 
   it 'uses default locale' do
-    @user_class.translation :name
-    user = @user_class.new
+    user_class.translation :name
 
     R18n.set('nolocale')
     user.name_en = 'John'
     expect(user.name.locale).to eq(R18n.locale('en'))
   end
 
-  it 'uses filters' do
-    @user_class.class_exec do
-      def age_en
-        { 1 => '%1 year', 'n' => '%1 years' }
-      end
-      translation :age, type: 'pl', no_params: true
-    end
-    user = @user_class.new
+  describe 'filters' do
+    let(:user_class) do
+      Class.new do
+        include R18n::Translated
 
-    expect(user.age(20)).to eq('20 years')
+        def age_en
+          { 1 => '%1 year', 'n' => '%1 years' }
+        end
+
+        translation :age, type: 'pl', no_params: true
+      end
+    end
+
+    it 'uses them' do
+      expect(user.age(20)).to eq('20 years')
+    end
   end
 
-  it 'sends params to method if user want it' do
-    @user_class.class_exec do
-      def no_params_en(*params)
-        params.join(' ')
-      end
+  describe 'passing params to method' do
+    let(:user_class) do
+      Class.new do
+        include R18n::Translated
 
-      def params_en(*params)
-        params.join(' ')
-      end
+        def no_params_en(*params)
+          params.join(' ')
+        end
 
-      translations [:no_params, { no_params: true }], :params
+        def params_en(*params)
+          params.join(' ')
+        end
+
+        translations [:no_params, { no_params: true }], :params
+      end
     end
-    user = @user_class.new
 
-    expect(user.no_params(1, 2)).to eq('')
-    expect(user.params(1, 2)).to eq('1 2')
+    it 'works' do
+      expect(user.no_params(1, 2)).to eq('')
+      expect(user.params(1, 2)).to eq('1 2')
+    end
   end
 
   it 'translates virtual methods' do
-    @virtual_class = Class.new do
+    virtual_class = Class.new do
       include R18n::Translated
 
       translation :no_method, methods: { en: :no_method_en }
@@ -141,47 +156,70 @@ describe R18n::Translated do
         super
       end
     end
-    virtual = @virtual_class.new
+    virtual = virtual_class.new
 
     expect(virtual.no_method).to eq('no_method_en')
   end
 
-  it 'returns original type of result' do
-    @user_class.class_exec do
-      translation :name
-      def name_en
-        :ivan
+  describe 'returning original type of result' do
+    let(:user_class) do
+      Class.new do
+        include R18n::Translated
+
+        translation :name
+
+        def name_en
+          :ivan
+        end
       end
     end
-    user = @user_class.new
 
-    expect(user.name).to eq(:ivan)
-  end
+    it 'works' do
+      expect(user.name).to eq(:ivan)
+    end
 
-  it 'returns nil' do
-    @user_class.class_exec do
-      translation :name
-      def name_en
-        nil
+    context 'is nil' do
+      let(:user_class) do
+        Class.new do
+          include R18n::Translated
+
+          translation :name
+
+          def name_en
+            nil
+          end
+        end
+      end
+
+      it 'works' do
+        expect(user.name).to be_nil
       end
     end
-    user = @user_class.new
-
-    expect(user.name).to be_nil
   end
 
-  it 'allows to change I18n object' do
-    @user_class.class_exec do
-      translation :name
-      attr_accessor :r18n
-    end
-    user = @user_class.new
-    user.name_ru = 'Иван'
-    user.name_en = 'John'
+  describe 'allowing to change I18n object' do
+    let(:user_class) do
+      Class.new do
+        include R18n::Translated
 
-    user.r18n = R18n::I18n.new('ru')
-    expect(user.name).to eq('Иван')
-    user.r18n = R18n::I18n.new('en')
-    expect(user.name).to eq('John')
+        attr_accessor :name_ru, :name_en
+
+        translation :name
+
+        attr_accessor :r18n
+      end
+    end
+
+    before do
+      user.name_ru = 'Иван'
+      user.name_en = 'John'
+    end
+
+    it 'works' do
+      user.r18n = R18n::I18n.new('ru')
+      expect(user.name).to eq('Иван')
+      user.r18n = R18n::I18n.new('en')
+      expect(user.name).to eq('John')
+    end
   end
 end

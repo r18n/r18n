@@ -75,7 +75,7 @@ module R18n
 
       # Wrap YAML private types to Typed.
       def transform(a_hash)
-        R18n::Utils.hash_map(a_hash) do |key, value|
+        a_hash.transform_values do |value|
           if value.is_a? Hash
             value = transform(value)
           elsif defined?(@private_type_class) &&
@@ -86,7 +86,7 @@ module R18n
             end
             value = Typed.new(value.type_id, v)
           end
-          [key, value]
+          value
         end
       end
     end

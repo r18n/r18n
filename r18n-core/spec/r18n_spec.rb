@@ -117,13 +117,6 @@ describe R18n do
     expect(R18n.cache).to eq({})
   end
 
-  it 'maps hash' do
-    hash = R18n::Utils.hash_map('a' => 1, 'b' => 2) do |k, v|
-      [k + 'a', v + 1]
-    end
-    expect(hash).to eq('aa' => 2, 'ba' => 3)
-  end
-
   it 'merges hash recursively' do
     a = { a: 1, b: { ba: 1, bb: 1 }, c: 1 }
     b = {       b: { bb: 2, bc: 2 }, c: 2 }
