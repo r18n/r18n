@@ -1,4 +1,7 @@
-.bundle_cache: &bundle_cache
+.ruby: &ruby
+  env:
+    ## https://github.com/docker-library/ruby/issues/45
+    LANG: C.UTF-8
   bundle_cache:
     folder: /usr/local/bundle
     fingerprint_script:
@@ -21,20 +24,20 @@ remark_task:
   remark_script: yarn run remark
 
 rubocop_task:
+  <<: *ruby
   container:
     image: ruby:2.7
-  <<: *bundle_cache
   rubocop_script: bundle exec rubocop
 
 test_task:
   depends_on:
     - remark
     - rubocop
+  <<: *ruby
   container:
     matrix:
       image: ruby:2.4
       image: ruby:2.5
       image: ruby:2.6
       image: ruby:2.7
-  <<: *bundle_cache
   test_script: bundle exec rake
