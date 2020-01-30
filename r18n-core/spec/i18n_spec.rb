@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 describe R18n::I18n do
+  module R18n
+    module Locales
+      class RuRU < Ru
+        set sublocales: %w[ru]
+      end
+    end
+  end
+
   before do
     @extension_places = R18n.extension_places.clone
   end
@@ -233,6 +241,15 @@ describe R18n::I18n do
     i18n = R18n::I18n.new(%w[notransl nolocale ru en], DIR)
     expect(i18n.locale).to      eq(R18n.locale('nolocale'))
     expect(i18n.locale.base).to eq(R18n.locale('ru'))
+  end
+
+  describe 'locales with regions when getting locales without' do
+    it 'returns locale with region by found parent' do
+      i18n = R18n::I18n.new(
+        %w[notransl ru en], File.join(TRANSLATIONS, 'with_regions')
+      )
+      expect(i18n.locale).to eq(R18n.locale('ru-RU'))
+    end
   end
 
   it 'localizes objects' do
