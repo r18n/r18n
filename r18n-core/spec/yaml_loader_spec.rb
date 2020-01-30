@@ -46,6 +46,7 @@ describe R18n::Loader::YAML do
     loader = R18n::Loader::YAML.new(TRANSLATIONS)
     expect(loader.available).to match_array([
       R18n.locale('ru'),
+      R18n.locale('ru-ru'),
       R18n.locale('en'),
       R18n.locale('en-us'),
       R18n.locale('en-gb'),
