@@ -208,12 +208,8 @@ module R18n
       unless defined? @locale
         available_in_places.each do |_place, available|
           @locales.each do |locale|
-            found_available =
-              (locale if available.include?(locale)) ||
-              available.find { |available_one| available_one.parent == locale }
-
-            if found_available
-              @locale = found_available
+            if available.include? locale
+              @locale = locale
               break
             end
           end
