@@ -127,7 +127,7 @@ module R18n
       @parent = self.class.superclass.new
     end
 
-    set sublocales: %w[en],
+    set sublocales: [],
         week_start: :monday,
         time_am: 'AM',
         time_pm: 'PM',

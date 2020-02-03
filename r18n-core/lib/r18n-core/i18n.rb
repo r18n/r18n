@@ -137,15 +137,15 @@ module R18n
     def initialize(locales, translation_places = nil, opts = {})
       locales = Array(locales)
 
-      if !locales.empty? && Locale.exists?(locales.first)
-        locales += Locale.load(locales.first).sublocales
-      end
-      locales << self.class.default
       locales.each_with_index do |locale, i|
         if locale =~ /[^_-]+[_-]/
           locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
         end
+        if Locale.exists?(locale)
+          locales.insert(i + 1, *(Locale.load(locale).sublocales - locales))
+        end
       end
+      locales << self.class.default
       locales.map! { |i| i.to_s.downcase }.uniq!
       @locales_codes = locales
       @locales = locales.each_with_object([]) do |locale, result|
@@ -208,12 +208,8 @@ module R18n
       unless defined? @locale
         available_in_places.each do |_place, available|
           @locales.each do |locale|
-            found_available =
-              (locale if available.include?(locale)) ||
-              available.find { |available_one| available_one.parent == locale }
-
-            if found_available
-              @locale = found_available
+            if available.include? locale
+              @locale = locale
               break
             end
           end

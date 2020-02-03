@@ -6,6 +6,8 @@ describe R18n::I18n do
       class RuRU < Ru
         set sublocales: %w[ru]
       end
+
+      Ru.set sublocales: %w[ru-RU]
     end
   end
 
@@ -31,13 +33,19 @@ describe R18n::I18n do
     expect(R18n::I18n.default).to eq('ru')
   end
 
-  it 'loads locales' do
+  it 'loads locales with sublocales' do
     i18n = R18n::I18n.new('en', DIR)
-    expect(i18n.locales).to eq([R18n.locale('en')])
+    expect(i18n.locales).to eq [
+      R18n.locale('en'),
+      R18n.locale('en-US'),
+      R18n.locale('en-GB'),
+      R18n.locale('en-AU')
+    ]
 
     i18n = R18n::I18n.new(%w[ru nolocale-DL], DIR)
     expect(i18n.locales).to eq([
       R18n.locale('ru'),
+      R18n.locale('ru-RU'),
       R18n::UnsupportedLocale.new('nolocale-DL'),
       R18n::UnsupportedLocale.new('nolocale'),
       R18n.locale('en')
@@ -120,14 +128,6 @@ describe R18n::I18n do
   it 'loads default translation' do
     i18n = R18n::I18n.new('nolocale', DIR)
     expect(i18n.one).to eq('ONE')
-    expect(i18n.two).to eq('Two')
-  end
-
-  it 'loads sublocales for first locale' do
-    R18n::I18n.default = 'notransl'
-
-    i18n = R18n::I18n.new('ru', DIR)
-    expect(i18n.one).to eq('Один')
     expect(i18n.two).to eq('Two')
   end
 
@@ -249,6 +249,11 @@ describe R18n::I18n do
         %w[notransl ru en], File.join(TRANSLATIONS, 'with_regions')
       )
       expect(i18n.locale).to eq(R18n.locale('ru-RU'))
+
+      i18n = R18n::I18n.new(
+        %w[notransl en ru], File.join(TRANSLATIONS, 'with_regions')
+      )
+      expect(i18n.locale).to eq(R18n.locale('en-US'))
     end
   end
 

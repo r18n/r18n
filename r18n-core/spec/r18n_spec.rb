@@ -31,13 +31,23 @@ describe R18n do
   it 'creates I18n object by shortcut' do
     R18n.set('en', DIR)
     expect(R18n.get).to be_kind_of(R18n::I18n)
-    expect(R18n.get.locales).to eq([R18n.locale('en')])
+    expect(R18n.get.locales).to eq [
+      R18n.locale('en'),
+      R18n.locale('en-US'),
+      R18n.locale('en-GB'),
+      R18n.locale('en-AU')
+    ]
     expect(R18n.get.translation_places).to eq([R18n::Loader::YAML.new(DIR)])
   end
 
   it 'allows to return I18n arguments in setter block' do
     R18n.set { 'en' }
-    expect(R18n.get.locales).to eq([R18n.locale('en')])
+    expect(R18n.get.locales).to eq [
+      R18n.locale('en'),
+      R18n.locale('en-US'),
+      R18n.locale('en-GB'),
+      R18n.locale('en-AU')
+    ]
   end
 
   it 'clears cache' do
@@ -68,19 +78,32 @@ describe R18n do
 
   it 'allows to temporary change locale' do
     R18n.default_places = DIR
-    expect(R18n.change('en').locales).to eq([R18n.locale('en')])
+    expect(R18n.change('en').locales).to eq [
+      R18n.locale('en'),
+      R18n.locale('en-US'),
+      R18n.locale('en-GB'),
+      R18n.locale('en-AU')
+    ]
     expect(R18n.change('en').translation_places.size).to eq(1)
     expect(R18n.change('en').translation_places.first.dir).to eq(DIR.to_s)
   end
 
   it 'allows to temporary change current locales' do
     R18n.set('ru')
-    expect(R18n.change('en').locales).to eq(
-      [R18n.locale('en'), R18n.locale('ru')]
-    )
+
+    expect(R18n.change('en').locales).to eq [
+      R18n.locale('en'),
+      R18n.locale('en-US'),
+      R18n.locale('en-GB'),
+      R18n.locale('en-AU'),
+      R18n.locale('ru'),
+      R18n.locale('ru-RU')
+    ]
+
     expect(R18n.change('en').translation_places).to eq(
       R18n.get.translation_places
     )
+
     expect(R18n.get.locale.code).to eq('ru')
   end
 

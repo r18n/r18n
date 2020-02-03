@@ -7,6 +7,8 @@ module R18n
       set(
         title: 'Português',
 
+        sublocales: %w[pt-BR],
+
         wday_names: %w[
           domingo segunda-feira terça-feira quarta-feira quinta-feira
           sexta-feira sábado
