@@ -6,7 +6,7 @@ module R18n
     class En < Locale
       set(
         title: 'English',
-        sublocales: [],
+        sublocales: %w[en-US en-GB en-AU],
 
         week_start: :sunday,
         wday_names: %w[

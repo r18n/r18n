@@ -8,7 +8,7 @@ module R18n
     class EnGB < En
       set(
         title: 'British English',
-        sublocales: %w[en],
+        sublocales: %w[en en-US en-AU],
 
         date_format: '%d/%m/%Y'
       )

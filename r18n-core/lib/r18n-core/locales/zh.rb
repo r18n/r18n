@@ -7,6 +7,8 @@ module R18n
       set(
         title: '中文',
 
+        sublocales: %w[zh-CN zh-TW],
+
         wday_names: %w[星期日 星期一 星期二 星期三 星期四 星期五 星期六],
         wday_abbrs: %w[周日 周一 周二 周三 周四 周五 周六],
 

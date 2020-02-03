@@ -8,7 +8,7 @@ module R18n
     class EnUS < En
       set(
         title: 'American English',
-        sublocales: %w[en],
+        sublocales: %w[en en-GB en-AU],
 
         time_format: '_ %I:%M %p',
         time_with_seconds_format: '_ %r',

@@ -12,13 +12,13 @@ describe TestController, type: :controller do
   it 'gets locale from param' do
     get :locales, params: { locale: 'ru' }
     expect(response).to have_http_status(200)
-    expect(response.body).to eq 'ru, en'
+    expect(response.body).to eq 'ru'
   end
 
   it 'gets locale from session' do
     get :locales, session: { locale: 'ru' }
     expect(response).to have_http_status(200)
-    expect(response.body).to eq 'ru, en'
+    expect(response.body).to eq 'ru'
   end
 
   describe 'locales from http' do
@@ -26,7 +26,7 @@ describe TestController, type: :controller do
       request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru,fr;q=0.9'
       get :locales
       expect(response).to have_http_status(200)
-      expect(response.body).to eq 'ru, fr, en'
+      expect(response.body).to eq 'ru, fr'
     end
 
     it 'gets from wildcard' do
@@ -40,7 +40,7 @@ describe TestController, type: :controller do
       request.env['HTTP_ACCEPT_LANGUAGE'] = 'ru, fr;q=0.9, *;q=0.5'
       get :locales
       expect(response).to have_http_status(200)
-      expect(response.body).to eq 'ru, fr, en'
+      expect(response.body).to eq 'ru, fr'
     end
   end
 
@@ -106,16 +106,18 @@ describe TestController, type: :controller do
       'en' => 'title_en='
     )
 
+    # Default locale is `ru`
+
     @post = Post.new
-    @post.title_en = 'Record'
+    @post.title_ru = 'Запись'
 
-    R18n.set('ru')
-    expect(@post.title).to eq 'Record'
+    R18n.set('en')
+    expect(@post.title).to eq 'Запись'
 
-    @post.title = 'Запись'
+    @post.title = 'Record'
     expect(@post.title_ru).to eq 'Запись'
     expect(@post.title_en).to eq 'Record'
-    expect(@post.title).to eq 'Запись'
+    expect(@post.title).to eq 'Record'
   end
 
   it 'sets default places' do

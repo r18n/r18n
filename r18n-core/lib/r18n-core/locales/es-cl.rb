@@ -8,7 +8,7 @@ module R18n
     class EsCL < Es
       set(
         title: 'Español Chile',
-        sublocales: %w[es],
+        sublocales: %w[es es-US],
         date_format: '%d-%m-%Y'
       )
     end

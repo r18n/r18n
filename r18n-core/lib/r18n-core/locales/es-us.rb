@@ -8,7 +8,7 @@ module R18n
     class EsUS < Es
       set(
         title: 'Español Estadounidense',
-        sublocales: %w[es en],
+        sublocales: %w[es es-CL en],
 
         time_format: '_ %I:%M %p',
         time_with_seconds_format: '_ %r',

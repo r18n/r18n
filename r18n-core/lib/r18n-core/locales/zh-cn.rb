@@ -8,7 +8,7 @@ module R18n
     class ZhCN < Zh
       set(
         title: '简体中文',
-        sublocales: %w[zh en]
+        sublocales: %w[zh zh-TW en]
       )
     end
   end
