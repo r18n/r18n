@@ -260,13 +260,13 @@ module R18n
   Filters.add(String, :named_variables) do |content, config, params|
     if params.is_a? Hash
       content = content.clone
-      params.each_pair do |name, value|
-        value = config[:locale].localize(value)
+      content.gsub!(/(?:%{(\w+)}|{{(\w+)}})/) do |name|
+        key = name.delete('%{}').to_sym
+        value = config[:locale].localize(params[key])
         if defined? ActiveSupport::SafeBuffer
           value = ActiveSupport::SafeBuffer.new + value
         end
-        content.gsub! "%{#{name}}",  value
-        content.gsub! "{{#{name}}}", value
+        value
       end
     end
     content

@@ -205,6 +205,11 @@ describe R18n::Filters do
 
     expect(@i18n.echo2(value: 'R18n')).to eq 'Value2 is R18n'
     expect(@i18n.echo2).to eq 'Value2 is {{value}}'
+
+    translate_hash = Hash.new { |hash, key| hash[key] = key.to_s * 2 }
+    expect(@i18n.echo3(translate_hash)).to eq(
+      'Value3 is value3value3 and value4 is value4value4'
+    )
   end
   # rubocop:enable Style/FormatStringToken
 
