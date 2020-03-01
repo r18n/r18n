@@ -41,6 +41,7 @@ textile:
 
 echo: Value is %{value}
 echo2: Value2 is {{value}}
+echo3: Value3 is {{value3}} and value4 is {{value4}}
 
 boolean:
   true: Boolean is true
