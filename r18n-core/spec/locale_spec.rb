@@ -204,7 +204,7 @@ describe R18n::Locale do
 
   it 'localizes custom classes if formatter exists' do
     stub_const(
-      'FooBar', Class.new do
+      'SomeProject::FooBar', Class.new do
         attr_reader :value
 
         def initialize(value)
@@ -213,9 +213,9 @@ describe R18n::Locale do
       end
     )
 
-    foo_bar = FooBar.new 'something'
+    foo_bar = SomeProject::FooBar.new 'something'
 
-    allow(@en).to receive(:format_foo_bar_human, &:value)
+    expect(@en).to receive(:format_some_project_foo_bar_human, &:value)
 
     expect(@en.localize(foo_bar, :human)).to eq('something')
   end
