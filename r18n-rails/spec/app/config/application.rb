@@ -17,8 +17,6 @@ module App
     config.i18n.default_locale = :ru
     config.encoding = 'utf-8'
 
-    config.active_record.sqlite3.represent_boolean_as_integer = true
-
     def config.database_configuration
       sqlite = { 'adapter' => 'sqlite3', 'database' => ':memory:' }
       sqlite['adapter'] = 'jdbcsqlite3' if RUBY_PLATFORM == 'java'

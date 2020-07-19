@@ -109,6 +109,7 @@ module R18n
       #   locale.code  #=> "en"
       def set(properties)
         properties.each_pair do |key, value|
+          undef_method key if method_defined? key
           define_method(key) { value }
         end
       end
@@ -259,7 +260,7 @@ module R18n
     # Format `time` in human usable form. For example "5 minutes ago" or
     # "yesterday". In `now` you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale's class.
-    def format_time_human(time, i18n, now = time.class.now, *_params)
+    def format_time_human(time, i18n, now = time.class.now, **_params)
       diff = time - now
       minutes = time.is_a?(DateTime) ? diff * 24 * 60.0 : diff / 60.0
       diff = minutes.abs

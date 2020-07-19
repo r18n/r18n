@@ -49,11 +49,11 @@ module R18n
       #   l Time.now                 # Rails I18n default format
       #   l Time.now, format: :short # Rails I18n style
       #   l Time.now, :human         # R18n style
-      def l(obj, *params)
-        if params.empty? || params.first.is_a?(Hash)
-          super(obj, *params)
+      def l(obj, *args, **kwargs)
+        if args.empty? || kwargs.any?
+          super(obj, *args, **kwargs)
         else
-          r18n.l(obj, *params)
+          r18n.l(obj, *args, **kwargs)
         end
       end
       alias localize l
