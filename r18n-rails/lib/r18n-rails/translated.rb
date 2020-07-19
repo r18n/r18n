@@ -20,6 +20,8 @@
 module R18n
   module Translated
     module Base
+      remove_method :unlocalized_methods
+
       def unlocalized_methods
         if defined?(ActiveRecord) && ancestors.include?(ActiveRecord::Base)
           column_names + column_names.map { |i| i + '=' } + instance_methods
