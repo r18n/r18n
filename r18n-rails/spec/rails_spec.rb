@@ -130,7 +130,7 @@ describe TestController, type: :controller do
   end
 
   it 'translates mails' do
-    R18n.set('en')
+    ::I18n.locale = 'en'
     email = TestMailer.test.deliver_now
     expect(email.body.to_s).to eq "Name\nName\nName\n"
   end

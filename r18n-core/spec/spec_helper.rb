@@ -1,18 +1,24 @@
 # frozen_string_literal: true
 
 require 'pp'
+require 'pry-byebug'
+
+require 'active_support'
 
 require_relative '../lib/r18n-core'
 
-TRANSLATIONS = File.join(__dir__, 'translations') unless defined? TRANSLATIONS
-DIR = File.join(TRANSLATIONS, 'general') unless defined? DIR
-TWO = File.join(TRANSLATIONS, 'two')     unless defined? TWO
-unless defined? EXT
-  EXT = R18n::Loader::YAML.new(File.join(TRANSLATIONS, 'extension'))
+shared_context 'common core directories' do
+  let(:translations_dir) { File.join(__dir__, 'translations') }
+  let(:general_translations_dir) { File.join(translations_dir, 'general') }
+  let(:two_translations_dir) { File.join(translations_dir, 'two') }
+  let(:ext_translations_dir) do
+    R18n::Loader::YAML.new(File.join(translations_dir, 'extension'))
+  end
 end
 
 RSpec.configure do |config|
   config.before { R18n.clear_cache! }
+  config.include_context 'common core directories'
 end
 
 gem 'kramdown'

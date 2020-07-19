@@ -9,21 +9,21 @@ describe R18n::Loader::YAML do
     R18n::Filters.delete(:my)
   end
 
-  before do
-    @loader = R18n::Loader::YAML.new(DIR)
-  end
+  let(:loader) { R18n::Loader::YAML.new(general_translations_dir) }
 
   it 'returns dir with translations' do
-    expect(@loader.dir).to eq(DIR)
+    expect(loader.dir).to eq(general_translations_dir)
   end
 
   it 'equals to another YAML loader with same dir' do
-    expect(@loader).to eq(R18n::Loader::YAML.new(DIR))
-    expect(@loader).not_to eq(Class.new(R18n::Loader::YAML).new(DIR))
+    expect(loader).to eq(R18n::Loader::YAML.new(general_translations_dir))
+    expect(loader).not_to eq(
+      Class.new(R18n::Loader::YAML).new(general_translations_dir)
+    )
   end
 
   it 'returns all available translations' do
-    expect(@loader.available).to match_array([
+    expect(loader.available).to match_array([
       R18n.locale('ru'),
       R18n.locale('en'),
       R18n.locale('nolocale')
@@ -31,7 +31,7 @@ describe R18n::Loader::YAML do
   end
 
   it 'loads translation' do
-    expect(@loader.load(R18n.locale('ru'))).to eq(
+    expect(loader.load(R18n.locale('ru'))).to eq(
       'one' => 'Один',
       'in' => { 'another' => { 'level' => 'Иерархический' } },
       'typed' => R18n::Typed.new('my', 'value')
@@ -39,11 +39,13 @@ describe R18n::Loader::YAML do
   end
 
   it 'returns hash by dir' do
-    expect(@loader.hash).to eq(R18n::Loader::YAML.new(DIR).hash)
+    expect(loader.hash).to eq(
+      R18n::Loader::YAML.new(general_translations_dir).hash
+    )
   end
 
   it 'loads in dir recursively' do
-    loader = R18n::Loader::YAML.new(TRANSLATIONS)
+    loader = R18n::Loader::YAML.new(translations_dir)
     expect(loader.available).to match_array([
       R18n.locale('ru'),
       R18n.locale('ru-ru'),

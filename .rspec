@@ -1,1 +1,1 @@
---format documentation --colour --warnings
+--format documentation --colour --warnings --order rand

@@ -285,10 +285,10 @@ module R18n
   Filters.add(Untranslated, :untranslated_html) do |_v, _c, transl, untransl|
     prefix  = '<span style="color: red">['
     postfix = ']</span>'
-    if prefix.respond_to? :html_safe
-      prefix  = prefix.html_safe
-      postfix = postfix.html_safe
-      transl + prefix + untransl + postfix
+    if defined? ActiveSupport::SafeBuffer
+      transl = ActiveSupport::SafeBuffer.new + transl
+      untransl = ActiveSupport::SafeBuffer.new + untransl
+      transl + prefix.html_safe + untransl + postfix.html_safe
     else
       Utils.escape_html(transl) + prefix + Utils.escape_html(untransl) + postfix
     end
