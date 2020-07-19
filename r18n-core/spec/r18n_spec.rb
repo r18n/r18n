@@ -23,7 +23,7 @@ describe R18n do
     R18n.set(i18n)
 
     i18n = R18n::I18n.new('ru')
-    R18n.set { i18n }
+    R18n.set(i18n)
 
     expect(R18n.get).to eq(i18n)
   end
@@ -40,16 +40,6 @@ describe R18n do
     expect(R18n.get.translation_places).to eq(
       [R18n::Loader::YAML.new(general_translations_dir)]
     )
-  end
-
-  it 'allows to return I18n arguments in setter block' do
-    R18n.set { 'en' }
-    expect(R18n.get.locales).to eq [
-      R18n.locale('en'),
-      R18n.locale('en-US'),
-      R18n.locale('en-GB'),
-      R18n.locale('en-AU')
-    ]
   end
 
   it 'clears cache' do
@@ -74,7 +64,7 @@ describe R18n do
     expect(R18n.get).to eq(i18n)
 
     i18n = R18n::I18n.new('ru')
-    R18n.thread_set { i18n }
+    R18n.thread_set(i18n)
     expect(R18n.get).to eq(i18n)
   end
 
