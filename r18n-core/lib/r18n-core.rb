@@ -41,34 +41,18 @@ module R18n
   class << self
     # Set I18n object globally. You can miss translation `places`, it will be
     # taken from `R18n.default_places`.
-    def set(i18n = nil, places = R18n.default_places, &block)
-      @i18n =
-        if block_given?
-          @setter = block
-          nil
-        elsif i18n.is_a? I18n
-          i18n
-        else
-          I18n.new(i18n, places)
-        end
+    def set(i18n, places = R18n.default_places)
+      @i18n = i18n.is_a?(I18n) ? i18n : I18n.new(i18n, places)
     end
 
     # Set I18n object to current thread.
-    def thread_set(i18n = nil, &block)
-      if block_given?
-        thread[:r18n_setter] = block
-        thread[:r18n_i18n]   = nil
-      else
-        thread[:r18n_i18n] = i18n
-      end
+    def thread_set(i18n)
+      thread[:r18n_i18n] = i18n
     end
 
     # Get I18n object for current thread.
     def get
-      thread[:r18n_i18n] ||
-        (thread[:r18n_setter] && thread_set(thread[:r18n_setter].call)) ||
-        @i18n ||
-        (@setter && set(@setter.call))
+      thread[:r18n_i18n] || @i18n
     end
 
     # Clean translations cache.
