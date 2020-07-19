@@ -47,14 +47,9 @@ module R18n
       true
     end
 
-    # Return true if `html_safe` method is defined, otherwise false.
-    def html_safe?
-      respond_to? :html_safe
-    end
-
     # Override to_s to make string html safe if `html_safe` method is defined.
     def to_s
-      if html_safe?
+      if respond_to?(:html_safe)
         super.html_safe
       else
         String.new(super)

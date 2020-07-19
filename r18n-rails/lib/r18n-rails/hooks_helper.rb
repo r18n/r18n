@@ -21,14 +21,28 @@ require 'r18n-rails-api'
 
 module R18n
   module Rails
-    module Controller
-      include Helpers
+    module HooksHelper
+      module Common
+        include Helpers
 
-      private
+        private
 
-      # Auto detect user locales and change backend.
-      def set_r18n
-        R18n.set do
+        # Clean cache and reload filters from ruby files in `app/i18n`.
+        # Used only for development.
+        def reload_r18n
+          R18n.clear_cache!
+          R18n::Rails::Filters.reload!
+          R18n.get.try(:reload!)
+        end
+      end
+
+      module ForController
+        include Common
+
+        private
+
+        # Auto detect user locales and set.
+        def set_r18n
           R18n::I18n.default = ::I18n.default_locale.to_s
           locales = R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
 
@@ -43,16 +57,27 @@ module R18n
             off_filters: :untranslated, on_filters: :untranslated_html
           )
           ::I18n.locale = i18n.locale.code.to_sym
-          i18n
+          R18n.set i18n
+          ## To not prevent action
+          ## Also don't use `puts`
+          nil
         end
       end
 
-      # Clean cache and reload filters from ruby files in `app/i18n`.
-      # Used only for development.
-      def reload_r18n
-        R18n.clear_cache!
-        R18n::Rails::Filters.reload!
-        R18n.get.try(:reload!)
+      module ForMailer
+        include Common
+
+        private
+
+        # Set locale from `::I18n`
+        def set_r18n
+          R18n::I18n.default = ::I18n.default_locale.to_s
+          i18n = R18n::I18n.new(
+            ::I18n.locale, R18n.default_places,
+            off_filters: :untranslated, on_filters: :untranslated_html
+          )
+          R18n.set i18n
+        end
       end
     end
   end

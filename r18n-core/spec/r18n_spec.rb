@@ -29,7 +29,7 @@ describe R18n do
   end
 
   it 'creates I18n object by shortcut' do
-    R18n.set('en', DIR)
+    R18n.set('en', general_translations_dir)
     expect(R18n.get).to be_kind_of(R18n::I18n)
     expect(R18n.get.locales).to eq [
       R18n.locale('en'),
@@ -37,7 +37,9 @@ describe R18n do
       R18n.locale('en-GB'),
       R18n.locale('en-AU')
     ]
-    expect(R18n.get.translation_places).to eq([R18n::Loader::YAML.new(DIR)])
+    expect(R18n.get.translation_places).to eq(
+      [R18n::Loader::YAML.new(general_translations_dir)]
+    )
   end
 
   it 'allows to return I18n arguments in setter block' do
@@ -77,7 +79,7 @@ describe R18n do
   end
 
   it 'allows to temporary change locale' do
-    R18n.default_places = DIR
+    R18n.default_places = general_translations_dir
     expect(R18n.change('en').locales).to eq [
       R18n.locale('en'),
       R18n.locale('en-US'),
@@ -85,7 +87,8 @@ describe R18n do
       R18n.locale('en-AU')
     ]
     expect(R18n.change('en').translation_places.size).to eq(1)
-    expect(R18n.change('en').translation_places.first.dir).to eq(DIR.to_s)
+    expect(R18n.change('en').translation_places.first.dir)
+      .to eq(general_translations_dir.to_s)
   end
 
   it 'allows to temporary change current locales' do
@@ -96,8 +99,7 @@ describe R18n do
       R18n.locale('en-US'),
       R18n.locale('en-GB'),
       R18n.locale('en-AU'),
-      R18n.locale('ru'),
-      R18n.locale('ru-RU')
+      R18n.locale('ru')
     ]
 
     expect(R18n.change('en').translation_places).to eq(
@@ -165,7 +167,7 @@ describe R18n do
   end
 
   it 'returns available translations' do
-    expect(R18n.available_locales(DIR)).to match_array([
+    expect(R18n.available_locales(general_translations_dir)).to match_array([
       R18n.locale('nolocale'),
       R18n.locale('ru'),
       R18n.locale('en')
@@ -173,7 +175,7 @@ describe R18n do
   end
 
   it 'uses default places' do
-    R18n.default_places = DIR
+    R18n.default_places = general_translations_dir
     R18n.set('en')
     expect(t.one).to eq('One')
     expect(R18n.available_locales).to match_array([
@@ -184,30 +186,30 @@ describe R18n do
   end
 
   it 'sets default places by block' do
-    R18n.default_places { DIR }
-    expect(R18n.default_places).to eq(DIR)
+    R18n.default_places { general_translations_dir }
+    expect(R18n.default_places).to eq(general_translations_dir)
   end
 
   it 'allows to ignore default places' do
-    R18n.default_places = DIR
+    R18n.default_places = general_translations_dir
     i18n = R18n::I18n.new('en', nil)
     expect(i18n.one).not_to be_translated
   end
 
   it 'allows to load files with `.yaml` extension' do
-    R18n.default_places = File.join(TRANSLATIONS, 'yaml')
+    R18n.default_places = File.join(translations_dir, 'yaml')
     R18n.set('en')
     expect(t.one).to eq('One')
   end
 
   it 'allows to load files with downcased region in name' do
-    R18n.default_places = File.join(TRANSLATIONS, 'yaml')
+    R18n.default_places = File.join(translations_dir, 'yaml')
     R18n.set('en-us')
     expect(t.one).to eq('American One')
   end
 
   it 'allows to load files with upcased region in name' do
-    R18n.default_places = File.join(TRANSLATIONS, 'yaml')
+    R18n.default_places = File.join(translations_dir, 'yaml')
     R18n.set('en-gb')
     expect(R18n.get.locale.code).to eq('en-GB')
     expect(t.one).to eq('British One')

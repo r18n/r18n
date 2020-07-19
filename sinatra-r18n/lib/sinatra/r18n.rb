@@ -32,23 +32,22 @@ module Sinatra
       app.before do
         ::R18n.clear_cache! if self.class.development?
 
-        ::R18n.thread_set do
-          if settings.default_locale
-            ::R18n::I18n.default = settings.default_locale
-          end
-
-          locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
-          if params[:locale]
-            locales.unshift(params[:locale])
-          elsif session[:locale]
-            locales.unshift(session[:locale])
-          end
-
-          ::R18n::I18n.new(
-            locales, ::R18n.default_places,
-            off_filters: :untranslated, on_filters: :untranslated_html
-          )
+        if settings.default_locale
+          ::R18n::I18n.default = settings.default_locale
         end
+
+        locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
+        if params[:locale]
+          locales.unshift(params[:locale])
+        elsif session[:locale]
+          locales.unshift(session[:locale])
+        end
+
+        i18n = ::R18n::I18n.new(
+          locales, ::R18n.default_places,
+          off_filters: :untranslated, on_filters: :untranslated_html
+        )
+        ::R18n.thread_set i18n
       end
     end
   end

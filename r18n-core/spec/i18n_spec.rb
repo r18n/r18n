@@ -1,24 +1,28 @@
 # frozen_string_literal: true
 
 describe R18n::I18n do
-  module R18n
-    module Locales
-      class RuRU < Ru
-        set sublocales: %w[ru]
-      end
-
-      Ru.set sublocales: %w[ru-RU]
-    end
-  end
-
   before do
     @extension_places = R18n.extension_places.clone
+
+    stub_const(
+      'R18n::Locales::RuRU', Class.new(R18n::Locales::Ru) do
+        set sublocales: %w[ru]
+      end
+    )
+
+    R18n::Locales::Ru.set sublocales: %w[ru-RU]
+
+    R18n::Locale.instance_variable_get(:@loaded).clear
   end
 
   after do
     R18n::I18n.default = 'en'
     R18n.default_loader = R18n::Loader::YAML
     R18n.extension_places = @extension_places
+
+    R18n::Locales::Ru.set sublocales: []
+
+    R18n::Locale.instance_variable_get(:@loaded).clear
   end
 
   it 'parses HTTP_ACCEPT_LANGUAGE' do
@@ -34,7 +38,7 @@ describe R18n::I18n do
   end
 
   it 'loads locales with sublocales' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.locales).to eq [
       R18n.locale('en'),
       R18n.locale('en-US'),
@@ -42,7 +46,7 @@ describe R18n::I18n do
       R18n.locale('en-AU')
     ]
 
-    i18n = R18n::I18n.new(%w[ru nolocale-DL], DIR)
+    i18n = R18n::I18n.new(%w[ru nolocale-DL], general_translations_dir)
     expect(i18n.locales).to eq([
       R18n.locale('ru'),
       R18n.locale('ru-RU'),
@@ -53,8 +57,10 @@ describe R18n::I18n do
   end
 
   it 'returns translations loaders' do
-    i18n = R18n::I18n.new('en', DIR)
-    expect(i18n.translation_places).to eq([R18n::Loader::YAML.new(DIR)])
+    i18n = R18n::I18n.new('en', general_translations_dir)
+    expect(i18n.translation_places).to eq(
+      [R18n::Loader::YAML.new(general_translations_dir)]
+    )
   end
 
   it 'loads translations by loader' do
@@ -89,7 +95,7 @@ describe R18n::I18n do
   end
 
   it 'loads translations' do
-    i18n = R18n::I18n.new(%w[ru en], DIR)
+    i18n = R18n::I18n.new(%w[ru en], general_translations_dir)
     expect(i18n.one).to    eq('Один')
     expect(i18n[:one]).to  eq('Один')
     expect(i18n['one']).to eq('Один')
@@ -97,47 +103,49 @@ describe R18n::I18n do
   end
 
   it 'loads translations from several dirs' do
-    i18n = R18n::I18n.new(%w[nolocale en], [TWO, DIR])
+    i18n = R18n::I18n.new(
+      %w[nolocale en], [two_translations_dir, general_translations_dir]
+    )
     expect(i18n.in.two).to eq('Two')
     expect(i18n.in.another.level).to eq('Hierarchical')
   end
 
   it 'uses extension places' do
-    R18n.extension_places << EXT
+    R18n.extension_places << ext_translations_dir
 
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.ext).to eq('Extension')
     expect(i18n.one).to eq('One')
   end
 
   it "doesn't use extension without app translations with same locale" do
-    R18n.extension_places << EXT
+    R18n.extension_places << ext_translations_dir
 
-    i18n = R18n::I18n.new(%w[notransl en], DIR)
+    i18n = R18n::I18n.new(%w[notransl en], general_translations_dir)
     expect(i18n.ext).to eq('Extension')
   end
 
   it 'ignores case on loading' do
-    i18n = R18n::I18n.new('nolocale', [DIR])
+    i18n = R18n::I18n.new('nolocale', [general_translations_dir])
     expect(i18n.one).to eq('ONE')
 
-    i18n = R18n::I18n.new('nolocale', [DIR])
+    i18n = R18n::I18n.new('nolocale', [general_translations_dir])
     expect(i18n.one).to eq('ONE')
   end
 
   it 'loads default translation' do
-    i18n = R18n::I18n.new('nolocale', DIR)
+    i18n = R18n::I18n.new('nolocale', general_translations_dir)
     expect(i18n.one).to eq('ONE')
     expect(i18n.two).to eq('Two')
   end
 
   it 'loads base translations from parent locale' do
-    i18n = R18n::I18n.new('en-US', File.join(TRANSLATIONS, 'with_regions'))
+    i18n = R18n::I18n.new('en-US', File.join(translations_dir, 'with_regions'))
     expect(i18n.save).to eq('Save')
   end
 
   it 'returns available translations' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.available_locales).to match_array([
       R18n.locale('nolocale'),
       R18n.locale('ru'),
@@ -195,10 +203,10 @@ describe R18n::I18n do
     R18n::I18n.new('en', counter)
     expect(counter.loaded).to eq(1)
 
-    R18n::I18n.new('en', [counter, DIR])
+    R18n::I18n.new('en', [counter, general_translations_dir])
     expect(counter.loaded).to eq(2)
 
-    R18n.extension_places << EXT
+    R18n.extension_places << ext_translations_dir
     R18n::I18n.new('en', counter)
     expect(counter.loaded).to eq(3)
 
@@ -232,13 +240,13 @@ describe R18n::I18n do
   end
 
   it 'returns translations' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.t).to be_kind_of(R18n::Translation)
     expect(i18n.t.one).to eq('One')
   end
 
   it 'returns first locale with locale file' do
-    i18n = R18n::I18n.new(%w[notransl nolocale ru en], DIR)
+    i18n = R18n::I18n.new(%w[notransl nolocale ru en], general_translations_dir)
     expect(i18n.locale).to      eq(R18n.locale('nolocale'))
     expect(i18n.locale.base).to eq(R18n.locale('ru'))
   end
@@ -246,12 +254,12 @@ describe R18n::I18n do
   describe 'locales with regions when getting locales without' do
     it 'returns locale with region by found parent' do
       i18n = R18n::I18n.new(
-        %w[notransl ru en], File.join(TRANSLATIONS, 'with_regions')
+        %w[notransl ru en], File.join(translations_dir, 'with_regions')
       )
       expect(i18n.locale).to eq(R18n.locale('ru-RU'))
 
       i18n = R18n::I18n.new(
-        %w[notransl en ru], File.join(TRANSLATIONS, 'with_regions')
+        %w[notransl en ru], File.join(translations_dir, 'with_regions')
       )
       expect(i18n.locale).to eq(R18n.locale('en-US'))
     end
@@ -282,7 +290,8 @@ describe R18n::I18n do
 
   it 'returns marshalizable values' do
     i18n = R18n::I18n.new(
-      'en', DIR, off_filters: :untranslated, on_filters: :untranslated_html
+      'en', general_translations_dir,
+      off_filters: :untranslated, on_filters: :untranslated_html
     )
     demarsh = Marshal.load(Marshal.dump(i18n.t.one))
 

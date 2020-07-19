@@ -2,7 +2,7 @@
 
 describe R18n::Backend do
   before do
-    I18n.load_path = [GENERAL]
+    I18n.load_path = [general_files]
     I18n.backend = R18n::Backend.new
     R18n.default_places = R18n::Loader::Rails.new
     R18n.set('en')
@@ -63,13 +63,20 @@ describe R18n::Backend do
 
   it 'reloads translations' do
     expect { I18n.t(:other) }.to raise_error(::I18n::MissingTranslationData)
-    I18n.load_path << OTHER
+    I18n.load_path << other_files
     I18n.reload!
     expect(I18n.t(:other)).to eq 'Other'
   end
 
   it 'returns plain classes' do
+    ActiveSupport::SafeBuffer if ActiveSupport.autoload?(:SafeBuffer)
     expect(I18n.t('in.another.level').class).to eq ActiveSupport::SafeBuffer
+
+    allow_any_instance_of(R18n::TranslatedString)
+      .to receive(:respond_to?).with(:html_safe).and_return false
+
+    expect(I18n.t('in.another.level').class).to eq String
+
     expect(I18n.t('in.another').class).to eq Hash
   end
 
@@ -109,7 +116,7 @@ describe R18n::Backend do
   end
 
   it 'changes locale in place' do
-    I18n.load_path << PL
+    I18n.load_path << pl_files
     expect(I18n.t('users', count: 5)).to eq '5 users'
     expect(I18n.t('users', count: 5, locale: :ru)).to eq 'Много'
 

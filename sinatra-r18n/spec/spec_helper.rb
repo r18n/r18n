@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pp'
+require 'pry-byebug'
 
 ENV['RACK_ENV'] = 'test'
 require_relative 'app/app'

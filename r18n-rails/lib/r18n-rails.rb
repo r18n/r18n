@@ -21,14 +21,14 @@ require 'r18n-core'
 require 'r18n-rails-api'
 
 require_relative 'r18n-rails/helpers'
-require_relative 'r18n-rails/controller'
+require_relative 'r18n-rails/hooks_helper'
 require_relative 'r18n-rails/translated'
 require_relative 'r18n-rails/filters'
 
 R18n.default_places { [Rails.root.join('app/i18n'), R18n::Loader::Rails.new] }
 
 ActionController::Base.helper(R18n::Rails::Helpers)
-ActionController::Base.include R18n::Rails::Controller
+ActionController::Base.include R18n::Rails::HooksHelper::ForController
 
 if ActionController::Base.respond_to? :before_action
   ActionController::Base.send(:before_action, :set_r18n)
@@ -42,22 +42,39 @@ else
   end
 end
 
-ActionMailer::Base.helper(R18n::Rails::Helpers) if defined? ActionMailer
+if defined? ActionMailer
+  ActionMailer::Base.helper(R18n::Rails::Helpers)
+  ActionMailer::Base.include R18n::Rails::HooksHelper::ForMailer
+
+  if ActionMailer::Base.respond_to? :before_action
+    ActionMailer::Base.send(:before_action, :set_r18n)
+    if Rails.env.development?
+      ActionMailer::Base.send(:before_action, :reload_r18n)
+    end
+  else
+    ActionMailer::Base.send(:before_filter, :set_r18n)
+    if Rails.env.development?
+      ActionMailer::Base.send(:before_filter, :reload_r18n)
+    end
+  end
+end
 
 ActiveSupport.on_load(:after_initialize) do
   env = ENV['LANG']
   env = env.split('.').first if env
-  locale = env || I18n.default_locale.to_s
-  if defined?(Rails::Console) && !defined?(Wirble)
-    i18n = R18n::I18n.new(
-      locale, R18n.default_places,
-      off_filters: :untranslated,
-      on_filters: :untranslated_bash
-    )
-    R18n.set(i18n)
-  else
-    R18n.set(locale)
-  end
+  R18n::I18n.default = I18n.default_locale.to_s
+  locales = [env, I18n.default_locale.to_s]
+  options =
+    if defined?(Rails::Console) && !defined?(Wirble)
+      {
+        off_filters: :untranslated,
+        on_filters: :untranslated_bash
+      }
+    else
+      {}
+    end
+  i18n = R18n::I18n.new(locales, R18n.default_places, **options)
+  R18n.set(i18n)
 
   I18n.backend = R18n::Backend.new
 end

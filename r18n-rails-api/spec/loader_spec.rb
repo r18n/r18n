@@ -2,7 +2,7 @@
 
 describe R18n::Loader::Rails do
   before do
-    I18n.load_path = [SIMPLE]
+    I18n.load_path = [simple_files]
     @loader = R18n::Loader::Rails.new
   end
 
@@ -31,7 +31,7 @@ describe R18n::Loader::Rails do
   end
 
   it 'changes Russian pluralization' do
-    I18n.load_path = [PL]
+    I18n.load_path = [pl_files]
     expect(@loader.load(RU)).to eq(
       'users' => R18n::Typed.new(
         'pl',
@@ -44,7 +44,7 @@ describe R18n::Loader::Rails do
   end
 
   it 'reloads translations on load_path changes' do
-    I18n.load_path << OTHER
+    I18n.load_path << other_files
     expect(@loader.load(RU)).to eq(
       'one' => 'Один',
       'two' => 'Два',
@@ -54,7 +54,7 @@ describe R18n::Loader::Rails do
 
   it 'changes hash on load_path changes' do
     before = @loader.hash
-    I18n.load_path << OTHER
+    I18n.load_path << other_files
     expect(@loader.hash).not_to eq before
   end
 end

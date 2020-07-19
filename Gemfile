@@ -20,6 +20,7 @@ gem 'r18n-rails',     path: 'r18n-rails/',     require: false
 gem 'r18n-rails-api', path: 'r18n-rails-api/', require: false
 
 group :development do
+  gem 'pry-byebug', require: false
   gem 'rbench', require: false
   gem 'redcarpet', require: false
   gem 'rubocop', '~> 0.79.0', require: false

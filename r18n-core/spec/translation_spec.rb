@@ -2,7 +2,7 @@
 
 describe R18n::Translation do
   it "returns unstranslated string if translation isn't found" do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.not.exists).to be_kind_of(R18n::Untranslated)
     expect(i18n.not.exists).not_to be_translated
     expect(i18n.not.exists | 'default').to eq('default')
@@ -18,7 +18,7 @@ describe R18n::Translation do
   end
 
   it 'returns strings which can be used as normal strings' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.not.exists).not_to be_translated
     expect(i18n.not.exists.to_s).to be_kind_of(String)
     expect(i18n.not.exists.to_s.split.first).to be_kind_of(String)
@@ -35,14 +35,14 @@ describe R18n::Translation do
   it 'returns strings compatible with activesupport json encoding' do
     require 'active_support'
 
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     json = ActiveSupport::JSON.encode(one: i18n.one)
 
     expect(json).to eq('{"one":"One"}')
   end
 
   it 'returns strings by Boolean keys (true, false)' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
 
     expect(i18n.boolean[true]).to eq('Boolean is true')
     expect(i18n.boolean[false]).to eq('Boolean is false')
@@ -56,7 +56,7 @@ describe R18n::Translation do
     end
     str = klass.new('1', nil, nil)
 
-    expect(str).to be_html_safe
+    expect(str).to respond_to(:html_safe)
     expect(str.html_safe).to eq('2')
   end
 
@@ -66,12 +66,12 @@ describe R18n::Translation do
     end
     str = klass.new('a & b', nil, nil)
 
-    expect(str).not_to be_html_safe
+    expect(str).not_to respond_to(:html_safe)
     expect(str.to_s).to eq('a & b')
   end
 
   it 'loads use hierarchical translations' do
-    i18n = R18n::I18n.new(%w[ru en], DIR)
+    i18n = R18n::I18n.new(%w[ru en], general_translations_dir)
     expect(i18n.in.another.level).to eq('Иерархический')
     expect(i18n[:in][:another][:level]).to eq('Иерархический')
     expect(i18n['in']['another']['level']).to eq('Иерархический')
@@ -79,7 +79,7 @@ describe R18n::Translation do
   end
 
   it 'saves path for translation' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
 
     expect(i18n.in.another.level.path).to eq('in.another.level')
 
@@ -92,12 +92,14 @@ describe R18n::Translation do
   end
 
   it 'returns translation keys' do
-    i18n = R18n::I18n.new('en', [DIR, TWO])
+    i18n = R18n::I18n.new(
+      'en', [general_translations_dir, two_translations_dir]
+    )
     expect(i18n.in.translation_keys).to match_array(%w[another two])
   end
 
   it 'returns string with locale info' do
-    i18n = R18n::I18n.new(%w[nolocale en], DIR)
+    i18n = R18n::I18n.new(%w[nolocale en], general_translations_dir)
     expect(i18n.one.locale).to eq(R18n::UnsupportedLocale.new('nolocale'))
     expect(i18n.two.locale).to eq(R18n.locale('en'))
   end
@@ -115,7 +117,7 @@ describe R18n::Translation do
   end
 
   it 'returns hash of translations' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect(i18n.in.to_hash).to eq(
       'another' => { 'level' => 'Hierarchical' }
     )
@@ -150,7 +152,7 @@ describe R18n::Translation do
   end
 
   describe '#dig' do
-    subject { R18n::I18n.new('en', DIR).in.dig(*keys) }
+    subject { R18n::I18n.new('en', general_translations_dir).in.dig(*keys) }
 
     context 'with existing keys' do
       let(:keys) { %w[another level] }
@@ -166,19 +168,21 @@ describe R18n::Translation do
   end
 
   context '`itself` key' do
-    subject { R18n::I18n.new('en', DIR).page.itself.not_found }
+    subject do
+      R18n::I18n.new('en', general_translations_dir).page.itself.not_found
+    end
 
     it { is_expected.to be_translated }
     it { is_expected.to eq 'Not found' }
   end
 
   it 'handles #to_ary' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
     expect([i18n.one, i18n.two].flatten).to eq [i18n.one, i18n.two]
   end
 
   it 'handles #to_hash' do
-    i18n = R18n::I18n.new('en', DIR)
+    i18n = R18n::I18n.new('en', general_translations_dir)
 
     def foo(*args, **opts)
       [args, opts]
