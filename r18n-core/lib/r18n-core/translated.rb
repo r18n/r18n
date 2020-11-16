@@ -115,7 +115,7 @@ module R18n
             options[:methods].map { |l, i| [l.to_s, i.to_s] }.to_h
           unless options[:no_write]
             @unlocalized_setters[name] =
-              options[:methods].map { |l, i| [l.to_s, i.to_s + '='] }.to_h
+              options[:methods].map { |l, i| [l.to_s, "#{i}="] }.to_h
           end
         end
 
@@ -176,7 +176,7 @@ module R18n
       # didn't set map in `translation` option `methods`, it will be detect
       # automatically.
       def unlocalized_getters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)$')
+        matcher = Regexp.new("^#{Regexp.escape(method.to_s)}_(\\w+)$")
         unless @unlocalized_getters.key? method
           @unlocalized_getters[method] = {}
           unlocalized_methods.select { |i| i =~ matcher }.each do |i|
@@ -190,7 +190,7 @@ module R18n
       # didn't set map in `translation` option `methods`, it will be detect
       # automatically.
       def unlocalized_setters(method)
-        matcher = Regexp.new('^' + Regexp.escape(method.to_s) + '_(\w+)=$')
+        matcher = Regexp.new("^#{Regexp.escape(method.to_s)}_(\\w+)=$")
         unless @unlocalized_setters.key? method
           @unlocalized_setters[method] = {}
           unlocalized_methods.select { |i| i =~ matcher }.each do |i|

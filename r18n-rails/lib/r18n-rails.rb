@@ -32,14 +32,10 @@ ActionController::Base.include R18n::Rails::HooksHelper::ForController
 
 if ActionController::Base.respond_to? :before_action
   ActionController::Base.send(:before_action, :set_r18n)
-  if Rails.env.development?
-    ActionController::Base.send(:before_action, :reload_r18n)
-  end
+  ActionController::Base.send(:before_action, :reload_r18n) if Rails.env.development?
 else
   ActionController::Base.send(:before_filter, :set_r18n)
-  if Rails.env.development?
-    ActionController::Base.send(:before_filter, :reload_r18n)
-  end
+  ActionController::Base.send(:before_filter, :reload_r18n) if Rails.env.development?
 end
 
 if defined? ActionMailer
@@ -48,14 +44,10 @@ if defined? ActionMailer
 
   if ActionMailer::Base.respond_to? :before_action
     ActionMailer::Base.send(:before_action, :set_r18n)
-    if Rails.env.development?
-      ActionMailer::Base.send(:before_action, :reload_r18n)
-    end
+    ActionMailer::Base.send(:before_action, :reload_r18n) if Rails.env.development?
   else
     ActionMailer::Base.send(:before_filter, :set_r18n)
-    if Rails.env.development?
-      ActionMailer::Base.send(:before_filter, :reload_r18n)
-    end
+    ActionMailer::Base.send(:before_filter, :reload_r18n) if Rails.env.development?
   end
 end
 

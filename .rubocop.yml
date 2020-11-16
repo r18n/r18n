@@ -1,5 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.4
+  NewCops: enable
 
 Naming/FileName:
   Exclude:
@@ -32,6 +33,8 @@ Layout/FirstArrayElementLineBreak:
   Enabled: true
 Layout/FirstMethodArgumentLineBreak:
   Enabled: true
+Layout/LineLength:
+  Max: 100
 
 Metrics/BlockLength:
   Exclude:

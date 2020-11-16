@@ -28,6 +28,8 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/r18n/r18n/tree/master/r18n-rails-api'
   s.license  = 'LGPL-3.0'
 
+  s.required_ruby_version = '~> 2.4'
+
   s.add_dependency 'i18n', '~> 1'
   s.add_dependency 'r18n-core', "= #{R18n::VERSION}"
 end

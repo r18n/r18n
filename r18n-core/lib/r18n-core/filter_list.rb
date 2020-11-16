@@ -57,7 +57,7 @@ module R18n
         value = f.call(value, config, *params)
       end
 
-      if value.class == String
+      if value.instance_of? String
         TranslatedString.new(value, config[:locale], config[:path], self)
       else
         value
@@ -66,9 +66,10 @@ module R18n
 
     # `Array` of enabled filters with `filters_type` for `type`.
     def enabled(filters_type, type)
-      if filters_type == :passive
+      case filters_type
+      when :passive
         passive(type)
-      elsif filters_type == :active
+      when :active
         active(type)
       else
         all(type)
@@ -111,6 +112,8 @@ module R18n
   # Filter list for I18n object with custom disabled/enabled filters.
   class CustomFilterList < FilterList
     def initialize(on, off)
+      super
+
       @on  = Array(on).map  { |i| Filters.defined[i] }
       @off = Array(off).map { |i| Filters.defined[i] }
       @changed_types = (@on + @off).map(&:types).flatten.uniq

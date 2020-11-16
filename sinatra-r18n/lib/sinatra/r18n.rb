@@ -32,9 +32,7 @@ module Sinatra
       app.before do
         ::R18n.clear_cache! if self.class.development?
 
-        if settings.default_locale
-          ::R18n::I18n.default = settings.default_locale
-        end
+        ::R18n::I18n.default = settings.default_locale if settings.default_locale
 
         locales = ::R18n::I18n.parse_http(request.env['HTTP_ACCEPT_LANGUAGE'])
         if params[:locale]

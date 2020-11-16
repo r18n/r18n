@@ -24,7 +24,7 @@ module R18n
 
       def unlocalized_methods
         if defined?(ActiveRecord) && ancestors.include?(ActiveRecord::Base)
-          column_names + column_names.map { |i| i + '=' } + instance_methods
+          column_names + column_names.map { |i| "#{i}=" } + instance_methods
         else
           instance_methods
         end

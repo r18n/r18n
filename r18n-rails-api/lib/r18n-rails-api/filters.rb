@@ -27,9 +27,7 @@ R18n::Filters.add(String, :named_variables) do |content, config, params|
     content = content.clone
     params.each_pair do |name, value|
       value = config[:locale].localize(value)
-      if defined? ActiveSupport::SafeBuffer
-        value = ActiveSupport::SafeBuffer.new + value
-      end
+      value = ActiveSupport::SafeBuffer.new + value if defined? ActiveSupport::SafeBuffer
       content.gsub! "%{#{name}}",  value
       content.gsub! "{{#{name}}}", value
     end

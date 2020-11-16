@@ -32,7 +32,7 @@ module R18n
       )
 
       def format_time_full(time, *_params)
-        format_time(format_date_full(time) + ' kello', time)
+        format_time "#{format_date_full(time)} kello", time
       end
     end
   end

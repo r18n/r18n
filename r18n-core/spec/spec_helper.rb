@@ -25,8 +25,7 @@ gem 'kramdown'
 gem 'RedCloth'
 
 class CounterLoader
-  attr_reader :available
-  attr_reader :loaded
+  attr_reader :available, :loaded
 
   def initialize(*available)
     @available = available.map { |i| R18n.locale(i) }

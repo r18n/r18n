@@ -34,7 +34,7 @@ describe R18n::Filters do
   end
 
   it 'adds filter for several types' do
-    R18n::Filters.add(%w[my your]) { |i, _config| i + '1' }
+    R18n::Filters.add(%w[my your]) { |i, _config| "#{i}1" }
     expect(i18n.my_filter).to   eq('value1')
     expect(i18n.your_filter).to eq('another1')
   end
@@ -57,9 +57,9 @@ describe R18n::Filters do
   end
 
   it 'uses cascade filters' do
-    R18n::Filters.add('my', :one) { |i, _config| i + '1' }
-    R18n::Filters.add('my', :two) { |i, _config| i + '2' }
-    R18n::Filters.add('my', :three, position: 0) { |i, _c| i + '3' }
+    R18n::Filters.add('my', :one) { |i, _config| "#{i}1" }
+    R18n::Filters.add('my', :two) { |i, _config| "#{i}2" }
+    R18n::Filters.add('my', :three, position: 0) { |i, _c| "#{i}3" }
     expect(i18n.my_filter).to eq('value312')
   end
 
@@ -93,14 +93,14 @@ describe R18n::Filters do
 
   it 'uses global filters' do
     R18n::Filters.add(String) { |result, _config, a, b| result + a + b }
-    R18n::Filters.add(String) { |result, _config| result + '!' }
+    R18n::Filters.add(String) { |result, _config| "#{result}!" }
 
     expect(i18n.one('1', '2')).to eq('One12!')
   end
 
   it 'turns off filter' do
-    R18n::Filters.add('my', :one) { |i, _config| i + '1' }
-    R18n::Filters.add('my', :two) { |i, _config| i + '2' }
+    R18n::Filters.add('my', :one) { |i, _config| "#{i}1" }
+    R18n::Filters.add('my', :two) { |i, _config| "#{i}2" }
 
     R18n::Filters.off(:one)
     expect(R18n::Filters.defined[:one]).not_to be_enabled
@@ -131,7 +131,7 @@ describe R18n::Filters do
   end
 
   it 'returns translated string after filters' do
-    R18n::Filters.add(String) { |i, _config| i + '1' }
+    R18n::Filters.add(String) { |i, _config| "#{i}1" }
 
     expect(i18n.one).to be_kind_of(R18n::TranslatedString)
     expect(i18n.one.path).to   eq('one')
@@ -316,7 +316,7 @@ describe R18n::Filters do
 
   it 'allows to listen filters adding' do
     expect(R18n::Filters.listen do
-      R18n::Filters.add(String, :a) {}
+      R18n::Filters.add(String, :a) { nil }
     end).to eq([R18n::Filters.defined[:a]])
   end
 

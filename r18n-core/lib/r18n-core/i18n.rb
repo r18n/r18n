@@ -138,12 +138,8 @@ module R18n
       locales = Array(locales)
 
       locales.each_with_index do |locale, i|
-        if locale =~ /[^_-]+[_-]/
-          locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1])
-        end
-        if Locale.exists?(locale)
-          locales.insert(i + 1, *(Locale.load(locale).sublocales - locales))
-        end
+        locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1]) if locale =~ /[^_-]+[_-]/
+        locales.insert(i + 1, *(Locale.load(locale).sublocales - locales)) if Locale.exists?(locale)
       end
       locales << self.class.default
       locales.map! { |i| i.to_s.downcase }.uniq!
@@ -189,10 +185,8 @@ module R18n
       @available_codes ||= @translation_places
         .inject([]) { |all, i| all + i.available }
         .uniq.map { |i| i.code.downcase }
-      (@locales_codes & @available_codes).join(',') + '@' +
-        @filters.hash.to_s + '_' +
-        R18n.default_loader.hash.to_s + '_' +
-        @translation_places.hash.to_s + '_' +
+      "#{(@locales_codes & @available_codes).join(',')}@" \
+        "#{@filters.hash}_#{R18n.default_loader.hash}_#{@translation_places.hash}_" +
         R18n.extension_places.hash.to_s
     end
 
@@ -240,9 +234,8 @@ module R18n
         next unless loaded
 
         available_in_extensions.each do |extension, available|
-          if available.include? locale
-            @translation.merge! extension.load(locale), locale
-          end
+          @translation.merge! extension.load(locale), locale if available.include? locale
+
           if available.include? locale.parent
             @translation.merge! extension.load(locale.parent), locale.parent
           end
