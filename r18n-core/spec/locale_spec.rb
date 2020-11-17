@@ -93,15 +93,15 @@ describe R18n::Locale do
   it 'localizes date for human' do
     i18n = R18n::I18n.new('en')
 
-    expect(@en.localize(Date.today + 2, :human, i18n)).to eq('after 2 days')
-    expect(@en.localize(Date.today + 1, :human, i18n)).to eq('tomorrow')
-    expect(@en.localize(Date.today,     :human, i18n)).to eq('today')
-    expect(@en.localize(Date.today - 1, :human, i18n)).to eq('yesterday')
-    expect(@en.localize(Date.today - 3, :human, i18n)).to eq('3 days ago')
+    expect(@en.localize(Date.today + 2, :human, i18n: i18n)).to eq('after 2 days')
+    expect(@en.localize(Date.today + 1, :human, i18n: i18n)).to eq('tomorrow')
+    expect(@en.localize(Date.today,     :human, i18n: i18n)).to eq('today')
+    expect(@en.localize(Date.today - 1, :human, i18n: i18n)).to eq('yesterday')
+    expect(@en.localize(Date.today - 3, :human, i18n: i18n)).to eq('3 days ago')
 
     y2k = Date.parse('2000-05-08')
-    expect(@en.localize(y2k, :human, i18n, y2k + 8)).to   eq('8th of May')
-    expect(@en.localize(y2k, :human, i18n, y2k - 365)).to eq('8th of May, 2000')
+    expect(@en.localize(y2k, :human, now: y2k + 8, i18n: i18n)).to   eq('8th of May')
+    expect(@en.localize(y2k, :human, now: y2k - 365, i18n: i18n)).to eq('8th of May, 2000')
   end
 
   it 'localizes times for human' do
@@ -110,8 +110,10 @@ describe R18n::Locale do
     day    = 24 * hour
     zero   = Time.at(0).utc
     now    = Time.now
-    now_params = [:human, R18n::I18n.new('en')]
-    zero_params = [*now_params, zero]
+    format = :human
+    i18n_kwarg = { i18n: R18n::I18n.new('en') }
+    now_params = [format, i18n_kwarg]
+    zero_params = [format, { **i18n_kwarg, now: zero }]
 
     expect(@en.localize(now + 70 * minute,   *now_params)).to eq('after 1 hour')
     expect(@en.localize(now + hour + minute, *now_params)).to eq('after 1 hour')
@@ -148,8 +150,10 @@ describe R18n::Locale do
     second = minute / 60
     zero   = DateTime.new(1970)
     now    = DateTime.now
-    now_params = [:human, R18n::I18n.new('en')]
-    zero_params = [*now_params, zero]
+    format = :human
+    i18n_kwarg = { i18n: R18n::I18n.new('en') }
+    now_params = [format, i18n_kwarg]
+    zero_params = [format, { **i18n_kwarg, now: zero }]
 
     expect(@en.localize(now + 70 * minute,   *now_params)).to eq('after 1 hour')
     expect(@en.localize(now + hour + minute, *now_params)).to eq('after 1 hour')

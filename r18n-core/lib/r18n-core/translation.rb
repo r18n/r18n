@@ -168,7 +168,7 @@ module R18n
     # Return translation located at `keys`.
     # @see Hash#dig
     def dig(*keys)
-      keys.reduce(self) { |result, key| result[key] }
+      keys.reduce(self, :[])
     end
 
     # I think we don't need in the Ruby core method,

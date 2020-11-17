@@ -112,7 +112,7 @@ module R18n
   # Filter list for I18n object with custom disabled/enabled filters.
   class CustomFilterList < FilterList
     def initialize(on, off)
-      super
+      super()
 
       @on  = Array(on).map  { |i| Filters.defined[i] }
       @off = Array(off).map { |i| Filters.defined[i] }

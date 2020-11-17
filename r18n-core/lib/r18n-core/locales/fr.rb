@@ -26,8 +26,8 @@ module R18n
         number_group: ' '
       )
 
-      def format_date_full(date, year = true, *_params)
-        full = super(date, year)
+      def format_date_full(date, year: true, **_kwargs)
+        full = super(date, year: year)
         if full[0..1] == '1 '
           "1er#{full[1..-1]}"
         else

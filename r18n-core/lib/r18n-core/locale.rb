@@ -176,7 +176,7 @@ module R18n
     # `:full` ("01 Jule, 2009"), `:human` ("yesterday"),
     # `:standard` ("07/01/09") or `:month` for standalone month
     # name. Default format is `:standard`.
-    def localize(obj, format = nil, *params)
+    def localize(obj, format = nil, *args, **kwargs)
       case obj
       when Integer
         format_integer(obj)
@@ -185,7 +185,7 @@ module R18n
       when Time, DateTime, Date
         return strftime(obj, format) if format.is_a? String
         return month_standalone[obj.month - 1] if format == :month
-        return obj.to_s if format == :human && !params.first.is_a?(I18n)
+        return obj.to_s if format == :human && !kwargs.key?(:i18n)
 
         type = obj.is_a?(Date) && !obj.is_a?(DateTime) ? 'date' : 'time'
         format ||= :standard
@@ -195,14 +195,14 @@ module R18n
           raise ArgumentError, "Unknown time formatter #{format}"
         end
 
-        send format_method_name, obj, *params
+        send format_method_name, obj, *args, **kwargs
       else
         format_method_name =
           "format_#{Utils.underscore(obj.class.name).tr('/', '_')}_#{format}"
 
         return obj.to_s unless respond_to? format_method_name
 
-        send format_method_name, obj, *params
+        send format_method_name, obj, *args, **kwargs
       end
     end
 
@@ -251,7 +251,7 @@ module R18n
     end
 
     # Format `time` and set `date`
-    def format_time(date, time, with_seconds: false)
+    def format_time(date, time, with_seconds: false, **_kwargs)
       strftime(
         time, with_seconds ? time_with_seconds_format : time_format
       ).sub('_', date.to_s)
@@ -260,12 +260,12 @@ module R18n
     # Format `time` in human usable form. For example "5 minutes ago" or
     # "yesterday". In `now` you can set base time, which be used to get relative
     # time. For special cases you can replace it in locale's class.
-    def format_time_human(time, i18n, now = time.class.now, **_params)
+    def format_time_human(time, i18n:, now: time.class.now, **_kwargs)
       diff = time - now
       minutes = time.is_a?(DateTime) ? diff * 24 * 60.0 : diff / 60.0
       diff = minutes.abs
       if (diff > 24 * 60) || (time.mday != now.mday && diff > 12 * 24)
-        format_time(format_date_human(time.to_date, i18n, now.to_date), time)
+        format_time(format_date_human(time.to_date, now: now.to_date, i18n: i18n), time)
       elsif minutes > -1 && minutes < 1
         i18n.human_time.now
       elsif minutes >= 60
@@ -280,22 +280,20 @@ module R18n
     end
 
     # Format `time` in compact form. For example, "12/31/09 12:59".
-    def format_time_standard(time, *params)
-      options = params.last.is_a?(Hash) ? params.last : {}
-      format_time(format_date_standard(time), time, **options)
+    def format_time_standard(time, *args, **kwargs)
+      format_time(format_date_standard(time), time, *args, **kwargs)
     end
 
     # Format `time` in most official form. For example, "December 31st, 2009
     # 12:59". For special cases you can replace it in locale's class.
-    def format_time_full(time, *params)
-      options = params.last.is_a?(Hash) ? params.last : {}
-      format_time(format_date_full(time), time, **options)
+    def format_time_full(time, **kwargs)
+      format_time(format_date_full(time, **kwargs), time, **kwargs)
     end
 
-    # Format `date` in human usable form. For example "5 days ago" or
-    # "yesterday". In `now` you can set base time, which be used to get relative
-    # time. For special cases you can replace it in locale's class.
-    def format_date_human(date, i18n, now = Date.today, *_params)
+    # Format `date` in human usable form. For example "5 days ago" or "yesterday".
+    # In `:now` you can set base time, which be used to get relative time.
+    # For special cases you can replace it in locale's class.
+    def format_date_human(date, *_args, i18n:, now: Date.today, **_kwargs)
       days = (date - now).to_i
       case days
       when -6..-2
@@ -309,7 +307,7 @@ module R18n
       when 2..6
         i18n.human_time.after_days(days)
       else
-        format_date_full(date, date.year != now.year)
+        format_date_full(date, year: date.year != now.year)
       end
     end
 
@@ -321,7 +319,7 @@ module R18n
     # Format `date` in most official form. For example, "December 31st, 2009".
     # For special cases you can replace it in locale's class. If `year` is false
     # date will be without year.
-    def format_date_full(date, year = true, *_params)
+    def format_date_full(date, year: true, **_kwargs)
       format = full_format
       format = year_format.sub('_', format) if year
       strftime(date, format)
