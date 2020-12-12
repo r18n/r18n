@@ -219,7 +219,39 @@ describe R18n::Locale do
 
     foo_bar = SomeProject::FooBar.new 'something'
 
-    expect(@en).to receive(:format_some_project_foo_bar_human, &:value)
+    ## I was fixing RuboCop offenses and have faced the issue: https://github.com/r18n/r18n/pull/239/checks?check_run_id=1542486592
+    ##
+    ## ```
+    ## Failures:
+    ##
+    ##   1) R18n::Locale localizes custom classes if formatter exists
+    ##      Failure/Error: send format_method_name, obj, *args, **kwargs
+    ##
+    ##      ArgumentError:
+    ##        wrong number of arguments (given 1, expected 0)
+    ##      # ./lib/r18n-core/locale.rb:205:in `localize'
+    ##      # ./spec/locale_spec.rb:224:in `block (2 levels) in <top (required)>'
+    ## ```
+    ##
+    ## I've done a little investigation and found that these codes have different behavior:
+    ##
+    ## ```ruby
+    ## expect(@en).to receive(:format_some_project_foo_bar_human, &:value)
+    ## expect(@en).to receive(:format_some_project_foo_bar_human) { |obj| obj.value }
+    ## ```
+    ##
+    ## The first one (without `SymbolProc` offense) passing all arguments to the `value` method,
+    ## which is simple reader (and expects no arguments).
+    ##
+    ## And the problem is when we try to make:
+    ## ```ruby
+    ## send :format_some_project_foo_bar_human, object, *args, **kwargs
+    ## ```
+    ## `value` receives (empty) `kwargs` as regular `{}` argument.
+
+    # rubocop:disable Style/SymbolProc
+    expect(@en).to receive(:format_some_project_foo_bar_human) { |obj| obj.value }
+    # rubocop:enable Style/SymbolProc
 
     expect(@en.localize(foo_bar, :human)).to eq('something')
   end
