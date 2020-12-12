@@ -107,7 +107,7 @@ module R18n
       when TranslatedString
         result.to_s
       when UnpluralizedTranslation
-        result.to_hash.map { |k, v| [RailsPlural.from_r18n(k), v] }.to_h
+        result.to_hash.transform_keys { |key| RailsPlural.from_r18n(key) }
       when Translation
         translation_to_hash(result)
       else
