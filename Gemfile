@@ -23,5 +23,5 @@ group :development do
   gem 'pry-byebug', require: false
   gem 'rbench', require: false
   gem 'redcarpet', require: false
-  gem 'rubocop', '~> 1.0', require: false
+  gem 'rubocop', '~> 1.6', require: false
 end
