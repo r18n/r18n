@@ -49,10 +49,11 @@ module R18n
         default = [default] unless default.is_a? Array
 
         default.each do |entry|
-          if entry.is_a? Symbol
+          case entry
+          when Symbol
             value = lookup(locale, scope, entry, separator, params)
             return value unless value.is_a? Untranslated
-          elsif entry.is_a? Proc
+          when Proc
             proc_key = options.delete(:object) || key
             return entry.call(proc_key, options)
           else
@@ -102,11 +103,12 @@ module R18n
     end
 
     def format_value(result)
-      if result.is_a? TranslatedString
+      case result
+      when TranslatedString
         result.to_s
-      elsif result.is_a? UnpluralizedTranslation
-        result.to_hash.map { |k, v| [RailsPlural.from_r18n(k), v] }.to_h
-      elsif result.is_a? Translation
+      when UnpluralizedTranslation
+        result.to_hash.transform_keys { |key| RailsPlural.from_r18n(key) }
+      when Translation
         translation_to_hash(result)
       else
         result

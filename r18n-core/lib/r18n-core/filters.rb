@@ -243,13 +243,11 @@ module R18n
 
   Filters.add(String, :variables) do |content, config, *params|
     cached_params = []
-    content.to_s.gsub(/\%\d/) do |key|
+    content.to_s.gsub(/%\d/) do |key|
       i = key[1..-1].to_i
       unless cached_params.include? i - 1
         param = config[:locale].localize(params[i - 1])
-        if defined? ActiveSupport::SafeBuffer
-          param = ActiveSupport::SafeBuffer.new + param
-        end
+        param = ActiveSupport::SafeBuffer.new + param if defined? ActiveSupport::SafeBuffer
 
         cached_params[i - 1] = param
       end
@@ -263,9 +261,7 @@ module R18n
       content.gsub!(/(?:%{(\w+)}|{{(\w+)}})/) do |name|
         key = name.delete('%{}').to_sym
         value = config[:locale].localize(params[key])
-        if defined? ActiveSupport::SafeBuffer
-          value = ActiveSupport::SafeBuffer.new + value
-        end
+        value = ActiveSupport::SafeBuffer.new + value if defined? ActiveSupport::SafeBuffer
         value
       end
     end

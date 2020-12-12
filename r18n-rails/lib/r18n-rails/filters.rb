@@ -27,6 +27,7 @@ module R18n
 
         # Path to filters. Should be set to `app/i18n`.
         attr_writer :path
+
         def path
           return @path if defined?(@path)
 

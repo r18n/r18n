@@ -19,11 +19,12 @@
 
 require 'r18n-core'
 
-if /cygwin|mingw|win32/ =~ RUBY_PLATFORM
+case RUBY_PLATFORM
+when /cygwin|mingw|win32/
   require_relative 'r18n-desktop/win32'
-elsif /java/ =~ RUBY_PLATFORM
+when /java/
   require_relative 'r18n-desktop/java'
-elsif /darwin/ =~ RUBY_PLATFORM
+when /darwin/
   require_relative 'r18n-desktop/osx'
 else
   require_relative 'r18n-desktop/posix'

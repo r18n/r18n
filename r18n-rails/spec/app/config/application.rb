@@ -7,9 +7,7 @@ require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'rails/test_unit/railtie'
 
-if defined?(Bundler)
-  Bundler.require(*Rails.groups(assets: %w[development test]))
-end
+Bundler.require(*Rails.groups(assets: %w[development test])) if defined?(Bundler)
 
 module App
   class Application < Rails::Application
