@@ -104,7 +104,7 @@ module R18n
     def format_value(result)
       if result.is_a? TranslatedString
         result.to_s
-      elsif result.is_a? UnpluralizetedTranslation
+      elsif result.is_a? UnpluralizedTranslation
         result.to_hash.map { |k, v| [RailsPlural.from_r18n(k), v] }.to_h
       elsif result.is_a? Translation
         translation_to_hash(result)
