@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Main file to load all neccessary classes for i18n support.
+# Main file to load all necessary classes for i18n support.
 #
 # Copyright (C) 2008 Andrey “A.I.” Sitnik <andrey@sitnik.ru>
 #
@@ -138,12 +138,12 @@ module R18n
       end
     end
 
-    # Default loader class, which will be used if you didn't send loader to
+    # Default loader class, which will be used if you did not send loader to
     # `I18n.new` (object with `available` and `load` methods).
     attr_accessor :default_loader
 
     # Loaders with extension translations. If application translations with
-    # same locale isn't exists, extension file willn't be used.
+    # same locale isn't exists, extension file will not be used.
     attr_accessor :extension_places
 
     # `Hash` of hash-like (see Moneta) object to store loaded translations.

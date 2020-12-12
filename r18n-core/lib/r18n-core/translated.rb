@@ -108,7 +108,7 @@ module R18n
       # Add proxy-method `name`. See `R18n::Translated` for description.
       # It's more useful to set options.
       #
-      #   translation :desciption, type: 'markdown'
+      #   translation :description, type: 'markdown'
       def translation(name, options = {})
         if options[:methods]
           @unlocalized_getters[name] =
