@@ -166,8 +166,8 @@ describe R18n::Filters do
   end
 
   it "doesn't pluralize without first numeric parameter" do
-    expect(i18n.files).to      be_kind_of(R18n::UnpluralizetedTranslation)
-    expect(i18n.files('')).to  be_kind_of(R18n::UnpluralizetedTranslation)
+    expect(i18n.files).to      be_kind_of(R18n::UnpluralizedTranslation)
+    expect(i18n.files('')).to  be_kind_of(R18n::UnpluralizedTranslation)
     expect(i18n.files[1]).to   eq('1 file')
     expect(i18n.files.n(5)).to eq('5 files')
   end

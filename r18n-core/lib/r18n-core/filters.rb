@@ -224,7 +224,7 @@ module R18n
   end
 
   # Class to mark unpluralized translation.
-  class UnpluralizetedTranslation < Translation
+  class UnpluralizedTranslation < Translation
   end
 
   Filters.add('pl', :pluralization) do |content, config, param|
@@ -234,7 +234,7 @@ module R18n
       type = 'n' unless content.key? type
       content[type]
     else
-      UnpluralizetedTranslation.new(
+      UnpluralizedTranslation.new(
         config[:locale], config[:path],
         locale: config[:locale], translations: content
       )

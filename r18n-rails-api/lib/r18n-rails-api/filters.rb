@@ -39,7 +39,7 @@ end
 
 module R18n
   # Class to mark unpluralized translation and convert Rails plural keys
-  class RailsUnpluralizetedTranslation < UnpluralizetedTranslation
+  class RailsUnpluralizedTranslation < UnpluralizedTranslation
     def [](name, *params)
       result = super
       if result.is_a? Untranslated
@@ -58,8 +58,8 @@ R18n::Filters.add('pl', :named_pluralization) do |content, config, param|
     type = config[:locale].pluralize(param[:count])
     type = 'n' unless hash.key?(type)
     hash[type]
-  elsif content.is_a? R18n::UnpluralizetedTranslation
-    R18n::RailsUnpluralizetedTranslation.new(
+  elsif content.is_a? R18n::UnpluralizedTranslation
+    R18n::RailsUnpluralizedTranslation.new(
       config[:locale], config[:path],
       locale: config[:locale], translations: content.to_hash
     )
