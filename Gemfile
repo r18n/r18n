@@ -10,7 +10,7 @@ gem 'kramdown',    require: false
 gem 'rack',        require: false
 gem 'rails',       require: false
 gem 'RedCloth',    require: false
-gem 'rspec-rails', require: false
+gem 'rspec-rails', '4.0.2', require: false
 gem 'sinatra',     require: false
 
 gem 'sqlite3'
