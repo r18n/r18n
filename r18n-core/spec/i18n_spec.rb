@@ -47,13 +47,13 @@ describe R18n::I18n do
     ]
 
     i18n = R18n::I18n.new(%w[ru nolocale-DL], general_translations_dir)
-    expect(i18n.locales).to eq([
+    expect(i18n.locales).to eq [
       R18n.locale('ru'),
       R18n.locale('ru-RU'),
       R18n::UnsupportedLocale.new('nolocale-DL'),
       R18n::UnsupportedLocale.new('nolocale'),
       R18n.locale('en')
-    ])
+    ]
   end
 
   it 'returns translations loaders' do
@@ -146,11 +146,11 @@ describe R18n::I18n do
 
   it 'returns available translations' do
     i18n = R18n::I18n.new('en', general_translations_dir)
-    expect(i18n.available_locales).to match_array([
+    expect(i18n.available_locales).to match_array [
       R18n.locale('nolocale'),
       R18n.locale('ru'),
       R18n.locale('en')
-    ])
+    ]
   end
 
   it 'caches translations' do

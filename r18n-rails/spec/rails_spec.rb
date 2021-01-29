@@ -121,9 +121,9 @@ describe TestController, type: :controller do
   end
 
   it 'sets default places' do
-    expect(R18n.default_places).to eq([
+    expect(R18n.default_places).to eq [
       Rails.root.join('app/i18n'), R18n::Loader::Rails.new
-    ])
+    ]
 
     R18n.set('en')
     expect(R18n.get.user.name).to eq 'Name'

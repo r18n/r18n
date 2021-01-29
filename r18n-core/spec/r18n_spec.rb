@@ -157,22 +157,22 @@ describe R18n do
   end
 
   it 'returns available translations' do
-    expect(R18n.available_locales(general_translations_dir)).to match_array([
+    expect(R18n.available_locales(general_translations_dir)).to match_array [
       R18n.locale('nolocale'),
       R18n.locale('ru'),
       R18n.locale('en')
-    ])
+    ]
   end
 
   it 'uses default places' do
     R18n.default_places = general_translations_dir
     R18n.set('en')
     expect(t.one).to eq('One')
-    expect(R18n.available_locales).to match_array([
+    expect(R18n.available_locales).to match_array [
       R18n.locale('ru'),
       R18n.locale('en'),
       R18n.locale('nolocale')
-    ])
+    ]
   end
 
   it 'sets default places by block' do
