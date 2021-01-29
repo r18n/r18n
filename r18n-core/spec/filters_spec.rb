@@ -315,9 +315,11 @@ describe R18n::Filters do
   end
 
   it 'allows to listen filters adding' do
-    expect(R18n::Filters.listen do
+    result = R18n::Filters.listen do
       R18n::Filters.add(String, :a) { nil }
-    end).to eq([R18n::Filters.defined[:a]])
+    end
+
+    expect(result).to eq([R18n::Filters.defined[:a]])
   end
 
   it 'escapes variables if ActiveSupport is loaded' do

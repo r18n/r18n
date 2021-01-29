@@ -23,11 +23,11 @@ describe R18n::Loader::YAML do
   end
 
   it 'returns all available translations' do
-    expect(loader.available).to match_array([
+    expect(loader.available).to match_array [
       R18n.locale('ru'),
       R18n.locale('en'),
       R18n.locale('nolocale')
-    ])
+    ]
   end
 
   it 'loads translation' do
@@ -46,7 +46,7 @@ describe R18n::Loader::YAML do
 
   it 'loads in dir recursively' do
     loader = R18n::Loader::YAML.new(translations_dir)
-    expect(loader.available).to match_array([
+    expect(loader.available).to match_array [
       R18n.locale('ru'),
       R18n.locale('ru-ru'),
       R18n.locale('en'),
@@ -55,7 +55,7 @@ describe R18n::Loader::YAML do
       R18n.locale('fr'),
       R18n.locale('notransl'),
       R18n.locale('nolocale')
-    ])
+    ]
 
     translation = loader.load(R18n.locale('en'))
     expect(translation['two']).to       eq('Two')
