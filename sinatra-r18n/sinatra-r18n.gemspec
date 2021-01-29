@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/r18n/r18n/tree/master/sinatra-r18n'
   s.license  = 'LGPL-3.0'
 
-  s.required_ruby_version = '~> 2.5'
+  s.required_ruby_version = '>= 2.5'
 
   s.add_dependency 'r18n-core', "= #{R18n::VERSION}"
   s.add_dependency 'sinatra', '>= 1.3', '< 3'
