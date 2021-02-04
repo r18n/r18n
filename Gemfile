@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rake'
 gem 'rspec'
 
-gem 'i18n',        require: false
+gem 'i18n', '1.8.8',        require: false
 gem 'kramdown',    require: false
 gem 'rack',        require: false
 gem 'rails',       require: false
