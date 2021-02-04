@@ -26,7 +26,7 @@ remark_task:
 rubocop_task:
   <<: *ruby
   container:
-    image: ruby:2.7
+    image: ruby:latest
   rubocop_script: bundle exec rubocop
 
 test_task:
