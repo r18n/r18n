@@ -2,6 +2,11 @@ AllCops:
   TargetRubyVersion: 2.5
   NewCops: enable
 
+inherit_mode:
+  merge:
+    - Include
+    - Exclude
+
 Naming/FileName:
   Exclude:
     - 'r18n-core/lib/r18n-core/locales/*.rb'
