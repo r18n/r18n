@@ -53,7 +53,7 @@ module R18n
         if args.empty? || kwargs.any?
           super(obj, *args, **kwargs)
         else
-          r18n.l(obj, *args, **kwargs)
+          r18n.l(obj, *args, now: Time.zone.now, **kwargs)
         end
       end
       alias localize l

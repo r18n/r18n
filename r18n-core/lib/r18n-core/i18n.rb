@@ -138,7 +138,7 @@ module R18n
       locales = Array(locales)
 
       locales.each_with_index do |locale, i|
-        locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1]) if locale =~ /[^_-]+[_-]/
+        locales.insert(i + 1, locale.match(/([^_-]+)[_-]/)[1]) if locale.match?(/[^_-]+[_-]/)
         locales.insert(i + 1, *(Locale.load(locale).sublocales - locales)) if Locale.exists?(locale)
       end
       locales << self.class.default

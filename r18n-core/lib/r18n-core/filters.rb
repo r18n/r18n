@@ -210,7 +210,7 @@ module R18n
 
     Filter = Struct.new(:name, :types, :block, :enabled, :passive) do
       def call(*params)
-        block.call(*params)
+        instance_exec(*params, &block)
       end
 
       def enabled?
@@ -279,14 +279,14 @@ module R18n
   Filters.off(:untranslated_bash)
 
   Filters.add(Untranslated, :untranslated_html) do |_v, _c, transl, untransl|
-    prefix  = '<span style="color: red">['
-    postfix = ']</span>'
     if defined? ActiveSupport::SafeBuffer
-      transl = ActiveSupport::SafeBuffer.new + transl
-      untransl = ActiveSupport::SafeBuffer.new + untransl
-      transl + prefix.html_safe + untransl + postfix.html_safe
+      require 'action_view'
+      self.class.include ActionView::Helpers::TagHelper
+
+      transl + tag.span("[#{untransl}]", style: 'color: red')
     else
-      Utils.escape_html(transl) + prefix + Utils.escape_html(untransl) + postfix
+      Utils.escape_html(transl) +
+        "<span style=\"color: red\">[#{Utils.escape_html(untransl)}]</span>"
     end
   end
   Filters.off(:untranslated_html)

@@ -145,13 +145,13 @@ describe R18n::Translated do
       translation :no_method, methods: { en: :no_method_en }
 
       def method_missing(name, *_params)
-        return name.to_s if name.to_s =~ /^no_method*/
+        return name.to_s if name.to_s.match?(/^no_method*/)
 
         super
       end
 
       def respond_to_missing?(name, *_params)
-        return true if name.to_s =~ /^no_method*/
+        return true if name.to_s.match?(/^no_method*/)
 
         super
       end

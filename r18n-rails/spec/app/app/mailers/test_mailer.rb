@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TestMailer < ActionMailer::Base
+class TestMailer < ApplicationMailer
   default from: 'from@example.com'
 
   def test
