@@ -48,7 +48,7 @@ describe R18n::Translation do
     expect(i18n.boolean[false]).to eq('Boolean is false')
   end
 
-  it 'returns html escaped string if html_safe is defined' do
+  it 'returns html escaped string if `html_safe` method is defined' do
     klass = Class.new(R18n::TranslatedString) do
       def html_safe
         '2'
@@ -57,7 +57,9 @@ describe R18n::Translation do
     str = klass.new('1', nil, nil)
 
     expect(str).to respond_to(:html_safe)
+    # rubocop:disable Rails/OutputSafety
     expect(str.html_safe).to eq('2')
+    # rubocop:enable Rails/OutputSafety
   end
 
   it 'returns unescaped string if html_safe is not defined' do

@@ -35,7 +35,7 @@ class TestController < ApplicationController
   end
 
   def human_time
-    render plain: l(Time.now, :human)
+    render plain: l(Time.zone.now, :human)
   end
 
   def filter

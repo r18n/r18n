@@ -1,3 +1,9 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+  # - rubocop-rspec
+
 AllCops:
   TargetRubyVersion: 2.5
   NewCops: enable
@@ -49,6 +55,25 @@ Metrics/BlockLength:
 Style/NumericLiterals:
   Exclude:
     - '**/db/**/*'
+
+Rails/RakeEnvironment:
+  Enabled: false
+
+Rails/TimeZone:
+  Exclude:
+    - benchmark/**/*
+    - r18n-core/**/*
+    - r18n-desktop/**/*
+    ## https://github.com/rubocop-hq/rubocop-rails/issues/432
+    - '**/*.gemspec'
+
+Rails/Date:
+  Exclude:
+    - r18n-core/**/*
+
+Rails/NegateInclude:
+  Exclude:
+    - benchmark/**/*
 
 # TODO: fix offenses and enable cops
 

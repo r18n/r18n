@@ -36,6 +36,7 @@ task :clobber do
   each_rake 'clobber'
 end
 
+desc 'Build all gems'
 task :build do
   each_rake 'build'
 end

@@ -50,7 +50,9 @@ module R18n
     # Override to_s to make string html safe if `html_safe` method is defined.
     def to_s
       if respond_to?(:html_safe)
+        # rubocop:disable Rails/OutputSafety
         super.html_safe
+        # rubocop:enable Rails/OutputSafety
       else
         String.new(super)
       end

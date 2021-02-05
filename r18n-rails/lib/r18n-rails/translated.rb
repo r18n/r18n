@@ -23,7 +23,7 @@ module R18n
       remove_method :unlocalized_methods
 
       def unlocalized_methods
-        if defined?(ActiveRecord) && ancestors.include?(ActiveRecord::Base)
+        if defined?(ActiveRecord) && self <= ActiveRecord::Base
           column_names + column_names.map { |i| "#{i}=" } + instance_methods
         else
           instance_methods

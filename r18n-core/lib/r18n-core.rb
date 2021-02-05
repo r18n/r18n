@@ -129,7 +129,7 @@ module R18n
     attr_writer :default_places
 
     def default_places(&block)
-      if block_given?
+      if block
         @default_places = block
       elsif @default_places.is_a? Proc
         @default_places.call
