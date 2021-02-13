@@ -5,13 +5,13 @@ source 'https://rubygems.org'
 gem 'rake'
 gem 'rspec'
 
-gem 'i18n',        require: false
-gem 'kramdown',    require: false
-gem 'rack',        require: false
-gem 'rails',       require: false
-gem 'RedCloth',    require: false
+gem 'i18n', require: false
+gem 'kramdown', require: false
+gem 'rack', require: false
+gem 'rails', require: false
+gem 'RedCloth', require: false
 gem 'rspec-rails', require: false
-gem 'sinatra',     require: false
+gem 'sinatra', require: false
 
 gem 'sqlite3'
 
