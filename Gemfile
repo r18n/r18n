@@ -8,7 +8,7 @@ gem 'rspec'
 gem 'i18n', require: false
 gem 'kramdown', require: false
 gem 'rack', require: false
-gem 'rails', require: false
+gem 'rails', '6.1.2.1', require: false
 gem 'RedCloth', require: false
 gem 'rspec-rails', require: false
 gem 'sinatra', require: false
