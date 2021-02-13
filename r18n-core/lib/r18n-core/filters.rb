@@ -273,20 +273,25 @@ module R18n
     "#{translated}[#{untranslated}]"
   end
 
-  Filters.add(Untranslated, :untranslated_bash) do |_v, _c, transl, untransl|
-    "#{transl}\e[0;31m[#{untransl}]\e[0m"
+  Filters.add(Untranslated, :untranslated_bash) do |_v, _c, translated, untranslated|
+    "#{translated}\e[0;31m[#{untranslated}]\e[0m"
   end
   Filters.off(:untranslated_bash)
 
-  Filters.add(Untranslated, :untranslated_html) do |_v, _c, transl, untransl|
+  Filters.add(Untranslated, :untranslated_html) do |_v, _c, translated, untranslated|
+    prefix  = '<span style="color: red">['
+    postfix = ']</span>'
     if defined? ActiveSupport::SafeBuffer
-      require 'action_view'
-      self.class.include ActionView::Helpers::TagHelper
-
-      transl + tag.span("[#{untransl}]", style: 'color: red')
+      ## Not every project with `ActiveSupport` has `ActionView`
+      ## https://github.com/r18n/r18n/issues/251
+      ## I guess, we can trust to developers here
+      # rubocop:disable Rails/OutputSafety
+      translated = ActiveSupport::SafeBuffer.new + translated
+      untranslated = ActiveSupport::SafeBuffer.new + untranslated
+      translated + prefix.html_safe + untranslated + postfix.html_safe
+      # rubocop:enable Rails/OutputSafety
     else
-      Utils.escape_html(transl) +
-        "<span style=\"color: red\">[#{Utils.escape_html(untransl)}]</span>"
+      Utils.escape_html(translated) + prefix + Utils.escape_html(untranslated) + postfix
     end
   end
   Filters.off(:untranslated_html)
