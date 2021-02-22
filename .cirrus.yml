@@ -28,16 +28,3 @@ rubocop_task:
   container:
     image: ruby:latest
   rubocop_script: bundle exec rubocop
-
-test_task:
-  depends_on:
-    - remark
-    - rubocop
-  <<: *ruby
-  container:
-    matrix:
-      image: ruby:2.5
-      image: ruby:2.6
-      image: ruby:2.7
-      image: ruby:3.0
-  test_script: bundle exec rake

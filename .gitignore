@@ -1,13 +1,9 @@
 *.DS_Store
 *~
 
-pkg/
-log/
-
 .bundle
 Gemfile.lock
 .ruby-version
-*.gem
 
 node_modules/
 yarn.lock

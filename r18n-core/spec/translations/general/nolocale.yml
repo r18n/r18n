@@ -1,6 +1,0 @@
-one: ONE
-
-entries: !!pl
-  1: ONE
-  2: TWO
-  n: N

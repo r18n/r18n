@@ -1,7 +1,0 @@
-one: Один
-
-in:
-  another:
-    level: Иерархический
-
-typed: !!my value

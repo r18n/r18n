@@ -17,6 +17,7 @@ I18n::Backend::Simple.include I18n::Backend::Pluralization
 I18n::Backend::Simple.include I18n::Backend::InterpolationCompiler
 I18n::Backend::Simple.include I18n::Backend::Flatten
 
+# Refine core class
 class Array
   def nitems
     count { |i| !i.nil? }

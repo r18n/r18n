@@ -1,8 +1,0 @@
-greater: 1 < 2 is true
-warning: !!html <b>Warning</b>
-post:
-  title: Post %1
-  comments: !!pl
-    0: No comments
-    1: One comment
-    n: "%1 comments"

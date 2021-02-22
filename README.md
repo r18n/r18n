@@ -1,8 +1,5 @@
 # R18n
 
-[![Build Status](https://api.cirrus-ci.com/github/r18n/r18n.svg?branch=master)](https://cirrus-ci.com/github/r18n/r18n)
-[![Depfu](https://badges.depfu.com/badges/e168722276dfdd5e61368bbb6129e3f2/overview.svg)](https://depfu.com/github/r18n/r18n?project_id=6059)
-
 R18n is an i18n tool to translate your Ruby application into several languages.
 It contains a core gem and out-of-box wrapper plugins for frameworks or
 environments (Rails, Sinatra, desktop).
@@ -12,6 +9,8 @@ environments (Rails, Sinatra, desktop).
 </a>
 
 ## Quick Demo
+
+[`r18n-core`](https://github.com/r18n/r18n-core) for any purpose, used by wrapper plugins.
 
 `i18n/en.yml`:
 
@@ -46,14 +45,15 @@ l Time.now, :human #=> "now"
 l Time.now, :full  #=> "3rd of January, 2010 18:54"
 ```
 
-### Examples
+### Wrapper plugins
 
-For Rails, Sinatra or desktop examples, see plugins documentations:
-* [`r18n-rails`](https://github.com/r18n/r18n/tree/master/r18n-rails)
+* [`r18n-rails`](https://github.com/r18n/r18n-rails)
   for Ruby on Rails,
-* [`sinatra-r18n`](https://github.com/r18n/r18n/tree/master/sinatra-r18n)
+* [`r18n-rails-api`](https://github.com/r18n/r18n-rails-api)
+  for Ruby on Rails API,
+* [`sinatra-r18n`](https://github.com/r18n/sinatra-r18n)
   for Sinatra,
-* [`r18n-desktop`](https://github.com/r18n/r18n/tree/master/r18n-desktop)
+* [`r18n-desktop`](https://github.com/r18n/r18n-desktop)
   for shell/desktop applications.
 
 ## R18n Features
