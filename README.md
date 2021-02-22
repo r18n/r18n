@@ -4,10 +4,6 @@ R18n is an i18n tool to translate your Ruby application into several languages.
 It contains a core gem and out-of-box wrapper plugins for frameworks or
 environments (Rails, Sinatra, desktop).
 
-<a href="https://evilmartians.com/?utm_source=r18n">
-<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
-
 ## Quick Demo
 
 [`r18n-core`](https://github.com/r18n/r18n-core) for any purpose, used by wrapper plugins.
