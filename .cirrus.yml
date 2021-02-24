@@ -16,8 +16,8 @@ remark_task:
       - echo $CIRRUS_OS
       - node -v
       - cat package.json
-    populate_script: yarn install
-  remark_script: yarn run remark
+    populate_script: npm install
+  remark_script: npm run remark
 
 rubocop_task:
   <<: *ruby
