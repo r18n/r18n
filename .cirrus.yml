@@ -1,7 +1,4 @@
 .ruby: &ruby
-  env:
-    ## https://github.com/docker-library/ruby/issues/45
-    LANG: C.UTF-8
   bundle_cache:
     folder: /usr/local/bundle
     fingerprint_script:
