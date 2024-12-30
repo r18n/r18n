@@ -5,7 +5,8 @@
       - echo $CIRRUS_OS
       - ruby -v
       - cat Gemfile
-    populate_script: bundle update
+  install_script:
+    - bundle update
 
 remark_task:
   container:
